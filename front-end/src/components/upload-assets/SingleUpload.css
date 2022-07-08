@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans&display=swap');
+
+.container-style-single{
+    display: inline-block;
+    padding: 2%;
+    background-color: rgb(197, 197, 197);
+    border-style: solid;
+    border-color: rgb(47, 47, 54);
+    border-width: 6px;
+    text-align: center;
+}
+
+.form-container{
+    margin: 0;
+    background-color: rgb(19, 21, 26);
+    padding-right: 8%;
+    padding-left: 8%;
+}
+
+.form-container label{
+    color: white;
+    margin-right: 20px;
+    float: left;
+}
+
+.form-container input{
+    font-size: 14px;
+    width: 300px;
+    float: right;
+    background-color: rgb(67, 72, 87);
+    margin-top: 2%;
+    margin-bottom: 4%;
+}
+
+.form-container {
+    display: inline-block;
+}
+
+.submit-single-asset{
+    background-color: rgb(31, 31, 36);
+    border-width: 2px;
+    border-color: rgb(185, 185, 185);
+    border-style: solid;
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: bold;
+    padding: 3%;
+    margin-top: 4%;
+    margin-bottom: 2%;
+    color: rgb(255, 255, 255);
+}
+
+.submit-single-asset:hover{
+    color:rgb(0, 102, 218);
+}
+
+.create-space{
+    margin: 2% 0 0 0;
+}
+
+.container-style-single select{
+    text-align: left;
+    background-color: rgb(67, 72, 87);
+    font-family: 'Work Sans', sans-serif;
+    width: 90%;
+    font-size: 15px;
+    color: white;
+
+    margin: 2% 0 2% 10%;
+}
+
+.container-style-single option{
+    float: left;
+}

@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans&display=swap');
+
+.search-container{
+    font-family: 'Work Sans', sans-serif;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    color: white;
+    padding: 0;
+    position: relative;
+    top: 40px;
+}
+
+.search-btn{
+    background-color:rgb(129, 142, 160);
+    font-family: 'Work Sans', sans-serif;
+    color:rgb(0, 0, 0);
+    border-radius: 4px;
+    padding-left: 5%;
+    padding-right: 5%;
+    margin-top: 2%;
+    font-size: 16px;
+}
+
+.search-btn:focus{
+    background-color:rgb(126, 135, 148);
+}
+
+.by-ip{
+    margin-right: 5%;
+}
+
+.radio-label{
+    margin-right: 2%;
+    font-size: 14px;
+}

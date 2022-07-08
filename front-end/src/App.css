@@ -1,0 +1,59 @@
+.App {
+  text-align: center;
+}
+
+html::-webkit-scrollbar{
+    background-color: rgb(51, 51, 51);
+    width: 10px;
+}
+
+html::-webkit-scrollbar-thumb{
+    background-color: rgb(80, 80, 80);
+    width: 8px;
+    border-radius: 4px 4px 4px 4px;
+}
+
+/* make main layout responsive to various screen sizes */
+@media screen and (max-width: 1000px){
+  .main-layout{
+      display: inline-block;
+  }
+}
+
+a{
+  text-decoration: none;
+}
+
+a:link{
+  color: rgb(104, 131, 211);
+}
+
+a:visited{
+  color:rgb(102, 143, 199);
+}
+
+a:hover{
+  color:rgb(167, 203, 236);
+}
+
+a:active{
+  color: rgb(138, 181, 202);
+}
+
+form{
+  margin: auto;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  background-color: rgb(19, 21, 26);
+}
+
+input{
+  margin: 0px;
+  height: auto;
+  background-color: rgb(37, 38, 44);
+  color: rgb(255, 255, 255);
+  font-family: "Work Sans", sans-serif;
+  font-size: 18px;
+  font-style: bold;
+}

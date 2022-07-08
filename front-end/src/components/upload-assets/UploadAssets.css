@@ -1,0 +1,18 @@
+.upload-options {
+    display: flex;
+    justify-content: space-around;
+    margin-right: 20%;
+    margin-left: 20%;
+  }
+
+  .upload-options button{
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: 20px;
+    text-decoration: bold;
+  }
+
+  .upload-options button:hover{
+    color: rgb(57, 134, 206);
+  }

@@ -1,0 +1,11 @@
+.history-table{
+  width: 100%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  max-height: 900px;
+  overflow: scroll;
+}
+
+th{
+  background-color: black;
+}

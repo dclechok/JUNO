@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap');
+
+section{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.table-body-scroll{
+    overflow: auto;
+    overflow-x: hidden;
+    max-height: 550px;
+}
+
+.table-body-scroll::-webkit-scrollbar{
+    background-color: rgb(51, 51, 51);
+    width: 10px;
+}
+
+.table-body-scroll::-webkit-scrollbar-thumb{
+    /* background-color: rgb(145, 151, 170); */
+    background-color: rgb(64, 78, 97);
+    width: 8px;
+    border-radius: 4px 4px 4px 4px;
+}
+
+.inline-tracker-notifications{
+    margin-right: 2%;
+    padding: 0;
+    position: sticky;
+    width: 100%;
+    background-color: rgb(41, 44, 54);
+    top: 100px;
+    max-width: 332px;
+}
+
+.search-guide-list{
+    display: block;
+    margin: auto;
+    width: auto;
+    margin: 3%;
+}
+
+.search-guide-list table{
+    background-color:rgb(25, 25, 27);
+    list-style-type: none;
+    padding: 0;
+    columns: 10;
+    -webkit-columns: 10;
+    -moz-columns: 10;
+    font-family: 'Nunito', sans-serif;
+    position: absolute;
+    width: auto;
+    border-radius: 3px;
+}
+
+tr{
+    background: rgb(62, 67, 75);
+    color: rgb(218, 218, 218);
+    font-size: 16px;
+    text-align: center;
+    height: 20px;
+}
+
+tr:nth-child(odd) { 
+    background-color: rgb(20, 20, 20);
+}
+
+td{
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+.asset-tag-button{ 
+    background: none;
+    color: rgb(162, 183, 226);
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    font-size: 16px;
+}
+
+.asset-tag-button:hover{
+    color:rgb(167, 203, 236);
+}
+
+.asset-tag-button:active{
+    color:rgb(255, 255, 255);
+}
+.asset-tag-button:hover{ background: none;}
+
+th button{
+    background: none;
+    color: rgb(255, 255, 255);
+    border: none;
+    padding: 0;
+    font: inherit;
+    text-decoration: underline;
+}
+
+th button:hover{
+    color:rgb(57, 134, 206);
+}
+
+.center-search-guide{
+    display: block;
+    margin-left: 53%;
+    width: 100%;
+}
+
+.loading{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+    font-size: 10px;
+    text-align: center;
+    color: white;
+  }

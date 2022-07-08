@@ -1,0 +1,44 @@
+.upload-success-log{
+    font-size: 13px;
+    width: auto;
+    padding: 10px;
+    text-overflow: none;
+    word-wrap: none;
+    background-color: rgb(19, 21, 26);
+    color: white;
+}
+
+.upload-success-log h3{
+    text-align: center;
+}
+
+.success-green{
+    color: rgb(24, 218, 24);
+    margin-left: 4px;
+}
+
+.fail-red{
+    color: rgb(255, 6, 6);
+    margin-left: 4px;
+}
+
+.log-header{
+    text-align: center;
+}
+
+h5{ 
+    margin: 0;
+    font-size: 14px;
+}
+
+h6{
+    margin: 0;
+    padding: 0; 
+    font-size: 13px;
+    text-align: center;
+}
+
+.line-span{
+    padding-right: 4px;
+    text-align: left;
+}

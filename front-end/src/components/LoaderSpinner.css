@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+
+.loader-spinner-container{
+    display: inline-flex;
+    margin-top: 1%;
+    text-align: center;
+}
+
+.center-load-text h1{
+    font-size: 16px;
+    margin-top: 10%;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+}

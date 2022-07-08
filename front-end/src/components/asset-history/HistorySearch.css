@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans&display=swap');
+
+.history-search-container{
+    font-family: 'Work Sans', sans-serif;
+    font-size: 18px;
+    display: block;
+    color: white;
+    padding: 0;
+    position: relative;
+    margin-top: 1%;
+    margin-right: auto;
+    margin-left: auto;
+    width: 50%;
+    background-color: rgb(19, 21, 26);
+}
+
+.radio-label{
+    margin: 1%;
+    font-size: 14px;
+}
+
+.date-picker{
+    display: block;
+    width: 40%;
+    margin: 2% auto auto auto;
+    z-index: 0;
+    position: relative;
+}
+
+.history-radio-buttons{
+    font-size: 14px;
+}
+
+.custom-header{
+    background-color: blue;
+}
+
+.reset-button{
+    background: none;
+    border: none;
+    color: white;
+    margin: 2% 0 1% 0;
+}
+
+.viewing-date{
+    margin: 2% auto 2% auto;
+    color: rgb(185, 206, 226);
+    word-wrap: none;
+}

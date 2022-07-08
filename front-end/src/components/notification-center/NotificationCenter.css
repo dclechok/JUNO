@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans&display=swap');
+
+.dashboard-notification-container{
+    display: block;
+    justify-content: center;
+    font-family: 'Work Sans', sans-serif;
+    position: sticky;
+    background-color: rgb(14, 15, 17);
+    font-size: 15px;
+    padding: 14px 14px 14px 14px;
+    color: white;
+    width: auto;
+    margin: 0;
+    margin-top: 30%;
+    
+}
+
+.dashboard-notification-container h1{
+    font-size: 24px;
+}
+
+.dashboard-notification-container h6{
+    font-size: 12px;
+    margin-top: 4%;
+}
+
+.dashboard-notification-container p{
+    color:rgb(255, 255, 255);
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+    font-size: 14px;
+    margin-top: 4%;
+}
+.dashboard-notification-container hr{
+    margin-bottom: 2%;
+    width: 80%;
+    border-width: 1px;
+    border-color: rgb(51, 51, 59);
+    border-style: solid;
+}
+
+.view-all-button{
+    background: none;
+    border: none; 
+    color: rgb(104, 131, 211);
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    margin: 0;
+  }
+  
+  .view-all-button:hover{
+    color:rgb(167, 203, 236);
+  }
+  
+  .view-all-button:active, button:target{
+    background-color: rgb(30, 30, 37);
+    border: none; 
+    border-radius: 9px;
+    color: rgb(7, 93, 223);
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    margin: 0;
+  }
+
+  
