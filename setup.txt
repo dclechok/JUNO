@@ -1,0 +1,16 @@
+1) Install Node.js (v14.16.0) (if you haven't already)
+2) Clone JUNO repository
+3) CD to "back-end" directory
+4) While in '/back-end' -> command-line:"npm i" (this installs all of the mandatory packages and dependecies for the back-end)
+5) While in '/back-end' -> command-line:"npm run dev" (runs script to start development express server)
+6) CD to "front-end" directory
+7) While in '/front-end' -> command-line:"npm i" (this installs all of the mandatory packages and dependencies for the front-end)
+8) While in '/front-end' -> command-line:"npm run start" (sets port to 3000, and starts react app)
+
+Edit the following to update database connection
+9) "\juno\back-end\.env" - set DATABASE_URL=<PRODUCTION DATABASE ADDRESS>
+10)"\juno\back-end\.env" - set DATABASE_URL_DEVELOPMENT=<DEVELOPMENT DB ADDRESS>
+11)"juno\back-end\src\db\connection.js" - defaulted to "development" (can update to "production" or set "$env:NODE_ENV = 'production')
+
+
+To run migration files: While in '/back-end' -> command-line:"npx knex migrate:up" or "npx knex migrate:latest" 
