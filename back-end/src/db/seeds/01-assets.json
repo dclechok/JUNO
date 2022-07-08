@@ -1,0 +1,398 @@
+[
+  {
+    "asset_tag": "EERNE2301",
+    "location": {
+      "site": "Midland, PA",
+      "site_loc": "10",
+      "mdc": "06",
+      "shelf": "12",
+      "unit": "03"
+    },
+    "serial_number": "3423JEKSNERSW",
+    "make": "Antminer",
+    "model": "Ant23",
+    "hr": "6ghz",
+    "history": {
+      "modified_by": "jack_nicholson",
+      "action_taken": "moved to STORAGE",
+      "date_of_action": "11/18/1986",
+      "time_of_action": "11:32",
+      "comment": "back in the shed"
+    },
+    "status": "Deployed",
+    "created_at": "2020-12-10T08:30:32.326Z",
+    "updated_at": "2020-12-10T08:30:32.326Z"
+  },
+  {
+    "asset_tag": "TLEE9991",
+    "location": {
+      "site": "Midland, PA",
+      "site_loc": "DRAP"
+    },
+    "serial_number": "85ERAERA",
+    "make": "Antminer",
+    "model": "Ant23",
+    "hr": "6ghz",
+    "history": {
+      "modified_by": "jack_nicholson",
+      "action_taken": "moved to STORAGE",
+      "date_of_action": "11/18/1986",
+      "time_of_action": "11:32",
+      "comment": "back in the shed"
+    },
+    "status": "Storage",
+    "created_at": "2020-12-10T08:30:32.326Z",
+    "updated_at": "2020-12-10T08:30:32.326Z"
+  },
+  {
+    "asset_tag": "NFTMIN34",
+    "location": {
+      "site": "Midland, PA",
+      "site_loc": "10",
+      "mdc": "04",
+      "shelf": "11",
+      "unit": "01"
+    },
+    "serial_number": "LST2392",
+    "make": "Antminer",
+    "model": "Ant23",
+    "hr": "6ghz",
+    "history": {
+      "modified_by": "jack_nicholson",
+      "action_taken": "moved to STORAGE",
+      "date_of_action": "11/18/1986",
+      "time_of_action": "11:32",
+      "comment": "back in the shed"
+    },
+    "status": "Deployed",
+    "created_at": "2020-12-10T08:30:32.326Z",
+    "updated_at": "2020-12-10T08:30:32.326Z"
+  },
+  {
+    "asset_tag": "LST343221",
+    "location": {
+      "site": "Midland, PA",
+      "site_loc": "REPAIR"
+    },
+    "serial_number": "LST2392",
+    "make": "Canaan",
+    "model": "Can2023",
+    "hr": "16ghz",
+    "history": {
+      "modified_by": "jack_nicholson",
+      "action_taken": "moved to STORAGE",
+      "date_of_action": "11/18/1986",
+      "time_of_action": "11:32",
+      "comment": "back in the shed"
+    },
+    "status": "Repair",
+    "created_at": "2020-12-10T08:30:32.326Z",
+    "updated_at": "2020-12-10T08:30:32.326Z"
+  },
+  {
+    "asset_tag": "Z5221SRT",
+    "location": {
+      "site": "Sandersville, GA",
+      "site_loc": "10",
+      "mdc": "02",
+      "shelf": "14",
+      "unit": "14"
+    },
+    "serial_number": "IO234NIO",
+    "make": "Canaan",
+    "model": "Can2900",
+    "hr": "160ghz",
+    "history": {
+      "modified_by": "jack_nicholson",
+      "action_taken": "moved to STORAGE",
+      "date_of_action": "11/18/1986",
+      "time_of_action": "11:32",
+      "comment": "back in the shed test the length of this comment the length of this comment test test test test"
+    },
+    "status": "Deployed",
+    "created_at": "2020-12-10T08:30:32.326Z",
+    "updated_at": "2020-12-10T08:30:32.326Z"
+  },
+  {
+    "asset_tag": "LMAO4er",
+    "location": {
+      "site": "Midland, PA",
+      "site_loc": "10",
+      "mdc": "01",
+      "shelf": "02",
+      "unit": "03"
+    },
+    "serial_number": "YEV0999",
+    "make": "Canaan",
+    "model": "Can2908",
+    "hr": "1600ghz",
+    "history": {
+      "modified_by": "jack_nicholson",
+      "action_taken": "moved to STORAGE",
+      "date_of_action": "11/18/1986",
+      "time_of_action": "11:32",
+      "comment": "back in the shed"
+    },
+    "status": "Storage",
+    "created_at": "2020-12-10T08:30:32.326Z",
+    "updated_at": "2020-12-10T08:30:32.326Z"
+  },
+  {
+    "asset_tag": "TAG2123",
+    "location": {
+      "site": "Midland, PA",
+      "site_loc": "10",
+      "mdc": "20",
+      "shelf": "01",
+      "unit": "12"
+    },
+    "serial_number": "IO234NIO",
+    "make": "Canaan",
+    "model": "Can2900",
+    "hr": "160ghz",
+    "history": {
+      "modified_by": "jack_nicholson",
+      "action_taken": "moved to STORAGE",
+      "date_of_action": "11/18/1986",
+      "time_of_action": "11:32",
+      "comment": "back in the shed"
+    },
+    "status": "Deployed",
+    "created_at": "2020-12-10T08:30:32.326Z",
+    "updated_at": "2020-12-10T08:30:32.326Z"
+  },
+  {
+    "asset_tag": "EERNE2301",
+    "location": {
+      "site": "Midland, PA",
+      "site_loc": "REPAIR"
+    },
+    "serial_number": "3423JEKSNERSW",
+    "make": "Antminer",
+    "model": "Ant23",
+    "hr": "6ghz",
+    "history": {
+      "modified_by": "jack_nicholson",
+      "action_taken": "moved to STORAGE",
+      "date_of_action": "11/18/1986",
+      "time_of_action": "11:32",
+      "comment": "back in the shed"
+    },
+    "status": "Repair",
+    "created_at": "2020-12-10T08:30:32.326Z",
+    "updated_at": "2020-12-10T08:30:32.326Z"
+  },
+  {
+    "asset_tag": "7ER5AA",
+    "location": {
+      "site": "Midland, PA",
+      "site_loc": "10",
+      "mdc": "09",
+      "shelf": "03",
+      "unit": "31"
+    },
+    "serial_number": "342er88PST",
+    "make": "Antminer",
+    "model": "Ant233",
+    "hr": "16ghz",
+    "history": {
+      "modified_by": "jack_nicholson",
+      "action_taken": "moved to STORAGE",
+      "date_of_action": "11/18/1986",
+      "time_of_action": "11:32",
+      "comment": "back in the shed"
+    },
+    "status": "Retired",
+    "created_at": "2020-12-10T08:30:32.326Z",
+    "updated_at": "2020-12-10T08:30:32.326Z"
+  },
+  {
+    "asset_tag": "SH85E",
+    "location": {
+      "site": "Midland, PA",
+      "site_loc": "DRAP"
+    },
+    "serial_number": "EREAAAER",
+    "make": "Antminer",
+    "model": "Ant233",
+    "hr": "16ghz",
+    "history": {
+      "modified_by": "jack_nicholson",
+      "action_taken": "moved to STORAGE",
+      "date_of_action": "11/18/1986",
+      "time_of_action": "11:32",
+      "comment": "back in the shed"
+    },
+    "status": "Storage",
+    "created_at": "2020-12-10T08:30:32.326Z",
+    "updated_at": "2020-12-10T08:30:32.326Z"
+  },
+  {
+    "asset_tag": "DDERAAERRDDA",
+    "location": {
+      "site": "Sandersville, GA",
+      "site_loc": "10",
+      "mdc": "03",
+      "shelf": "04",
+      "unit": "33"
+    },
+    "serial_number": "GGGGHHER",
+    "make": "Canaan",
+    "model": "Can2900",
+    "hr": "160ghz",
+    "history": {
+      "modified_by": "jack_nicholson",
+      "action_taken": "moved to STORAGE",
+      "date_of_action": "11/18/1986",
+      "time_of_action": "11:32",
+      "comment": "back in the shed"
+    },
+    "status": "Deployed",
+    "created_at": "2020-12-10T08:30:32.326Z",
+    "updated_at": "2020-12-10T08:30:32.326Z"
+  },
+  {
+    "asset_tag": "DDER65489",
+    "location": {
+      "site": "Midland, PA",
+      "site_loc": "10",
+      "mdc": "19",
+      "shelf": "10",
+      "unit": "13"
+    },
+    "serial_number": "TEGREA2",
+    "make": "Canaan",
+    "model": "Can2900",
+    "hr": "160ghz",
+    "history": {
+      "modified_by": "jack_nicholson",
+      "action_taken": "moved to STORAGE",
+      "date_of_action": "11/18/1986",
+      "time_of_action": "11:32",
+      "comment": "back in the shed"
+    },
+    "status": "Deployed",
+    "created_at": "2020-12-10T08:30:32.326Z",
+    "updated_at": "2020-12-10T08:30:32.326Z"
+  },
+  {
+    "asset_tag": "DDE334RDDA",
+    "location": {
+      "site": "Midland, PA",
+      "site_loc": "10",
+      "mdc": "08",
+      "shelf": "08",
+      "unit": "09"
+    },
+    "serial_number": "TLC2544Y",
+    "make": "Canaan",
+    "model": "Can2900",
+    "hr": "160ghz",
+    "history": {
+      "modified_by": "jack_nicholson",
+      "action_taken": "moved to STORAGE",
+      "date_of_action": "11/18/1986",
+      "time_of_action": "11:32",
+      "comment": "back in the shed"
+    },
+    "status": "Deployed",
+    "created_at": "2020-12-10T08:30:32.326Z",
+    "updated_at": "2020-12-10T08:30:32.326Z"
+  },
+  {
+    "asset_tag": "AFFESS",
+    "location": {
+      "site": "Midland, PA",
+      "site_loc": "10",
+      "mdc": "08",
+      "shelf": "08",
+      "unit": "09"
+    },
+    "serial_number": "POER003",
+    "make": "Canaan",
+    "model": "Can2900",
+    "hr": "160ghz",
+    "history": {
+      "modified_by": "jack_nicholson",
+      "action_taken": "moved to STORAGE",
+      "date_of_action": "11/18/1986",
+      "time_of_action": "11:32",
+      "comment": "back in the shed"
+    },
+    "status": "Deployed",
+    "created_at": "2020-12-10T08:30:32.326Z",
+    "updated_at": "2020-12-10T08:30:32.326Z"
+  },
+  {
+    "asset_tag": "TA990ER",
+    "location": {
+      "site": "Sandersville, GA",
+      "site_loc": "10",
+      "mdc": "02",
+      "shelf": "11",
+      "unit": "03"
+    },
+    "serial_number": "S192341",
+    "make": "Antminer",
+    "model": "Ant233",
+    "hr": "16ghz",
+    "history": {
+      "modified_by": "jack_nicholson",
+      "action_taken": "moved to STORAGE",
+      "date_of_action": "11/18/1986",
+      "time_of_action": "11:32",
+      "comment": "back in the shed"
+    },
+    "status": "Deployed",
+    "created_at": "2020-12-10T08:30:32.326Z",
+    "updated_at": "2020-12-10T08:30:32.326Z"
+  },
+  {
+    "asset_tag": "LMO3RAAE75",
+    "location": {
+      "site": "Sandersville, GA",
+      "site_loc": "10",
+      "mdc": "03",
+      "shelf": "06",
+      "unit": "02"
+    },
+    "serial_number": "9ER30O",
+    "make": "Canaan",
+    "model": "Can2900",
+    "hr": "160ghz",
+    "history": {
+      "modified_by": "jack_nicholson",
+      "action_taken": "moved to STORAGE",
+      "date_of_action": "11/18/1986",
+      "time_of_action": "11:32",
+      "comment": "back in the shed"
+    },
+    "status": "Deployed",
+    "created_at": "2020-12-10T08:30:32.326Z",
+    "updated_at": "2020-12-10T08:30:32.326Z"
+  },
+  {
+    "asset_tag": "DDERAAERRDDA",
+    "location": {
+      "site": "Midland, PA",
+      "site_loc": "10",
+      "mdc": "03",
+      "shelf": "14",
+      "unit": "34"
+    },
+    "serial_number": "FE2231N3LK",
+    "make": "Canaan",
+    "model": "Can2900",
+    "hr": "160ghz",
+    "history": {
+      "modified_by": "jack_nicholson",
+      "action_taken": "moved to STORAGE",
+      "date_of_action": "11/18/1986",
+      "time_of_action": "11:32",
+      "comment": "back in the shed"
+    },
+    "status": "Deployed",
+    "created_at": "2020-12-10T08:30:32.326Z",
+    "updated_at": "2020-12-10T08:30:32.326Z"
+  }
+]
