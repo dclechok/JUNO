@@ -1,5 +1,9 @@
 const BASE_URL = "http://localhost:5000/";
 
+/*TODO: Post request for Job Sites
+
+
+*/
 // FETCH ALL ASSETS TABLE //
 export async function getAllAssets() {
   try {
@@ -35,7 +39,6 @@ export async function getJobSites() {
 // POST NEW ASSETS // 
 export async function createAsset(assets) {
   try {
-    //remove csv index
     const response = await fetch(BASE_URL + "assets", {
       method: "POST",
       headers: {
@@ -44,8 +47,54 @@ export async function createAsset(assets) {
       body: JSON.stringify({ data: assets })
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
-    if (jsonResponse) return jsonResponse;
+    if (jsonResponse){ //if POST request was successful, create a log in
+      const { action_by, action_taken, action_key} = jsonResponse.data.history;
+      const { updated_at } = jsonResponse.data;
+      //eventually add comments, and "approved_by";
+      const awaitCreateHistory = await createHistory({
+        logged_action: action_taken,
+        logged_date: updated_at, 
+        logged_by: action_by,
+        history_key: action_key
+      });
+      console.log('here', awaitCreateHistory);
+      return jsonResponse;
+    }
   } catch (e) {
     console.log(e, "Failed to fetch post request.");
+  }
+}
+
+// FETCH GENERALIZED LIST OF HISTORY DATA
+export async function getHistory() {
+  try {
+    const response = await fetch(BASE_URL + "history_log", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const jsonResponse = await response.json(); //json-ify readablestream data
+    if (jsonResponse) return jsonResponse;
+  } catch (e) {
+    console.log(e, "Failed to fetch all assets.");
+  }
+}
+
+// CREATE A NEW GENERALIZED HISTORY LOG
+async function createHistory(historyLog){
+  console.log(historyLog);
+  try {
+    const response = await fetch(BASE_URL + "history_log", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ data: historyLog })
+    });
+    const jsonResponse = await response.json(); //json-ify readablestream data
+    if (jsonResponse) return jsonResponse;
+  } catch (e) {
+    console.log(e, "Failed to fetch all assets.");
   }
 }

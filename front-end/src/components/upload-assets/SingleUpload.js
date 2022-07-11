@@ -59,8 +59,8 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets }) {
               status: "Needs Verified",
               history: {
                 action_date: action_date,
-                action_taken: "Single Upload",
-                action_by: "dclechok",
+                action_taken: "Single Upload", 
+                action_by: "Dan Lechok", //this will eventually be dynamically loaded from user that is logged in the current state of the app
                 action_comment: "Initial Upload",
                 action_key: newHistoryKey
               },
