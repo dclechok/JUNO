@@ -85,7 +85,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets }) {
   useEffect(() => {}, [setLogItem]);
 
   return (
-    <section className="container-style">
+    <section className="upload-container-style">
       <h4>Single Upload</h4>
       {jobSites && jobSites.length !== 0 ? (
         <>
@@ -167,9 +167,11 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets }) {
                 />
                 <br />
               </div>
+              <div className="fix-button">
               <button className="submit-single-asset" type="submit">
                 Upload Single Asset
               </button>
+              </div>
             </form>
           )}
         </>

@@ -7,6 +7,14 @@
     padding-left: 8%;
 }
 
+.form-container-bulk{
+    margin: 0 auto 0 auto;
+    width: auto;
+    background-color: rgb(19, 21, 26);
+    padding-right: 8%;
+    padding-left: 8%;
+}
+
 .form-container label{
     color: white;
     margin-right: 20px;
@@ -24,6 +32,18 @@
 
 .form-container {
     display: inline-block;
+}
+
+.csv-input{
+    width: 100%;
+}
+.csv-input::-webkit-file-upload-button{
+    background-color: rgb(113, 131, 151);
+    color: rgb(0, 0, 0);
+}
+
+.csv-input::-webkit-file-upload-button:active, button:target{
+    background-color: white;
 }
 
 .submit-single-asset{
@@ -54,18 +74,28 @@
     margin: 2% 0 0 0;
 }
 
-.container-style select{
+.upload-container-style{
+    display: inline-block;
+    padding: 2%;
+    background-color: rgb(45, 52, 66);
+    border-style: solid;
+    border-color: rgb(37, 39, 50);
+    border-width: 6px;
+    border-radius: 4px 4px 4px 4px;
+    text-align: center;
+    color: rgb(228, 241, 255);
+  }
+.upload-container-style select{
     text-align: left;
     background-color: rgb(67, 72, 87);
     font-family: 'Work Sans', sans-serif;
     width: 90%;
     font-size: 15px;
     color: white;
-
     margin: 2% 0 2% 10%;
 }
 
-.container-style option{
+.upload-container-style option{
     float: left;
 }
 
@@ -77,4 +107,10 @@ h5{ padding-bottom: 1%; }
     width: auto;
     margin-top: 3%;
     background-color: rgb(12, 12, 12);
+}
+
+.fix-button{
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 50%;
 }

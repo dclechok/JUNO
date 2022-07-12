@@ -63,8 +63,9 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets }) {
 
   return (
     <div>
-      <section className="container-style">
+      <section className="upload-container-style">
         <h4>Bulk Upload</h4>
+        <form className="form-container-bulk">
         <h5>
           (.csv file -{" "}
           <a href={uploadTemplate} download="upload-template">
@@ -75,7 +76,7 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets }) {
         <div>
           {!loadSuccessLog && (
             <>
-              <input
+              <input className="csv-input"
                 type="file"
                 name="csv-file"
                 accept=".csv"
@@ -100,6 +101,7 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets }) {
             )}
           </div>
         )}
+        </form>
       </section>
     </div>
   );
