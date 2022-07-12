@@ -85,7 +85,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets }) {
   useEffect(() => {}, [setLogItem]);
 
   return (
-    <section className="container-style-single">
+    <section className="container-style">
       <h4>Single Upload</h4>
       {jobSites && jobSites.length !== 0 ? (
         <>

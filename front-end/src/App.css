@@ -25,7 +25,7 @@ a{
 }
 
 a:link{
-  color: rgb(104, 131, 211);
+  color: rgb(180, 201, 244);
 }
 
 a:visited{
@@ -33,7 +33,7 @@ a:visited{
 }
 
 a:hover{
-  color:rgb(167, 203, 236);
+  color:rgb(130, 166, 200);
 }
 
 a:active{
@@ -58,6 +58,22 @@ input{
   font-style: bold;
 }
 
+.container-style{
+  display: inline-block;
+  padding: 2%;
+  background-color: rgb(45, 52, 66);
+  border-style: solid;
+  border-color: rgb(37, 39, 50);
+  border-width: 6px;
+  border-radius: 4px 4px 4px 4px;
+  text-align: center;
+  color: rgb(228, 241, 255);
+}
+
+.container-style h4{
+  font-size: 20px;
+}
+
 .button-link{
   background: none;
   border: none; 
@@ -68,7 +84,7 @@ input{
 }
 
 .button-link:hover{
-  color:rgb(94, 170, 240);
+  color:rgb(159, 191, 240);
 }
 
 .button-link:active, button:target{
@@ -77,6 +93,6 @@ input{
   border-radius: 9px;
   color: rgb(194, 199, 232);
   font-family: 'Poppins', sans-serif;
-  font-size: 15px;
+  font-size: inherit;
   margin: 0;
 }

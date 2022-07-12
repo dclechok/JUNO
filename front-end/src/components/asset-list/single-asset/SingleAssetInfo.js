@@ -3,7 +3,7 @@
 import renderLocation from "../../../utils/renderLocation";
 
 function SingleAssetInfo({ singleAsset }) {
-
+  
   return (
     <>
       <h3>Info</h3>
@@ -26,7 +26,7 @@ function SingleAssetInfo({ singleAsset }) {
             <td>
               <b>IP</b>
             </td>
-            <td>{renderLocation(singleAsset[0])}</td>
+            <td>{singleAsset[0].location.site_loc === '' ? 'Needs Verified' : renderLocation(singleAsset[0])}</td>
           </tr>
           <tr>
             <td>
@@ -62,19 +62,19 @@ function SingleAssetInfo({ singleAsset }) {
             <td>
               <b>Invoice Number</b>
             </td>
-            <td>--</td>
+            <td>{singleAsset[0].invoice_num ? singleAsset[0].invoice_num: '--'}</td>
           </tr>
           <tr>
             <td>
               <b>Value</b>
             </td>
-            <td>--</td>
+            <td>{singleAsset[0].value ? singleAsset[0].value: '--'}</td>
           </tr>
           <tr>
             <td>
               <b>EOL Date</b>
             </td>
-            <td>--</td>
+            <td>{singleAsset[0].EOL_date ? singleAsset[0].EOL_date: '--'}</td>
           </tr>
         </tbody>
       </table>

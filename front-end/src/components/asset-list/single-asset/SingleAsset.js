@@ -82,21 +82,23 @@ function SingleAsset({ loadSingleAsset, loadAssets, setLoadAssets }) {
               </p>
             </div>
             <div>
-              <button id="info" onClick={handleSubmit}>
+              <span style={{color: "black"}}>
+              [<button className="button-link" id="info" onClick={handleSubmit}>
                 Info
-              </button>
-              <button id="history" onClick={handleSubmit}>
+              </button>]
+              [<button className="button-link" id="history" onClick={handleSubmit}>
                 History
-              </button>
-              <button id="move" onClick={handleSubmit}>
+              </button>]
+              [<button className="button-link" id="move" onClick={handleSubmit}>
                 Move
-              </button>
-              <button id="edit" onClick={handleSubmit}>
+              </button>]
+              [<button className="button-link" id="edit" onClick={handleSubmit}>
                 Edit
-              </button>
-              <button id="delete" onClick={handleSubmit}>
+              </button>]
+              [<button className="button-link" id="delete" onClick={handleSubmit}>
                 Delete
-              </button>
+              </button>]
+              </span>
             </div>
           </header>
           <section className="container-style single-asset-body">

@@ -63,7 +63,7 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets }) {
 
   return (
     <div>
-      <section className="container-style-single">
+      <section className="container-style">
         <h4>Bulk Upload</h4>
         <h5>
           (.csv file -{" "}

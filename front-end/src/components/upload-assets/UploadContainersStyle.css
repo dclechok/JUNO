@@ -1,18 +1,4 @@
-.container-style-single{
-    display: inline-block;
-    padding: 2%;
-    background-color: rgb(45, 52, 66);
-    border-style: solid;
-    border-color: rgb(37, 39, 50);
-    border-width: 6px;
-    border-radius: 4px 4px 4px 4px;
-    text-align: center;
-    color: rgb(228, 241, 255);
-}
 
-.container-style-single h4{
-    font-size: 20px;
-}
 
 .form-container{
     margin: 0;
@@ -68,7 +54,7 @@
     margin: 2% 0 0 0;
 }
 
-.container-style-single select{
+.container-style select{
     text-align: left;
     background-color: rgb(67, 72, 87);
     font-family: 'Work Sans', sans-serif;
@@ -79,7 +65,7 @@
     margin: 2% 0 2% 10%;
 }
 
-.container-style-single option{
+.container-style option{
     float: left;
 }
 
