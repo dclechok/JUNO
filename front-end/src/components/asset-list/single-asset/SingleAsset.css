@@ -4,9 +4,9 @@
 .single-asset-render {
   display: inline-block;
   margin-top: 5%;
-  min-width: 800px;
-  color: rgb(0, 0, 0);
+  width: 1200px;
   font-family: "Montserrat", sans-serif;
+  white-space: nowrap;
 }
 
 .loading{ color: white;}
@@ -38,6 +38,7 @@
   background-color: rgb(84, 93, 121);
   margin-bottom: 2%;
   font-family: 'Montserrat', sans-serif;
+  white-space: nowrap;
 }
 
 .single-asset-body tr {

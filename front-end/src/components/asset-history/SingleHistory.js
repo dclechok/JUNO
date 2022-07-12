@@ -1,4 +1,4 @@
-import "./SingleHistory.css";
+import './SingleHistory.css';
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -25,14 +25,12 @@ function SingleHistory({ assetList }) {
       );
   }, []);
 
-  console.log(loadedHistory);
-
   return (
     <div className="single-asset-render">
       <h1>Log Details</h1>
       {loadedHistory && (
         <>
-          <header className="single-asset-header container-style">
+          <header className="single-history-header container-style">
             <div>
               <p>
                 <b>Action Logged</b>:{" "}
@@ -55,8 +53,7 @@ function SingleHistory({ assetList }) {
             </div>
           </header>
           <div className="container-style">
-            <header></header>
-            <table>
+            <table className='history-table'>
               <tbody>
                 <tr>
                   <th>

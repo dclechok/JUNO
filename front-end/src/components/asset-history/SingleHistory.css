@@ -1,0 +1,10 @@
+.single-history-header {
+    display: flex;
+    min-width: 120px;
+    text-align: left;
+  }
+
+  .history-table{
+    white-space: nowrap;
+
+  }
