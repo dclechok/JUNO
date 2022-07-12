@@ -2,7 +2,7 @@
 
 .history-search-container{
     font-family: 'Work Sans', sans-serif;
-    font-size: 18px;
+    font-size: 15px;
     display: block;
     color: white;
     padding: 0;
@@ -21,18 +21,18 @@
 
 .date-picker{
     display: block;
-    width: 40%;
+    width: 50%;
     margin: 2% auto auto auto;
     z-index: 0;
     position: relative;
 }
 
-.history-radio-buttons{
-    font-size: 14px;
+.date-picker button{
+    font-size: 15px;
 }
 
-.custom-header{
-    background-color: blue;
+.history-radio-buttons{
+    font-size: 14px;
 }
 
 .reset-button{
@@ -44,6 +44,6 @@
 
 .viewing-date{
     margin: 2% auto 2% auto;
-    color: rgb(185, 206, 226);
+    color: rgb(92, 250, 121);
     word-wrap: none;
 }

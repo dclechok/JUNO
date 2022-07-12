@@ -9,7 +9,7 @@ import dateFormatter from "../../utils/dateFormatter.js";
 import { getHistory } from "../../utils/api.js"
 
 //renders a lot of all historical data in order from oldest to newest history
-function HistoryList() {
+function HistoryList({ resetDatePicker, setResetDatePicker }) {
   const colorCode = {
     "Bulk Upload": "rgb(110, 236, 236)",
     "Single Upload": "rgb(110, 190, 236)",
@@ -31,7 +31,7 @@ function HistoryList() {
       return abortController.abort();
     }
     loadHistoryList();
-  }, []);
+  }, [resetDatePicker, setResetDatePicker]);
  
   //set our filtered list to default history list
   useEffect(() => {
@@ -96,6 +96,8 @@ function HistoryList() {
             setDaysSelected={setDaysSelected}
             radioCheck={radioCheck}
             setRadioCheck={setRadioCheck}
+            setResetDatePicker={setResetDatePicker}
+            resetDatePicker={resetDatePicker}
           />
           {dateFilteredList && 
           <table className="history-table">

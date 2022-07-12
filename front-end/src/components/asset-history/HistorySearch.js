@@ -4,11 +4,13 @@ import '@amir04lm26/react-modern-calendar-date-picker/lib/DatePicker.css';
 import DatePicker from '@amir04lm26/react-modern-calendar-date-picker';
 import { useEffect } from "react";
 
-function HistorySearch({ daysSelected, setDaysSelected, radioCheck, setRadioCheck }) {
- 
+function HistorySearch({ daysSelected, setDaysSelected, radioCheck, setRadioCheck, resetDatePicker, setResetDatePicker }) {
 
   const handleSubmit = (e) => {
     e.preventDefault(); //stop page from reload
+    setResetDatePicker(!resetDatePicker);
+    setDaysSelected(null);
+    setRadioCheck(true);
   };
 
   const handleRadioChange = (e) => {
@@ -67,6 +69,7 @@ function HistorySearch({ daysSelected, setDaysSelected, radioCheck, setRadioChec
           <DatePicker value={daysSelected} onChange={setDaysSelected} inputPlaceholder={"Select Date(s)"} colorPrimary={"rgb(56, 71, 118)"}/>
           <p className="viewing-date">{formatPlaceholder(daysSelected)}
           </p>
+          [<button className="button-link" onSubmit={handleSubmit}>View All</button>]
         </div>
       </form>
     </div>

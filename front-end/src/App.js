@@ -27,6 +27,7 @@ function App() {
     unit: "00",
   });
   const [formattedKey, setFormattedKey] = useState(""); //for formatting for 'viewing' the navKey
+  const [resetDatePicker, setResetDatePicker] = useState(false); //to reset History Search via History List
 
   useEffect(() => {
     //analyze assetList data and build anaylitics object
@@ -86,7 +87,7 @@ function App() {
                   />
                 }
               ></Route>
-              <Route exact path="/history" element={<HistoryList />}></Route>
+              <Route exact path="/history" element={<HistoryList resetDatePicker={resetDatePicker} setResetDatePicker={setResetDatePicker} />}></Route>
             </Routes>
             
       </Router>
