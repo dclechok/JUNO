@@ -3,7 +3,6 @@ const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
 function bodyHasResultProperty(req, res, next) {
   //post request must have a body
-  console.log(req.body);
   const { data } = req.body;
   if (data) return next(); //if body exists - move to validate body
   next({ status: 400, message: "A request body is required." });
@@ -56,10 +55,20 @@ async function create(req, res) {
   res.status(201).json({ data });
 }
 
+async function read(req, res) {
+  //return single asset via asset_tag
+  const { history_key } = req.params;
+  const data = await knex("history_log")
+    .select("*")
+    .where("history_key", history_key)
+    .then((results) => results[0]);
+  res.json(data);
+}
+
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [bodyHasResultProperty, validateBody, asyncErrorBoundary(create)],
-  //read
+  read: asyncErrorBoundary(read),
   //update
   //delete
 };
