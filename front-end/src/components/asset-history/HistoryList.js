@@ -28,14 +28,16 @@ function HistoryList({ assetList }) {
     async function loadHistoryList(){
       const abortController = new AbortController();
       setHistoryList(await getHistory());
-      if(historyList) setDateFilteredList(historyList);
       return abortController.abort();
     }
     loadHistoryList();
   }, []);
 
-  console.log(dateFilteredList);
-  
+  //set our filtered list to default history list
+  useEffect(() => {
+    if(historyList) setDateFilteredList(historyList);
+  }, [historyList, setHistoryList])
+
   const filterDate = (daysSelected) => {
     if (dayOrRange === "day") {
       //filter by date
