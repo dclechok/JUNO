@@ -4,8 +4,13 @@
   margin-bottom: 2%;
   max-height: 900px;
   overflow: scroll;
+  font-size: 22px;
 }
 
 th{
   background-color: black;
+}
+
+td{
+  font-size: 15px;
 }

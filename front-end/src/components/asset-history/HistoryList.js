@@ -136,7 +136,7 @@ function HistoryList() {
                         </td>
                         <td>{history.logged_by}</td>
                         <td>
-                          <a href="http://google.com">View</a>
+                          <span style={{color: "black"}}>[<button className="button-link">View</button>]</span>
                         </td>
                       </tr>
                     );

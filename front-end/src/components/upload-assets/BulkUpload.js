@@ -36,7 +36,7 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets }) {
             // setParsedAssets(results.data.splice(0, results.data.length - 1)); //last entry is blank/invalid
             if (parsedAssets && parsedAssets.length !== 0)
               formattedAssets = validateBulkUpload(assetList, parsedAssets); //HANDLE ALL FORMATTING AND VALIDATION!
-              setStateAssets(formattedAssets);
+            setStateAssets(formattedAssets);
             async function createNewAsset(newAssetList) {
               if (newAssetList.length !== 0) {
                 try {
@@ -56,9 +56,9 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets }) {
           },
         });
       }
+      setLoadSuccessLog(true);
+      setLoadAssets(!loadAssets);
     }
-    setLoadSuccessLog(true);
-    setLoadAssets(!loadAssets);
   };
 
   return (
@@ -73,20 +73,25 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets }) {
           template)
         </h5>
         <div>
-          <input
-            type="file"
-            name="csv-file"
-            accept=".csv"
-            onChange={handleChange}
-          />
           {!loadSuccessLog && (
-            <div>
-              <button className="submit-single-asset" onClick={handleSubmit}>Upload</button>
-            </div>
+            <>
+              <input
+                type="file"
+                name="csv-file"
+                accept=".csv"
+                onChange={handleChange}
+              />
+
+              <div>
+                <button className="submit-single-asset" onClick={handleSubmit}>
+                  Upload
+                </button>
+              </div>
+            </>
           )}
         </div>
         {stateAssets.rejected && stateAssets.accepted && (
-          <div className="container-style upload-success">
+          <div>
             {loadSuccessLog && (
               <UploadSuccess
                 rejectedLog={stateAssets.rejected}

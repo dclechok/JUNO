@@ -55,7 +55,7 @@ function NotificationCenter({ assetList }) {
           )}
         )}
         <hr/>
-        [<button className="view-all-button" onClick={handleClick}>View All</button>]
+        <span style={{color: "black"}}>[<button className="button-link" onClick={handleClick}>View All</button>]</span>
       </div>
       
     </section>

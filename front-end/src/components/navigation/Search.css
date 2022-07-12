@@ -22,8 +22,11 @@
     font-size: 16px;
 }
 
-.search-btn:focus{
-    background-color:rgb(126, 135, 148);
+.search-btn:hover{
+    background-color: rgb(150, 171, 188);
+}
+.search-btn:active, button:target{
+    background-color:rgb(206, 209, 213);
 }
 
 .by-ip{

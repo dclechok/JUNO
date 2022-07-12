@@ -6,6 +6,7 @@
     word-wrap: none;
     background-color: rgb(19, 21, 26);
     color: white;
+    min-width: 500px;
 }
 
 .upload-success-log h3{
