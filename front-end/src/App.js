@@ -86,7 +86,7 @@ function App() {
                   />
                 }
               ></Route>
-              <Route exact path="/history" element={<HistoryList assetList={assetList} />}></Route>
+              <Route exact path="/history" element={<HistoryList />}></Route>
             </Routes>
             
       </Router>

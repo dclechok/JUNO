@@ -15,12 +15,12 @@ function UploadAssets({ assetList, setLoadAssets, loadAssets }){
     return(
     <div className="single-asset-render">
       <h1>Upload Assets</h1>
-        <header className="upload-options container-style">
+        <header className="upload-options">
           <div>
-            <h2><button id="bulk-upload" onClick={onClickHandler}>Bulk Asset Upload</button></h2>
+            <h2>[<button id="bulk-upload" onClick={onClickHandler}>Bulk Asset Upload</button>]</h2>
           </div>
           <div>
-            <h2><button id="single-upload" onClick={onClickHandler}>Single Asset Upload</button></h2>
+            <h2>[<button id="single-upload" onClick={onClickHandler}>Single Asset Upload</button>]</h2>
           </div>
         </header>
 

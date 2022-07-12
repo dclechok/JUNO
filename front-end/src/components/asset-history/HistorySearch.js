@@ -2,7 +2,7 @@ import "./HistorySearch.css";
 
 import '@amir04lm26/react-modern-calendar-date-picker/lib/DatePicker.css';
 import DatePicker from '@amir04lm26/react-modern-calendar-date-picker';
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 function HistorySearch({ daysSelected, setDaysSelected, radioCheck, setRadioCheck }) {
  
@@ -64,7 +64,7 @@ function HistorySearch({ daysSelected, setDaysSelected, radioCheck, setRadioChec
           /><br />
         </div>
         <div className="date-picker">
-          <DatePicker value={daysSelected} onChange={setDaysSelected} />
+          <DatePicker value={daysSelected} onChange={setDaysSelected} inputPlaceholder={"Select Date(s)"} colorPrimary={"rgb(56, 71, 118)"}/>
           <p className="viewing-date">{formatPlaceholder(daysSelected)}
           </p>
         </div>
