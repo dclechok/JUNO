@@ -72,13 +72,13 @@ function SingleAsset({ loadSingleAsset, loadAssets, setLoadAssets }) {
           <header className="single-asset-header container-style">
             <div>
               <p>
-                Asset Tag: <b>{singleAsset[0].asset_tag}</b>
+              <b>Asset Tag</b>: {singleAsset[0].asset_tag}
               </p>
               <p>
-                Status: <b>{singleAsset[0].status}</b>
+              <b>Status</b>: {singleAsset[0].status}
               </p>
               <p>
-                Last Updated: <b>{dateFormatter(singleAsset[0].updated_at)}</b>
+              <b>Last Updated</b>: {dateFormatter(singleAsset[0].updated_at)}
               </p>
             </div>
             <div>

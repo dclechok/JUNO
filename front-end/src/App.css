@@ -74,6 +74,10 @@ input{
   font-size: 20px;
 }
 
+.container-style p{
+  margin-bottom: 1%;
+}
+
 .button-link{
   background: none;
   border: none; 

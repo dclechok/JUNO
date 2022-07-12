@@ -24,22 +24,34 @@ function SingleHistory({ assetList }) {
         })
       );
   }, []);
+
+  console.log(loadedHistory);
+
   return (
     <div className="single-asset-render">
-      <h1>Details For Log</h1>
+      <h1>Log Details</h1>
       {loadedHistory && (
         <>
           <header className="single-asset-header container-style">
             <div>
-              <p>Action Logged: <span style={{color: colorCode[loadedHistory[0].history.action_taken]}}>{loadedHistory[0].history.action_taken}</span></p>
-              <p>Logged By: {loadedHistory[0].history.action_by}</p>
-              <p>Approved By: --</p>
               <p>
-                Logged Date:{" "}
+                <b>Action Logged</b>:{" "}
+                <span
+                  style={{
+                    color: colorCode[loadedHistory[0].history.action_taken],
+                  }}
+                >
+                  {loadedHistory[0].history.action_taken}
+                </span>
+              </p>
+              <p><b>Logged By</b>: {loadedHistory[0].history.action_by}</p>
+              <p><b>Approved By</b>: --</p>
+              <p>
+                <b>Logged Date</b>:{" "}
                 {dateFormatter(loadedHistory[0].history.action_date)}
               </p>
-              <p>Total Assets Mutated: {loadedHistory.length}</p>
-              <p>History Key: {history_key}</p>
+              <p><b>Total Assets Mutated</b>: {loadedHistory.length}</p>
+              <p><b>History Key</b>: {history_key}</p>
             </div>
           </header>
           <div className="container-style">
@@ -85,45 +97,31 @@ function SingleHistory({ assetList }) {
                     </button>
                   </th>
                   <th>
-                    <button id="updated_at" onClick={sortButtonSubmit}>
-                      View Prior History
-                    </button>
+                      History
                   </th>
                 </tr>
-                {loadedHistory && loadedHistory.length !== 0 &&
-                <tr>
-                    <td>
-                        {loadedHistory[0].asset_tag}
-                    </td>
-                    <td>
-                        {loadedHistory[0].location.site}
-                    </td>
-                    <td>
-                        {loadedHistory[0].location.site_loc === '' ? 'Needs Verified' : loadedHistory[0].location.site_loc}
-                    </td>
-                    <td>
-                        {loadedHistory[0].serial_number}
-                    </td>
-                    <td>
-                        {loadedHistory[0].make}
-                    </td>
-                    <td>
-                        {loadedHistory[0].model}
-                    </td>
-                    <td>
-                        {loadedHistory[0].hr}
-                    </td>
-                    <td>
-                        {loadedHistory[0].status}
-                    </td>
-                    <td>
-                        {dateFormatter(loadedHistory[0].updated_at)}
-                    </td>
-                    <td>
-                        [View]
-                    </td>
-                </tr>
-                }
+                {loadedHistory &&
+                  loadedHistory.length !== 0 &&
+                  loadedHistory.map((asset, key) => {
+                    return (
+                      <tr key={key}>
+                        <td>{asset.asset_tag}</td>
+                        <td>{asset.location.site}</td>
+                        <td>
+                          {asset.location.site_loc === ""
+                            ? "Needs Verified"
+                            : asset.location.site_loc}
+                        </td>
+                        <td>{asset.serial_number}</td>
+                        <td>{asset.make}</td>
+                        <td>{asset.model}</td>
+                        <td>{asset.hr}</td>
+                        <td>{asset.status}</td>
+                        <td>{dateFormatter(asset.updated_at)}</td>
+                        <td><span style={{color: "black"}}>[<button className="button-link">View</button>]</span></td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>
