@@ -57,7 +57,7 @@ export async function createAsset(assets) {
         logged_by: action_by,
         history_key: action_key
       });
-      console.log('here', awaitCreateHistory);
+      if(!awaitCreateHistory) throw new Error("Making request for history log failed!");
       return jsonResponse;
     }
   } catch (e) {

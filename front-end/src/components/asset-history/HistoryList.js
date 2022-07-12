@@ -5,7 +5,8 @@ import { useState, useEffect } from "react";
 import HistorySearch from "./HistorySearch";
 
 //utils
-import dateFormatter from "../../utils/dateFormatter";
+import dateFormatter from "../../utils/dateFormatter.js";
+import { getHistory } from "../../utils/api.js"
 
 //renders a lot of all historical data in order from oldest to newest history
 function HistoryList({ assetList }) {
@@ -16,24 +17,36 @@ function HistoryList({ assetList }) {
     "Move Asset": "rgb(110, 164, 236)",
     "Edit Asset": "rgb(205, 214, 126)",
   };
-
+  const [historyList, setHistoryList] = useState(null); //where we will fetch History data and store here.
   const [daysSelected, setDaysSelected] = useState(null);
-  const [dateFilteredList, setDateFilteredList] = useState(assetList);
+  const [dateFilteredList, setDateFilteredList] = useState(historyList);
   const [dayOrRange, setDayOrRange] = useState("");
   const [radioCheck, setRadioCheck] = useState(true);
 
+  //load our general history table
+  useEffect(() => {
+    async function loadHistoryList(){
+      const abortController = new AbortController();
+      setHistoryList(await getHistory());
+      if(historyList) setDateFilteredList(historyList);
+      return abortController.abort();
+    }
+    loadHistoryList();
+  }, []);
+
+  console.log(dateFilteredList);
+  
   const filterDate = (daysSelected) => {
     if (dayOrRange === "day") {
       //filter by date
       const formattedDay = `${daysSelected.month}/${daysSelected.day}/${daysSelected.year}`;
       setDateFilteredList(
-        assetList.filter((asset) => {
-          console.log(asset.history);
-          const timestamp = new Date(asset.history.action_date); //get from asset itself
+        historyList.filter((history) => {
+          const timestamp = new Date(history.logged_date); //get from asset itself
           const formattedTimestamp = `${
             timestamp.getMonth() + 1
           }/${timestamp.getDate()}/${timestamp.getFullYear()}`;
-          if (formattedTimestamp === formattedDay) return asset;
+          if (formattedTimestamp === formattedDay) return history;
         })
       );
     } else if (dayOrRange === "range") {
@@ -42,8 +55,8 @@ function HistoryList({ assetList }) {
         const formattedFrom = `${daysSelected.from.month}/${daysSelected.from.day}/${daysSelected.from.year}`;
         const formattedTo = `${daysSelected.to.month}/${daysSelected.to.day}/${daysSelected.to.year}`;
         setDateFilteredList(
-          assetList.filter((asset) => {
-            const timestamp = new Date(asset.history.action_date); //get from asset itself
+          historyList.filter((history) => {
+            const timestamp = new Date(history.logged_date); //get from asset itself
             const formattedTimestamp = `${
               timestamp.getMonth() + 1
             }/${timestamp.getDate()}/${timestamp.getFullYear()}`;
@@ -51,7 +64,7 @@ function HistoryList({ assetList }) {
               Date.parse(formattedTimestamp) >= Date.parse(formattedFrom) &&
               Date.parse(formattedTimestamp) <= Date.parse(formattedTo)
             )
-              return asset;
+              return history;
           })
         );
       }
@@ -82,6 +95,7 @@ function HistoryList({ assetList }) {
             radioCheck={radioCheck}
             setRadioCheck={setRadioCheck}
           />
+          {dateFilteredList && 
           <table className="history-table">
             <tbody>
               <tr>
@@ -95,34 +109,30 @@ function HistoryList({ assetList }) {
                   <b>Action By</b>
                 </th>
                 <th>
-                  <b>Comments</b>
-                </th>
-                <th>
                   <b>View</b>
                 </th>
               </tr>
               {dateFilteredList &&
                 dateFilteredList
                   .sort((a, b) =>
-                    b.history.action_date
+                    b.logged_date
                       .toString()
-                      .localeCompare(a.history.action_date.toString())
+                      .localeCompare(a.logged_date.toString())
                   )
-                  .map((asset, key) => {
+                  .map((history, key) => {
                     return (
                       <tr key={`row ${key}`}>
-                        <td>{dateFormatter(asset.history.action_date)}</td>
+                        <td>{dateFormatter(history.logged_date)}</td>
                         <td>
                           <span
                             style={{
-                              color: colorCode[asset.history.action_taken],
+                              color: colorCode[history.logged_action],
                             }}
                           >
-                            {asset.history.action_taken}
+                            {history.logged_action}
                           </span>
                         </td>
-                        <td>{asset.history.action_by}</td>
-                        <td>{asset.history.action_comment}</td>
+                        <td>{history.logged_by}</td>
                         <td>
                           <a href="http://google.com">View</a>
                         </td>
@@ -130,7 +140,7 @@ function HistoryList({ assetList }) {
                     );
                   })}
             </tbody>
-          </table>
+          </table>}
         </div>
       </>
     </div>
