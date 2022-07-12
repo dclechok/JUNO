@@ -6,13 +6,14 @@ import Nav from "./components/navigation/Nav.js";
 import AssetList from "./components/asset-list/AssetList.js";
 import SingleAsset from "./components/asset-list/single-asset/SingleAsset.js";
 import UploadAssets from "./components/upload-assets/UploadAssets";
+import HistoryList from "./components/asset-history/HistoryList";
+import SingleHistory from "./components/asset-history/SingleHistory.js";
 import Footer from "./Footer.js";
-import LoaderSpinner from "./components/LoaderSpinner.js";
 
 //utils
 import calculateValues from "./utils/calculateValues";
 import { getAllAssets } from "./utils/api";
-import HistoryList from "./components/asset-history/HistoryList";
+
 
 function App() {
   const [loadAssets, setLoadAssets] = useState(false);
@@ -88,6 +89,7 @@ function App() {
                 }
               ></Route>
               <Route exact path="/history" element={<HistoryList resetDatePicker={resetDatePicker} setResetDatePicker={setResetDatePicker} />}></Route>
+              <Route exact path="/history/:history_key" element={<SingleHistory assetList={assetList} />}></Route>
             </Routes>
             
       </Router>

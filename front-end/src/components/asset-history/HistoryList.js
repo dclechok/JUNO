@@ -1,22 +1,21 @@
 import "./HistoryList.css";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 //components
 import HistorySearch from "./HistorySearch";
+import LoaderSpinner from "../LoaderSpinner";
 
 //utils
 import dateFormatter from "../../utils/dateFormatter.js";
 import { getHistory } from "../../utils/api.js"
+import colorCode from "../../utils/colorCodes";
 
 //renders a lot of all historical data in order from oldest to newest history
 function HistoryList({ resetDatePicker, setResetDatePicker }) {
-  const colorCode = {
-    "Bulk Upload": "rgb(110, 236, 236)",
-    "Single Upload": "rgb(110, 190, 236)",
-    "Delete Asset": "rgb(236, 125, 110)",
-    "Move Asset": "rgb(110, 164, 236)",
-    "Edit Asset": "rgb(205, 214, 126)",
-  };
+
+  const navigate = new useNavigate();
+
   const [historyList, setHistoryList] = useState(null); //where we will fetch History data and store here.
   const [daysSelected, setDaysSelected] = useState(null);
   const [dateFilteredList, setDateFilteredList] = useState(historyList);
@@ -86,6 +85,13 @@ function HistoryList({ resetDatePicker, setResetDatePicker }) {
     }
   }, [daysSelected, setDaysSelected, dayOrRange]);
 
+  const onClickHandler = (e) => {
+    e.preventDefault();
+    const { id = '' } = e.currentTarget;
+    console.log(id);
+    if(id) navigate(`/history/${id}`);
+  };
+
   return (
     <div className="single-asset-render">
       <>
@@ -99,7 +105,7 @@ function HistoryList({ resetDatePicker, setResetDatePicker }) {
             setResetDatePicker={setResetDatePicker}
             resetDatePicker={resetDatePicker}
           />
-          {dateFilteredList && 
+          {dateFilteredList ? 
           <table className="history-table">
             <tbody>
               <tr>
@@ -138,13 +144,13 @@ function HistoryList({ resetDatePicker, setResetDatePicker }) {
                         </td>
                         <td>{history.logged_by}</td>
                         <td>
-                          <span style={{color: "black"}}>[<button className="button-link">View</button>]</span>
+                          <span style={{color: "black"}}>[<button className="button-link" id={history.history_key} onClick={onClickHandler}>View</button>]</span>
                         </td>
                       </tr>
                     );
                   })}
             </tbody>
-          </table>}
+          </table>: <LoaderSpinner width={45} height={45} message={"History Log"}/> }
         </div>
       </>
     </div>
