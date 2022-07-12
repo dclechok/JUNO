@@ -1,4 +1,4 @@
-import "./BulkUpload.css";
+import "./UploadContainersStyle.css";
 import { useState } from "react";
 
 import Papa from "papaparse";
@@ -63,7 +63,7 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets }) {
 
   return (
     <div>
-      <section className="container-style-single upload-container">
+      <section className="container-style-single">
         <h4>Bulk Upload</h4>
         <h5>
           (.csv file -{" "}
@@ -81,7 +81,7 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets }) {
           />
           {!loadSuccessLog && (
             <div>
-              <button onClick={handleSubmit}>Upload</button>
+              <button className="submit-single-asset" onClick={handleSubmit}>Upload</button>
             </div>
           )}
         </div>

@@ -10,6 +10,10 @@
     color: rgb(228, 241, 255);
 }
 
+.container-style-single h4{
+    font-size: 20px;
+}
+
 .form-container{
     margin: 0;
     background-color: rgb(19, 21, 26);
@@ -48,12 +52,12 @@
     padding: 3%;
     margin-top: 4%;
     margin-bottom: 2%;
-    color: rgb(207, 233, 255);
+    color: rgb(239, 248, 255);
 }
 
 .submit-single-asset:hover{
     color:rgb(167, 208, 255);
-    background-color: rgb(9, 9, 9);
+    background-color: rgb(32, 31, 31);
 }
 
 .submit-single-asset:active, button:target{
@@ -77,4 +81,14 @@
 
 .container-style-single option{
     float: left;
+}
+
+
+h5{ padding-bottom: 1%; }
+
+.upload-success{
+    display: inline-block;
+    width: auto;
+    margin-top: 3%;
+    background-color: rgb(12, 12, 12);
 }

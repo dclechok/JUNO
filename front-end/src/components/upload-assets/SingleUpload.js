@@ -1,4 +1,4 @@
-import "./SingleUpload.css";
+import "./UploadContainersStyle.css";
 import { useEffect, useState } from "react";
 
 //components
