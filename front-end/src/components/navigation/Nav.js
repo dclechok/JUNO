@@ -14,7 +14,6 @@ function Nav({ setLoadAssets, loadAssets }) {
 
   const handleSubmit = (e) => {
     const { id = "" } = e.currentTarget;
-    console.log(id);
     setLoadAssets(!loadAssets);
     if (id === "dashboard") navigate(`/`);
     else if (id === "settings") navigate(`/admin-panel`);
