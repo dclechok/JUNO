@@ -6,6 +6,7 @@ import Nav from "./components/navigation/Nav.js";
 import AssetList from "./components/asset-list/AssetList.js";
 import SingleAsset from "./components/asset-list/single-asset/SingleAsset.js";
 import UploadAssets from "./components/upload-assets/UploadAssets";
+import AdminPanel from "./components/admin-panel/AdminPanel";
 import HistoryList from "./components/asset-history/HistoryList";
 import SingleHistory from "./components/asset-history/SingleHistory.js";
 import Footer from "./Footer.js";
@@ -88,6 +89,7 @@ function App() {
                   />
                 }
               ></Route>
+              <Route exact path="/admin-panel" element={<AdminPanel />}></Route>
               <Route exact path="/history" element={<HistoryList resetDatePicker={resetDatePicker} setResetDatePicker={setResetDatePicker} />}></Route>
               <Route exact path="/history/:history_key" element={<SingleHistory assetList={assetList} />}></Route>
             </Routes>

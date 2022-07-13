@@ -14,9 +14,12 @@ function Nav({ setLoadAssets, loadAssets }) {
 
   const handleSubmit = (e) => {
     const { id = "" } = e.currentTarget;
+    console.log(id);
     setLoadAssets(!loadAssets);
     if (id === "dashboard") navigate(`/`);
+    else if (id === "settings") navigate(`/admin-panel`);
     else navigate(`/${id}`);
+    
     setButtonState({...defaultButtonState, [id]: 'middleNavButtonActive'});
   };
 
@@ -46,12 +49,9 @@ function Nav({ setLoadAssets, loadAssets }) {
           </div>
 
           <div className="dropdown">
-            <button className={buttonState.settings} id="settings">
-              Settings
+            <button className={buttonState.settings} id="settings" onClick={handleSubmit}>
+              Admin Panel
             </button>
-            <div className="dropdown-content">
-              <button>Admin Panel</button>
-            </div>
           </div>
         </div>
 

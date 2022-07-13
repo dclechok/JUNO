@@ -16,6 +16,7 @@
   justify-content: space-between;
   align-items: flex-end;
   text-align: left;
+  margin-top: 2%;
 }
 
 .single-asset-render h1 {
