@@ -7,15 +7,6 @@
     position: relative;
   }
 
-  .upload-options button{
-    background: none;
-    border: none;
-    font-family: inherit;
-    font-size: 20px;
-    text-decoration: bold;
-    color: white;
-  }
-
-  .upload-options button:hover{
-    color: rgb(57, 134, 206);
-  }
+.button-link-font{
+  font-family: 'Montserrat', sans-serif;
+}
