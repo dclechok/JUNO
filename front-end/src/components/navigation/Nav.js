@@ -1,16 +1,28 @@
 import "./Nav.css";
 import logoTwo from "../../images/logo2.png";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from 'react';
 
 function Nav({ setLoadAssets, loadAssets }) {
+
   const navigate = new useNavigate();
+  const defaultButtonState = {
+    dashboard: "middleNavButton",
+    settings: "middleNavButton"
+  };
+  const [buttonState, setButtonState] = useState(defaultButtonState);
 
   const handleSubmit = (e) => {
     const { id = "" } = e.currentTarget;
     setLoadAssets(!loadAssets);
     if (id === "dashboard") navigate(`/`);
     else navigate(`/${id}`);
+    setButtonState({...defaultButtonState, [id]: 'middleNavButtonActive'});
   };
+
+  useEffect(() => {
+    setButtonState({...defaultButtonState, dashboard: 'middleNavButtonActive'});
+  }, []);
 
   return (
     <div className="nav-fixed">
@@ -22,7 +34,7 @@ function Nav({ setLoadAssets, loadAssets }) {
         </div>
         <div className="middleNav">
           <div className="dropdown">
-            <button className="middleNav-button" id="dashboard" onClick={handleSubmit}>
+            <button className={buttonState.dashboard} id="dashboard" onClick={handleSubmit}>
               Dashboard
             </button>
             <div className="dropdown-content">
@@ -34,7 +46,7 @@ function Nav({ setLoadAssets, loadAssets }) {
           </div>
 
           <div className="dropdown">
-            <button className="middleNav-button" id="settings">
+            <button className={buttonState.settings} id="settings">
               Settings
             </button>
             <div className="dropdown-content">

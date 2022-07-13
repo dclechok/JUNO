@@ -56,7 +56,7 @@ h1 {
   width: 20%;
 }
 
-.middleNav-button{
+.middleNavButton, .middleNavButtonActive{
   background: none;
   border: none; 
   color: white;
@@ -65,11 +65,15 @@ h1 {
   margin: 0;
 }
 
-.middleNav-button:hover{
-  color: rgb(104, 131, 211);
+.middleNavButtonActive{
+  color:rgb(159, 191, 240);
 }
 
-.middleNav-button:active, button:target{
+.middleNavButton:hover{
+  color:rgb(159, 191, 240);
+}
+
+.middleNavButton:active, button:target{
   background-color: rgb(30, 30, 37);
   border: none; 
   border-radius: 9px;
