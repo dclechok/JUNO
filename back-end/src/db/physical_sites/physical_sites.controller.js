@@ -16,12 +16,19 @@ async function create(req, res) {
   res.status(201).json({ data });
 }
 
+async function remove(req, res) {
+  //remove asset from db
+  const { id } = req.params;
+  const data = await knex("physical_sites")
+  .where("physical_site_id", id)
+  .del();
+  res.status(200).json({ data });
+}
+
 module.exports = {
   list: asyncErrorBoundary(list),
   create: asyncErrorBoundary(create),
   // read: asyncErrorBoundary(read),
-  //create
-  //read
   //update
-  //delete
+  delete: asyncErrorBoundary(remove)
 };
