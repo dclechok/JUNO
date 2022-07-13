@@ -1,10 +1,6 @@
 //allow admin to view and manage all physical job sites
 import { useState, useEffect } from "react";
 
-//utils
-
-import dateFormatter from "../../utils/dateFormatter";
-
 //components
 import ViewSites from "./ViewSites";
 import CreateSite from './CreateSite';

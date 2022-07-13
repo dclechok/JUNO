@@ -1,5 +1,5 @@
 import "./AdminPanel.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 //components
 import ManageJobSites from "./ManageJobSites";
@@ -19,6 +19,11 @@ function AdminPanel() {
     setButtonState({ ...defaultButtonState, [id]: "active-button-link" });
     setRenderPage(id);
   };
+
+  useEffect(() => {
+    setButtonState({ ...defaultButtonState, manageJobSites: "active-button-link" });
+    setRenderPage('manageJobSites');
+  }, []);
 
   return (
     <div className="single-asset-render admin-panel-container">
