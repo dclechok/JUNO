@@ -21,8 +21,11 @@ function AdminPanel() {
   };
 
   useEffect(() => {
-    setButtonState({ ...defaultButtonState, manageJobSites: "active-button-link" });
-    setRenderPage('manageJobSites');
+    setButtonState({
+      ...defaultButtonState,
+      manageJobSites: "active-button-link",
+    });
+    setRenderPage("manageJobSites");
   }, []);
 
   return (
@@ -33,14 +36,6 @@ function AdminPanel() {
           <span style={{ color: "black" }}>
             [
             <button
-              id="manageUsers"
-              className={buttonState.manageUsers}
-              onClick={handleSubmit}
-            >
-              Manage Users
-            </button>
-            ] [
-            <button
               id="manageJobSites"
               className={buttonState.manageJobSites}
               onClick={handleSubmit}
@@ -49,11 +44,11 @@ function AdminPanel() {
             </button>
             ] [
             <button
-              id="manageRequests"
-              className={buttonState.manageRequests}
+              id="manageUsers"
+              className={buttonState.manageUsers}
               onClick={handleSubmit}
             >
-              Manage Requests
+              Manage Users
             </button>
             ]
           </span>

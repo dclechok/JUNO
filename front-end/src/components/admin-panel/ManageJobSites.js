@@ -20,7 +20,6 @@ function ManageJobSites() {
 
   const handleClick = (e) => {
     const { id } = e.currentTarget;
-    console.log(id);
     setViewOrCreate(id);
     setButtonState({...defaultButtonState, [id]: 'active-button-link'});
   };    

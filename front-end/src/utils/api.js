@@ -54,7 +54,17 @@ export async function createJobSite(jobSite){
   }
 }
 
-
+export async function deleteJobSite(id){
+  try {
+    const response = await fetch(BASE_URL + `physical_sites/${id}`, {
+      method: "DELETE",
+    });
+    const jsonResponse = await response.json(); //json-ify readablestream data;
+    console.log(jsonResponse);
+  } catch (e) {
+    console.log(e, "Failed to fetch all assets.");
+  }
+}
 
 // POST NEW ASSETS // 
 export async function createAsset(assets) {
