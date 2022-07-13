@@ -7,6 +7,7 @@ import dateFormatter from "../../utils/dateFormatter";
 
 //components
 import ViewSites from "./ViewSites";
+import CreateSite from './CreateSite';
 
 function ManageJobSites() {
 
@@ -35,6 +36,7 @@ function ManageJobSites() {
         <span style={{color: 'black'}}>[<button className={buttonState.create} id="create" onClick={handleClick}>Create Site</button>]</span>
       </div>
       {viewOrCreate === "view" && <ViewSites />}
+      {viewOrCreate === "create" && <CreateSite />}
     </>
   );
 }

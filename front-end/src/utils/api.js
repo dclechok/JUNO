@@ -36,6 +36,26 @@ export async function getJobSites() {
   }
 }
 
+export async function createJobSite(jobSite){
+  try {
+    const response = await fetch(BASE_URL + "physical_sites", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ data: jobSite })
+    });
+    const jsonResponse = await response.json(); //json-ify readablestream data
+    if (jsonResponse){ //if POST request was successful, create a log in
+      console.log(jsonResponse);
+    }
+  } catch (e) {
+    console.log(e, "Failed to fetch post request.");
+  }
+}
+
+
+
 // POST NEW ASSETS // 
 export async function createAsset(assets) {
   try {
