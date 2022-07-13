@@ -15,6 +15,15 @@ const BASE_URL = "http://localhost:5000/assets";
 function SingleAsset({ loadSingleAsset, loadAssets, setLoadAssets }) {
   const [singleAsset, setSingleAsset] = useState("");
   const [singleAssetNav, setSingleAssetNav] = useState("info"); //default to single assets info page
+  const defaultButtonState = {
+    info: "button-link", 
+    history: "button-link",
+    move: "button-link",
+    edit: "button-link",
+    delete: "button-link"
+  };
+  const [buttonState, setButtonState] = useState(defaultButtonState); //"button-link" (inactive) or "active-button-link" (active) classes
+  
   const { asset_tag } = useParams(); //get asset_tag from url parameters
 
   useEffect(() => {
@@ -35,6 +44,7 @@ function SingleAsset({ loadSingleAsset, loadAssets, setLoadAssets }) {
       }
     }
     grabSingleAsset();
+    setButtonState({...defaultButtonState, info: "active-button-link"}); //default to our info component, make button active
     return () => abortController.abort;
   }, [loadSingleAsset]);
 
@@ -61,7 +71,8 @@ function SingleAsset({ loadSingleAsset, loadAssets, setLoadAssets }) {
     const { id } = e.currentTarget;
     e.preventDefault();
     if(id === "delete") if(window.confirm(`This will permenantly delete the asset ${asset_tag} and all its history. Do you wish to proceed?`)) deleteAsset();
-    setSingleAssetNav(e.currentTarget.id); //info, history, move
+    setButtonState({...defaultButtonState, [id]: "active-button-link"});
+    setSingleAssetNav(e.currentTarget.id); //info, history, move, edit
   };
 
   return (
@@ -83,19 +94,19 @@ function SingleAsset({ loadSingleAsset, loadAssets, setLoadAssets }) {
             </div>
             <div>
               <span style={{color: "black"}}>
-              [<button className="button-link" id="info" onClick={handleSubmit}>
+              [<button className={buttonState.info} id="info" onClick={handleSubmit}>
                 Info
               </button>]
-              [<button className="button-link" id="history" onClick={handleSubmit}>
+              [<button className={buttonState.history} id="history" onClick={handleSubmit}>
                 History
               </button>]
-              [<button className="button-link" id="move" onClick={handleSubmit}>
+              [<button className={buttonState.move} id="move" onClick={handleSubmit}>
                 Move
               </button>]
-              [<button className="button-link" id="edit" onClick={handleSubmit}>
+              [<button className={buttonState.edit} id="edit" onClick={handleSubmit}>
                 Edit
               </button>]
-              [<button className="button-link" id="delete" onClick={handleSubmit}>
+              [<button className={buttonState.delete} id="delete" onClick={handleSubmit}>
                 Delete
               </button>]
               </span>

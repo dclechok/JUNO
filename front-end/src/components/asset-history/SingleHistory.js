@@ -1,18 +1,24 @@
 import './SingleHistory.css';
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 //utils
 import dateFormatter from "../../utils/dateFormatter";
+// import sortList from '../../utils/sortList';
 import colorCode from "../../utils/colorCodes";
 //renders a single viewable historical entry
 function SingleHistory({ assetList }) {
   const { history_key } = useParams();
-
+  const navigate = new useNavigate();
   const [loadedHistory, setLoadedHistory] = useState(null);
 
   const sortButtonSubmit = () => {
-    console.log("sort");
+
+  };
+
+  const onClickHandler = (e) => {
+    const { id } = e.currentTarget;
+    navigate(`/${id}`);
   };
 
   useEffect(() => {
@@ -94,7 +100,7 @@ function SingleHistory({ assetList }) {
                     </button>
                   </th>
                   <th>
-                      History
+                      Details
                   </th>
                 </tr>
                 {loadedHistory &&
@@ -115,7 +121,7 @@ function SingleHistory({ assetList }) {
                         <td>{asset.hr}</td>
                         <td>{asset.status}</td>
                         <td>{dateFormatter(asset.updated_at)}</td>
-                        <td><span style={{color: "black"}}>[<button className="button-link">View</button>]</span></td>
+                        <td><span style={{color: "black"}}>[<button className="button-link" id={asset.asset_tag} onClick={onClickHandler}>View</button>]</span></td>
                       </tr>
                     );
                   })}

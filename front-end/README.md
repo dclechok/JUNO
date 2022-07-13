@@ -21,7 +21,7 @@
 * Make asset lists have a page system as opposed to scroll.
 #### Bulk Upload ####
 * Check for duplicates in .csv file (from accidentally scanning device twice, etc.)
-* Style upload button and style containers.
+* ~~Style upload button and style containers.~~
 * ~~Remove API call from useEffect!!!!~~
 * ~~Create a log of upload success (500 assets added successfully, 88 fails - and reasons, etc.)~~
 * ~~Disable "upload" button after first submit.~~
@@ -31,17 +31,18 @@
 * Implement server middleware specifically for individual asset upload cases (duplicates).
 * ~~Render upload log.~~
 #### Single Asset Component ####
-* Add invoice number to optionally add invoice # at later date.
-* Add "value" property to asset (base value from invoice numbers, to see depreciation value over life of units.)
 * Make all fields editable.
 * Add functionality for "move", "delete", and "edit"
+* ~~Add invoice number to optionally add invoice # at later date.~~
+* ~~Add "value" property to asset (base value from invoice numbers, to see depreciation value over life of units.)~~
 * ~~Delete requires confirmation.~~
 #### Notification Tracker ####
 * ~~Dashboard renders component with 5(?) latest "moves" with "view all" link at the bottom that will render a log of ALL moves.~~
 #### History Log ###
-* Make log sortable by date and date range.
 * Potentially find historical data by user, or filter by action taken.
-* Generate a key when creating a new historical log.
+* ~~Create a "history_log" table in the DB for storing history metadata.~~
+* ~~Make log sortable by date and date range.~~
+* ~~Generate a key when creating a new historical log.~~
 #### Navigation Guide (dropdowns) ####
 * Add navigation for "Rack" (Site, MDC, Rack, Shelf, Unit)
 * Add "Repairs, Storage, Retired" to Location dropdown.

@@ -11,8 +11,7 @@
     margin: 0 auto 0 auto;
     width: auto;
     background-color: rgb(19, 21, 26);
-    padding-right: 8%;
-    padding-left: 8%;
+    padding: 3% 8% 3% 8%;
 }
 
 .form-container label{
