@@ -1,9 +1,5 @@
 const BASE_URL = "http://localhost:5000/";
 
-/*TODO: Post request for Job Sites
-
-
-*/
 // FETCH ALL ASSETS TABLE //
 export async function getAllAssets() {
   try {
@@ -60,7 +56,6 @@ export async function deleteJobSite(id){
       method: "DELETE",
     });
     const jsonResponse = await response.json(); //json-ify readablestream data;
-    console.log(jsonResponse);
   } catch (e) {
     console.log(e, "Failed to fetch all assets.");
   }
