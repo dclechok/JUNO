@@ -32,7 +32,7 @@ export async function getJobSites() {
     const jsonResponse = await response.json(); //json-ify readablestream data
     if (jsonResponse) return jsonResponse;
   } catch (e) {
-    console.log(e, "Failed to fetch all assets.");
+    console.log(e, "Failed to fetch all job sites.");
   }
 }
 
@@ -50,7 +50,7 @@ export async function createJobSite(jobSite){
       console.log(jsonResponse);
     }
   } catch (e) {
-    console.log(e, "Failed to fetch post request.");
+    console.log(e, "Failed to post job sites.");
   }
 }
 
@@ -81,7 +81,7 @@ export async function createAsset(assets) {
       return jsonResponse;
     }
   } catch (e) {
-    console.log(e, "Failed to fetch post request.");
+    console.log(e, "Failed to post assets.");
   }
 }
 
@@ -97,7 +97,7 @@ export async function getHistory() {
     const jsonResponse = await response.json(); //json-ify readablestream data
     if (jsonResponse) return jsonResponse;
   } catch (e) {
-    console.log(e, "Failed to fetch all assets.");
+    console.log(e, "Failed to fetch all history.");
   }
 }
 
@@ -115,6 +115,6 @@ async function createHistory(historyLog){
     const jsonResponse = await response.json(); //json-ify readablestream data
     if (jsonResponse) return jsonResponse;
   } catch (e) {
-    console.log(e, "Failed to fetch all assets.");
+    console.log(e, "Failed to post history.");
   }
 }
