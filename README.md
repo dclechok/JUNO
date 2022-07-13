@@ -4,6 +4,7 @@
 ## Front-End ##
 ### TODO: General ###
 ----
+* Implement page system for longer lists!!!
 * Clean up CSS in general.
 * Reconfigure CORS (backend).
 * Add tooltip or display proper formatting for acceptable .csv files.
@@ -12,9 +13,7 @@
 * Create Users table for different accessibility (Username, Pass, Name, Email, Access Level).
 * Add access levels to various maintenance features.
 * Create front-page with 2-factor authentication.
-* Make navigation buttons differentiate with active/non-active styling.
 * Make the list sortable in reverse.
-
 
 ### TODO: Specific Features ###
 -----
@@ -22,31 +21,40 @@
 * Make asset lists have a page system as opposed to scroll.
 #### Bulk Upload ####
 * Check for duplicates in .csv file (from accidentally scanning device twice, etc.)
-* Style upload button and style containers.
+#### Single Upload ####
+* Implement server middleware specifically for individual asset upload cases (duplicates).
+#### Single Asset Component ####
+* Make all fields editable.
+* Add functionality for "move", "delete", and "edit"
+#### Notification Tracker ####
+* N/A
+#### History Log ###
+* Potentially find historical data by user, or filter by action taken.
+#### Navigation Guide (dropdowns) ####
+* Add navigation for "Rack" (Site, MDC, Rack, Shelf, Unit)
+* Add "Repairs, Storage, Retired" to Location dropdown.
+#### Admin Panel ####
+* Add manage users UI?
+* Make delete icon have an active styling.
+* Make component re-render upon deleting job site.
+
+
+#### Completed ####
+* ~~Style upload button and style containers.~~
 * ~~Remove API call from useEffect!!!!~~
 * ~~Create a log of upload success (500 assets added successfully, 88 fails - and reasons, etc.)~~
 * ~~Disable "upload" button after first submit.~~
 * ~~Render Successes/Failures.~~
 * ~~Make line numbering of successes dynamic in upload log.~~
-#### Single Upload ####
-* Implement server middleware specifically for individual asset upload cases (duplicates).
-* ~~Render upload log.~~
-#### Single Asset Component ####
-* Add invoice number to optionally add invoice # at later date.
-* Add "value" property to asset (base value from invoice numbers, to see depreciation value over life of units.)
-* Make all fields editable.
-* Add functionality for "move", "delete", and "edit"
+* ~~Add invoice number to optionally add invoice # at later date.~~
+* ~~Render upload log of metadata.~~
+* ~~Add "value" property to asset (base value from invoice numbers, to see depreciation value over life of units.)~~
 * ~~Delete requires confirmation.~~
-#### Notification Tracker ####
 * ~~Dashboard renders component with 5(?) latest "moves" with "view all" link at the bottom that will render a log of ALL moves.~~
-#### History Log ###
-* Make log sortable by date and date range.
-* Potentially find historical data by user, or filter by action taken.
-* Generate a key when creating a new historical log.
-#### Navigation Guide (dropdowns) ####
-* Add navigation for "Rack" (Site, MDC, Rack, Shelf, Unit)
-* Add "Repairs, Storage, Retired" to Location dropdown.
-#### Completed ####
+* ~~Make log sortable by date and date range.~~
+* ~~Generate a key when creating a new historical log.~~
+* ~~Create Manage Job Sites Component with delete, list capabilities of all job sites (with confirmation).~~
+* ~~Make navigation buttons differentiate with active/non-active styling.~~
 * ~~Fix bug where app will not load if asset lists are empty. (Either populate one item to be replaced, or change render conditions.)~~
 * ~~Added styled scrollbars.~~
 * ~~Add download .csv template to bulk upload component.~~
