@@ -1,5 +1,5 @@
 import './UploadAssets.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import BulkUpload from './BulkUpload.js';
 import SingleUpload from './SingleUpload.js';
 
@@ -7,26 +7,31 @@ function UploadAssets({ assetList, setLoadAssets, loadAssets }){
 
     const [toggleUpload, setToggleUpload] = useState('');
     const defaultButtonState = { 
-      singleUpload: "button-link button-link-font",
-      bulkUpload: "button-link button-link-font"
+      singleUpload: "button-link",
+      bulkUpload: "button-link"
     };
     const [buttonState, setButtonState] = useState(defaultButtonState);
 
     const onClickHandler = (e) => {
         const { id = '' } = e.currentTarget;
-        setButtonState({...defaultButtonState, [id]: "active-button-link button-link-font"});
+        setButtonState({...defaultButtonState, [id]: "active-button-link"});
         setToggleUpload(id);
     };
 
+    useEffect(() => {
+      setButtonState({...defaultButtonState, bulkUpload: "active-button-link"})
+      setToggleUpload("bulkUpload");
+    }, []);
+
     return(
-    <div className="single-asset-render">
+    <div className="single-asset-render admin-panel-container">
       <h1>Upload Assets</h1>
-        <header className="upload-options">
+      <header className="single-asset-header container-style center-header">
           <div>
-            <h2>[<button className={buttonState.bulkUpload} id="bulkUpload" onClick={onClickHandler}>Bulk Asset Upload</button>]</h2>
+            <span style={{color: "black"}}>[<button className={buttonState.bulkUpload} id="bulkUpload" onClick={onClickHandler}>Bulk Asset Upload</button>]</span>&nbsp;
           </div>
           <div>
-            <h2>[<button className={buttonState.singleUpload} id="singleUpload" onClick={onClickHandler}>Single Asset Upload</button>]</h2>
+          <span style={{color: "black"}}>[<button className={buttonState.singleUpload} id="singleUpload" onClick={onClickHandler}>Single Asset Upload</button>]</span>
           </div>
         </header>
 

@@ -29,6 +29,11 @@ main {
 }
 
 .login-container h3 {
+    font-size: 18px;
+}
+
+.login-container h4 {
+  font-weight: 300;
   font-size: 12px;
 }
 

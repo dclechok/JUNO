@@ -8,7 +8,7 @@ function Login(){
             JUN<span style={{ color: "rgb(255, 239, 138)" }}>O</span>
           </h1>
           <h3>Asset Management System</h3>
-          <h3>Powered by Mawson Infrastructure Group</h3>
+          <h4>Powered by Mawson Infrastructure Group</h4>
           <div className='login-form-container'>
           <h2>Sign In</h2>
           <form>
