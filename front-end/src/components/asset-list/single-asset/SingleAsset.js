@@ -9,8 +9,8 @@ import LoaderSpinner from "../../LoaderSpinner";
 
 //utils
 import dateFormatter from "../../../utils/dateFormatter.js";
-
-const BASE_URL = "http://localhost:5000/assets";
+import { getSingleAsset } from "../../../utils/api";
+import { deleteAsset } from '../../../utils/api';
 
 function SingleAsset({ loadSingleAsset, loadAssets, setLoadAssets }) {
   const [singleAsset, setSingleAsset] = useState("");
@@ -28,49 +28,25 @@ function SingleAsset({ loadSingleAsset, loadAssets, setLoadAssets }) {
 
   useEffect(() => {
     const abortController = new AbortController();
-
     async function grabSingleAsset() {
-      try {
-        const response = await fetch(BASE_URL + `/${asset_tag}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        const jsonResponse = await response.json(); //json-ify readablestream data
-        setSingleAsset([jsonResponse]); //this list will hold the entire list of asset data and will not be modified
-      } catch (e) {
-        console.log(e, "Failed to fetch all assets.");
-      }
+        setSingleAsset([await getSingleAsset(asset_tag)]); //this list will hold the entire list of asset data and will not be modified
     }
     grabSingleAsset();
     setButtonState({...defaultButtonState, info: "active-button-link"}); //default to our info component, make button active
     return () => abortController.abort;
   }, [loadSingleAsset]);
 
-  function deleteAsset(){
+  function deleteSingleAsset(){
     const abortController = new AbortController();
-    async function deleteSingleAsset(){
-
-    try {
-      const response = await fetch(BASE_URL + `/${asset_tag}`, {
-        method: "DELETE",
-      });
-      const jsonResponse = await response.json(); //json-ify readablestream data
-      if(jsonResponse) setLoadAssets(!loadAssets);
-    } catch (e) {
-      console.log(e, "Failed to fetch all assets.");
-    }
-  }
-  deleteSingleAsset();
-  return () => abortController.abort;
+    deleteAsset(asset_tag);
+    return () => abortController.abort;
   }
 
   const handleSubmit = (e) => {
     //sets toggle to render which of the 3 "pages" or edit/delete
     const { id } = e.currentTarget;
     e.preventDefault();
-    if(id === "delete") if(window.confirm(`This will permenantly delete the asset ${asset_tag} and all its history. Do you wish to proceed?`)) deleteAsset();
+    if(id === "delete") if(window.confirm(`This will permenantly delete the asset ${asset_tag} and all its history. Do you wish to proceed?`)) deleteSingleAsset();
     setButtonState({...defaultButtonState, [id]: "active-button-link"});
     setSingleAssetNav(e.currentTarget.id); //info, history, move, edit
   };

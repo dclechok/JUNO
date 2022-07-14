@@ -16,6 +16,32 @@ export async function getAllAssets() {
   }
 }
 
+export async function getSingleAsset(asset_tag){
+  try {
+    const response = await fetch(BASE_URL + `assets/${asset_tag}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const jsonResponse = await response.json(); //json-ify readablestream data
+    if (jsonResponse) return jsonResponse;
+  } catch (e) {
+    console.log(e, "Failed to fetch all assets.");
+  }
+}
+
+export async function deleteAsset(asset_tag){
+  try {
+    const response = await fetch(BASE_URL + `assets/${asset_tag}`, {
+      method: "DELETE",
+    });
+    const jsonResponse = await response.json(); //json-ify readablestream data
+    if (jsonResponse) return jsonResponse;
+  } catch (e) {
+    console.log(e, "Failed to fetch all assets.");
+  }
+}
 // FETCH JOB SITES TABLE //
 export async function getJobSites() {
   try {
