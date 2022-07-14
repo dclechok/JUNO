@@ -26,6 +26,7 @@ export async function getJobSites() {
       },
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
+    console.log(jsonResponse, 'get');
     if (jsonResponse) return jsonResponse;
   } catch (e) {
     console.log(e, "Failed to fetch all job sites.");
@@ -42,6 +43,7 @@ export async function createJobSite(jobSite){
       body: JSON.stringify({ data: jobSite })
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
+    console.log(jsonResponse, 'create');
     if (jsonResponse){ //if POST request was successful, create a log in
       console.log(jsonResponse);
     }
