@@ -46,7 +46,7 @@ export async function createJobSite(jobSite){
       console.log(jsonResponse);
     }
   } catch (e) {
-    console.log(e, "Failed to post job sites.");
+    console.log(e, "Failed to post job site.");
   }
 }
 
