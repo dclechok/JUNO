@@ -4,15 +4,14 @@ import { createJobSite } from '../../utils/api';
 
 function CreateSite(){
     const defaultJobSite = {
-        physical_site_name: '',
-        physical_site_loc: '',
-        created_by: 'Dan Lechok'
+        physical_site_name: "",
+        physical_site_loc: "",
+        created_by: "Dan Lechok"
     };
     const [newJobSite, setNewJobSite] = useState(defaultJobSite);
 
     const submitHandler = (e) => {
         e.preventDefault();
-        console.log(newJobSite);
         createJobSite(newJobSite);
     };
 
