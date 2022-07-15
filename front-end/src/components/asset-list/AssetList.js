@@ -130,21 +130,15 @@ function AssetList({
   };
 
   const handlePageChange = (e) => {
-    const { value } = e.currentTarget;
-    setPageNum(value);
+    const { value } = e.currentTarget;  
+    if(value <= Math.ceil((filteredAssetList.length / assetsPerPage)) && value >= 1) setPageNum(value);
   };
 
+  console.log(pageNum);
   const handleScroll = (e) => {
     const { id } = e.currentTarget;
     if(id === 'scroll-left' && pageNum >= 2) setPageNum(pageNum - 1);
     if(id === 'scroll-right' && pageNum <= Math.ceil((filteredAssetList.length / assetsPerPage) - 1)) setPageNum(pageNum + 1);
-  };
-  
-  const checkPageNum = (pageNum) => {
-    return (
-      pageNum >= 1 &&
-      pageNum <= Math.ceil(filteredAssetList.length / assetsPerPage)
-    );
   };
 
   return (
@@ -231,7 +225,6 @@ function AssetList({
                     </th>
                   </tr>
                   {filteredAssetList &&
-                    checkPageNum(pageNum) &&
                     listPages(filteredAssetList, pageNum).map(
                       (asset, index) =>
                         filteredAssetList.length !== 0 &&
