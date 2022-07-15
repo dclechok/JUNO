@@ -1,6 +1,8 @@
 import "./AssetList.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+//components
 import NavGuide from "../navigation/NavGuide.js";
 import AssetTracker from "./AssetTracker.js";
 import NotificationCenter from "../notification-center/NotificationCenter.js";
@@ -13,6 +15,11 @@ import { getJobSites } from "../../utils/api";
 import { getAllAssets } from "../../utils/api";
 import sortList from "../../utils/sortList";
 import renderLocation from "../../utils/renderLocation";
+import listPages from "../../utils/listPages";
+
+//images
+import scrollLeft from "../../images/scroll-left-icon.png";
+import scrollRight from "../../images/scroll-right-icon.png";
 
 function AssetList({
   assetList,
@@ -31,6 +38,8 @@ function AssetList({
   const [sortBy, setSortBy] = useState("asset_id"); //default sort list by JUNO id
   const [toggleSortReload, setToggleSortReload] = useState(false);
   const navigate = useNavigate();
+  const [pageNum, setPageNum] = useState(1);
+  const assetsPerPage = 5;
 
   useEffect(() => {
     //get list of all assets
@@ -119,111 +128,144 @@ function AssetList({
     setSortBy(e.currentTarget.id);
     setToggleSortReload(!toggleSortReload);
   };
+
+  const handlePageChange = (e) => {
+    const { value } = e.currentTarget;
+    setPageNum(value);
+  };
+
+  const checkPageNum = (pageNum) => {
+    return (
+      pageNum >= 1 &&
+      pageNum <= Math.ceil(filteredAssetList.length / assetsPerPage)
+    );
+  };
+
   return (
     <section>
-      {assetList && assetList.length !== 0 ? ( 
-      <>
-      <div className="inline-tracker-notifications">
-        
-        <NotificationCenter assetList={assetList} />
-        <AssetTracker
-          assetListValues={assetListValues}
-          formattedKey={formattedKey}
-        />
-      </div>
-      <div className="search-guide-list">
-        <div className="center-search-guide">
-          <Search
-            assetList={assetList}
-            setFilteredAssetList={setFilteredAssetList}
-          />
-          <NavGuide
-            navKey={navKey}
-            setNavKey={setNavKey}
-            formattedKey={formattedKey}
-            setFormattedKey={setFormattedKey}
-            setLoadAssets={setLoadAssets}
-            loadAssets={loadAssets}
-            filteredAssetList={filteredAssetList} //so we update Viewing when filtered asset list is rendered
-            jobSites={jobSites} //to populate our nav guide's job sites
-          />
+      {assetList && assetList.length !== 0 ? (
+        <>
+          <div className="inline-tracker-notifications">
+            <NotificationCenter assetList={assetList} />
+            <AssetTracker
+              assetListValues={assetListValues}
+              formattedKey={formattedKey}
+            />
+          </div>
+          <div className="search-guide-list">
+            <div className="center-search-guide">
+              <Search
+                assetList={assetList}
+                setFilteredAssetList={setFilteredAssetList}
+              />
+              <NavGuide
+                navKey={navKey}
+                setNavKey={setNavKey}
+                formattedKey={formattedKey}
+                setFormattedKey={setFormattedKey}
+                setLoadAssets={setLoadAssets}
+                loadAssets={loadAssets}
+                filteredAssetList={filteredAssetList} //so we update Viewing when filtered asset list is rendered
+                jobSites={jobSites} //to populate our nav guide's job sites
+              />
+            </div>
+            <div>
+              <div className="pages">
+                <img src={scrollLeft} />
+                <input
+                  className="page-numbers"
+                  type="text"
+                  value={pageNum}
+                  onChange={handlePageChange}
+                />
+                <p className="page-num-p">
+                  /{Math.ceil(filteredAssetList.length / assetsPerPage)}
+                </p>
+                <img src={scrollRight} />
+              </div>
+              <table>
+                <tbody>
+                  <tr>
+                    <th>
+                      <button id="asset_tag" onClick={sortButtonSubmit}>
+                        Asset Tag
+                      </button>
+                    </th>
+                    <th>
+                      <button id="site" onClick={sortButtonSubmit}>
+                        Site
+                      </button>
+                    </th>
+                    <th>IP</th>
+                    <th>Serial #</th>
+                    <th>
+                      <button id="make" onClick={sortButtonSubmit}>
+                        Make
+                      </button>
+                    </th>
+                    <th>
+                      <button id="model" onClick={sortButtonSubmit}>
+                        Model
+                      </button>
+                    </th>
+                    <th>
+                      <button id="hr" onClick={sortButtonSubmit}>
+                        Hash Rate
+                      </button>
+                    </th>
+                    <th>
+                      <button id="status" onClick={sortButtonSubmit}>
+                        Status
+                      </button>
+                    </th>
+                    <th>
+                      <button id="updated_at" onClick={sortButtonSubmit}>
+                        Last Updated
+                      </button>
+                    </th>
+                  </tr>
+                  {filteredAssetList &&
+                    checkPageNum(pageNum) &&
+                    listPages(filteredAssetList, pageNum).map(
+                      (asset, index) =>
+                        filteredAssetList.length !== 0 &&
+                        asset && (
+                          <tr key={index}>
+                            <td>
+                              <button
+                                className="asset-tag-button"
+                                id="asset-tag"
+                                value={asset.asset_tag}
+                                onClick={handleSubmitSingleAsset}
+                              >
+                                {asset.asset_tag}
+                              </button>
+                            </td>
+                            <td>{asset.location.site}</td>
+                            <td>
+                              {asset.location.site_loc === ""
+                                ? "Needs Verified"
+                                : renderLocation(asset)}
+                            </td>
+                            <td>{asset.serial_number}</td>
+                            <td>{asset.make}</td>
+                            <td>{asset.model}</td>
+                            <td>{asset.hr}</td>
+                            <td>{asset.status}</td>
+                            <td>{dateFormatter(asset.updated_at)}</td>
+                          </tr>
+                        ) //load asset component here
+                    )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="loading">
+          <LoaderSpinner />
         </div>
-        <table>
-          <tbody>
-                <tr>
-                  <th>
-                    <button id="asset_tag" onClick={sortButtonSubmit}>
-                      Asset Tag
-                    </button>
-                  </th>
-                  <th>
-                    <button id="site" onClick={sortButtonSubmit}>
-                      Site
-                    </button>
-                  </th>
-                  <th>IP</th>
-                  <th>Serial #</th>
-                  <th>
-                    <button id="make" onClick={sortButtonSubmit}>
-                      Make
-                    </button>
-                  </th>
-                  <th>
-                    <button id="model" onClick={sortButtonSubmit}>
-                      Model
-                    </button>
-                  </th>
-                  <th>
-                    <button id="hr" onClick={sortButtonSubmit}>
-                      Hash Rate
-                    </button>
-                  </th>
-                  <th>
-                    <button id="status" onClick={sortButtonSubmit}>
-                      Status
-                    </button>
-                  </th>
-                  <th>
-                    <button id="updated_at" onClick={sortButtonSubmit}>
-                      Last Updated
-                    </button>
-                  </th>
-                </tr>
-              {filteredAssetList && 
-                filteredAssetList.map(
-                  (asset, index) =>
-                    filteredAssetList.length !== 0 &&
-                    asset && (
-                      <tr key={index}>
-                        <td>
-                          <button
-                            className="asset-tag-button"
-                            id="asset-tag"
-                            value={asset.asset_tag}
-                            onClick={handleSubmitSingleAsset}
-                          >
-                            {asset.asset_tag}
-                          </button>
-                        </td>
-                        <td>{asset.location.site}</td>
-                        <td>
-                          {asset.location.site_loc === ""
-                            ? "Needs Verified"
-                            : renderLocation(asset)}
-                        </td>
-                        <td>{asset.serial_number}</td>
-                        <td>{asset.make}</td>
-                        <td>{asset.model}</td>
-                        <td>{asset.hr}</td>
-                        <td>{asset.status}</td>
-                        <td>{dateFormatter(asset.updated_at)}</td>
-                      </tr>
-                    ) //load asset component here
-                ) }           
-          </tbody>
-        </table>
-      </div>
-      </>) : <div className="loading"><LoaderSpinner /></div>}
+      )}
     </section>
   );
 }

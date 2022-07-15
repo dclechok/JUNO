@@ -7,13 +7,6 @@ section{
     align-items: flex-start;
 }
 
-.table-body-scroll::-webkit-scrollbar-thumb{
-    /* background-color: rgb(145, 151, 170); */
-    background-color: rgb(64, 78, 97);
-    width: 8px;
-    border-radius: 4px 4px 4px 4px;
-}
-
 .inline-tracker-notifications{
     margin-right: 2%;
     padding: 0;
@@ -107,3 +100,29 @@ th button:hover{
     text-align: center;
     color: white;
   }
+
+  .pages{
+    display: flex;
+    justify-content: center;
+    margin-left: 53%;
+    width: 500px;
+    font-size: 12px;
+
+  }
+
+  .pages img{
+    width: 20px;
+  }
+
+  .page-numbers{
+    max-width: 40px;
+    margin-left: 20px;
+    margin-right: 6px;
+    text-align: center;
+  }
+
+  .page-num-p{
+    color: white;
+    font-size: 18px;
+    margin-right: 20px;
+}
