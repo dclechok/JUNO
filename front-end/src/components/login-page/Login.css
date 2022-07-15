@@ -40,7 +40,7 @@ main {
 .login-form-container {
   display: block;
   min-height: 300px;
-  min-width: 250px;
+  min-width: 350px;
   text-align: left;
   background-color: rgb(132, 140, 162);
   padding: 4%;
@@ -73,6 +73,7 @@ main {
   width: 95%;
   background-color: rgb(255, 255, 255);
   color: black;
+  border-radius: 6px;
 }
 
 .signin-button{
@@ -88,6 +89,23 @@ main {
     background-color: #30364e;
     border: none;
     padding: 4%;
-    /* width: 80px; */
     color: white;
 }
+
+.signin-button button:hover{
+  background-color: #4d577a;
+}
+.signin-button button:active{
+  background-color: #26282f;
+}
+
+.title-header{
+  width: 400px;
+}
+
+.login-header{
+  width: auto;
+  text-align: center;
+  margin-bottom: 5%;
+}
+

@@ -134,7 +134,6 @@ export async function getHistory() {
 
 // CREATE A NEW GENERALIZED HISTORY LOG
 async function createHistory(historyLog){
-  console.log(historyLog);
   try {
     const response = await fetch(BASE_URL + "history_log", {
       method: "POST",
@@ -142,6 +141,40 @@ async function createHistory(historyLog){
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ data: historyLog })
+    });
+    const jsonResponse = await response.json(); //json-ify readablestream data
+    if (jsonResponse) return jsonResponse;
+  } catch (e) {
+    console.log(e, "Failed to post history.");
+  }
+}
+
+
+// USERS
+export async function getUsers() {
+  try {
+    const response = await fetch(BASE_URL + "users", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const jsonResponse = await response.json(); //json-ify readablestream data
+    
+    return jsonResponse;
+  } catch (e) {
+    console.log(e, "Failed to fetch all history.");
+  }
+}
+
+export async function createUser(user) {
+  try {
+    const response = await fetch(BASE_URL + "users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ data: user })
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
     if (jsonResponse) return jsonResponse;
