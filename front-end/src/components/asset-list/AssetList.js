@@ -39,6 +39,7 @@ function AssetList({
   const [toggleSortReload, setToggleSortReload] = useState(false);
   const navigate = useNavigate();
   const [pageNum, setPageNum] = useState(1);
+  const [pageVal, setPageVal] = useState(1);
   const assetsPerPage = 5;
 
   useEffect(() => {
@@ -129,16 +130,15 @@ function AssetList({
     setToggleSortReload(!toggleSortReload);
   };
 
-  const handlePageChange = (e) => {
-    const { value } = e.currentTarget;  
-    if(value <= Math.ceil((filteredAssetList.length / assetsPerPage)) && value >= 1) setPageNum(value);
+  const handleSelect = (e) => {
+    const { value } = e.currentTarget;
+    setPageNum(value);
   };
 
-  console.log(pageNum);
   const handleScroll = (e) => {
     const { id } = e.currentTarget;
-    if(id === 'scroll-left' && pageNum >= 2) setPageNum(pageNum - 1);
-    if(id === 'scroll-right' && pageNum <= Math.ceil((filteredAssetList.length / assetsPerPage) - 1)) setPageNum(pageNum + 1);
+    if(id === 'scroll-left' && pageNum >= 2 ) setPageNum(Number(pageNum) - 1);
+    if(id === 'scroll-right' && pageNum <= Math.ceil((filteredAssetList.length / assetsPerPage) - 1)) setPageNum(Number(pageNum) + 1);
   };
 
   return (
@@ -172,12 +172,12 @@ function AssetList({
             <div>
               <div className="pages">
                 <button className="image-button" id="scroll-left" onClick={handleScroll}><img src={scrollLeft} /></button>
-                <input
-                  className="page-numbers"
-                  type="text"
-                  value={pageNum}
-                  onChange={handlePageChange}
-                />
+                {filteredAssetList &&
+                <select className="page-numbers" value={pageNum} onChange={handleSelect}>
+                  {Array.from(Array(Math.ceil(filteredAssetList.length / assetsPerPage))).map((page, key) => {
+                    return <option key={key + 1}>{key + 1}</option>
+                  })}
+                </select>}
                 <p className="page-num-p">
                   /{Math.ceil(filteredAssetList.length / assetsPerPage)}
                 </p>
@@ -224,7 +224,7 @@ function AssetList({
                       </button>
                     </th>
                   </tr>
-                  {filteredAssetList &&
+                  {filteredAssetList && listPages(filteredAssetList, pageNum) &&
                     listPages(filteredAssetList, pageNum).map(
                       (asset, index) =>
                         filteredAssetList.length !== 0 &&

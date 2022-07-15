@@ -27,7 +27,7 @@ function ManageJobSites() {
   return (
     <>
       <div className="sub-manage">
-        <span style={{color: 'black'}}>[<button className={buttonState.view} id="view" onClick={handleClick}>View Sites</button>]</span>
+        <span style={{color: 'black'}}>[<button className={buttonState.view} id="view" onClick={handleClick}>View Sites</button>]</span>&nbsp;
         <span style={{color: 'black'}}>[<button className={buttonState.create} id="create" onClick={handleClick}>Create Site</button>]</span>
       </div>
       {viewOrCreate === "view" && <ViewSites />}
