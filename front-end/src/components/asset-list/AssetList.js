@@ -134,6 +134,12 @@ function AssetList({
     setPageNum(value);
   };
 
+  const handleScroll = (e) => {
+    const { id } = e.currentTarget;
+    if(id === 'scroll-left' && pageNum >= 2) setPageNum(pageNum - 1);
+    if(id === 'scroll-right' && pageNum <= Math.ceil((filteredAssetList.length / assetsPerPage) - 1)) setPageNum(pageNum + 1);
+  };
+  
   const checkPageNum = (pageNum) => {
     return (
       pageNum >= 1 &&
@@ -171,7 +177,7 @@ function AssetList({
             </div>
             <div>
               <div className="pages">
-                <img src={scrollLeft} />
+                <button className="image-button" id="scroll-left" onClick={handleScroll}><img src={scrollLeft} /></button>
                 <input
                   className="page-numbers"
                   type="text"
@@ -181,7 +187,7 @@ function AssetList({
                 <p className="page-num-p">
                   /{Math.ceil(filteredAssetList.length / assetsPerPage)}
                 </p>
-                <img src={scrollRight} />
+                <button className="image-button" id="scroll-right" onClick={handleScroll}><img src={scrollRight} /></button>
               </div>
               <table>
                 <tbody>

@@ -126,3 +126,8 @@ th button:hover{
     font-size: 18px;
     margin-right: 20px;
 }
+
+.pages button{
+    background-color: rgb(14, 14, 15);
+    border-radius: 8px;
+}
