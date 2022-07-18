@@ -21,27 +21,29 @@
 * Make asset lists have a page system as opposed to scroll.
 #### Bulk Upload ####
 * Check for duplicates in .csv file (from accidentally scanning device twice, etc.)
+* Do not allow uploads if job sites in .csv do not exist!
 #### Single Upload ####
 * Implement server middleware specifically for individual asset upload cases (duplicates).
 #### Single Asset Component ####
 * Make all fields editable.
 * Add functionality for "move", "delete", and "edit"
 #### Notification Tracker ####
-* N/A
+* Bug: Do not update notification tracker if uploads/actions failed.
 #### History Log ###
 * Potentially find historical data by user, or filter by action taken.
+* Add ability to delete a history log (via Admin).
 #### Navigation Guide (dropdowns) ####
 * Add navigation for "Rack" (Site, MDC, Rack, Shelf, Unit)
 * Add "Repairs, Storage, Retired" to Location dropdown.
 #### Admin Panel ####
 * Add manage users UI?
-* Make delete icon have an active styling.
+* ~~Make delete icon have an active styling.~~
 * Make component re-render upon deleting job site.
 
 
 #### Completed ####
 * ~~Style upload button and style containers.~~
-* ~~Remove API call from useEffect!!!!~~
+* ~~Remove API calls from useEffect!!!!~~
 * ~~Create a log of upload success (500 assets added successfully, 88 fails - and reasons, etc.)~~
 * ~~Disable "upload" button after first submit.~~
 * ~~Render Successes/Failures.~~

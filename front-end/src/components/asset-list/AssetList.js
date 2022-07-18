@@ -146,7 +146,7 @@ function AssetList({
     const { id } = e.currentTarget;
     if(id === "logout"){ //clear local storage, redirect to entrypoint
       if(window.confirm('Do you wish to logout?')){
-        localStorage.clear();
+        sessionStorage.clear();
         setAccountLogged(null);
         navigate('/');
       }
