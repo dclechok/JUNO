@@ -25,7 +25,7 @@ function Login({ accountLogged, setAccountLogged }) {
     }
     loadUsers();
     return abortController.abort();
-  }, []);
+  }, [setCreateAdmin, createAdmin]);
 
   useEffect(() => {
     if (users) {
@@ -44,13 +44,14 @@ function Login({ accountLogged, setAccountLogged }) {
     setUser({...user, [id]: value })
   };
 
-  const handleClick = () => {
+  const handleClick = async (e) => {
+    e.preventDefault();
     const foundAcct = users.filter(acct => acct.username === user.username);
     if(foundAcct && foundAcct.length !== 0){
       if(bcrypt.compareSync(user.hash, foundAcct[0].hash)) //passwords hash compare is good
       {
         sessionStorage.setItem('acctLogged',  JSON.stringify({logged: true, account: foundAcct}));
-        setAccountLogged(JSON.parse(sessionStorage.getItem('acctLogged')));
+        await setAccountLogged(JSON.parse(sessionStorage.getItem('acctLogged')));
       }
     }
   };
