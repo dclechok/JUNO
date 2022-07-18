@@ -49,8 +49,8 @@ function Login({ accountLogged, setAccountLogged }) {
     if(foundAcct && foundAcct.length !== 0){
       if(bcrypt.compareSync(user.hash, foundAcct[0].hash)) //passwords hash compare is good
       {
-        localStorage.setItem('acctLogged',  JSON.stringify({logged: true, account: foundAcct}));
-        setAccountLogged(JSON.parse(localStorage.getItem('acctLogged')));
+        sessionStorage.setItem('acctLogged',  JSON.stringify({logged: true, account: foundAcct}));
+        setAccountLogged(JSON.parse(sessionStorage.getItem('acctLogged')));
       }
     }
   };
