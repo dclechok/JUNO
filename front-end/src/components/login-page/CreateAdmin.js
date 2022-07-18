@@ -29,10 +29,11 @@ function CreateAdmin({ setCreateAdmin }) {
     createNewAdmin();
 
   };
+  
   useEffect(() => {
     if(newAdmin) setCreateAdmin(false);
   }, [setNewAdmin, newAdmin]);
-  console.log(newAdmin);
+
   return (
     <>
       <div className="login-header">
@@ -87,7 +88,7 @@ function CreateAdmin({ setCreateAdmin }) {
           value={userData.name}
         />
         <div className="signin-button">
-          <button className="create-admin" type="submit">
+          <button type="submit">
             Create
           </button>
         </div>

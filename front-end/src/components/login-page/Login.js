@@ -7,9 +7,16 @@ import CreateAdmin from "./CreateAdmin";
 //utils
 import { getUsers } from "../../utils/api";
 
-function Login() {
+const bcrypt = require("bcryptjs");
+
+function Login({ accountLogged, setAccountLogged }) {
   const [users, setUsers] = useState(null);
   const [createAdmin, setCreateAdmin] = useState(false);
+  const defaultUser = {
+    username: "",
+    hash: "",
+  };
+  const [user, setUser] = useState(defaultUser);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -32,6 +39,27 @@ function Login() {
     }
   }, [users, setUsers]);
 
+  const handleChange = (e) => {
+    const { id, value } = e.currentTarget;
+    setUser({...user, [id]: value })
+  };
+
+  const handleClick = () => {
+    const foundAcct = users.filter(acct => acct.username === user.username);
+    if(foundAcct && foundAcct.length !== 0){
+      if(bcrypt.compareSync(user.hash, foundAcct[0].hash)) //passwords hash compare is good
+      {
+        localStorage.setItem('acctLogged',  JSON.stringify({logged: true, account: foundAcct}));
+        setAccountLogged(JSON.parse(localStorage.getItem('acctLogged')));
+      }
+    }
+  };
+
+  //login with 'enter' key press on form
+  const handleKeyPress = (e) => {
+    if(e.keyCode === 13) handleClick();
+  }
+
   return (
     <main>
       <div className="login-container">
@@ -48,21 +76,21 @@ function Login() {
           ) : (
             <>
               <h2>Sign In</h2>
-              <form>
-                <label htmlFor="user">Username</label>
+              <form onKeyPress={handleKeyPress}>
+                <label htmlFor="username">Username</label>
                 <br />
                 <br />
-                <input id="user" type="text" />
+                <input id="username" type="text" onChange={handleChange} value={user.username}/>
                 <br />
                 <br />
                 <label htmlFor="pass">Password</label>
                 <br />
                 <br />
-                <input id="pass" type="password" />
-              </form>
-              <div className="signin-button">
-                <button>Login</button>
+                <input id="hash" type="password" onChange={handleChange} value={user.hash} />
+                <div className="signin-button">
+                <button type="submit" onClick={handleClick}>Login</button>
               </div>
+              </form>
             </>
           )}
         </div>

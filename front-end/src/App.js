@@ -2,6 +2,7 @@ import "./App.css";
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 //components
+import Login from './components/login-page/Login';
 import Nav from "./components/navigation/Nav.js";
 import AssetList from "./components/asset-list/AssetList.js";
 import SingleAsset from "./components/asset-list/single-asset/SingleAsset.js";
@@ -17,6 +18,7 @@ import { getAllAssets } from "./utils/api";
 
 
 function App() {
+  const [accountLogged, setAccountLogged] = useState({ logged: false, account: {} });
   const [loadAssets, setLoadAssets] = useState(false);
   const [loadSingleAsset, setLoadSingleAsset] = useState(""); //toggle to load single page, or load main list (read/list)
   const [assetList, setAssetList] = useState(""); //holds the loaded list of assets in state
@@ -49,9 +51,13 @@ function App() {
     getAssets();
   }, []);
 
+  useEffect(() => {
+    setAccountLogged(JSON.parse(localStorage.getItem('acctLogged')));
+  }, []);
+
   return (
     <div className="App">
-      
+      {accountLogged && accountLogged.logged ?  
       <Router>
       <Nav setLoadAssets={setLoadAssets} loadAssets={loadAssets} />
 
@@ -61,6 +67,8 @@ function App() {
                 path="/"
                 element={
                   <AssetList
+                    accountLogged={accountLogged}
+                    setAccountLogged={setAccountLogged}
                     assetList={assetList}
                     setAssetList={setAssetList}
                     filteredAssetList={filteredAssetList}
@@ -95,6 +103,7 @@ function App() {
             </Routes>
             
       </Router>
+      : <Login accountLogged={accountLogged} setAccountLogged={setAccountLogged} />}
       <Footer />
     </div>
   );

@@ -33,13 +33,14 @@ function AssetList({
   setLoadAssets,
   loadAssets,
   assetListValues,
+  accountLogged,
+  setAccountLogged
 }) {
   const [jobSites, setJobSites] = useState();
   const [sortBy, setSortBy] = useState("asset_id"); //default sort list by JUNO id
   const [toggleSortReload, setToggleSortReload] = useState(false);
   const navigate = useNavigate();
   const [pageNum, setPageNum] = useState(1);
-  const [pageVal, setPageVal] = useState(1);
   const assetsPerPage = 5;
 
   useEffect(() => {
@@ -141,10 +142,24 @@ function AssetList({
     if(id === 'scroll-right' && pageNum <= Math.ceil((filteredAssetList.length / assetsPerPage) - 1)) setPageNum(Number(pageNum) + 1);
   };
 
+  const handleLogout = (e) => {
+    const { id } = e.currentTarget;
+    if(id === "logout"){ //clear local storage, redirect to entrypoint
+      if(window.confirm('Do you wish to logout?')){
+        localStorage.clear();
+        setAccountLogged(null);
+        navigate('/');
+      }
+    }
+  };
+
   return (
     <section>
       {assetList && assetList.length !== 0 ? (
         <>
+        <div>
+          <p className="logged-in"> <button className="button-link">{accountLogged.account[0].username}</button> / <button className="button-link" id="logout" onClick={handleLogout}>logout</button></p>
+        </div>
           <div className="inline-tracker-notifications">
             <NotificationCenter assetList={assetList} />
             <AssetTracker

@@ -59,6 +59,7 @@ function Nav({ setLoadAssets, loadAssets }) {
             <img alt="logo" src={logoTwo} />
           </a>
         </div>
+      
       </nav>
     </div>
   );
