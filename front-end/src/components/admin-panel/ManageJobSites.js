@@ -5,8 +5,7 @@ import { useState, useEffect } from "react";
 import ViewSites from "./ViewSites";
 import CreateSite from './CreateSite';
 
-function ManageJobSites() {
-
+function ManageJobSites({ accountLogged }) {
   const defaultButtonState = {
     view: "button-link",
     create: "button-link"
@@ -31,7 +30,7 @@ function ManageJobSites() {
         <span style={{color: 'black'}}>[<button className={buttonState.create} id="create" onClick={handleClick}>Create Site</button>]</span>
       </div>
       {viewOrCreate === "view" && <ViewSites />}
-      {viewOrCreate === "create" && <CreateSite />}
+      {viewOrCreate === "create" && <CreateSite accountLogged={accountLogged}/>}
     </>
   );
 }

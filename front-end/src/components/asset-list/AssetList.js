@@ -142,24 +142,13 @@ function AssetList({
     if(id === 'scroll-right' && pageNum <= Math.ceil((filteredAssetList.length / assetsPerPage) - 1)) setPageNum(Number(pageNum) + 1);
   };
 
-  const handleLogout = (e) => {
-    const { id } = e.currentTarget;
-    if(id === "logout"){ //clear local storage, redirect to entrypoint
-      if(window.confirm('Do you wish to logout?')){
-        localStorage.clear();
-        setAccountLogged(null);
-        navigate('/');
-      }
-    }
-  };
+
 
   return (
     <section>
       {JSON.parse(localStorage.getItem('acctLogged')).logged && assetList && assetList.length !== 0 ? (
         <>
-        <div>
-          <p className="logged-in"> <button className="button-link">{accountLogged.account[0].username}</button> / <button className="button-link" id="logout" onClick={handleLogout}>logout</button></p>
-        </div>
+
           <div className="inline-tracker-notifications">
             <NotificationCenter assetList={assetList} />
             <AssetTracker

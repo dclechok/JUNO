@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import BulkUpload from './BulkUpload.js';
 import SingleUpload from './SingleUpload.js';
 
-function UploadAssets({ assetList, setLoadAssets, loadAssets }){
+function UploadAssets({ assetList, setLoadAssets, loadAssets, accountLogged }){
 
     const [toggleUpload, setToggleUpload] = useState('');
     const defaultButtonState = { 
@@ -35,8 +35,8 @@ function UploadAssets({ assetList, setLoadAssets, loadAssets }){
           </div>
         </header>
 
-        {toggleUpload === 'bulkUpload' && <BulkUpload assetList={assetList} setLoadAssets={setLoadAssets} loadAssets={loadAssets} />}
-        {toggleUpload === 'singleUpload' && <SingleUpload assetList={assetList} setLoadAssets={setLoadAssets} loadAssets={loadAssets} />}
+        {toggleUpload === 'bulkUpload' && <BulkUpload assetList={assetList} setLoadAssets={setLoadAssets} loadAssets={loadAssets} accountLogged={accountLogged} />}
+        {toggleUpload === 'singleUpload' && <SingleUpload assetList={assetList} setLoadAssets={setLoadAssets} loadAssets={loadAssets} accountLogged={accountLogged} />}
         </div>
       )
 }

@@ -1,0 +1,9 @@
+.logged-in{
+    display: block;
+    color: white;
+    top: 50px;
+    position: fixed;
+    margin: auto;
+    text-align: right;
+    width: 98%;
+}

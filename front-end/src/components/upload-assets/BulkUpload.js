@@ -8,11 +8,8 @@ import validateBulkUpload from "../../utils/validateBulkUpload";
 import UploadSuccess from "./UploadSuccess";
 
 import uploadTemplate from "../../downloads/upload-template.csv";
-/*
-  TODO:
-  -styling of "upload" button
-*/
-function BulkUpload({ assetList, setLoadAssets, loadAssets }) {
+
+function BulkUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
   const [selectedFile, setSelectedFile] = useState();
   const [loadSuccessLog, setLoadSuccessLog] = useState(false);
   const [stateAssets, setStateAssets] = useState([]);
@@ -35,7 +32,7 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets }) {
             parsedAssets = results.data.splice(0, results.data.length - 1);
             // setParsedAssets(results.data.splice(0, results.data.length - 1)); //last entry is blank/invalid
             if (parsedAssets && parsedAssets.length !== 0)
-              formattedAssets = validateBulkUpload(assetList, parsedAssets); //HANDLE ALL FORMATTING AND VALIDATION!
+              formattedAssets = validateBulkUpload(assetList, parsedAssets, accountLogged); //HANDLE ALL FORMATTING AND VALIDATION!
             setStateAssets(formattedAssets);
             async function createNewAsset(newAssetList) {
               if (newAssetList.length !== 0) {

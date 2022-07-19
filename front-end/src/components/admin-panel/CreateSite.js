@@ -4,28 +4,31 @@ import { useState } from "react";
 import generateHistoryKey from "../../utils/generateHistoryKey";
 import { createJobSite } from "../../utils/api";
 
-function CreateSite() {
+function CreateSite({ accountLogged }) {
   const action_date = new Date();
   const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
 
   const defaultJobSite = {
     physical_site_name: "",
     physical_site_loc: "",
-    created_by: "Dan Lechok",
+    created_by: accountLogged.account[0].name,
     history: {
       action_date: action_date,
       action_taken: "Create Job Site",
-      action_by: "Dan Lechok", //this will eventually be dynamically loaded from user that is logged in the current state of the app
+      action_by: accountLogged.account[0].name,
+      action_by_id: accountLogged.account[0].user_id,
       action_comment: "Initial Upload",
       action_key: newHistoryKey //generate unique history key ("action_key")
-
     },
   };
   const [newJobSite, setNewJobSite] = useState(defaultJobSite);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    createJobSite(newJobSite);
+    async function createNewJobSite(){
+      createJobSite(newJobSite);
+    }
+    createNewJobSite();
   };
 
   const changeHandler = (e) => {

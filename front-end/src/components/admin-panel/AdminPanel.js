@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 //components
 import ManageJobSites from "./ManageJobSites";
 
-function AdminPanel() {
+function AdminPanel({ accountLogged }) {
   const defaultButtonState = {
     manageUsers: "button-link",
     manageJobSites: "button-link",
@@ -55,7 +55,7 @@ function AdminPanel() {
         </div>
       </header>
       <section className="container-style management-body">
-        {renderPage === "manageJobSites" && <ManageJobSites />}
+        {renderPage === "manageJobSites" && <ManageJobSites accountLogged={accountLogged} />}
       </section>
     </div>
   );

@@ -1,6 +1,6 @@
 import generateHistoryKey from "./generateHistoryKey";
 
-function validateBulkUpload(assetList, parsedAssets) {
+function validateBulkUpload(assetList, parsedAssets, accountLogged) {
   const rejectionList = [];
   const newAssetList = [];
 
@@ -11,7 +11,8 @@ function validateBulkUpload(assetList, parsedAssets) {
       return existingAsset.serial_number === asset[1];
     });
   };
-  //check for 6 headers: asset tag, location, status, serial_number, make, model, hr
+  //check for 6 headers: asset tag, location, status, serial_number, make, model, hr\
+
   if (
     parsedAssets[0][0].toLowerCase() === "location" &&
     parsedAssets[0][1].toLowerCase() === "serial #" &&
@@ -57,7 +58,8 @@ function validateBulkUpload(assetList, parsedAssets) {
               history: {
                 action_date: action_date,
                 action_taken: "Bulk Upload",
-                action_by: "Dan Lechok",
+                action_by: accountLogged.account[0].name,
+                action_by_id: accountLogged.account[0].user_id,
                 action_comment: "Initial Upload",
                 action_key: newHistoryKey,
               },

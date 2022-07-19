@@ -1,8 +1,13 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
 //components
-import Login from './components/login-page/Login';
+import Login from "./components/login-page/Login";
+import LoginBar from "./components/login-page/LoginBar";
 import Nav from "./components/navigation/Nav.js";
 import AssetList from "./components/asset-list/AssetList.js";
 import SingleAsset from "./components/asset-list/single-asset/SingleAsset.js";
@@ -16,9 +21,11 @@ import Footer from "./Footer.js";
 import calculateValues from "./utils/calculateValues";
 import { getAllAssets } from "./utils/api";
 
-
 function App() {
-  const [accountLogged, setAccountLogged] = useState({ logged: false, account: {} });
+  const [accountLogged, setAccountLogged] = useState({
+    logged: false,
+    account: {},
+  });
   const [loadAssets, setLoadAssets] = useState(false);
   const [loadSingleAsset, setLoadSingleAsset] = useState(""); //toggle to load single page, or load main list (read/list)
   const [assetList, setAssetList] = useState(""); //holds the loaded list of assets in state
@@ -53,58 +60,100 @@ function App() {
   }, []);
 
   useEffect(() => {
-    setAccountLogged(JSON.parse(localStorage.getItem('acctLogged')));
+    setAccountLogged(JSON.parse(localStorage.getItem("acctLogged")));
   }, []);
 
   return (
     <div className="App">
-      {accountLogged && accountLogged.logged ?  
-      <Router>
-      <Nav setLoadAssets={setLoadAssets} loadAssets={loadAssets} />
+      {accountLogged && accountLogged.logged ? (
+        <Router>
+          <Nav setLoadAssets={setLoadAssets} loadAssets={loadAssets} />
+          <LoginBar
+              accountLogged={accountLogged}
+              setAccountLogged={setAccountLogged}
+            />
+          <Routes>
 
-            <Routes>
-              <Route
-                exact
-                path="/"
-                element={
-                  <AssetList
-                    accountLogged={accountLogged}
-                    setAccountLogged={setAccountLogged}
-                    assetList={assetList}
-                    setAssetList={setAssetList}
-                    filteredAssetList={filteredAssetList}
-                    setFilteredAssetList={setFilteredAssetList}
-                    navKey={navKey}
-                    setNavKey={setNavKey}
-                    formattedKey={formattedKey}
-                    setFormattedKey={setFormattedKey}
-                    setLoadAssets={setLoadAssets} //for toggling loading/filtering of assets
-                    loadAssets={loadAssets}
-                    assetListValues={assetListValues}
-                    loadSingleAsset={loadSingleAsset} //for rendering single asset component
-                    setLoadSingleAsset={setLoadSingleAsset}
-                  />
-                }
-              ></Route>
-              <Route exact path="/:asset_tag" element={<SingleAsset loadAssets={loadAssets} setLoadAssets={setLoadAssets} assetList={assetList} />}></Route>
-              <Route
-                exact
-                path="/import-assets"
-                element={
-                  <UploadAssets
-                    assetList={assetList}
-                    setLoadAssets={setLoadAssets}
-                    loadAssets={loadAssets}
-                  />
-                }
-              ></Route>
-              <Route exact path="/admin-panel" element={<AdminPanel />}></Route>
-              <Route exact path="/history" element={<HistoryList resetDatePicker={resetDatePicker} setResetDatePicker={setResetDatePicker} setSearchHistoryType={setSearchHistoryType} />}></Route>
-              <Route exact path="/history/:history_key" element={<SingleHistory assetList={assetList} searchHistoryType={searchHistoryType} />}></Route>
-            </Routes>
-            
-      </Router>
-      : <Login accountLogged={accountLogged} setAccountLogged={setAccountLogged} />}
+            <Route
+              exact
+              path="/"
+              element={
+                <AssetList
+                  accountLogged={accountLogged}
+                  setAccountLogged={setAccountLogged}
+                  assetList={assetList}
+                  setAssetList={setAssetList}
+                  filteredAssetList={filteredAssetList}
+                  setFilteredAssetList={setFilteredAssetList}
+                  navKey={navKey}
+                  setNavKey={setNavKey}
+                  formattedKey={formattedKey}
+                  setFormattedKey={setFormattedKey}
+                  setLoadAssets={setLoadAssets} //for toggling loading/filtering of assets
+                  loadAssets={loadAssets}
+                  assetListValues={assetListValues}
+                  loadSingleAsset={loadSingleAsset} //for rendering single asset component
+                  setLoadSingleAsset={setLoadSingleAsset}
+                />
+              }
+            ></Route>
+            <Route
+              exact
+              path="/:asset_tag"
+              element={
+                <SingleAsset
+                  loadAssets={loadAssets}
+                  setLoadAssets={setLoadAssets}
+                  assetList={assetList}
+                />
+              }
+            ></Route>
+            <Route
+              exact
+              path="/import-assets"
+              element={
+                <UploadAssets
+                  assetList={assetList}
+                  setLoadAssets={setLoadAssets}
+                  loadAssets={loadAssets}
+                  accountLogged={accountLogged}
+                />
+              }
+            ></Route>
+            <Route
+              exact
+              path="/admin-panel"
+              element={<AdminPanel accountLogged={accountLogged} />}
+            ></Route>
+            <Route
+              exact
+              path="/history"
+              element={
+                <HistoryList
+                  resetDatePicker={resetDatePicker}
+                  setResetDatePicker={setResetDatePicker}
+                  setSearchHistoryType={setSearchHistoryType}
+                />
+              }
+            ></Route>
+            <Route
+              exact
+              path="/history/:history_key"
+              element={
+                <SingleHistory
+                  assetList={assetList}
+                  searchHistoryType={searchHistoryType}
+                />
+              }
+            ></Route>
+          </Routes>
+        </Router>
+      ) : (
+        <Login
+          accountLogged={accountLogged}
+          setAccountLogged={setAccountLogged}
+        />
+      )}
       <Footer />
     </div>
   );

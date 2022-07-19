@@ -11,7 +11,7 @@ import { createAsset } from "../../utils/api.js";
 import { getJobSites } from "../../utils/api.js";
 import validateSingleUpload from "../../utils/validateSingleUpload.js";
 
-function SingleUpload({ assetList, setLoadAssets, loadAssets }) {
+function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
   const [jobSites, setJobSites] = useState([]);
   const [locationSelect, setLocationSelect] = useState("All Locations");
   const [logItem, setLogItem] = useState();
@@ -42,7 +42,6 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets }) {
     const { value, id } = e.currentTarget;
     setAssetFields({ ...assetFields, [id]: value });
   };
-
   const submitHandler = (e) => {
     e.preventDefault();
     acceptOrReject = validateSingleUpload(assetFields, assetList);
@@ -60,7 +59,8 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets }) {
               history: {
                 action_date: action_date,
                 action_taken: "Single Upload", 
-                action_by: "Dan Lechok", //this will eventually be dynamically loaded from user that is logged in the current state of the app
+                action_by: accountLogged.account[0].name,
+                action_by_id: accountLogged.account[0].user_id,
                 action_comment: "Initial Upload",
                 action_key: newHistoryKey
               },
