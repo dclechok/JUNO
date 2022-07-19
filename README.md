@@ -4,32 +4,40 @@
 ## Front-End ##
 ### TODO: General ###
 ----
-* Implement page system for longer lists!!!
 * Clean up CSS in general.
 * Reconfigure CORS (backend).
 * Add tooltip or display proper formatting for acceptable .csv files.
 * Export to PDF feature.
 * Export to Excel feature.
 * Create Users table for different accessibility (Username, Pass, Name, Email, Access Level).
-* Add access levels to various maintenance features.
-* Create front-page with 2-factor authentication.
 * Make the list sortable in reverse.
+* Add login details to each page, not just asset list component.
+* Add logged-in user data to any historical moves.
 
 ### TODO: Specific Features ###
 -----
+#### Login ####
+* Validation, validation, validation.
+* Add LoaderSpinner when loading.
+* Submit on 'enter' press.
 #### Asset List ####
-* Make asset lists have a page system as opposed to scroll.
+* Styling.
 #### Bulk Upload ####
 * Check for duplicates in .csv file (from accidentally scanning device twice, etc.)
 * Do not allow uploads if job sites in .csv do not exist!
 #### Single Upload ####
 * Implement server middleware specifically for individual asset upload cases (duplicates).
+#### Upload Log ####
+* Fix styling issue where texts goes outside of container.
 #### Single Asset Component ####
 * Make all fields editable.
 * Add functionality for "move", "delete", and "edit"
 #### Notification Tracker ####
+* Update notifications via history_log table, not individual asset data.
 * Bug: Do not update notification tracker if uploads/actions failed.
 #### History Log ###
+* Create a log for job sites created by.
+* Created a log for history log deleted by.
 * Potentially find historical data by user, or filter by action taken.
 * Add ability to delete a history log (via Admin).
 #### Navigation Guide (dropdowns) ####
@@ -37,11 +45,15 @@
 * Add "Repairs, Storage, Retired" to Location dropdown.
 #### Admin Panel ####
 * Add manage users UI?
-* ~~Make delete icon have an active styling.~~
+* Add LoaderSpinner when loading.
 * Make component re-render upon deleting job site.
 
 
 #### Completed ####
+* ~~Create front-page with login.~~
+* ~~Make asset lists have a page system as opposed to scroll.~~
+* ~~Make delete icon have an active styling.~~
+* ~~Implement page system for longer lists!!!~~
 * ~~Style upload button and style containers.~~
 * ~~Remove API calls from useEffect!!!!~~
 * ~~Create a log of upload success (500 assets added successfully, 88 fails - and reasons, etc.)~~

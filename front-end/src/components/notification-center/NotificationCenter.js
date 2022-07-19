@@ -1,7 +1,7 @@
 import "./NotificationCenter.css";
 import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-
+import { getHistory } from "../../utils/api";
 //utils
 import colorCode from "../../utils/colorCodes";
 
@@ -14,19 +14,27 @@ function NotificationCenter({ assetList }) {
                 action_comment: "",
   */
 
- //types of moves: "bulk uploaded", "single upload", "delete asset", "move asset", "edit asset" 
+ //types of moves: "bulk uploaded", "single upload", "delete asset", "move asset", "edit asset", etc
 
   const [latestHistory, setLatestHistory] = useState([]);
   const navigate = new useNavigate();
 
   useEffect(() => {
-    
-    setLatestHistory(assetList.sort((a, b) => {
-      return new Date(b.updated_at) - new Date(a.updated_at);
+    const abortController = new AbortController();
+    async function fetchHistory(){
+      setLatestHistory(await getHistory());
+    }
+    fetchHistory();
+    return () => abortController.abort();
+  }, []);
+
+  useEffect(() => {
+    if(latestHistory && latestHistory.length !== 0) setLatestHistory(latestHistory.sort((a, b) => {
+      return new Date(b.logged_date) - new Date(a.logged_date);
     }).filter((val, key) => {
       return key <= 5 // limit the amount that renders on latest notifications
     }));
-  }, [assetList]);
+  }, []);
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -43,10 +51,14 @@ function NotificationCenter({ assetList }) {
       <div className="notification-container">
         <h1>Latest Notifications</h1>
         <hr />
-        {latestHistory && latestHistory.length !== 0 && latestHistory.map((entry, key) => 
+        {latestHistory && latestHistory.length !== 0 && latestHistory.sort((a, b) => {
+      return new Date(b.logged_date) - new Date(a.logged_date);
+    }).filter((val, key) => {
+      return key <= 5 // limit the amount that renders on latest notifications
+    }).map((entry, key) => 
           {
             return (
-            <p key={key}>{reformatDate(entry.history.action_date)} <span style={{color: colorCode[entry.history.action_taken]}} >{`${entry.history.action_taken}`}</span>{` by ${entry.history.action_by}`}</p>
+            <p key={key}>{reformatDate(entry.logged_date)} <span style={{color: colorCode[entry.logged_action]}} >{`${entry.logged_action}`}</span>{` by ${entry.logged_by}`}</p>
           )}
         )}
         <hr/>
