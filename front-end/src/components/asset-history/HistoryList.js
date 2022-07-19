@@ -12,7 +12,7 @@ import { getHistory } from "../../utils/api.js"
 import colorCode from "../../utils/colorCodes";
 
 //renders a lot of all historical data in order from oldest to newest history
-function HistoryList({ resetDatePicker, setResetDatePicker }) {
+function HistoryList({ resetDatePicker, setResetDatePicker, setSearchHistoryType }) {
 
   const navigate = new useNavigate();
 
@@ -87,8 +87,8 @@ function HistoryList({ resetDatePicker, setResetDatePicker }) {
 
   const onClickHandler = (e) => {
     e.preventDefault();
-    const { id = '' } = e.currentTarget;
-    console.log(id);
+    const { id = '', value } = e.currentTarget;
+    setSearchHistoryType(value);
     if(id) navigate(`/history/${id}`);
   };
 
@@ -105,7 +105,7 @@ function HistoryList({ resetDatePicker, setResetDatePicker }) {
             setResetDatePicker={setResetDatePicker}
             resetDatePicker={resetDatePicker}
           />
-          {dateFilteredList ? 
+          {dateFilteredList && dateFilteredList.length !== 0 ? 
           <table className="history-table">
             <tbody>
               <tr>
@@ -144,7 +144,7 @@ function HistoryList({ resetDatePicker, setResetDatePicker }) {
                         </td>
                         <td>{history.logged_by}</td>
                         <td>
-                          <span style={{color: "black"}}>[<button className="button-link" id={history.history_key} onClick={onClickHandler}>View</button>]</span>
+                          <span style={{color: "black"}}>[<button className="button-link" id={history.history_key} value={history.logged_action} onClick={onClickHandler}>View</button>]</span>
                         </td>
                       </tr>
                     );

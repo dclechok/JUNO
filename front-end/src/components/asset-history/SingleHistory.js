@@ -1,135 +1,62 @@
-import './SingleHistory.css';
-import { useParams, useNavigate } from "react-router-dom";
+import "./SingleHistory.css";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 //utils
-import dateFormatter from "../../utils/dateFormatter";
-// import sortList from '../../utils/sortList';
-import colorCode from "../../utils/colorCodes";
+import { getJobSites } from "../../utils/api";
+
+//components
+import SingleAssetHistoryLog from "./SingleAssetHistoryLog"; //render single asset history log
+import SingleJobSiteHistoryLog from "./SingleJobSiteHistoryLog";
+//import singleassetjobsitelog
+//import singleuserjobsitelog
+
 //renders a single viewable historical entry
-function SingleHistory({ assetList }) {
+function SingleHistory({ assetList, searchHistoryType }) {
   const { history_key } = useParams();
-  const navigate = new useNavigate();
   const [loadedHistory, setLoadedHistory] = useState(null);
-
-  const sortButtonSubmit = () => {
-
-  };
-
-  const onClickHandler = (e) => {
-    const { id } = e.currentTarget;
-    navigate(`/${id}`);
-  };
 
   useEffect(() => {
     //load data via history_key
-    if (assetList && assetList.length !== 0)
-      setLoadedHistory(
-        assetList.filter((asset) => {
-          return asset.history.action_key === history_key;
-        })
-      );
+    //check assets for key(s) (assets are already loaded)
+    if (searchHistoryType === "Single Upload" || "Bulk Upload") {
+      if (assetList && assetList.length !== 0) {
+        if (assetList.find((asset) => asset.history.action_key === history_key))
+          setLoadedHistory(
+            assetList.filter(
+              (asset) => asset.history.action_key === history_key
+            )
+          );
+      }
+    }
+    if (searchHistoryType && searchHistoryType.includes("Job Site")) {
+      //create or delete 'job site'
+      async function fetchJobSites() {
+        const jobSites = await getJobSites();
+        if (jobSites && jobSites.length !== 0) {
+          if (jobSites.find((js) => js.history.action_key === history_key))
+            setLoadedHistory(
+              jobSites.filter((js) => js.history.action_key === history_key)
+            );
+        }
+      }
+      fetchJobSites();
+    }
+
+    //check job sites for key
   }, []);
+  console.log(searchHistoryType);
+  const renderSwitch = () => {
+    if(searchHistoryType){
+      if(searchHistoryType.includes("Upload")) return <SingleAssetHistoryLog loadedHistory={loadedHistory} />; //assets bulk upload or single upload
+      if(searchHistoryType.includes("Job Site")) return <SingleJobSiteHistoryLog loadedHistory={loadedHistory} />; //delete or create job site
+      }
+  };
 
   return (
     <div className="single-asset-render">
       <h1>Log Details</h1>
-      {loadedHistory && (
-        <>
-          <header className="single-history-header container-style">
-            <div>
-              <p>
-                <b>Action Logged</b>:{" "}
-                <span
-                  style={{
-                    color: colorCode[loadedHistory[0].history.action_taken],
-                  }}
-                >
-                  {loadedHistory[0].history.action_taken}
-                </span>
-              </p>
-              <p><b>Logged By</b>: {loadedHistory[0].history.action_by}</p>
-              <p><b>Approved By</b>: --</p>
-              <p>
-                <b>Logged Date</b>:{" "}
-                {dateFormatter(loadedHistory[0].history.action_date)}
-              </p>
-              <p><b>Total Assets Mutated</b>: {loadedHistory.length}</p>
-              <p><b>History Key</b>: {history_key}</p>
-            </div>
-          </header>
-          <div className="container-style">
-            <table className='history-table'>
-              <tbody>
-                <tr>
-                  <th>
-                    <button id="asset_tag" onClick={sortButtonSubmit}>
-                      Asset Tag
-                    </button>
-                  </th>
-                  <th>
-                    <button id="site" onClick={sortButtonSubmit}>
-                      Site
-                    </button>
-                  </th>
-                  <th>IP</th>
-                  <th>Serial #</th>
-                  <th>
-                    <button id="make" onClick={sortButtonSubmit}>
-                      Make
-                    </button>
-                  </th>
-                  <th>
-                    <button id="model" onClick={sortButtonSubmit}>
-                      Model
-                    </button>
-                  </th>
-                  <th>
-                    <button id="hr" onClick={sortButtonSubmit}>
-                      Hash Rate
-                    </button>
-                  </th>
-                  <th>
-                    <button id="status" onClick={sortButtonSubmit}>
-                      Status
-                    </button>
-                  </th>
-                  <th>
-                    <button id="updated_at" onClick={sortButtonSubmit}>
-                      Last Updated
-                    </button>
-                  </th>
-                  <th>
-                      Details
-                  </th>
-                </tr>
-                {loadedHistory &&
-                  loadedHistory.length !== 0 &&
-                  loadedHistory.map((asset, key) => {
-                    return (
-                      <tr key={key}>
-                        <td>{asset.asset_tag}</td>
-                        <td>{asset.location.site}</td>
-                        <td>
-                          {asset.location.site_loc === ""
-                            ? "Needs Verified"
-                            : asset.location.site_loc}
-                        </td>
-                        <td>{asset.serial_number}</td>
-                        <td>{asset.make}</td>
-                        <td>{asset.model}</td>
-                        <td>{asset.hr}</td>
-                        <td>{asset.status}</td>
-                        <td>{dateFormatter(asset.updated_at)}</td>
-                        <td><span style={{color: "black"}}>[<button className="button-link" id={asset.asset_tag} onClick={onClickHandler}>View</button>]</span></td>
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            </table>
-          </div>
-        </>
-      )}
+      {loadedHistory && searchHistoryType && renderSwitch()}
     </div>
   );
 }

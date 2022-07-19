@@ -1,4 +1,4 @@
-import generateHistoryKey from "../utils/generateHistoryKey";
+import generateHistoryKey from "./generateHistoryKey";
 
 const BASE_URL = "http://localhost:5000/";
 
@@ -19,25 +19,25 @@ export async function getAllAssets() {
 }
 // ASSETS - CREATE ONE // 
 export async function createAsset(assets) {
-  const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
+
   try {
     const response = await fetch(BASE_URL + "assets", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ data: {...assets, action_key: newHistoryKey }})
+      body: JSON.stringify({ data: assets })
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
     if (jsonResponse){ //if POST request was successful, create a log in
-      const { action_by, action_taken} = jsonResponse.data.history;
+      const { action_by, action_taken, action_key } = jsonResponse.data.history;
       const { updated_at } = jsonResponse.data;
       //eventually add comments, and "approved_by";
       const awaitCreateHistory = await createHistory({
         logged_action: action_taken,
         logged_date: updated_at, 
         logged_by: action_by,
-        history_key: newHistoryKey
+        history_key: action_key
       });
       if(!awaitCreateHistory) throw new Error("Making request for history log failed!");
       return jsonResponse;
@@ -94,9 +94,7 @@ export async function getJobSites() {
 }
 // JOB SITES - CREATE ONE //
 export async function createJobSite(jobSite){
-  const newHistoryKey = generateHistoryKey();
   try {
-    
     const response = await fetch(BASE_URL + "physical_sites", {
       method: "POST",
       headers: {
@@ -107,12 +105,13 @@ export async function createJobSite(jobSite){
     const jsonResponse = await response.json(); //json-ify readablestream data
     if (jsonResponse){ //if POST request was successful, create a log in
       const { created_by, updated_at } = jsonResponse.data;
+      const { action_key } = jsonResponse.data.history;
       //eventually add comments, and "approved_by";
       const awaitCreateHistory = await createHistory({
         logged_action: "Create Job Site",
         logged_date: updated_at, 
         logged_by: created_by,
-        history_key: newHistoryKey
+        history_key: action_key
       });
       if(!awaitCreateHistory) throw new Error("Making request for history log failed!");
       return jsonResponse;
@@ -130,12 +129,12 @@ export async function deleteJobSite(id){
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
     if (jsonResponse){ //if POST request was successful, create a log in
-      const { created_by, updated_at } = jsonResponse.data;
       //eventually add comments, and "approved_by";
+      const dateToday = new Date();
       const awaitCreateHistory = await createHistory({
         logged_action: "Delete Job Site",
-        logged_date: updated_at, 
-        logged_by: created_by,
+        logged_date: dateToday, 
+        logged_by: "Dan Lechok",
         history_key: newHistoryKey
       });
       if(!awaitCreateHistory) throw new Error("Making request for history log failed!");

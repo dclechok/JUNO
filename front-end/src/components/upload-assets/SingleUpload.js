@@ -1,5 +1,6 @@
 import "./UploadContainersStyle.css";
 import { useEffect, useState } from "react";
+import generateHistoryKey from "../../utils/generateHistoryKey";
 
 //components
 import UploadSuccess from "./UploadSuccess.js";
@@ -50,6 +51,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets }) {
     if (acceptOrReject !== "fields not validated") {
       if (acceptOrReject.rejected.length === 0) {
         const action_date = new Date();
+        const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
         async function postSingleAsset() {
           await createAsset([
             {
@@ -60,6 +62,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets }) {
                 action_taken: "Single Upload", 
                 action_by: "Dan Lechok", //this will eventually be dynamically loaded from user that is logged in the current state of the app
                 action_comment: "Initial Upload",
+                action_key: newHistoryKey
               },
             },
           ]);

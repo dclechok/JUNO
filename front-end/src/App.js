@@ -32,6 +32,7 @@ function App() {
   });
   const [formattedKey, setFormattedKey] = useState(""); //for formatting for 'viewing' the navKey
   const [resetDatePicker, setResetDatePicker] = useState(false); //to reset History Search via History List
+  const [searchHistoryType, setSearchHistoryType] = useState(null); //search individual history by this
 
   useEffect(() => {
     //analyze assetList data and build anaylitics object
@@ -94,8 +95,8 @@ function App() {
                 }
               ></Route>
               <Route exact path="/admin-panel" element={<AdminPanel />}></Route>
-              <Route exact path="/history" element={<HistoryList resetDatePicker={resetDatePicker} setResetDatePicker={setResetDatePicker} />}></Route>
-              <Route exact path="/history/:history_key" element={<SingleHistory assetList={assetList} />}></Route>
+              <Route exact path="/history" element={<HistoryList resetDatePicker={resetDatePicker} setResetDatePicker={setResetDatePicker} setSearchHistoryType={setSearchHistoryType} />}></Route>
+              <Route exact path="/history/:history_key" element={<SingleHistory assetList={assetList} searchHistoryType={searchHistoryType} />}></Route>
             </Routes>
             
       </Router>
