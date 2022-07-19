@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 //utils
 import dateFormatter from "../../utils/dateFormatter";
@@ -7,6 +7,7 @@ import colorCode from "../../utils/colorCodes";
 function SingleJobSiteHistoryLog({ loadedHistory }) {
   const navigate = new useNavigate();
 
+  //render a job sites historical data? what besides create/delete?
   const onClickHandler = (e) => {
     const { id } = e.currentTarget;
     navigate(`/${id}`);
@@ -15,7 +16,7 @@ function SingleJobSiteHistoryLog({ loadedHistory }) {
   const sortButtonSubmit = (e) => {
     e.preventDefault();
   };
-  console.log( loadedHistory );
+
   return (
     <>
       <header className="single-history-header container-style">
@@ -64,6 +65,11 @@ function SingleJobSiteHistoryLog({ loadedHistory }) {
                   Last Updated
                 </button>
               </th>
+              <th>
+                <button id="updated_at" onClick={sortButtonSubmit}>
+                  Comments
+                </button>
+              </th>
               <th>Details</th>
             </tr>
             {loadedHistory &&
@@ -74,6 +80,7 @@ function SingleJobSiteHistoryLog({ loadedHistory }) {
                     <td>{jobSite.physical_site_name}</td>
                     <td>{jobSite.physical_site_loc}</td>
                     <td>{dateFormatter(jobSite.updated_at)}</td>
+                    <td>{jobSite.history.action_comment}</td>
                     <td>
                       <span style={{ color: "black" }}>
                         [

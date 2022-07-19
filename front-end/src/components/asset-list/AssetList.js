@@ -146,7 +146,7 @@ function AssetList({
     const { id } = e.currentTarget;
     if(id === "logout"){ //clear local storage, redirect to entrypoint
       if(window.confirm('Do you wish to logout?')){
-        sessionStorage.clear();
+        localStorage.clear();
         setAccountLogged(null);
         navigate('/');
       }
@@ -155,7 +155,7 @@ function AssetList({
 
   return (
     <section>
-      {assetList && assetList.length !== 0 ? (
+      {JSON.parse(localStorage.getItem('acctLogged')).logged && assetList && assetList.length !== 0 ? (
         <>
         <div>
           <p className="logged-in"> <button className="button-link">{accountLogged.account[0].username}</button> / <button className="button-link" id="logout" onClick={handleLogout}>logout</button></p>

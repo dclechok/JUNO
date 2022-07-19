@@ -52,6 +52,10 @@ function App() {
     getAssets();
   }, []);
 
+  useEffect(() => {
+    setAccountLogged(JSON.parse(localStorage.getItem('acctLogged')));
+  }, []);
+
   return (
     <div className="App">
       {accountLogged && accountLogged.logged ?  

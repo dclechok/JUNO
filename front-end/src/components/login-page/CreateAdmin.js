@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { createUser } from "../../utils/api";
 const bcrypt = require("bcryptjs");
 
+// var bcrypt = dcodeIO.bcrypt;
+
 function CreateAdmin({ setCreateAdmin }) {
   const defaultUserData = {
     username: "",
