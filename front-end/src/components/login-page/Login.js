@@ -6,6 +6,7 @@ import CreateAdmin from "./CreateAdmin";
 
 //utils
 import { getUsers } from "../../utils/api";
+import LoaderSpinner from "../LoaderSpinner";
 
 const bcrypt = require("bcryptjs");
 
@@ -71,6 +72,8 @@ function Login({ accountLogged, setAccountLogged }) {
           <h3>Asset Management System</h3>
           <h4>Powered by Mawson Infrastructure Group</h4>
         </div>
+        <>
+        {users && users.length !== 0 ? 
         <div className="login-form-container">
           {createAdmin ? (
             <CreateAdmin setCreateAdmin={setCreateAdmin}/>
@@ -94,7 +97,8 @@ function Login({ accountLogged, setAccountLogged }) {
               </form>
             </>
           )}
-        </div>
+        </div>: <LoaderSpinner width={45} height={45} message="Login Menu" />}
+        </>
       </div>
     </main>
   );
