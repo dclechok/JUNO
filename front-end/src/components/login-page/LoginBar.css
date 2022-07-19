@@ -1,9 +1,13 @@
 .logged-in{
     display: block;
-    color: white;
+    color: rgb(0, 0, 0);
     top: 50px;
     position: fixed;
     margin: auto;
     text-align: right;
     width: 98%;
+}
+
+.logged-in-container{
+    color: black;
 }

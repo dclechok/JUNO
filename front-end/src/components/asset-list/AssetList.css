@@ -5,6 +5,7 @@ section{
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+    margin-top: 1%;
 }
 
 .inline-tracker-notifications{

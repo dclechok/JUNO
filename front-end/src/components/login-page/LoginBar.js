@@ -17,8 +17,8 @@ function LoginBar({ accountLogged, setAccountLogged }){
       };
 
     return (
-        <div>
-        <p className="logged-in"><button className="button-link">{accountLogged.account[0].username}</button> / <button className="button-link" id="logout" onClick={handleLogout}>logout</button></p>
+        <div className='logged-in-container'>
+        <p className="logged-in">[<button className="button-link">{accountLogged.account[0].username}</button> | <button className="button-link" id="logout" onClick={handleLogout}>logout</button>]</p>
       </div>
     );
 }
