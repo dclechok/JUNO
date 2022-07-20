@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 //utils
 import generateHistoryKey from "../../utils/generateHistoryKey";
 import { createJobSite } from "../../utils/api";
+import LoaderSpinner from "../LoaderSpinner";
 
-function CreateSite({ accountLogged }) {
+function CreateSite({ accountLogged, setViewOrCreate }) {
   const action_date = new Date();
   const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
 
@@ -22,13 +23,17 @@ function CreateSite({ accountLogged }) {
     },
   };
   const [newJobSite, setNewJobSite] = useState(defaultJobSite);
+  const [successJobSiteCreate, setSuccessJobSiteCreate] = useState(null);
+  const [createButtonDisabled, setCreateButtonDisabled] = useState(false);
+  let disable = false;
 
   const submitHandler = (e) => {
     e.preventDefault();
     async function createNewJobSite(){
-      createJobSite(newJobSite);
+      setSuccessJobSiteCreate(await createJobSite(newJobSite));
     }
     createNewJobSite();
+    setCreateButtonDisabled(true);
   };
 
   const changeHandler = (e) => {
@@ -36,10 +41,17 @@ function CreateSite({ accountLogged }) {
     setNewJobSite({ ...newJobSite, [id]: value });
   };
 
+  useEffect(() => {
+    if(successJobSiteCreate){
+      setViewOrCreate("view");
+    }
+    }, [successJobSiteCreate, setSuccessJobSiteCreate]);
+
   return (
     <section className="upload-container-style">
       <h4>Create Job Site</h4>
       <>
+      {!createButtonDisabled ? 
         <form className="form-container" onSubmit={submitHandler}>
           <div className="create-space">
             <label htmlFor="physical_site_name">
@@ -63,12 +75,15 @@ function CreateSite({ accountLogged }) {
             />
             <br />
           </div>
+          
           <div className="fix-button">
-            <button className="submit-single-asset" type="submit">
+            <button className="submit-single-asset" type="submit" disabled={createButtonDisabled}>
               Upload Job Site
             </button>
           </div>
+          
         </form>
+        : <LoaderSpinner width={45} height={45} message="Job Sites" />}
       </>
     </section>
   );
