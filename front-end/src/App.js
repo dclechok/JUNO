@@ -67,7 +67,7 @@ function App() {
     <div className="App">
       {accountLogged && accountLogged.logged ? (
         <Router>
-          <Nav setLoadAssets={setLoadAssets} loadAssets={loadAssets} />
+          <Nav setLoadAssets={setLoadAssets} loadAssets={loadAssets} accountLogged={accountLogged} />
           <LoginBar
               accountLogged={accountLogged}
               setAccountLogged={setAccountLogged}

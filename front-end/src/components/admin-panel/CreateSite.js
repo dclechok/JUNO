@@ -25,8 +25,7 @@ function CreateSite({ accountLogged, setViewOrCreate }) {
   const [newJobSite, setNewJobSite] = useState(defaultJobSite);
   const [successJobSiteCreate, setSuccessJobSiteCreate] = useState(null);
   const [createButtonDisabled, setCreateButtonDisabled] = useState(false);
-  let disable = false;
-
+  
   const submitHandler = (e) => {
     e.preventDefault();
     async function createNewJobSite(){

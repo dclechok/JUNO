@@ -3,7 +3,7 @@ import logoTwo from "../../images/logo2.png";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from 'react';
 
-function Nav({ setLoadAssets, loadAssets }) {
+function Nav({ setLoadAssets, loadAssets, accountLogged }) {
 
   const navigate = new useNavigate();
   const defaultButtonState = {
@@ -14,9 +14,14 @@ function Nav({ setLoadAssets, loadAssets }) {
 
   const handleSubmit = (e) => {
     const { id = "" } = e.currentTarget;
-    setLoadAssets(!loadAssets);
-    if (id === "dashboard") navigate(`/`);
-    else if (id === "settings") navigate(`/admin-panel`);
+    if (id === "dashboard"){
+      setLoadAssets(!loadAssets)
+      navigate(`/`);
+    } 
+    else if (id === "settings"){
+      if(accountLogged.account[0].access_level === 'admin') navigate(`/admin-panel`);
+      else window.alert("You are not authorized to view this component.");
+    } 
     else navigate(`/${id}`);
     
     setButtonState({...defaultButtonState, [id]: 'middleNavButtonActive'});
