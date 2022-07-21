@@ -17,29 +17,30 @@ export async function getAllAssets() {
     console.log(e, "Failed to fetch all assets.");
   }
 }
-// ASSETS - CREATE ONE // 
+// ASSETS - CREATE ONE //
 export async function createAsset(assets) {
-
   try {
     const response = await fetch(BASE_URL + "assets", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ data: assets })
+      body: JSON.stringify({ data: assets }),
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
-    if (jsonResponse){ //if POST request was successful, create a log in
+    if (jsonResponse) {
+      //if POST request was successful, create a log in
       const { action_by, action_taken, action_key } = jsonResponse.data.history;
       const { updated_at } = jsonResponse.data;
       //eventually add comments, and "approved_by";
       const awaitCreateHistory = await createHistory({
         logged_action: action_taken,
-        logged_date: updated_at, 
+        logged_date: updated_at,
         logged_by: action_by,
-        history_key: action_key
+        history_key: action_key,
       });
-      if(!awaitCreateHistory) throw new Error("Making request for history log failed!");
+      if (!awaitCreateHistory)
+        throw new Error("Making request for history log failed!");
       return jsonResponse;
     }
   } catch (e) {
@@ -47,7 +48,7 @@ export async function createAsset(assets) {
   }
 }
 // ASSETS - READ ONE //
-export async function getSingleAsset(asset_tag){
+export async function getSingleAsset(asset_tag) {
   try {
     const response = await fetch(BASE_URL + `assets/${asset_tag}`, {
       method: "GET",
@@ -62,7 +63,7 @@ export async function getSingleAsset(asset_tag){
   }
 }
 // ASSETS - DELETE ONE //
-export async function deleteAsset(asset_tag){
+export async function deleteAsset(asset_tag) {
   try {
     const response = await fetch(BASE_URL + `assets/${asset_tag}`, {
       method: "DELETE",
@@ -75,7 +76,6 @@ export async function deleteAsset(asset_tag){
 }
 
 /*----------------------*/
-
 
 // JOB SITES - GET ALL //
 export async function getJobSites() {
@@ -93,51 +93,77 @@ export async function getJobSites() {
   }
 }
 // JOB SITES - CREATE ONE //
-export async function createJobSite(jobSite){
+export async function createJobSite(jobSite) {
   try {
     const response = await fetch(BASE_URL + "physical_sites", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ data: jobSite })
+      body: JSON.stringify({ data: jobSite }),
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
-    if (jsonResponse){ //if POST request was successful, create a log in
-      const { created_by, updated_at } = jsonResponse.data;
-      const { action_key } = jsonResponse.data.history;
+    if (jsonResponse) {
+      //if POST request was successful, create a log in history_log table
+      const { action_by, action_by_id, action_key, action_taken } =
+        jsonResponse.data.history;
+      const { updated_at } = jsonResponse.data;
       //eventually add comments, and "approved_by";
       const awaitCreateHistory = await createHistory({
-        logged_action: "Create Job Site",
-        logged_date: updated_at, 
-        logged_by: created_by,
-        history_key: action_key
+        logged_action: action_taken,
+        logged_date: updated_at,
+        logged_by: action_by,
+        logged_by_id: action_by_id,
+        history_key: action_key,
       });
-      if(!awaitCreateHistory) throw new Error("Making request for history log failed!");
+      if (!awaitCreateHistory)
+        throw new Error("Making request for history log failed!");
       return jsonResponse;
     }
   } catch (e) {
     console.log(e, "Failed to post job site.");
   }
 }
-// JOB SITES - DELETE ONE //
-export async function deleteJobSite(id){
+
+// JOB SITES - DEACTIVATE/UPDATE ONE //
+export async function deactivateJobSite(id, accountLogged, oldJobSiteHistory) {
+  //DO NOT ACTUALLY PERMANENTLY DELETE FROM DB
+  const newDate = new Date();
   const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
+  oldJobSiteHistory.push({ //push new entry onto the old job site history list
+    action_taken: "Deactivate Job Site",
+    action_by: accountLogged.account[0].name,
+    action_by_id: accountLogged.account[0].user_id,
+    action_key: newHistoryKey,
+    action_date: newDate
+  });
   try {
     const response = await fetch(BASE_URL + `physical_sites/${id}`, {
-      method: "DELETE",
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        data: {
+          status: "Non-Active",
+          history: oldJobSiteHistory,
+        },
+      }),
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
-    if (jsonResponse){ //if POST request was successful, create a log in
+    if (jsonResponse) {
+      //if POST request was successful, create a log in
       //eventually add comments, and "approved_by";
-      const dateToday = new Date();
+      const { name, user_id } = accountLogged.account[0];
       const awaitCreateHistory = await createHistory({
-        logged_action: "Delete Job Site",
-        logged_date: dateToday, 
-        logged_by: "Dan Lechok",
-        history_key: newHistoryKey
+        logged_action: "Deactivate Job Site",
+        logged_date: newDate,
+        logged_by: name,
+        logged_by_id: user_id,
+        history_key: newHistoryKey,
       });
-      if(!awaitCreateHistory) throw new Error("Making request for history log failed!");
+      if (!awaitCreateHistory)
+        throw new Error("Making request for history log failed!");
       return jsonResponse;
     }
   } catch (e) {
@@ -164,14 +190,14 @@ export async function getHistory() {
 }
 
 // HISTORY LOG - CREATE ONE //
-async function createHistory(historyLog){
+async function createHistory(historyLog) {
   try {
     const response = await fetch(BASE_URL + "history_log", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ data: historyLog })
+      body: JSON.stringify({ data: historyLog }),
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
     if (jsonResponse) return jsonResponse;
@@ -192,7 +218,7 @@ export async function getUsers() {
       },
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
-    
+
     return jsonResponse;
   } catch (e) {
     console.log(e, "Failed to fetch all history.");
@@ -207,7 +233,7 @@ export async function createUser(user) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ data: user })
+      body: JSON.stringify({ data: user }),
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
     if (jsonResponse) return jsonResponse;

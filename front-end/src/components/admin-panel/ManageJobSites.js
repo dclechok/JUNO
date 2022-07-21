@@ -29,7 +29,7 @@ function ManageJobSites({ accountLogged }) {
         <span style={{color: 'black'}}>[<button className={buttonState.view} id="view" onClick={handleClick}>View Sites</button>]</span>&nbsp;
         <span style={{color: 'black'}}>[<button className={buttonState.create} id="create" onClick={handleClick}>Create Site</button>]</span>
       </div>
-      {viewOrCreate === "view" && <ViewSites />}
+      {viewOrCreate === "view" && <ViewSites accountLogged={accountLogged} />}
       {viewOrCreate === "create" && <CreateSite accountLogged={accountLogged} setViewOrCreate={setViewOrCreate} />}
     </>
   );

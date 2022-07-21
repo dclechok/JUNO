@@ -4,10 +4,10 @@ import deletePng from '../../images/delete.png'
 //utils
 import dateFormatter from "../../utils/dateFormatter";
 import { getJobSites } from "../../utils/api";
-import { deleteJobSite } from '../../utils/api';
+import { deactivateJobSite } from '../../utils/api';
 import LoaderSpinner from '../LoaderSpinner';
 
-function ViewSites() {
+function ViewSites({ accountLogged }) {
   const [jobSites, setJobSites] = useState(null);
   const [loadJobSites, setLoadJobSites] = useState();
 
@@ -20,14 +20,15 @@ function ViewSites() {
 
   const onClickHandler = (e) => {
     const { id } = e.currentTarget;
-    if(window.confirm('Would you like to permanently remove this job site from the JUNO database?')){
+    if(accountLogged.account[0].access_level === "admin"){
+    if(window.confirm('Would you like to deactivate this job site?')){
+      const oldJobSiteHistory = jobSites.filter(js => js.physical_site_id === Number(id));
       async function removeJobSite(){
-        setLoadJobSites(await deleteJobSite(id));
-        
+        setLoadJobSites(await deactivateJobSite(id, accountLogged, oldJobSiteHistory[0].history));
       }
       removeJobSite();
     }
-
+  }
   };
 
   return (
@@ -59,7 +60,7 @@ function ViewSites() {
                   <tr key={key}>
                     <td>{site.physical_site_name}</td>
                     <td>{site.physical_site_loc}</td>
-                    <td>Dan Lechok</td>
+                    <td>{accountLogged.account[0].name}</td>
                     <td>{dateFormatter(site.updated_at)}</td>
                     <td className="delete-icon-td"><button className='image-button' onClick={onClickHandler} id={site.physical_site_id}><img src={deletePng} alt="delete job site" /></button></td>
                   </tr>

@@ -61,7 +61,6 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                 action_taken: "Single Upload", 
                 action_by: accountLogged.account[0].name,
                 action_by_id: accountLogged.account[0].user_id,
-                action_comment: "Initial Upload",
                 action_key: newHistoryKey
               },
             },

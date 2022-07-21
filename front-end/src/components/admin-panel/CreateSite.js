@@ -6,26 +6,27 @@ import { createJobSite } from "../../utils/api";
 import LoaderSpinner from "../LoaderSpinner";
 
 function CreateSite({ accountLogged, setViewOrCreate }) {
-  const action_date = new Date();
   const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
 
   const defaultJobSite = {
     physical_site_name: "",
     physical_site_loc: "",
     created_by: accountLogged.account[0].name,
-    history: {
-      action_date: action_date,
-      action_taken: "Create Job Site",
-      action_by: accountLogged.account[0].name,
-      action_by_id: accountLogged.account[0].user_id,
-      action_comment: "Initial Upload",
-      action_key: newHistoryKey //generate unique history key ("action_key")
-    },
+    status: "Active",
+    history: [ //the date of creation can be found by searching history_log via key of historical item
+      {
+        action_taken: "Create Job Site",
+        action_by: accountLogged.account[0].name,
+        action_by_id: accountLogged.account[0].user_id,
+        action_key: newHistoryKey //generate unique history key ("action_key")
+      }
+    ]
   };
+
   const [newJobSite, setNewJobSite] = useState(defaultJobSite);
   const [successJobSiteCreate, setSuccessJobSiteCreate] = useState(null);
   const [createButtonDisabled, setCreateButtonDisabled] = useState(false);
-  
+
   const submitHandler = (e) => {
     e.preventDefault();
     async function createNewJobSite(){

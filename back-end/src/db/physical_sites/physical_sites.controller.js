@@ -8,20 +8,30 @@ async function list(req, res) {
 
 async function create(req, res) {
   //create new asset in the system
-  const result = req.body.data;
+  const result = {...req.body.data, history: JSON.stringify(req.body.data.history)};
   const data = await knex("physical_sites")
     .insert(result)
     .returning("*")
-    .then((results) => results[0]); //insert body data into assets
+    .then((results) => results[0]); //insert body data into physical_sites
   res.status(201).json({ data });
 }
 
-async function remove(req, res) {
+async function deactivate(req, res) { //update, do not delete
   //remove asset from db
   const { id } = req.params;
+  const { status } = req.body.data;
+  let { history } = req.body.data;
+  console.log(history);
+  history = JSON.stringify(history); //restringify
+  console.log(history);
   const data = await knex("physical_sites")
   .where("physical_site_id", id)
-  .del();
+  .update({
+    status, status,
+    history, history
+  })
+  .returning('*')
+  .then((results) => results[0]);
   res.status(200).json({ data });
 }
 
@@ -30,5 +40,5 @@ module.exports = {
   create: asyncErrorBoundary(create),
   // read: asyncErrorBoundary(read),
   //update
-  delete: asyncErrorBoundary(remove)
+  update: asyncErrorBoundary(deactivate)
 };

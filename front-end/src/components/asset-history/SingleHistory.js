@@ -33,6 +33,7 @@ function SingleHistory({ assetList, searchHistoryType }) {
       //create or delete 'job site'
       async function fetchJobSites() {
         const jobSites = await getJobSites();
+        console.log(searchHistoryType, jobSites)
         if (jobSites && jobSites.length !== 0) {
           if (jobSites.find((js) => js.history.action_key === history_key))
             setLoadedHistory(
@@ -45,6 +46,8 @@ function SingleHistory({ assetList, searchHistoryType }) {
 
     //check job sites for key
   }, []);
+
+
 
   const renderSwitch = () => {
     if(searchHistoryType){
