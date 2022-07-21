@@ -14,7 +14,7 @@ function ManageJobSites({ accountLogged }) {
   const [viewOrCreate, setViewOrCreate] = useState('view');
 
   useEffect(() => {
-    setButtonState({...defaultButtonState, view: 'active-button-link'});
+    setButtonState({...defaultButtonState, [viewOrCreate]: 'active-button-link'});
   }, [viewOrCreate, setViewOrCreate]);
 
   const handleClick = (e) => {

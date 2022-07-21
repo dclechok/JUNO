@@ -43,13 +43,7 @@ function CreateSite({ accountLogged, setViewOrCreate }) {
     const { id, value } = e.currentTarget;
     setNewJobSite({ ...newJobSite, [id]: value });
   };
-
-  useEffect(() => {
-    if(successJobSiteCreate){
-      setViewOrCreate("view");
-    }
-    }, [successJobSiteCreate, setSuccessJobSiteCreate]);
-
+  
   return (
     <section className="upload-container-style">
       <h4>Create Job Site</h4>
