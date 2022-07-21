@@ -56,13 +56,16 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
             {
               ...assetFields,
               status: "Needs Verified",
-              history: {
-                action_date: action_date,
-                action_taken: "Single Upload", 
-                action_by: accountLogged.account[0].name,
-                action_by_id: accountLogged.account[0].user_id,
-                action_key: newHistoryKey
-              },
+              history: [
+                {
+                  action_taken: "Single Upload",
+                  action_date: action_date,
+                  action_by: accountLogged.account[0].name,
+                  action_by_id: accountLogged.account[0].user_id,
+                  action_key: newHistoryKey,
+                  action_comment: "Initial Upload"
+                },
+              ],
             },
           ]);
         }
@@ -103,16 +106,16 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                   {jobSites &&
                     jobSites.length !== 0 &&
                     jobSites.map((site, key) => {
-                      if(site.status === "Active")
-                      return (
-                        <option
-                          id={site.physical_site_name}
-                          key={key}
-                          value={site.physical_site_name}
-                        >
-                          {site.physical_site_name}
-                        </option>
-                      );
+                      if (site.status === "Active")
+                        return (
+                          <option
+                            id={site.physical_site_name}
+                            key={key}
+                            value={site.physical_site_name}
+                          >
+                            {site.physical_site_name}
+                          </option>
+                        );
                     })}
                 </select>
                 <br />
@@ -168,9 +171,9 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                 <br />
               </div>
               <div className="fix-button">
-              <button className="submit-single-asset" type="submit">
-                Upload Single Asset
-              </button>
+                <button className="submit-single-asset" type="submit">
+                  Upload Single Asset
+                </button>
               </div>
             </form>
           )}

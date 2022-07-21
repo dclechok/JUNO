@@ -22,7 +22,7 @@ function ManageJobSites({ accountLogged }) {
     setViewOrCreate(id);
     setButtonState({...defaultButtonState, [id]: 'active-button-link'});
   };    
-
+  console.log(viewOrCreate);
   return (
     <>
       <div className="sub-manage">
