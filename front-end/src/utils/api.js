@@ -30,7 +30,7 @@ export async function createAsset(assets) {
     const jsonResponse = await response.json(); //json-ify readablestream data
     if (jsonResponse) {
       //if POST request was successful, create a log in
-      const { action_by, action_by_id, action_taken, action_key } = jsonResponse.data.history;
+      const { action_by, action_by_id, action_taken, action_key } = jsonResponse.data.history[0];
       const { updated_at } = jsonResponse.data;
       //eventually add comments, and "approved_by";
       const awaitCreateHistory = await createHistory({

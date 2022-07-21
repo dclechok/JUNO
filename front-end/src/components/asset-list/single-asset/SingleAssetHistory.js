@@ -1,16 +1,22 @@
 import "./SingleAssetHistory.css";
-
-//controls all rendering of a single assets history
+import { useState, useEffect } from "react";
 
 //util
 import dateFormatter from "../../../utils/dateFormatter";
-
+//controls all rendering of a single assets history
 function SingleAssetHistory({ singleAsset }) {
+  const [singleAssetHistory, setSingleAssetHistory] = useState(null);
+
+  useEffect(() => {
+    if (singleAsset) {
+      setSingleAssetHistory(singleAsset[0].history);
+    }
+  }, [singleAsset]);
 
   return (
     <>
       <h3>History</h3>
-      {singleAsset.length !== 0 && (
+      {singleAssetHistory && singleAssetHistory !== 0 && (
         <table className="shrink-font">
           <tbody>
             <tr>
@@ -27,15 +33,16 @@ function SingleAssetHistory({ singleAsset }) {
                 <b>Comments</b>
               </th>
             </tr>
-            {singleAsset[0].history && (
-              <tr>
-                <td>{dateFormatter(singleAsset[0].updated_at)}</td>
-                {/* will need to be sorted by date - newest first*/}
-                <td>{singleAsset[0].history.action_taken}</td>
-                <td>{singleAsset[0].history.action_by}</td>
-                <td>{singleAsset[0].history.action_comment}</td>
-              </tr>
-            )}
+            {singleAssetHistory.map((singleHist) => {
+              return (
+                <tr>
+                  <td>{dateFormatter(singleHist.action_date)}</td>
+                  <td>{singleHist.action_taken}</td>
+                  <td>{singleHist.action_by}</td>
+                  <td>{singleHist.action_comment}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       )}

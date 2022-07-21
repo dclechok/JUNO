@@ -19,16 +19,21 @@ function SingleHistory({ assetList, searchHistoryType }) {
   useEffect(() => {
     //load data via history_key
     //check assets for key(s) (assets are already loaded)
-    // if (searchHistoryType && (searchHistoryType === "Single Upload" || searchHistoryType === "Bulk Upload")) {
-    //   if (assetList && assetList.length !== 0) {
-    //     if (assetList.find((asset) => asset.history.action_key === history_key))
-    //       setLoadedHistory(
-    //         assetList.filter(
-    //           (asset) => asset.history.action_key === history_key
-    //         )
-    //       );
-    //   }
-    // }
+    if (
+      searchHistoryType &&
+      (searchHistoryType === "Single Upload" ||
+        searchHistoryType === "Bulk Upload")
+    ) {
+      if (assetList && assetList.length !== 0) {
+        if (
+          assetList.find((asset) =>
+            asset.history.find(
+              (assetHist) => assetHist.action_key === history_key ))
+        )
+        setLoadedHistory(
+          assetList.filter((asset) => asset.history.find(assetHist => assetHist.action_key === history_key)));
+      }
+    }
     if (searchHistoryType && searchHistoryType.includes("Job Site")) {
       //create or deactivate 'job site'
       async function fetchJobSites() {
@@ -39,12 +44,13 @@ function SingleHistory({ assetList, searchHistoryType }) {
             jobSites.find((js) =>
               js.history.find((jsHist) => jsHist.action_key === history_key)
             )
-          ) { //set loaded history a to jobsite that has a history entry that matches history key
+          ) {
+            //set loaded history a to jobsite that has a history entry that matches history key
             setLoadedHistory(
               jobSites.filter((js) =>
-                js.history.find((jsHist) => {
-                  return jsHist.action_key === history_key;
-                })
+                js.history.find((jsHist) => 
+                  jsHist.action_key === history_key
+                )
               )
             );
           }

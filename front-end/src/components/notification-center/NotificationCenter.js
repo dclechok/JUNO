@@ -46,7 +46,6 @@ function NotificationCenter({ assetList }) {
     const dateToReformat = new Date(date)
     return `${dateToReformat.getMonth() + 1}/${dateToReformat.getDate()}/${dateToReformat.getFullYear()}`
   };
-
   return (
     <section className="dashboard-notification-container">
       <div className="notification-container">

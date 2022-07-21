@@ -52,7 +52,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
         const action_date = new Date();
         const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
         async function postSingleAsset() {
-          await createAsset([
+          await createAsset(
             {
               ...assetFields,
               status: "Needs Verified",
@@ -67,7 +67,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                 },
               ],
             },
-          ]);
+          );
         }
         postSingleAsset();
       }

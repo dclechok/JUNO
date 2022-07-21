@@ -60,7 +60,8 @@ async function list(req, res) {
 
 async function create(req, res) {
   //create new asset in the system
-  const result = req.body.data;
+  console.log(req.body.data)
+  const result = {...req.body.data, history: JSON.stringify(req.body.data.history)};
   const data = await knex("assets")
     .insert(result)
     .returning("*")
