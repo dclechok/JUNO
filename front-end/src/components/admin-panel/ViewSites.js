@@ -11,7 +11,10 @@ function ViewSites({ accountLogged }) {
   const [jobSites, setJobSites] = useState(null);
   const [loadJobSites, setLoadJobSites] = useState();
 
-  const colorStatus = { "Active": 'rgb(240, 240, 163)', "Non-Active": 'rgb(197, 136, 42)' };
+  const colorStatus = {
+    Active: "rgb(240, 240, 163)",
+    "Non-Active": "rgb(197, 136, 42)",
+  };
   useEffect(() => {
     async function fetchJobSites() {
       setJobSites(await getJobSites());
@@ -24,11 +27,15 @@ function ViewSites({ accountLogged }) {
     const oldJobSiteHistory = jobSites.filter(
       (js) => js.physical_site_id === Number(id)
     );
-    if (oldJobSiteHistory.status !== "Active")
+    if (oldJobSiteHistory[0].status !== "Active")
       window.alert("This job site is already deactivated!");
     else {
       if (accountLogged.account[0].access_level === "admin") {
-        if (window.confirm("Would you like to deactivate this job site? (This currently cannot be undon.)")) {
+        if (
+          window.confirm(
+            "Would you like to deactivate this job site? (This currently cannot be undone.)"
+          )
+        ) {
           async function removeJobSite() {
             setLoadJobSites(
               await deactivateJobSite(
@@ -78,7 +85,11 @@ function ViewSites({ accountLogged }) {
                     <td>{site.physical_site_loc}</td>
                     <td>{accountLogged.account[0].name}</td>
                     <td>{dateFormatter(site.updated_at)}</td>
-                    <td><span style={{color: colorStatus[site.status]}}>{site.status}</span></td>
+                    <td>
+                      <span style={{ color: colorStatus[site.status] }}>
+                        {site.status}
+                      </span>
+                    </td>
                     <td className="delete-icon-td">
                       <button
                         className="image-button"

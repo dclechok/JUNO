@@ -110,6 +110,7 @@ function NavGuide({
           World Wide
         </option>
         {jobSites && jobSites.map((site, key) => {
+          if(site.status === "Active")
           return <option value={site.physical_site_name} key={key + 1}>{site.physical_site_name} - 10</option>
         })}
       </select>
