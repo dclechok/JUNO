@@ -9,47 +9,50 @@
 * Add tooltip or display proper formatting for acceptable .csv files.
 * Export to PDF feature.
 * Export to Excel feature.
-* Create Users table for different accessibility (Username, Pass, Name, Email, Access Level).
-* Make the list sortable in reverse.
-* Add login details to each page, not just asset list component.
-* Add logged-in user data to any historical moves.
+* Finish threading users throughout App.
+* Make the lists sortable in reverse.
+
 
 ### TODO: Specific Features ###
 -----
 #### Login ####
 * Validation, validation, validation.
-* Add LoaderSpinner when loading.
+* Set timeout (logout after so long)
+* ~~Add LoaderSpinner when loading.~~
 * Submit on 'enter' press.
 #### Asset List ####
 * Styling.
+* Add set amount per page input.
 #### Bulk Upload ####
 * Check for duplicates in .csv file (from accidentally scanning device twice, etc.)
 * Do not allow uploads if job sites in .csv do not exist!
 #### Single Upload ####
 * Implement server middleware specifically for individual asset upload cases (duplicates).
 #### Upload Log ####
-* Fix styling issue where texts goes outside of container.
+* ~~Fix styling issue where texts goes outside of container.~~
 #### Single Asset Component ####
 * Make all fields editable.
 * Add functionality for "move", "delete", and "edit"
 #### Notification Tracker ####
-* Update notifications via history_log table, not individual asset data.
-* Bug: Do not update notification tracker if uploads/actions failed.
+* ~~Update notifications via history_log table, not individual asset data.~~
+* ~~Bug: Do not update notification tracker if uploads/actions failed.~~
 #### History Log ###
-* Create a log for job sites created by.
-* Created a log for history log deleted by.
-* Potentially find historical data by user, or filter by action taken.
-* Add ability to delete a history log (via Admin).
+* ~~Create a log for job sites created by.~~
+* ~~Created a log for history log deactivated by.~~
+* ~~Potentially find historical data by user, or filter by action taken.~~
 #### Navigation Guide (dropdowns) ####
 * Add navigation for "Rack" (Site, MDC, Rack, Shelf, Unit)
 * Add "Repairs, Storage, Retired" to Location dropdown.
 #### Admin Panel ####
 * Add manage users UI?
-* Add LoaderSpinner when loading.
-* Make component re-render upon deleting job site.
+* Build out UI for creating and editing users.
+* ~~Add LoaderSpinner when loading.~~
+* ~~Make component re-render upon deactivating job site.~~
 
 
 #### Completed ####
+* ~~Add login details to each page, not just asset list component.~~
+* ~~Add logged-in user data to any historical moves.~~
 * ~~Create front-page with login.~~
 * ~~Make asset lists have a page system as opposed to scroll.~~
 * ~~Make delete icon have an active styling.~~
