@@ -103,6 +103,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                   {jobSites &&
                     jobSites.length !== 0 &&
                     jobSites.map((site, key) => {
+                      if(site.status === "Active")
                       return (
                         <option
                           id={site.physical_site_name}

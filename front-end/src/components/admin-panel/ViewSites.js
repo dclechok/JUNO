@@ -11,6 +11,7 @@ function ViewSites({ accountLogged }) {
   const [jobSites, setJobSites] = useState(null);
   const [loadJobSites, setLoadJobSites] = useState();
 
+  const colorStatus = { "Active": 'rgb(240, 240, 163)', "Non-Active": 'rgb(197, 136, 42)' };
   useEffect(() => {
     async function fetchJobSites() {
       setJobSites(await getJobSites());
@@ -77,7 +78,7 @@ function ViewSites({ accountLogged }) {
                     <td>{site.physical_site_loc}</td>
                     <td>{accountLogged.account[0].name}</td>
                     <td>{dateFormatter(site.updated_at)}</td>
-                    <td>{site.status}</td>
+                    <td><span style={{color: colorStatus[site.status]}}>{site.status}</span></td>
                     <td className="delete-icon-td">
                       <button
                         className="image-button"
