@@ -1,12 +1,16 @@
 .upload-success-log{
-    font-size: 13px;
-    width: auto;
-    padding: 10px;
+    display: block;
+    font-size: 14px;
+    width: 100%;
     text-overflow: none;
     word-wrap: none;
     background-color: rgb(19, 21, 26);
     color: white;
-    min-width: 500px;
+    min-width: 400px;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+
 }
 
 .upload-success-log h3{

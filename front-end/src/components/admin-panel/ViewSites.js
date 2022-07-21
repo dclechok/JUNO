@@ -107,7 +107,6 @@ function ViewSites({ accountLogged }) {
       ) : (
         <div>
           <LoaderSpinner width={45} height={45} message="Job Sites" />
-          <h6>Searching for active Job Sites..</h6>
         </div>
       )}
     </>
