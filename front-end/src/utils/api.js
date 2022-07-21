@@ -135,7 +135,8 @@ export async function deactivateJobSite(id, accountLogged, oldJobSiteHistory) {
     action_by: accountLogged.account[0].name,
     action_by_id: accountLogged.account[0].user_id,
     action_key: newHistoryKey,
-    action_date: newDate
+    action_date: newDate,
+    action_comment: "Deactivated Job Site"
   });
   try {
     const response = await fetch(BASE_URL + `physical_sites/${id}`, {

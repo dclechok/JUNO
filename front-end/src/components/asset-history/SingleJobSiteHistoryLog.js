@@ -22,15 +22,19 @@ function SingleJobSiteHistoryLog({ loadedHistory }) {
   };
 
   useEffect(() => {
-    if (loadedHistory[0]) {
-      setCurrentHistoryLog(
-        ...loadedHistory[0].history.filter(
-          (log) => log.action_key === history_key
-        )
-      );
+    async function loadHistoryLog(){
+      if (loadedHistory[0]) {
+        setCurrentHistoryLog(
+          ...loadedHistory[0].history.filter(
+            (log) => log.action_key === history_key
+          )
+        );
+      }
     }
+    loadHistoryLog();
+
   }, [loadedHistory]);
-  // console.log(loadedHistory[0])
+
   return (
     <>
       {currentHistoryLog ? (

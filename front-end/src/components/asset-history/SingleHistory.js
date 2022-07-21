@@ -15,8 +15,7 @@ import SingleJobSiteHistoryLog from "./SingleJobSiteHistoryLog";
 function SingleHistory({ assetList, searchHistoryType }) {
   const { history_key } = useParams();
   const [loadedHistory, setLoadedHistory] = useState(null);
-  const [refreshJobSites, setRefreshJobSites] = useState(true); //used to refresh job sites in useEffect, via
-  console.log(searchHistoryType);
+
   useEffect(() => {
     //load data via history_key
     //check assets for key(s) (assets are already loaded)
@@ -40,10 +39,10 @@ function SingleHistory({ assetList, searchHistoryType }) {
             jobSites.find((js) =>
               js.history.find((jsHist) => jsHist.action_key === history_key)
             )
-          ) {
+          ) { //set loaded history a to jobsite that has a history entry that matches history key
             setLoadedHistory(
               jobSites.filter((js) =>
-                js.history.filter((jsHist) => {
+                js.history.find((jsHist) => {
                   return jsHist.action_key === history_key;
                 })
               )
@@ -54,15 +53,13 @@ function SingleHistory({ assetList, searchHistoryType }) {
       fetchJobSites();
     }
     //check job sites for key
-  }, []);
-  console.log(loadedHistory);
+  }, [searchHistoryType]);
+
   const renderSwitch = () => {
-    if (searchHistoryType && loadedHistory && loadedHistory.length !== 0) {
-      if (searchHistoryType.includes("Upload"))
-        return <SingleAssetHistoryLog loadedHistory={loadedHistory} />; //assets bulk upload or single upload
-      if (searchHistoryType.includes("Job Site"))
-        return <SingleJobSiteHistoryLog loadedHistory={loadedHistory} />; //delete or create job site
-    }
+    if (searchHistoryType.includes("Upload"))
+      return <SingleAssetHistoryLog loadedHistory={loadedHistory} />; //assets bulk upload or single upload
+    if (searchHistoryType.includes("Job Site"))
+      return <SingleJobSiteHistoryLog loadedHistory={loadedHistory} />; //delete or create job site
   };
 
   return (

@@ -4,9 +4,13 @@ const colorCode = {
     'Delete Asset': 'rgb(236, 125, 110)', 
     'Move Asset': 'rgb(110, 164, 236)',
     'Edit Asset': 'rgb(205, 214, 126)',
-    'Create Job Site': 'rgb(239, 198, 141)',
-    'Deactivate Job Site': 'rgb(204, 48, 6)'
-    // 'Deactivate Job Site': 'rgb(33, 224, 21)' green
+    'Create Job Site': 'rgb(166, 115, 243)',
+    'Deactivate Job Site': 'rgb(252, 193, 61)'
+    // 'Edit Job Site'
+    // 'Create User'
+    // 'Remove User'
+    // 'Edit User'
+
   }
 
   export default colorCode;
