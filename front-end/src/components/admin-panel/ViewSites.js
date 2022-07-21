@@ -33,7 +33,7 @@ function ViewSites({ accountLogged }) {
 
   return (
     <>
-      {jobSites && jobSites.length !== 0 ? (
+      {jobSites && jobSites.length !== 0 && jobSites.find(js => js.status === "Active") ? (
         <table className="shrink-font">
           <tbody>
             <tr>
@@ -56,6 +56,7 @@ function ViewSites({ accountLogged }) {
             {jobSites &&
               jobSites.length !== 0 &&
               jobSites.map((site, key) => {
+                if(site.status === "Active"){
                 return (
                   <tr key={key}>
                     <td>{site.physical_site_name}</td>
@@ -65,10 +66,14 @@ function ViewSites({ accountLogged }) {
                     <td className="delete-icon-td"><button className='image-button' onClick={onClickHandler} id={site.physical_site_id}><img src={deletePng} alt="delete job site" /></button></td>
                   </tr>
                 );
-              })}
+              }})}
           </tbody>
         </table>
-      ) : <LoaderSpinner width={45} height={45} message="Job Sites" />}
+      ) : 
+      <div>
+        <LoaderSpinner width={45} height={45} message="Job Sites" />
+        <h6>Searching for active Job Sites..</h6>
+      </div>}
     </>
   );
 }

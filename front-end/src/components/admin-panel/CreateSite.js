@@ -7,7 +7,7 @@ import LoaderSpinner from "../LoaderSpinner";
 
 function CreateSite({ accountLogged, setViewOrCreate }) {
   const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
-
+  const newDate = new Date();
   const defaultJobSite = {
     physical_site_name: "",
     physical_site_loc: "",
@@ -18,7 +18,9 @@ function CreateSite({ accountLogged, setViewOrCreate }) {
         action_taken: "Create Job Site",
         action_by: accountLogged.account[0].name,
         action_by_id: accountLogged.account[0].user_id,
-        action_key: newHistoryKey //generate unique history key ("action_key")
+        action_key: newHistoryKey, //generate unique history key ("action_key")
+        action_date: newDate,
+        action_comment: "Job Site Creation"
       }
     ]
   };

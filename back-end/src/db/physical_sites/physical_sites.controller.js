@@ -21,9 +21,7 @@ async function deactivate(req, res) { //update, do not delete
   const { id } = req.params;
   const { status } = req.body.data;
   let { history } = req.body.data;
-  console.log(history);
   history = JSON.stringify(history); //restringify
-  console.log(history);
   const data = await knex("physical_sites")
   .where("physical_site_id", id)
   .update({

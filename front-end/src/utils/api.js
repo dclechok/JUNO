@@ -106,7 +106,7 @@ export async function createJobSite(jobSite) {
     if (jsonResponse) {
       //if POST request was successful, create a log in history_log table
       const { action_by, action_by_id, action_key, action_taken } =
-        jsonResponse.data.history;
+        jsonResponse.data.history[0];
       const { updated_at } = jsonResponse.data;
       //eventually add comments, and "approved_by";
       const awaitCreateHistory = await createHistory({
@@ -155,6 +155,7 @@ export async function deactivateJobSite(id, accountLogged, oldJobSiteHistory) {
       //if POST request was successful, create a log in
       //eventually add comments, and "approved_by";
       const { name, user_id } = accountLogged.account[0];
+      console.log(name)
       const awaitCreateHistory = await createHistory({
         logged_action: "Deactivate Job Site",
         logged_date: newDate,
