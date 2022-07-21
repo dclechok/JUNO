@@ -33,6 +33,7 @@ function CreateSite({ accountLogged, setViewOrCreate }) {
     e.preventDefault();
     async function createNewJobSite(){
       setSuccessJobSiteCreate(await createJobSite(newJobSite));
+      if(setSuccessJobSiteCreate) setViewOrCreate("view");
     }
     createNewJobSite();
     setCreateButtonDisabled(true);
