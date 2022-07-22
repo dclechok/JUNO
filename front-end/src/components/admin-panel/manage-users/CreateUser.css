@@ -1,0 +1,38 @@
+.create-user-container{
+    display: block;
+    max-width: 500px;
+    padding: 2%;
+}
+
+.create-user-form{
+    min-height: 400px;
+}
+
+.radio-buttons-container{
+    display: inline-block;
+    max-width: 300px;
+}
+
+.flex-buttons{
+    display: flex;
+    justify-content: center;
+}
+
+.flex-buttons input{
+    position: relative;
+}
+
+.flex-header{
+    display: flex;
+    justify-content: center;
+}
+
+.create-space{
+    margin-top: 8%;
+}
+
+.fix-button{
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 80%;
+}
