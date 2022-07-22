@@ -1,4 +1,4 @@
-
+import deletePng from "../../../images/delete.png";
 //utils
 import dateFormatter from "../../../utils/dateFormatter";
 
@@ -39,7 +39,7 @@ function ViewUsers({ users }) {
                   <td>{u.username}</td>
                   <td>{u.access_level}</td>
                   <td>{dateFormatter(u.created_at)}</td>
-                  <td>Delete</td>
+                  <td className="delete-icon-td"><button className="image-button"><img src={deletePng} alt="delete user" /></button></td>
                 </tr>
               );
             })}
