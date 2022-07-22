@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
 //utils
-import generateHistoryKey from "../../utils/generateHistoryKey";
-import { createJobSite } from "../../utils/api";
-import LoaderSpinner from "../LoaderSpinner";
+import generateHistoryKey from "../../../utils/generateHistoryKey";
+import { createJobSite } from "../../../utils/api";
+import LoaderSpinner from "../../LoaderSpinner";
 
 function CreateSite({ accountLogged, setViewOrCreate }) {
   const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")

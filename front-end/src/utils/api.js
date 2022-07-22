@@ -30,7 +30,8 @@ export async function createAsset(assets) {
     const jsonResponse = await response.json(); //json-ify readablestream data
     if (jsonResponse) {
       //if POST request was successful, create a log in
-      const { action_by, action_by_id, action_taken, action_key } = jsonResponse.data.history[0];
+      const { action_by, action_by_id, action_taken, action_key } =
+        jsonResponse.data.history[0];
       const { updated_at } = jsonResponse.data;
       //eventually add comments, and "approved_by";
       const awaitCreateHistory = await createHistory({
@@ -131,13 +132,14 @@ export async function deactivateJobSite(id, accountLogged, oldJobSiteHistory) {
   //DO NOT ACTUALLY PERMANENTLY DELETE FROM DB
   const newDate = new Date();
   const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
-  oldJobSiteHistory.push({ //push new entry onto the old job site history list
+  oldJobSiteHistory.push({
+    //push new entry onto the old job site history list
     action_taken: "Deactivate Job Site",
     action_by: accountLogged.account[0].name,
     action_by_id: accountLogged.account[0].user_id,
     action_key: newHistoryKey,
     action_date: newDate,
-    action_comment: "Deactivated Job Site"
+    action_comment: "Deactivated Job Site",
   });
   try {
     const response = await fetch(BASE_URL + `physical_sites/${id}`, {
@@ -157,7 +159,7 @@ export async function deactivateJobSite(id, accountLogged, oldJobSiteHistory) {
       //if POST request was successful, create a log in
       //eventually add comments, and "approved_by";
       const { name, user_id } = accountLogged.account[0];
-      console.log(name)
+      console.log(name);
       const awaitCreateHistory = await createHistory({
         logged_action: "Deactivate Job Site",
         logged_date: newDate,
@@ -221,10 +223,9 @@ export async function getUsers() {
       },
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
-
-    return jsonResponse;
+    if (jsonResponse) return jsonResponse;
   } catch (e) {
-    console.log(e, "Failed to fetch all history.");
+    console.log(e, "Failed to fetch all job sites.");
   }
 }
 

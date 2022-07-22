@@ -28,7 +28,6 @@ function Login({ accountLogged, setAccountLogged }) {
     loadUsers();
     return abortController.abort();
   }, [setCreateAdmin, createAdmin]);
-
   useEffect(() => {
     if (users) {
       if (
@@ -36,6 +35,8 @@ function Login({ accountLogged, setAccountLogged }) {
         !users.find((user) => user.access_level === "admin")
       ) {
         //no users or administrators exist in the system
+        setAccountLogged(null);
+        localStorage.clear();
         setCreateAdmin(true);
       }
     }
@@ -54,10 +55,10 @@ function Login({ accountLogged, setAccountLogged }) {
       {
         localStorage.setItem('acctLogged',  JSON.stringify({logged: true, account: foundAcct}));
         await setAccountLogged(JSON.parse(localStorage.getItem('acctLogged')));
+        if(accountLogged) setCreateAdmin(false);
       }
     }
   };
-
   //login with 'enter' key press on form
   const handleKeyPress = (e) => {
     if(e.keyCode === 13) handleClick();
@@ -74,11 +75,11 @@ function Login({ accountLogged, setAccountLogged }) {
           <h4>Powered by Mawson Infrastructure Group</h4>
         </div>
         <>
-        {users && users.length !== 0 ? 
+        {users ? 
         <div className="login-form-container">
-          {createAdmin ? (
+          {createAdmin ? 
             <CreateAdmin setCreateAdmin={setCreateAdmin}/>
-          ) : (
+           : (
             <>
               <h2>Sign In</h2>
               <form onKeyPress={handleKeyPress}>

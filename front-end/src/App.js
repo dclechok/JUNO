@@ -12,7 +12,7 @@ import Nav from "./components/navigation/Nav.js";
 import AssetList from "./components/asset-list/AssetList.js";
 import SingleAsset from "./components/asset-list/single-asset/SingleAsset.js";
 import UploadAssets from "./components/upload-assets/UploadAssets";
-import AdminPanel from "./components/admin-panel/AdminPanel";
+import AdminPanel from "./components/admin-panel/manage-job-sites/AdminPanel";
 import HistoryList from "./components/asset-history/HistoryList";
 import SingleHistory from "./components/asset-history/SingleHistory.js";
 import Footer from "./Footer.js";

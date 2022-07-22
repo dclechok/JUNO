@@ -1,11 +1,11 @@
 import "./ViewSites.css";
 import { useState, useEffect } from "react";
-import deletePng from "../../images/delete.png";
+import deletePng from "../../../images/delete.png";
 //utils
-import dateFormatter from "../../utils/dateFormatter";
-import { getJobSites } from "../../utils/api";
-import { deactivateJobSite } from "../../utils/api";
-import LoaderSpinner from "../LoaderSpinner";
+import dateFormatter from "../../../utils/dateFormatter";
+import { getJobSites } from "../../../utils/api";
+import { deactivateJobSite } from "../../../utils/api";
+import LoaderSpinner from "../../LoaderSpinner";
 
 function ViewSites({ accountLogged }) {
   const [jobSites, setJobSites] = useState(null);
