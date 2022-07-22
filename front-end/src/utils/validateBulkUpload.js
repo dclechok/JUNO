@@ -55,14 +55,16 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged) {
                 csv_index: parsedAssets.indexOf(asset) + 1, //use this to render upload log, remove key before making post request
               },
               status: "Needs Verified", //default on upload - **needs verified through foreman**
-              history: {
-                action_date: action_date,
-                action_taken: "Bulk Upload",
-                action_by: accountLogged.account[0].name,
-                action_by_id: accountLogged.account[0].user_id,
-                action_comment: "Initial Upload",
-                action_key: newHistoryKey,
-              },
+              history: [
+                {
+                  action_date: action_date,
+                  action_taken: "Bulk Upload",
+                  action_by: accountLogged.account[0].name,
+                  action_by_id: accountLogged.account[0].user_id,
+                  action_comment: "Initial Upload",
+                  action_key: newHistoryKey,
+                },
+              ],
               serial_number: asset[1],
               make: asset[3],
               model: asset[4],
