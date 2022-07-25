@@ -102,9 +102,8 @@ function App() {
               path="/:asset_id"
               element={
                 <SingleAsset
-                  loadAssets={loadAssets}
-                  setLoadAssets={setLoadAssets}
-                  assetList={assetList}
+                  loadSingleAsset={loadSingleAsset}
+                  accountLogged={accountLogged}
                 />
               }
             ></Route>

@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-import { updateAsset } from '../../../utils/api';
+import { updateAsset } from "../../../utils/api";
+import generateHistoryKey from "../../../utils/generateHistoryKey";
 
-function SingleAssetEdit({ singleAsset }) {
-    
+function SingleAssetEdit({ singleAsset, accountLogged }) {
   const [assetFields, setAssetFields] = useState(...singleAsset);
   const [updateSuccess, setUpdateSuccess] = useState(null);
-  
+
   const changeHandler = (e) => {
     //create controlled input
     e.preventDefault();
@@ -17,22 +17,32 @@ function SingleAssetEdit({ singleAsset }) {
   const submitHandler = (e) => {
     //make a PUT request to submit asset update
     e.preventDefault();
-    async function editAsset(){
-        setUpdateSuccess(updateAsset(assetFields.asset_id, {
-            ...singleAsset,
-            asset_tag: assetFields.asset_tag,
-            serial_number: assetFields.serial_number,
-            make: assetFields.make,
-            model: assetFields.model,
-            hr: assetFields.hr
-            
-        }));
+    const newHistoryKey = generateHistoryKey();
+    const newDate = new Date();
+    async function editAsset() {
+      setUpdateSuccess(
+        await updateAsset(assetFields.asset_id, {
+          ...assetFields,
+          history: [
+            ...assetFields.history,
+            {
+              action_taken: "Edit Asset",
+              action_date: newDate,
+              action_by: accountLogged.account[0].name,
+              action_by_id: accountLogged.account[0].user_id,
+              action_key: newHistoryKey,
+              action_comment: "Updated Miner Details",
+            },
+          ],
+        })
+      );
     }
     editAsset();
   };
 
+  console.log(updateSuccess);
   return (
-<section className="upload-container-style">
+    <section className="upload-container-style">
       <h3>Edit Asset Details</h3>
       <form className="form-container" onSubmit={submitHandler}>
         <div>
@@ -40,7 +50,7 @@ function SingleAssetEdit({ singleAsset }) {
           <input
             id="asset_tag"
             type="text"
-            value={singleAsset[0].asset_tag}
+            value={assetFields.asset_tag}
             onChange={changeHandler}
             placeholder={singleAsset[0].asset_tag}
           />

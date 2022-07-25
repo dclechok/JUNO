@@ -72,25 +72,38 @@ async function create(req, res) {
 
 async function read(req, res) {
   //return single asset via asset_tag
-  
   const { asset_id } = req.params;
-  console.log(asset_id)
   const data = await knex("assets")
     .select("*")
-    .where("asset_id", Number(asset_id))
+    .where("asset_id", asset_id)
     .then((results) => results[0]);
   res.json(data);
 }
 
 async function update(req, res) {
   //update asset
-  console.log("update asset");
-
+  const { asset_id } = req.params;
+  //fields we can update
+  const { asset_tag, serial_number, make, model, hr } = req.body.data;
+  const { history } = JSON.stringify(req.body.data.history);
+  const data = await knex('assets')
+  .where('asset_id', asset_id)
+  .update({
+    asset_tag, asset_tag,
+    serial_number, serial_number,
+    make, make,
+    model, model,
+    hr, hr, 
+    history, history
+  })
+  .returning('*')
+  .then((results) => results[0]);
+  res.status(204).json({ data });
 }
 
 async function remove(req, res) {
   //remove asset from db
-  const { asset_tag } = req.params;
+  const { asset_id } = req.params;
   const data = await knex("assets")
   .where("asset_id", asset_id)
   .del();
@@ -100,9 +113,6 @@ module.exports = {
   list: asyncErrorBoundary(list),
   create: [bodyHasResultProperty, validateBody, asyncErrorBoundary(create)], // TODO: verify each data field format
   read: asyncErrorBoundary(read), //read individual asset
+  update: asyncErrorBoundary(update),
   delete: asyncErrorBoundary(remove)
-  //create
-  //read
-  //update
-  //delete
 };

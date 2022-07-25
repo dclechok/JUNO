@@ -67,18 +67,43 @@ export async function getSingleAsset(asset_id){
 }
 
 // ASSETS - UPDATE //
-export async function updateAsset(asset_id, newAssetInfo){
+export async function updateAsset(asset_id, data){
   try{
-    console.log(asset_id, newAssetInfo);
+    const response = await fetch(BASE_URL + `assets/${asset_id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ data })
+    });
+    const jsonResponse = await response.json();
+    console.log(jsonResponse);
+    if(jsonResponse){
+      const { action_by, action_by_id, action_key, action_taken } =
+      jsonResponse.data.history[0];
+      console.log(jsonResponse.data)
+    const { updated_at } = jsonResponse.data;
+    //eventually add comments, and "approved_by";
+    const awaitCreateHistory = await createHistory({
+      logged_action: action_taken,
+      logged_date: updated_at,
+      logged_by: action_by,
+      logged_by_id: action_by_id,
+      history_key: action_key,
+    });
+    if (!awaitCreateHistory)
+      throw new Error("Making request for history log failed!");
+    return jsonResponse;
+    }
   }catch(e){
     console.log(e, 'Failed to update asset.');
   }
 }
 
 // ASSETS - DELETE ONE //
-export async function deleteAsset(asset_tag){
+export async function deleteAsset(asset_id){
   try {
-    const response = await fetch(BASE_URL + `assets/${asset_tag}`, {
+    const response = await fetch(BASE_URL + `assets/${asset_id}`, {
       method: "DELETE",
     });
     const jsonResponse = await response.json(); //json-ify readablestream data

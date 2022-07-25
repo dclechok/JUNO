@@ -14,7 +14,7 @@ import dateFormatter from "../../../utils/dateFormatter.js";
 import { getSingleAsset } from "../../../utils/api";
 import { deleteAsset } from '../../../utils/api';
 
-function SingleAsset({ loadSingleAsset }) {
+function SingleAsset({ loadSingleAsset, accountLogged }) {
   const [singleAsset, setSingleAsset] = useState("");
   const [singleAssetNav, setSingleAssetNav] = useState("info"); //default to single assets info page
   const defaultButtonState = {
@@ -25,10 +25,8 @@ function SingleAsset({ loadSingleAsset }) {
     delete: "button-link"
   };
   const [buttonState, setButtonState] = useState(defaultButtonState); //"button-link" (inactive) or "active-button-link" (active) classes
-  
   const { asset_id } = useParams(); //get asset_tag from url parameters
 
-  console.log(asset_id)
   useEffect(() => {
     const abortController = new AbortController();
     async function grabSingleAsset() {
@@ -99,7 +97,7 @@ function SingleAsset({ loadSingleAsset }) {
               <SingleAssetHistory singleAsset={singleAsset} />
             )}
             {singleAssetNav === "edit" && (
-                <SingleAssetEdit singleAsset={singleAsset} />
+                <SingleAssetEdit singleAsset={singleAsset} accountLogged={accountLogged} />
               )}
           </section>
         </>
