@@ -51,9 +51,9 @@ export async function createAsset(assets) {
   }
 }
 // ASSETS - READ ONE //
-export async function getSingleAsset(asset_tag) {
+export async function getSingleAsset(asset_id){
   try {
-    const response = await fetch(BASE_URL + `assets/${asset_tag}`, {
+    const response = await fetch(BASE_URL + `assets/${asset_id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -65,8 +65,18 @@ export async function getSingleAsset(asset_tag) {
     console.log(e, "Failed to fetch all assets.");
   }
 }
+
+// ASSETS - UPDATE //
+export async function updateAsset(asset_id, newAssetInfo){
+  try{
+    console.log(asset_id, newAssetInfo);
+  }catch(e){
+    console.log(e, 'Failed to update asset.');
+  }
+}
+
 // ASSETS - DELETE ONE //
-export async function deleteAsset(asset_tag) {
+export async function deleteAsset(asset_tag){
   try {
     const response = await fetch(BASE_URL + `assets/${asset_tag}`, {
       method: "DELETE",

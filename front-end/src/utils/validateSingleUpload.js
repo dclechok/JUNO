@@ -35,6 +35,7 @@ function validateSingleUpload(asset, assetList) {
         make: asset.make,
         model: asset.model,
         hr: asset.hr,
+        history: asset.history
       });
     }else{
       newAsset.push({

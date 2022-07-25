@@ -72,10 +72,12 @@ async function create(req, res) {
 
 async function read(req, res) {
   //return single asset via asset_tag
-  const { asset_tag } = req.params;
+  
+  const { asset_id } = req.params;
+  console.log(asset_id)
   const data = await knex("assets")
     .select("*")
-    .where("asset_tag", asset_tag)
+    .where("asset_id", Number(asset_id))
     .then((results) => results[0]);
   res.json(data);
 }
@@ -83,13 +85,14 @@ async function read(req, res) {
 async function update(req, res) {
   //update asset
   console.log("update asset");
+
 }
 
 async function remove(req, res) {
   //remove asset from db
   const { asset_tag } = req.params;
   const data = await knex("assets")
-  .where("asset_tag", asset_tag)
+  .where("asset_id", asset_id)
   .del();
   res.status(200).json({ data });
 }

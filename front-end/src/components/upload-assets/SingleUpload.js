@@ -90,7 +90,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
       <h4>Single Upload</h4>
       {jobSites && jobSites.length !== 0 ? (
         <>
-          {!successfulUpload && (
+          {!successfulUpload && !logItem && (
             <form className="form-container" onSubmit={submitHandler}>
               <div>
                 <label htmlFor="location">Location</label>
@@ -180,7 +180,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
       ) : (
         <LoaderSpinner height={45} width={45} message={"Job Sites"} />
       )}
-      {logItem && successfulUpload && (
+      {logItem && (
         <UploadSuccess
           rejectedLog={logItem.rejected}
           newAssets={logItem.accepted}

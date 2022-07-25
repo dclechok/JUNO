@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 //components
 import SingleAssetInfo from "./SingleAssetInfo.js"; //rendering single assets basic info
 import SingleAssetHistory from "./SingleAssetHistory.js"; //rendering single assets historical info
+import SingleAssetEdit from "./SingleAssetEdit"; //component to edit individual asset's details
+
 import LoaderSpinner from "../../LoaderSpinner";
 //import SingleAssetEdit from ""
 
@@ -12,7 +14,7 @@ import dateFormatter from "../../../utils/dateFormatter.js";
 import { getSingleAsset } from "../../../utils/api";
 import { deleteAsset } from '../../../utils/api';
 
-function SingleAsset({ loadSingleAsset, loadAssets, setLoadAssets }) {
+function SingleAsset({ loadSingleAsset }) {
   const [singleAsset, setSingleAsset] = useState("");
   const [singleAssetNav, setSingleAssetNav] = useState("info"); //default to single assets info page
   const defaultButtonState = {
@@ -24,12 +26,13 @@ function SingleAsset({ loadSingleAsset, loadAssets, setLoadAssets }) {
   };
   const [buttonState, setButtonState] = useState(defaultButtonState); //"button-link" (inactive) or "active-button-link" (active) classes
   
-  const { asset_tag } = useParams(); //get asset_tag from url parameters
+  const { asset_id } = useParams(); //get asset_tag from url parameters
 
+  console.log(asset_id)
   useEffect(() => {
     const abortController = new AbortController();
     async function grabSingleAsset() {
-        setSingleAsset([await getSingleAsset(asset_tag)]); //this list will hold the entire list of asset data and will not be modified
+        setSingleAsset([await getSingleAsset(asset_id)]); //this list will hold the entire list of asset data and will not be modified
     }
     grabSingleAsset();
     setButtonState({...defaultButtonState, info: "active-button-link"}); //default to our info component, make button active
@@ -38,7 +41,7 @@ function SingleAsset({ loadSingleAsset, loadAssets, setLoadAssets }) {
 
   function deleteSingleAsset(){
     const abortController = new AbortController();
-    deleteAsset(asset_tag);
+    deleteAsset(asset_id);
     return () => abortController.abort;
   }
 
@@ -46,7 +49,7 @@ function SingleAsset({ loadSingleAsset, loadAssets, setLoadAssets }) {
     //sets toggle to render which of the 3 "pages" or edit/delete
     const { id } = e.currentTarget;
     e.preventDefault();
-    if(id === "delete") if(window.confirm(`This will permenantly delete the asset ${asset_tag} and all its history. Do you wish to proceed?`)) deleteSingleAsset();
+    if(id === "delete") if(window.confirm(`This will permenantly delete the asset ${asset_id} and all its history. Do you wish to proceed?`)) deleteSingleAsset();
     setButtonState({...defaultButtonState, [id]: "active-button-link"});
     setSingleAssetNav(e.currentTarget.id); //info, history, move, edit
   };
@@ -95,6 +98,9 @@ function SingleAsset({ loadSingleAsset, loadAssets, setLoadAssets }) {
             {singleAssetNav === "history" && (
               <SingleAssetHistory singleAsset={singleAsset} />
             )}
+            {singleAssetNav === "edit" && (
+                <SingleAssetEdit singleAsset={singleAsset} />
+              )}
           </section>
         </>
       ) : (<div className="loader-spinner">

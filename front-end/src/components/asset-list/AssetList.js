@@ -33,8 +33,6 @@ function AssetList({
   setLoadAssets,
   loadAssets,
   assetListValues,
-  accountLogged,
-  setAccountLogged
 }) {
   const [jobSites, setJobSites] = useState();
   const [sortBy, setSortBy] = useState("asset_id"); //default sort list by JUNO id
@@ -238,7 +236,7 @@ function AssetList({
                               <button
                                 className="asset-tag-button"
                                 id="asset-tag"
-                                value={asset.asset_tag}
+                                value={asset.asset_id}
                                 onClick={handleSubmitSingleAsset}
                               >
                                 {asset.asset_tag}

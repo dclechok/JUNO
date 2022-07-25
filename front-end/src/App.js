@@ -99,7 +99,7 @@ function App() {
             ></Route>
             <Route
               exact
-              path="/:asset_tag"
+              path="/:asset_id"
               element={
                 <SingleAsset
                   loadAssets={loadAssets}
