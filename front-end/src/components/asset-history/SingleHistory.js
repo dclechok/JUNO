@@ -16,14 +16,13 @@ import SingleUserHistoryLog from "./SingleUserHistoryLog";
 function SingleHistory({ assetList, searchHistoryType }) {
   const { history_key } = useParams();
   const [loadedHistory, setLoadedHistory] = useState(null);
-  console.log(searchHistoryType)
   useEffect(() => {
     //load data via history_key
     //check assets for key(s) (assets are already loaded)
     if (
       searchHistoryType &&
       (searchHistoryType === "Single Upload" ||
-        searchHistoryType === "Bulk Upload" || "Edit Asset") 
+        searchHistoryType === "Bulk Upload" || searchHistoryType === "Edit Asset") 
     ) {
       if (assetList && assetList.length !== 0) {
         if (
@@ -72,7 +71,7 @@ function SingleHistory({ assetList, searchHistoryType }) {
   }, [searchHistoryType]);
 
   const renderSwitch = () => {
-    if (searchHistoryType.includes("Upload"))
+    if (searchHistoryType.includes("Upload") || searchHistoryType.includes("Edit Asset"))
       return <SingleAssetHistoryLog loadedHistory={loadedHistory} />; //assets bulk upload or single upload
     if (searchHistoryType.includes("Job Site"))
       return <SingleJobSiteHistoryLog loadedHistory={loadedHistory} />; //single page history for job site

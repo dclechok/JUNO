@@ -9,7 +9,7 @@ import LoaderSpinner from "../LoaderSpinner";
 function SingleAssetHistoryLog({ loadedHistory }) {
   const { history_key } = useParams();
   const navigate = new useNavigate();
-  const [assetHistory, setAssetHistory] = useState();
+  const [currentHistoryLog, setCurrentHistoryLog] = useState(null); //current historical action we're looking at
 
   const onClickHandler = (e) => {
     const { id } = e.currentTarget;
@@ -21,13 +21,22 @@ function SingleAssetHistoryLog({ loadedHistory }) {
   };
 
   useEffect(() => {
-    //grab history from history array
-    setAssetHistory(...loadedHistory[0].history);
+    async function loadHistoryLog() {
+      if (loadedHistory[0]) {
+        setCurrentHistoryLog(
+          ...loadedHistory[0].history.filter(
+            (log) => log.action_key === history_key
+          )
+        );
+      }
+    }
+    loadHistoryLog();
   }, [loadedHistory]);
 
+  console.log(currentHistoryLog, 'test');
   return (
     <>
-      {assetHistory ? (
+      {currentHistoryLog ? (
         <>
           <header className="single-history-header container-style">
             <div>
@@ -35,20 +44,21 @@ function SingleAssetHistoryLog({ loadedHistory }) {
                 <b>Action Logged</b>:{" "}
                 <span
                   style={{
-                    color: colorCode[assetHistory.action_taken],
+                    color: colorCode[currentHistoryLog.action_taken],
                   }}
                 >
-                  {assetHistory.action_taken}
+                  {currentHistoryLog.action_taken}
                 </span>
               </p>
               <p>
-                <b>Logged By</b>: {assetHistory.action_by}
+                <b>Logged By</b>: {currentHistoryLog.action_by}
               </p>
               <p>
                 <b>Approved By</b>: --
               </p>
               <p>
-                <b>Logged Date</b>: {dateFormatter(assetHistory.action_date)}
+                <b>Logged Date</b>:{" "}
+                {dateFormatter(currentHistoryLog.action_date)}
               </p>
               <p>
                 <b>Total Assets Mutated</b>: {loadedHistory.length}

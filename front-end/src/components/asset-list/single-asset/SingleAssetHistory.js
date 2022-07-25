@@ -33,16 +33,20 @@ function SingleAssetHistory({ singleAsset }) {
                 <b>Comments</b>
               </th>
             </tr>
-            {singleAssetHistory.map((singleHist, key) => {
-              return (
-                <tr key={key}>
-                  <td>{dateFormatter(singleHist.action_date)}</td>
-                  <td>{singleHist.action_taken}</td>
-                  <td>{singleHist.action_by}</td>
-                  <td>{singleHist.action_comment}</td>
-                </tr>
-              );
-            })}
+            {singleAssetHistory
+              .sort((a, b) =>
+                b.action_date.toString().localeCompare(a.action_date.toString())
+              )
+              .map((singleHist, key) => {
+                return (
+                  <tr key={key}>
+                    <td>{dateFormatter(singleHist.action_date)}</td>
+                    <td>{singleHist.action_taken}</td>
+                    <td>{singleHist.action_by}</td>
+                    <td>{singleHist.action_comment}</td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       )}
