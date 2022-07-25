@@ -240,8 +240,22 @@ export async function createUser(user) {
       body: JSON.stringify({ data: user }),
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
-    if (jsonResponse) return jsonResponse;
+    if (jsonResponse) {
+      //if POST request was successful, create a log in
+      //eventually add comments, and "approved_by";
+      const { action_by, action_by_id, history_key, action_date } = (jsonResponse.data.history[0]);
+      const awaitCreateHistory = await createHistory({
+        logged_action: "Create User",
+        logged_date: action_date,
+        logged_by: action_by,
+        logged_by_id: action_by_id,
+        history_key: history_key
+      });
+      if (!awaitCreateHistory)
+        throw new Error("Making request create user failed!");
+      return jsonResponse;
+    }
   } catch (e) {
-    console.log(e, "Failed to post history.");
+    console.log(e, "Failed to post to users.");
   }
 }

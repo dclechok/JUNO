@@ -1,16 +1,29 @@
 import { useEffect, useState } from "react";
+
+//utils
 import { createUser } from "../../utils/api";
+import generateHistoryKey from "../../utils/generateHistoryKey";
+
 const bcrypt = require("bcryptjs");
 
-// var bcrypt = dcodeIO.bcrypt;
-
 function CreateAdmin({ setCreateAdmin }) {
+  const newHistoryKey = generateHistoryKey();
+  const newDate = new Date();
   const defaultUserData = {
     username: "",
     hash: "",
     email: "",
     name: "",
     access_level: "admin",
+    history: [
+      {
+        action_date: newDate,
+        action_taken: "Create User",
+        action_by: "Server Admin",
+        action_by_id: "Server Admin",
+        history_key: newHistoryKey
+      }
+    ]
   };
   const [userData, setUserData] = useState(defaultUserData);
   const [validatedUserData, setValidatedUserData] = useState(true); //to be used for future validation

@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 
 //utils
 import { getJobSites } from "../../utils/api";
+import { getUsers } from "../../utils/api";
 
 //components
 import SingleAssetHistoryLog from "./SingleAssetHistoryLog"; //render single asset history log
 import SingleJobSiteHistoryLog from "./SingleJobSiteHistoryLog";
+import SingleUserHistoryLog from "./SingleUserHistoryLog";
 //import singleassetjobsitelog
-//import singleuserjobsitelog
 
 //renders a single viewable historical entry
 function SingleHistory({ assetList, searchHistoryType }) {
@@ -58,14 +59,28 @@ function SingleHistory({ assetList, searchHistoryType }) {
       }
       fetchJobSites();
     }
+    if(searchHistoryType && searchHistoryType.includes("User")){
+      async function fetchUsers(){
+        const users = await getUsers();
+        if(users && users.length !== 0){
+            // console.log(users.filter(u => u.history.filter(uHist => uHist.history_key === history_key)));
+          setLoadedHistory(users.filter(u => u.history.find(uHist => uHist.history_key === history_key)));
+          }
+      }
+      fetchUsers();
+    }
     //check job sites for key
   }, [searchHistoryType]);
+
+  console.log(loadedHistory);
 
   const renderSwitch = () => {
     if (searchHistoryType.includes("Upload"))
       return <SingleAssetHistoryLog loadedHistory={loadedHistory} />; //assets bulk upload or single upload
     if (searchHistoryType.includes("Job Site"))
-      return <SingleJobSiteHistoryLog loadedHistory={loadedHistory} />; //delete or create job site
+      return <SingleJobSiteHistoryLog loadedHistory={loadedHistory} />; //single page history for job site
+    if (searchHistoryType.includes("User"))
+      return <SingleUserHistoryLog loadedHistory={loadedHistory} /> //single page history for user
   };
 
   return (

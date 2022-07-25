@@ -61,7 +61,7 @@ function ManageUsers({ accountLogged }) {
             ]
           </span>
           {viewOrCreate === "view" && <ViewUsers users={users} />}
-          {viewOrCreate === "create" && <CreateUser />}
+          {viewOrCreate === "create" && <CreateUser users={users} accountLogged={accountLogged} />}
         </div>
       ) : (
         <LoaderSpinner width={45} height={45} message={"User Data"}/>
