@@ -16,14 +16,14 @@ import SingleUserHistoryLog from "./SingleUserHistoryLog";
 function SingleHistory({ assetList, searchHistoryType }) {
   const { history_key } = useParams();
   const [loadedHistory, setLoadedHistory] = useState(null);
-
+  console.log(searchHistoryType)
   useEffect(() => {
     //load data via history_key
     //check assets for key(s) (assets are already loaded)
     if (
       searchHistoryType &&
       (searchHistoryType === "Single Upload" ||
-        searchHistoryType === "Bulk Upload")
+        searchHistoryType === "Bulk Upload" || "Edit Asset") 
     ) {
       if (assetList && assetList.length !== 0) {
         if (

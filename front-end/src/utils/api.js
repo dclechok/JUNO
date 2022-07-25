@@ -71,16 +71,14 @@ export async function updateAsset(asset_id, data){
   try{
     const response = await fetch(BASE_URL + `assets/${asset_id}`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ data })
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ data: data })
     });
     const jsonResponse = await response.json();
-    console.log(jsonResponse);
+    console.log(jsonResponse, 'test')
     if(jsonResponse){
       const { action_by, action_by_id, action_key, action_taken } =
-      jsonResponse.data.history[0];
+      jsonResponse.data.history[jsonResponse.data.history.length - 1];
       console.log(jsonResponse.data)
     const { updated_at } = jsonResponse.data;
     //eventually add comments, and "approved_by";

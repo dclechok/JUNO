@@ -18,7 +18,7 @@ function SingleAssetEdit({ singleAsset, accountLogged }) {
     //make a PUT request to submit asset update
     e.preventDefault();
     const newHistoryKey = generateHistoryKey();
-    const newDate = new Date();
+    const action_date = new Date();
     async function editAsset() {
       setUpdateSuccess(
         await updateAsset(assetFields.asset_id, {
@@ -27,12 +27,12 @@ function SingleAssetEdit({ singleAsset, accountLogged }) {
             ...assetFields.history,
             {
               action_taken: "Edit Asset",
-              action_date: newDate,
+              action_date: action_date,
               action_by: accountLogged.account[0].name,
               action_by_id: accountLogged.account[0].user_id,
               action_key: newHistoryKey,
               action_comment: "Updated Miner Details",
-            },
+            }
           ],
         })
       );
@@ -40,7 +40,6 @@ function SingleAssetEdit({ singleAsset, accountLogged }) {
     editAsset();
   };
 
-  console.log(updateSuccess);
   return (
     <section className="upload-container-style">
       <h3>Edit Asset Details</h3>
