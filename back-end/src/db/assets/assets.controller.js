@@ -60,8 +60,7 @@ async function list(req, res) {
 
 async function create(req, res) {
   //create new asset in the system
-  
-  const result = req.body.data.length === 1 ? { //stringify single asset history into json array
+  const result = !Array.isArray(req.body.data.length) ? { //stringify single asset history into json array
     ...req.body.data, history: JSON.stringify(req.body.data.history)
   } : req.body.data.map(data => {return {...data, history: JSON.stringify(data.history)}}); //stringify each bulk asset's history into json array
   const data = await knex("assets")
