@@ -93,7 +93,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
         <>
           {!uploadLogToggle && (
             <form className="form-container" onSubmit={submitHandler}>
-              <div className="create-space">
+              <div>
                 <label htmlFor="location">Location</label>
                 <br />
                 <select
@@ -120,7 +120,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                 </select>
                 <br />
               </div>
-              <div className="create-space">
+              <div>
                 <label htmlFor="asset_tag">Asset Tag</label>
                 <input
                   id="asset_tag"
@@ -130,7 +130,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                 />
                 <br />
               </div>
-              <div className="create-space">
+              <div>
                 <label htmlFor="serial-number">Serial #</label>
                 <input
                   id="serial_number"
@@ -140,7 +140,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                 />
                 <br />
               </div>
-              <div className="create-space">
+              <div>
                 <label htmlFor="make">Make</label>
                 <input
                   id="make"
@@ -150,7 +150,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                 />
                 <br />
               </div>
-              <div className="create-space">
+              <div>
                 <label htmlFor="model">Model</label>
                 <input
                   id="model"
@@ -160,7 +160,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                 />
                 <br />
               </div>
-              <div className="create-space">
+              <div>
                 <label htmlFor="hr">Hashrate</label>
                 <input
                   id="hr"

@@ -4,6 +4,10 @@
     padding: 2%;
 }
 
+.create-user-container fieldset{
+    margin-bottom: 12px;
+}
+
 .create-user-form{
     min-height: 400px;
 }
@@ -27,12 +31,8 @@
     justify-content: center;
 }
 
-.create-space{
-    margin-top: 8%;
-}
-
 .fix-button{
     margin-right: auto;
     margin-left: auto;
-    margin-top: 80%;
+    margin-top: 70%;
 }

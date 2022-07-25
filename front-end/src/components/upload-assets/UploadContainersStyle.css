@@ -63,10 +63,6 @@
     background-color: rgb(26, 26, 31);
 }
 
-.create-space{
-    margin: 2% 0 0 0;
-}
-
 .upload-container-style{
     display: inline-block;
     padding: 1%;
@@ -77,9 +73,9 @@
     border-radius: 4px 4px 4px 4px;
     text-align: center;
     color: rgb(228, 241, 255);
-    margin-top: 2%;
     width: auto;
   }
+
 .upload-container-style select{
     text-align: left;
     background-color: rgb(67, 72, 87);
@@ -97,11 +93,11 @@
 
 h5{ padding-bottom: 1%; }
 
-.fix-button{
+/* .fix-button{
     margin-right: auto;
     margin-left: auto;
     margin-top: 50%;
-}
+} */
 
 .bulk-upload-button{
     margin-top: 4%;

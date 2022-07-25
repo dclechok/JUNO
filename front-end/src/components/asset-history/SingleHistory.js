@@ -63,7 +63,6 @@ function SingleHistory({ assetList, searchHistoryType }) {
       async function fetchUsers(){
         const users = await getUsers();
         if(users && users.length !== 0){
-            // console.log(users.filter(u => u.history.filter(uHist => uHist.history_key === history_key)));
           setLoadedHistory(users.filter(u => u.history.find(uHist => uHist.history_key === history_key)));
           }
       }
@@ -71,8 +70,6 @@ function SingleHistory({ assetList, searchHistoryType }) {
     }
     //check job sites for key
   }, [searchHistoryType]);
-
-  console.log(loadedHistory);
 
   const renderSwitch = () => {
     if (searchHistoryType.includes("Upload"))
