@@ -15,7 +15,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
   const [jobSites, setJobSites] = useState([]);
   const [locationSelect, setLocationSelect] = useState("All Locations");
   const [logItem, setLogItem] = useState();
-  const [uploadLogToggle, setUploadLogToggle] = useState(false);
+  const [successfulUpload, setSuccessfulUpload] = useState(false);
   const [assetFields, setAssetFields] = useState({
     asset_tag: "",
     location: "",
@@ -52,7 +52,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
         const action_date = new Date();
         const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
         async function postSingleAsset() {
-          await createAsset(
+          setSuccessfulUpload(await createAsset(
             {
               ...assetFields,
               status: "Needs Verified",
@@ -67,12 +67,11 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                 },
               ],
             },
-          );
+          ));
         }
         postSingleAsset();
       }
       setLoadAssets(!loadAssets);
-      setUploadLogToggle(true);
     }
   };
 
@@ -91,7 +90,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
       <h4>Single Upload</h4>
       {jobSites && jobSites.length !== 0 ? (
         <>
-          {!uploadLogToggle && (
+          {!successfulUpload && (
             <form className="form-container" onSubmit={submitHandler}>
               <div>
                 <label htmlFor="location">Location</label>
@@ -181,7 +180,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
       ) : (
         <LoaderSpinner height={45} width={45} message={"Job Sites"} />
       )}
-      {logItem && uploadLogToggle && (
+      {logItem && successfulUpload && (
         <UploadSuccess
           rejectedLog={logItem.rejected}
           newAssets={logItem.accepted}
