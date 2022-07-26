@@ -75,7 +75,6 @@ export async function updateAsset(asset_id, data){
       body: JSON.stringify({ data: data })
     });
     const jsonResponse = await response.json();
-    console.log(jsonResponse, 'test')
     if(jsonResponse){
       const { action_by, action_by_id, action_key, action_taken } =
       jsonResponse.data.history[jsonResponse.data.history.length - 1];
@@ -282,7 +281,6 @@ export async function updateUser(newUserData, accountLogged, userID){
   const newDate = new Date();
   const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
     //push new entry onto the old job site history list
-  console.log(newUserData);
   newUserData.history.push(
     { 
       action_taken: "Edit User",

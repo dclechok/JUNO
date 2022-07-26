@@ -1,6 +1,7 @@
 const knex = require("../connection");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
+const bcrypt = require('bcryptjs'); //salt and hash our passwords
 /// START VALIDATION MIDDLEWARE ///
 
 function bodyHasResultProperty(req, res, next) {
@@ -41,7 +42,7 @@ function validateBody(req, res, next) {
           status: 400,
           message: "Asset must include a model.",
         });
-    });
+    });4
   }
   next(); //validated - onto next middleware
 }
@@ -77,21 +78,38 @@ async function read(req, res) {
 
 async function update(req, res) {
   const { user_id } = req.params;
-  const { username, name, hash, email, access_level } = req.body.data;
+  const { username, name, hash: newHash, email, access_level } = req.body.data;
   const history = JSON.stringify(req.body.data.history); //restringify
-  const data = await knex("users")
-  .where("user_id", user_id)
-  .update({
-    username, username,
-    name, name,
-    hash, hash,
-    email, email,
-    access_level, access_level,
-    history, history
-  })
-  .returning('*')
-  .then((results) => results[0]);
-  res.status(200).json({ data });
+  if(newHash){ //if we're updating password, hash it and store it
+    const hash = bcrypt.hashSync(newHash, 15);
+    const data = await knex("users")
+    .where("user_id", user_id)
+    .update({
+      username, username,
+      name, name,
+      hash, hash,
+      email, email,
+      access_level, access_level,
+      history, history
+    })
+    .returning('*')
+    .then((results) => results[0]);
+    res.status(200).json({ data });
+  }else{ //not updating a password
+    const data = await knex("users")
+    .where("user_id", user_id)
+    .update({
+      username, username,
+      name, name,
+      email, email,
+      access_level, access_level,
+      history, history
+    })
+    .returning('*')
+    .then((results) => results[0]);
+    res.status(200).json({ data });
+  }
+
 }
 
 module.exports = {
