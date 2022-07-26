@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import Papa from "papaparse";
 import { createAsset } from "../../utils/api";
-import validateBulkUpload from "../../utils/validateBulkUpload";
+import validateBulkUpload from "../../utils/validation/validateBulkUpload";
 
 import UploadSuccess from "./UploadSuccess";
 

@@ -9,7 +9,7 @@ import LoaderSpinner from "../LoaderSpinner.js";
 //utils
 import { createAsset } from "../../utils/api.js";
 import { getJobSites } from "../../utils/api.js";
-import validateSingleUpload from "../../utils/validateSingleUpload.js";
+import validateSingleUpload from "../../utils/validation/validateSingleUpload";
 
 function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
   const [jobSites, setJobSites] = useState([]);

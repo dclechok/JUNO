@@ -1,4 +1,4 @@
-import generateHistoryKey from "./generateHistoryKey";
+import generateHistoryKey from "../generateHistoryKey";
 
 function validateBulkUpload(assetList, parsedAssets, accountLogged) {
   const rejectionList = [];
