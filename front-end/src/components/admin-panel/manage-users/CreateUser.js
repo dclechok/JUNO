@@ -6,8 +6,6 @@ import { createUser } from "../../../utils/api";
 import validateCreateUser from "../../../utils/validation/validateCreateUser";
 import generateHistoryKey from "../../../utils/generateHistoryKey";
 
-const bcrypt = require("bcryptjs");
-
 function CreateUser({ users, accountLogged }) {
   const newHistoryKey = generateHistoryKey();
   const newDate = new Date();
@@ -39,8 +37,7 @@ function CreateUser({ users, accountLogged }) {
     //frontend validate new user data
     if (validateCreateUser(newUser, users)) {
       if (window.confirm( `Do you confirm the creation of user: ${newUser.username}?` )) {
-        const newHash = bcrypt.hashSync(newUser.hash, 15);
-        createUser({...newUser, hash: newHash});
+        createUser(newUser);
       }
     }
   };

@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 import { createUser } from "../../utils/api";
 import generateHistoryKey from "../../utils/generateHistoryKey";
 
-const bcrypt = require("bcryptjs");
-
 function CreateAdmin({ setCreateAdmin }) {
   const newHistoryKey = generateHistoryKey();
   const newDate = new Date();
@@ -37,9 +35,8 @@ function CreateAdmin({ setCreateAdmin }) {
   const submitHandler = (e) => {
     //frontend validate user data here before submitting
     e.preventDefault();
-    const newHash = bcrypt.hashSync(userData.hash, 15);
     async function createNewAdmin(){
-      setNewAdmin(await createUser({...userData, hash: newHash}));
+      setNewAdmin(await createUser(userData));
     }
     createNewAdmin();
 

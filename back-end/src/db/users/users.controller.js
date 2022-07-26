@@ -58,6 +58,7 @@ async function create(req, res) {
   const result = {
     ...req.body.data,
     history: JSON.stringify(req.body.data.history),
+    hash: bcrypt.hashSync(req.body.data.hash, 15)
   };
   const data = await knex("users")
     .insert(result)

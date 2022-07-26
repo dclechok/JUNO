@@ -49,8 +49,6 @@ function EditUser({ accountLogged, userID }) {
     editUser();
   };
 
-  console.log(newUserData);
-
   return (
     <section className="create-user-container upload-container-style">
       <h4>Edit User</h4>
