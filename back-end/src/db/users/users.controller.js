@@ -76,20 +76,22 @@ async function read(req, res) {
 }
 
 async function update(req, res) {
-  // const { id } = req.params;
-  // const { status } = req.body.data;
-  // let { history } = req.body.data;
-  // history = JSON.stringify(history); //restringify
-  // const data = await knex("physical_sites")
-  // .where("physical_site_id", id)
-  // .update({
-  //   status, status,
-  //   history, history
-  // })
-  // .returning('*')
-  // .then((results) => results[0]);
-  // res.status(200).json({ data });
-  console.log("hello");
+  const { user_id } = req.params;
+  const { username, name, hash, email, access_level } = req.body.data;
+  const history = JSON.stringify(req.body.data.history); //restringify
+  const data = await knex("users")
+  .where("user_id", user_id)
+  .update({
+    username, username,
+    name, name,
+    hash, hash,
+    email, email,
+    access_level, access_level,
+    history, history
+  })
+  .returning('*')
+  .then((results) => results[0]);
+  res.status(200).json({ data });
 }
 
 module.exports = {

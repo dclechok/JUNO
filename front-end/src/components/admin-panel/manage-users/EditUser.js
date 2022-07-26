@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react';
 
 import { getUser } from '../../../utils/api';
+import { updateUser } from '../../../utils/api';
 import LoaderSpinner from '../../LoaderSpinner';
 
-function EditUser({ accountLogged, userID }) {
+const bcrypt = require('bcryptjs');
 
+function EditUser({ accountLogged, userID }) {
   const [user, setUser] = useState(null);
   const [newUserData, setNewUserData] = useState(null);
+  const [editUserSuccess, setEditUserSuccess] = useState(null);
+
   const defaultRadioBtn = {
     admin: false,
     engineer: false,
@@ -18,38 +22,42 @@ function EditUser({ accountLogged, userID }) {
     //get user information
     async function findUser(){
         setUser(await getUser(userID));
-        if(user) setNewUserData(user);
     }
     findUser();
   }, []);
 
   useEffect(() => {
-    if(user){ //set radio button to default access level
-        setButtonPlaceholder({...defaultRadioBtn, [user.access_level]: true})
+    if(user){
+        setButtonPlaceholder({...defaultRadioBtn, [user.access_level]: true});
+        setNewUserData(user);
     }
-  }, [user, setUser]);
+  }, [user]);
 
   const changeHandler = (e) => {
     const { id, type, value } = e.currentTarget;
     if(type === "radio"){
         setButtonPlaceholder({...defaultRadioBtn, [id]: true})
-        setNewUserData({...newUserData, access_level: id});
+        setNewUserData({...user, access_level: id});
     }
     else{
         setNewUserData({...newUserData, [id]: value});
     }
   };
 
-  const submitHandler = () => {
-
-
+  const submitHandler = (e) => {
+    e.preventDefault();
+    async function editUser(){
+        setEditUserSuccess(await updateUser(newUserData, accountLogged, userID));
+    }
+    editUser();
   };
 
-
+  console.log(newUserData);
+  
   return (
     <section className="create-user-container upload-container-style">
-    <h4>Update User Data</h4>
-    {user ? 
+    <h4>Edit User</h4>
+    {user && newUserData ?  
     <form
       className="form-container create-user-form"
       onSubmit={submitHandler}
@@ -70,6 +78,7 @@ function EditUser({ accountLogged, userID }) {
               value="admin"
               onChange={changeHandler}
               checked={buttonPlaceholder.admin}
+              autoComplete="off"
             />
 
             <input
@@ -87,7 +96,8 @@ function EditUser({ accountLogged, userID }) {
               name="access_level"
               value="analyst"
               onChange={changeHandler}
-              checked={buttonPlaceholder.analyst}
+              checked={buttonPlaceholder.analyst}              
+              autoComplete="off"
             />
           </div>
         </div>
@@ -95,7 +105,7 @@ function EditUser({ accountLogged, userID }) {
 
       <div className="create-space">
         <label htmlFor="name">Name ("John Doe")</label>
-        <input type="text" id="name" name="name" onChange={changeHandler} />
+        <input type="text" id="name" name="name" onChange={changeHandler} placeholder={newUserData.name}/>
 
         <label htmlFor="username">Username</label>
         <input
@@ -103,6 +113,8 @@ function EditUser({ accountLogged, userID }) {
           id="username"
           name="username"
           onChange={changeHandler}
+          placeholder={newUserData.username}
+          autoComplete="off"
         />
 
         <label htmlFor="password">Password</label>
@@ -111,10 +123,11 @@ function EditUser({ accountLogged, userID }) {
           id="hash"
           name="hash"
           onChange={changeHandler}
+          autoComplete="off"
         />
 
         <label htmlFor="email">Email Address</label>
-        <input type="text" id="email" name="email" onChange={changeHandler} />
+        <input type="text" id="email" name="email" onChange={changeHandler} placeholder={newUserData.email} />
       </div>
       <div className="fix-button">
         <button className="submit-single-asset">Update User</button>

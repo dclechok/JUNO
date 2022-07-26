@@ -278,6 +278,36 @@ export async function getUser(user_id){
   }
 }
 
+export async function updateUser(newUserData, accountLogged, userID){
+  const newDate = new Date();
+  const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
+    //push new entry onto the old job site history list
+  console.log(newUserData);
+  newUserData.history.push(
+    { 
+      action_taken: "Edit User",
+      action_by: accountLogged.account[0].name,
+      action_by_id: accountLogged.account[0].user_id,
+      action_key: newHistoryKey,
+      action_date: newDate,
+      // action_comment: "Edited User Details"
+  });
+  try {
+    const response = await fetch(BASE_URL + `users/${userID}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ data: newUserData }),
+    });
+    const jsonResponse = await response.json(); //json-ify readablestream data
+    if (jsonResponse) {
+      console.log(jsonResponse)
+    }
+  }catch(e){
+    console.log(e, "Failed to update user.");
+  }
+}
 // USERS - CREATE ONE //
 export async function createUser(user) {
   try {
