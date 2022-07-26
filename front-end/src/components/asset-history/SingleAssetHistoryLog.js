@@ -31,7 +31,7 @@ function SingleAssetHistoryLog({ loadedHistory }) {
       }
     }
     loadHistoryLog();
-  }, [loadedHistory]);
+  }, [loadedHistory, history_key]);
 
   console.log(currentHistoryLog, 'test');
   return (
@@ -134,7 +134,7 @@ function SingleAssetHistoryLog({ loadedHistory }) {
                             [
                             <button
                               className="button-link"
-                              id={asset.asset_tag}
+                              id={asset.asset_id}
                               onClick={onClickHandler}
                             >
                               View

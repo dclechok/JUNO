@@ -37,7 +37,7 @@ function ViewUsers({ users }) {
                   <td>{u.user_id}</td>
                   <td>{u.name}</td>
                   <td>{u.username}</td>
-                  <td>{u.access_level}</td>
+                  <td>{u.access_level.toUpperCase()}</td>
                   <td>{dateFormatter(u.created_at)}</td>
                   <td className="delete-icon-td"><button className="image-button"><img src={deletePng} alt="delete user" /></button></td>
                 </tr>

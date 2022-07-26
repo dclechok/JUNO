@@ -12,14 +12,14 @@
 * Finish threading users throughout App.
 * Make the lists sortable in reverse.
 
-
 ### TODO: Specific Features ###
 -----
 #### Login ####
 * Validation, validation, validation.
 * Set timeout (logout after so long)
-* ~~Add LoaderSpinner when loading.~~
+* Log user out if deleted from DB.
 * Submit on 'enter' press.
+* ~~Add LoaderSpinner when loading.~~
 #### Asset List ####
 * Styling.
 * Add set amount per page input.
@@ -28,11 +28,14 @@
 * Do not allow uploads if job sites in .csv do not exist!
 #### Single Upload ####
 * Implement server middleware specifically for individual asset upload cases (duplicates).
+* More validation.
 #### Upload Log ####
 * ~~Fix styling issue where texts goes outside of container.~~
+* ~~Fix issue where upload log renders before successful/failed web request..~~
 #### Single Asset Component ####
-* Make all fields editable.
-* Add functionality for "move", "delete", and "edit"
+* Validate submitted updated information via editing asset.
+* Add functionality for "move", ~~"delete", and "edit".~~
+* ~~Make all fields editable.~~
 #### Notification Tracker ####
 * ~~Update notifications via history_log table, not individual asset data.~~
 * ~~Bug: Do not update notification tracker if uploads/actions failed.~~
@@ -44,10 +47,10 @@
 * Add navigation for "Rack" (Site, MDC, Rack, Shelf, Unit)
 * Add "Repairs, Storage, Retired" to Location dropdown.
 #### Admin Panel ####
-* Add manage users UI?
 * Build out UI for creating and editing users.
 * ~~Add LoaderSpinner when loading.~~
 * ~~Make component re-render upon deactivating job site.~~
+* ~~Add manage users UI?~~
 
 
 #### Completed ####

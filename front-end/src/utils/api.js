@@ -277,10 +277,11 @@ export async function createUser(user) {
     if (jsonResponse) {
       //if POST request was successful, create a log in
       //eventually add comments, and "approved_by";
-      const { action_by, action_by_id, history_key, action_date } = (jsonResponse.data.history[0]);
+      const { updated_at } = jsonResponse.data;
+      const { action_by, action_by_id, history_key } = (jsonResponse.data.history[0]);
       const awaitCreateHistory = await createHistory({
         logged_action: "Create User",
-        logged_date: action_date,
+        logged_date: updated_at,
         logged_by: action_by,
         logged_by_id: action_by_id,
         history_key: history_key
