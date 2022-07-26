@@ -1,8 +1,18 @@
 import deletePng from "../../../images/delete.png";
+import editPng from "../../../images/pencil-blue-icon.png";
+
 //utils
 import dateFormatter from "../../../utils/dateFormatter";
 
-function ViewUsers({ users }) {
+function ViewUsers({ setViewOrCreate, users, setUserID }) {
+
+  const clickHandler = (e) => {
+    const { id, value } = e.currentTarget;
+    if(id === "editUser") {
+      setViewOrCreate('edit');
+      setUserID(value); //this is the userID we will use when editing      
+    }
+  };
 
   return (
     <>
@@ -26,6 +36,9 @@ function ViewUsers({ users }) {
               <b>Date Created</b>
             </th>
             <th>
+              <b>Edit User</b>
+            </th>
+            <th>
               <b>Delete User</b>
             </th>
           </tr>
@@ -39,7 +52,8 @@ function ViewUsers({ users }) {
                   <td>{u.username}</td>
                   <td>{u.access_level.toUpperCase()}</td>
                   <td>{dateFormatter(u.created_at)}</td>
-                  <td className="delete-icon-td"><button className="image-button"><img src={deletePng} alt="delete user" /></button></td>
+                  <td className="delete-icon-td"><button className="image-button" id="editUser" value={u.user_id} onClick={clickHandler}><img src={editPng} alt="edit user" /></button></td>
+                  <td className="delete-icon-td"><button className="image-button" id="deleteUser" value={u.user_id} onClick={clickHandler}><img src={deletePng} alt="delete user" /></button></td>
                 </tr>
               );
             })}

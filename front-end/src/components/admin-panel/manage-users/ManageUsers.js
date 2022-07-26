@@ -3,11 +3,13 @@ import { useState, useEffect } from "react";
 import LoaderSpinner from "../../LoaderSpinner";
 import ViewUsers from "./ViewUsers";
 import CreateUser from "./CreateUser";
+import EditUser from "./EditUser";
 //utils
 import { getUsers } from "../../../utils/api";
 
 function ManageUsers({ accountLogged }) {
   const [users, setUsers] = useState(null);
+  const [userID, setUserID] = useState(null);
   const defaultButtonStyle = {
     view: "button-link",
     create: "button-link",
@@ -60,8 +62,9 @@ function ManageUsers({ accountLogged }) {
             </button>
             ]
           </span>
-          {viewOrCreate === "view" && <ViewUsers users={users} />}
+          {viewOrCreate === "view" && <ViewUsers setViewOrCreate={setViewOrCreate} users={users} setUserID={setUserID} />}
           {viewOrCreate === "create" && <CreateUser users={users} accountLogged={accountLogged} />}
+          {viewOrCreate === "edit" && <EditUser accountLogged={accountLogged} userID={userID} />}
         </div>
       ) : (
         <LoaderSpinner width={45} height={45} message={"User Data"}/>

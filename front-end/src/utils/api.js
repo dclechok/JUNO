@@ -259,7 +259,22 @@ export async function getUsers() {
     const jsonResponse = await response.json(); //json-ify readablestream data
     if (jsonResponse) return jsonResponse;
   } catch (e) {
-    console.log(e, "Failed to fetch all job sites.");
+    console.log(e, "Failed to fetch all users.");
+  }
+}
+
+export async function getUser(user_id){
+  try{
+    const response = await fetch(BASE_URL + `users/${user_id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const jsonResponse = await response.json(); //json-ify readablestream data
+    if (jsonResponse) return jsonResponse.data;
+  }catch(e){
+    console.log(e, "Failed to fetch user.");
   }
 }
 

@@ -1,4 +1,3 @@
-import "./ViewSites.css";
 import { useState, useEffect } from "react";
 import deletePng from "../../../images/delete.png";
 //utils
