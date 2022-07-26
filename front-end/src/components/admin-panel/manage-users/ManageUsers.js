@@ -64,7 +64,7 @@ function ManageUsers({ accountLogged }) {
           </span>
           {viewOrCreate === "view" && <ViewUsers setViewOrCreate={setViewOrCreate} users={users} setUserID={setUserID} />}
           {viewOrCreate === "create" && <CreateUser users={users} accountLogged={accountLogged} />}
-          {viewOrCreate === "edit" && <EditUser accountLogged={accountLogged} userID={userID} />}
+          {viewOrCreate === "edit" && <EditUser accountLogged={accountLogged} userID={userID} setViewOrCreate={setViewOrCreate} />}
         </div>
       ) : (
         <LoaderSpinner width={45} height={45} message={"User Data"}/>

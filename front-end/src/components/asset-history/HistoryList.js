@@ -125,9 +125,9 @@ function HistoryList({ resetDatePicker, setResetDatePicker, setSearchHistoryType
               {dateFilteredList &&
                 dateFilteredList
                   .sort((a, b) =>
-                    b.logged_date
+                    a.logged_date
                       .toString()
-                      .localeCompare(a.logged_date.toString())
+                      .localeCompare(b.logged_date.toString())
                   )
                   .map((history, key) => {
                     return (

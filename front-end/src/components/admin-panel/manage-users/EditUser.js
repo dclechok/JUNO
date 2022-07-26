@@ -4,7 +4,7 @@ import { getUser } from "../../../utils/api";
 import { updateUser } from "../../../utils/api";
 import LoaderSpinner from "../../LoaderSpinner";
 
-function EditUser({ accountLogged, userID }) {
+function EditUser({ accountLogged, userID, setViewOrCreate }) {
   const [user, setUser] = useState(null);
   const [newUserData, setNewUserData] = useState(null);
   const [editUserSuccess, setEditUserSuccess] = useState(null);
@@ -48,6 +48,10 @@ function EditUser({ accountLogged, userID }) {
     }
     editUser();
   };
+
+  useEffect(() => {
+    if(editUserSuccess) setViewOrCreate('view');
+  }, [editUserSuccess]);
 
   return (
     <section className="create-user-container upload-container-style">

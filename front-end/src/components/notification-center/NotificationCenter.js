@@ -52,7 +52,7 @@ function NotificationCenter({ assetList }) {
         <h1>Latest Notifications</h1>
         <hr />
         {latestHistory && latestHistory.length !== 0 ? latestHistory.sort((a, b) => {
-      return new Date(b.logged_date) - new Date(a.logged_date);
+      return new Date(a.logged_date) - new Date(b.logged_date);
     }).filter((val, key) => {
       return key <= 5 // limit the amount that renders on latest notifications
     }).map((entry, key) => 
