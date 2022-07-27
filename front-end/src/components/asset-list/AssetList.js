@@ -193,6 +193,7 @@ function AssetList({
                 <button className="image-button" id="scroll-right" onClick={handleScroll}><img src={scrollRight} /></button>
                 </div>
               </div>
+              <div className="table-height-fixed">
               <table>
                 <tbody>
                   <tr>
@@ -267,6 +268,7 @@ function AssetList({
                     )}
                 </tbody>
               </table>
+              </div>
             </div>
           </div>
         </>
