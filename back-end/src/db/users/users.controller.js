@@ -110,7 +110,22 @@ async function update(req, res) {
     .then((results) => results[0]);
     res.status(200).json({ data });
   }
+}
 
+async function deactivate(req, res){
+  const { user_id } = req.params;
+  const { status } = req.body.data;
+  const history = JSON.stringify(req.body.data.history);
+  console.log(user_id);
+  const data = await knex("users")
+  .where("user_id", Number(user_id))
+  .update({
+    status, status,
+    history, history
+  })
+  .returning('*')
+  .then((results) => results[0]);
+  res.status(200).json({ data });
 }
 
 module.exports = {
@@ -118,8 +133,5 @@ module.exports = {
   create: [bodyHasResultProperty, validateBody, asyncErrorBoundary(create)], // TODO: verify each data field format
   read: asyncErrorBoundary(read),
   update: asyncErrorBoundary(update),
-  //create
-  //read
-  //update
-  //delete
+  deactivate: asyncErrorBoundary(deactivate)
 };

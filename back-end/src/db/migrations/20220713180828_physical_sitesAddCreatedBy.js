@@ -5,7 +5,7 @@ exports.up = function (knex) {
   };
   
   exports.down = function (knex) {
-    return knex.schema.table("assets", (table) => {
+    return knex.schema.table("physical_sites", (table) => {
       table.dropColumn("created_by");
     });
   };
