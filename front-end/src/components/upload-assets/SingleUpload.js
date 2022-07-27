@@ -75,7 +75,6 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
     }
   };
 
-  console.log(logItem)
   useEffect(() => {
     //populate job sites in location field
     async function populateSites() {

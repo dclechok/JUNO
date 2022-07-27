@@ -3,24 +3,21 @@ import generateHistoryKey from "../generateHistoryKey";
 function validateBulkUpload(assetList, parsedAssets, accountLogged) {
   const rejectionList = [];
   const newAssetList = [];
-  let reject_err = '';
 
-  //validate against data in its own csv file
-  const validateAssetsByCSV = (asset) => {
-    if(parsedAssets.filter(a => asset[1] === a[1]).length > 1)
-      reject_err = "Duplicate serial number found in CSV file!";
-    if(parsedAssets.filter(a => asset[2] === a[2]).length > 1)
-      reject_err = "Duplicate asset tag found in CSV file!";
-  }
 
   //validate against data in database
-  const validateAssetsByDatabase = (asset) => {
+  const validateAssetsByDatabaseAndCSV = (asset) => {
     //if incoming bulk upload list has an asset that matches a device in our database
-    //by serial number
-    if(assetList.find((existingAsset) => existingAsset.serial_number === asset[1]))
-      reject_err = "Duplicate serial number found in database!";
-    if(assetList.find((existingAsset) => existingAsset.asset_tag === asset[2]))
-      reject_err = "Duplicate asset tag found in database!";
+    //by database
+    if (assetList.find((existingAsset) => existingAsset.serial_number === asset[1]))
+      return "Duplicate serial number found in database!";
+    if (assetList.find((existingAsset) => existingAsset.asset_tag === asset[2]))
+      return "Duplicate asset tag found in database!";
+    //by csv
+    if (parsedAssets.filter((a) => asset[1] === a[1]).length > 1)
+      return "Duplicate serial number found in CSV file!";
+    if (parsedAssets.filter((a) => asset[2] === a[2]).length > 1)
+      return "Duplicate asset tag found in CSV file!";
   };
   //check for 6 headers: asset tag, location, status, serial_number, make, model, hr\
 
@@ -40,8 +37,7 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged) {
         .forEach((asset) => {
           //builds out rejection list, and good asset list
           //first check if there is a duplicate in the existing list of assets
-          validateAssetsByDatabase(asset);
-          validateAssetsByCSV(asset);
+          const reject_err = validateAssetsByDatabaseAndCSV(asset);
           if (reject_err) {
             rejectionList.push({
               asset_tag: asset[2],
@@ -53,7 +49,7 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged) {
               make: asset[3],
               model: asset[4],
               hr: asset[5],
-              reject_err: reject_err
+              reject_err: reject_err,
             });
           }
           //then check if there is a duplicate in the incoming upload list
