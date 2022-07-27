@@ -16,19 +16,19 @@
 -----
 #### Login ####
 * Validation, validation, validation.
+* Add LoaderSpinner and remove login button on first onClick.
 * Set timeout (logout after so long)
 * Log user out if deleted from DB.
-* Submit on 'enter' press.
-* ~~Add LoaderSpinner when loading.~~
+* ~~Submit on 'enter' press.~~
+* ~~Add LoaderSpinner when loading login component.~~
 #### Asset List ####
 * Styling.
-* Add set amount per page input.
+* ~~Add set amount per page input.~~
 #### Bulk Upload ####
-* Check for duplicates in .csv file (from accidentally scanning device twice, etc.)
 * Do not allow uploads if job sites in .csv do not exist!
+* ~~Check for duplicates in .csv file (from accidentally scanning device twice, etc.)~~
 #### Single Upload ####
-* Implement server middleware specifically for individual asset upload cases (duplicates).
-* More validation.
+* More backend validation.
 #### Upload Log ####
 * ~~Fix styling issue where texts goes outside of container.~~
 * ~~Fix issue where upload log renders before successful/failed web request..~~
@@ -47,7 +47,7 @@
 * Add navigation for "Rack" (Site, MDC, Rack, Shelf, Unit)
 * Add "Repairs, Storage, Retired" to Location dropdown.
 #### Admin Panel ####
-* Build out UI for creating and editing users.
+* ~~Build out UI for creating and editing users.~~
 * ~~Add LoaderSpinner when loading.~~
 * ~~Make component re-render upon deactivating job site.~~
 * ~~Add manage users UI?~~

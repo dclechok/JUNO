@@ -13,7 +13,7 @@ const bcrypt = require("bcryptjs");
 function Login({ accountLogged, setAccountLogged }) {
   const [users, setUsers] = useState(null);
   const [createAdmin, setCreateAdmin] = useState(false);
- 
+
   const defaultUser = {
     username: "",
     hash: "",
@@ -28,6 +28,7 @@ function Login({ accountLogged, setAccountLogged }) {
     loadUsers();
     return abortController.abort();
   }, [setCreateAdmin, createAdmin]);
+
   useEffect(() => {
     if (users) {
       if (
@@ -47,17 +48,21 @@ function Login({ accountLogged, setAccountLogged }) {
     setUser({...user, [id]: value })
   };
 
-  const handleClick = async (e) => {
+  const handleClick = (e) => {
     e.preventDefault();
-    const foundAcct = users.filter(acct => acct.username === user.username);
-    if(foundAcct && foundAcct.length !== 0){
-      if(bcrypt.compareSync(user.hash, foundAcct[0].hash)) //passwords hash compare is good
-      {
-        localStorage.setItem('acctLogged',  JSON.stringify({logged: true, account: foundAcct}));
-        await setAccountLogged(JSON.parse(localStorage.getItem('acctLogged')));
-        if(accountLogged) setCreateAdmin(false);
+    async function login(){
+      const foundAcct = users.filter(acct => acct.username === user.username);
+      if(foundAcct && foundAcct.length !== 0){
+        if(bcrypt.compareSync(user.hash, foundAcct[0].hash)) //passwords hash compare is good
+        {
+          localStorage.setItem('acctLogged',  JSON.stringify({logged: true, account: foundAcct}));
+          await setAccountLogged(JSON.parse(localStorage.getItem('acctLogged')));
+          if(accountLogged) setCreateAdmin(false);
+        }
       }
     }
+    login();
+
   };
   //login with 'enter' key press on form
   const handleKeyPress = (e) => {
@@ -94,7 +99,7 @@ function Login({ accountLogged, setAccountLogged }) {
                 <br />
                 <input id="hash" type="password" onChange={handleChange} value={user.hash} />
                 <div className="signin-button">
-                <button type="submit" onClick={handleClick}>Login</button>
+                 <button type="submit" onClick={handleClick}>Login</button> 
               </div>
               </form>
             </>

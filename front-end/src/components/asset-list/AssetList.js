@@ -39,7 +39,8 @@ function AssetList({
   const [toggleSortReload, setToggleSortReload] = useState(false);
   const navigate = useNavigate();
   const [pageNum, setPageNum] = useState(1);
-  const [assetsPerPage, setAssetsPerPage] = useState(15);
+  const defaultAssetsPerPage = 15;
+  const [assetsPerPage, setAssetsPerPage] = useState(defaultAssetsPerPage);
 
   useEffect(() => {
     //get list of all assets
@@ -143,6 +144,7 @@ function AssetList({
   };
 
   const changeResultsPerPage = (e) => {
+    if(e.currentTarget.id === "reset-results-per") setAssetsPerPage(defaultAssetsPerPage);
     if(e.currentTarget.value >= 1 && e.currentTarget.value <= 500) setAssetsPerPage(e.currentTarget.value);
   };
 
@@ -177,9 +179,8 @@ function AssetList({
             <div>
             <div className="page-nav-inline">
               
-            <div><input type="text" id="results-per-page" value={assetsPerPage} onChange={changeResultsPerPage} /><label htmlFor="results-per-page"> : Results Per Page</label></div>
+            <div><input type="text" id="results-per-page" value={assetsPerPage} onChange={changeResultsPerPage} /><label htmlFor="results-per-page"> Results Per Page</label>&nbsp;<span style={{color: "black"}}>[<button className="button-link" onClick={changeResultsPerPage} id="reset-results-per">Reset</button>]</span></div>
               <div className="pages">
-
                 <button className="image-button" id="scroll-left" onClick={handleScroll}><img src={scrollLeft} /></button>
                 {filteredAssetList &&
                 <select className="page-numbers" value={pageNum} onChange={handleSelect}>
