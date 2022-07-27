@@ -75,6 +75,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
     }
   };
 
+  console.log(logItem)
   useEffect(() => {
     //populate job sites in location field
     async function populateSites() {
@@ -180,12 +181,12 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
       ) : (
         <LoaderSpinner height={45} width={45} message={"Job Sites"} />
       )}
-      {logItem && (
+      {logItem && logItem !== "fields not validated" &&
         <UploadSuccess
           rejectedLog={logItem.rejected}
           newAssets={logItem.accepted}
         />
-      )}
+      }
     </section>
   );
 }

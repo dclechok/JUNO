@@ -2,8 +2,10 @@ function validateSingleUpload(asset, assetList) {
   const blankFields = []; //log of all errors to be returned from function
   const rejectionLog = [];
   const newAsset = [];
+  let reject_err = '';
   //block upload if there are empty form fields
 
+  // FORM VALIDATION //
   for (let key in asset) {
     if (asset[key] === "") {
       blankFields.push({
@@ -13,18 +15,22 @@ function validateSingleUpload(asset, assetList) {
   }
   if (blankFields && blankFields.length !== 0) {
     window.confirm(
-      `Fix the following issues: ${blankFields.map((issue, key) => {
-        return issue.message;
-      })}`
+      `Fix the following issues: ${blankFields.map((issue, key) => issue.message )}`
     );
     return "fields not validated";
   } //if fields are not blank, check duplicates in existing inventory
+
+  const validateAssetsByDatabase = () => {
+    //add more form/frontend validation here
+    if(assetList.find((existingAsset) => asset.serial_number === existingAsset.serial_number))
+      reject_err = "Duplicate serial number found in database!";
+    if(assetList.find((existingAsset) => asset.asset_tag === existingAsset.asset_tag))
+      reject_err = "Duplicate asset tag found in database!";
+  }
+
   if (blankFields && blankFields.length === 0) {
-    if (
-      assetList.find((existingAsset) => {
-        return asset.serial_number === existingAsset.serial_number;
-      })
-    ) {
+    validateAssetsByDatabase();
+    if (reject_err) {
       rejectionLog.push({
         asset_tag: asset.asset_tag,
         location: {
@@ -35,7 +41,8 @@ function validateSingleUpload(asset, assetList) {
         make: asset.make,
         model: asset.model,
         hr: asset.hr,
-        history: asset.history
+        history: asset.history,
+        reject_err: reject_err
       });
     }else{
       newAsset.push({

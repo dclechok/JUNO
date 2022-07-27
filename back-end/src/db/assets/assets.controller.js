@@ -12,7 +12,7 @@ function bodyHasResultProperty(req, res, next) {
 
 function validateBody(req, res, next) {
   //post request must have the required body data
-  if(req.body.data.length > 1){
+  if(!Array.isArray(req.body.data)) req.body.data = [req.body.data];
   req.body.data.forEach(entry => {
     const { asset_tag, location, serial_number, make, model, hr } = entry;
   //validate each separate piece of the requests body data
@@ -46,11 +46,9 @@ function validateBody(req, res, next) {
       status: 400,
       message: "Asset must include a hashrate (hr).",
     });
-  })}
+  })
   next(); //validated - onto next middleware
 }
-
-
 
 /// END VALIDATION MIDDLEWARE ///
 async function list(req, res) {
@@ -60,7 +58,7 @@ async function list(req, res) {
 
 async function create(req, res) {
   //create new asset in the system
-  const result = !Array.isArray(req.body.data.length) ? { //stringify single asset history into json array
+  const result = !Array.isArray(req.body.data) ? { //stringify single asset history into json array
     ...req.body.data, history: JSON.stringify(req.body.data.history)
   } : req.body.data.map(data => {return {...data, history: JSON.stringify(data.history)}}); //stringify each bulk asset's history into json array
   const data = await knex("assets")

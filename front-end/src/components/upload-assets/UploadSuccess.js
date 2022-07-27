@@ -70,8 +70,7 @@ function UploadSuccess({ rejectedLog, newAssets }) {
                 {rejected.make}&nbsp;·&nbsp;
                 {rejected.model}&nbsp;·&nbsp;
                 {rejected.hr}:
-                <span className="fail-red" key={`failred ${key}`}>Upload Failed!</span> (Duplicate
-                serial number not allowed.)
+                <span className="fail-red" key={`failred ${key}`}>Upload Failed!</span> ({rejected.reject_err})
               </p>
               <hr />
             </div>
