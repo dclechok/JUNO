@@ -337,3 +337,51 @@ export async function createUser(user) {
     console.log(e, "Failed to post to users.");
   }
 }
+
+// USERS - DEACTIVATE
+export async function deactivateUser(prevUserData, accountLogged) {
+  //DO NOT ACTUALLY PERMANENTLY DELETE FROM DB
+  const newDate = new Date();
+  console.log(prevUserData)
+  const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
+  prevUserData[0].history.push({
+    //push new entry onto the old job site history list
+    action_date: newDate,
+    action_taken: "Deactivate User",
+    action_by: accountLogged.account[0].name,
+    action_by_id: accountLogged.account[0].user_id,
+    history_key: newHistoryKey,
+  });
+  try {
+    const response = await fetch(BASE_URL + `users/deactivate/${prevUserData[0].user_id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        data: {
+          status: "Non-Active",
+          history: prevUserData[0].history,
+        },
+      }),
+    });
+    const jsonResponse = await response.json(); //json-ify readablestream data
+    if (jsonResponse) {
+      //if POST request was successful, create a log in
+      //eventually add comments, and "approved_by";
+      const { name, user_id } = accountLogged.account[0];
+      const awaitCreateHistory = await createHistory({
+        logged_action: "Deactivate User",
+        logged_date: newDate,
+        logged_by: name,
+        logged_by_id: user_id,
+        history_key: newHistoryKey,
+      });
+      if (!awaitCreateHistory)
+        throw new Error("Making request for history log failed!");
+      return jsonResponse;
+    }
+  } catch (e) {
+    console.log(e, "Failed to deactivate user.");
+  }
+}

@@ -1,16 +1,25 @@
 import { useEffect, useState } from "react";
 import "./CreateUser.css";
 
-import { createUser } from "../../../utils/api";
 //utils
+import { createUser, getUsers } from "../../../utils/api";
 import validateCreateUser from "../../../utils/validation/validateCreateUser";
 import generateHistoryKey from "../../../utils/generateHistoryKey";
 import LoaderSpinner from "../../LoaderSpinner";
 
-function CreateUser({ users, accountLogged, setViewOrCreate }) {
+function CreateUser({ accountLogged, setViewOrCreate }) {
   const newHistoryKey = generateHistoryKey();
   const newDate = new Date();
   const [createButtonDisabled, setCreateButtonDisabled] = useState(false);
+  const [users, setUsers] = useState(null);
+
+  useEffect(() => {
+    async function populateUsers() {
+      setUsers(await getUsers());
+    }
+    populateUsers();
+  }, [setViewOrCreate]);
+
   const [newUser, setNewUser] = useState({
     access_level: "",
     name: "",
@@ -25,7 +34,8 @@ function CreateUser({ users, accountLogged, setViewOrCreate }) {
         action_by_id: accountLogged.account[0].user_id,
         history_key: newHistoryKey
       }
-    ]
+    ],
+    status: "Active"
   });
 
   const changeHandler = (e) => {
@@ -37,8 +47,8 @@ function CreateUser({ users, accountLogged, setViewOrCreate }) {
   const submitHandler = (e) => {
     e.preventDefault();
     //frontend validate new user data
-    setCreateButtonDisabled(true);
     if (validateCreateUser(newUser, users)) {
+      setCreateButtonDisabled(true);
       if (window.confirm( `Do you confirm the creation of user: ${newUser.username}?` )) {
         async function createThisUser(){
           if(await createUser(newUser)) setViewOrCreate('view');
@@ -47,10 +57,6 @@ function CreateUser({ users, accountLogged, setViewOrCreate }) {
       }
     }
   };
-
-  useEffect(() => {
-
-  }, []);
 
   return (
     <section className="create-user-container upload-container-style">

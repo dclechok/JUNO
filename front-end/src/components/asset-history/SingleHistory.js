@@ -10,7 +10,6 @@ import { getUsers } from "../../utils/api";
 import SingleAssetHistoryLog from "./SingleAssetHistoryLog"; //render single asset history log
 import SingleJobSiteHistoryLog from "./SingleJobSiteHistoryLog";
 import SingleUserHistoryLog from "./SingleUserHistoryLog";
-//import singleassetjobsitelog
 
 //renders a single viewable historical entry
 function SingleHistory({ assetList, searchHistoryType }) {
@@ -69,7 +68,7 @@ function SingleHistory({ assetList, searchHistoryType }) {
     }
     //check job sites for key
   }, [searchHistoryType]);
-
+  console.log(loadedHistory)
   const renderSwitch = () => {
     if (searchHistoryType.includes("Upload") || searchHistoryType.includes("Edit Asset"))
       return <SingleAssetHistoryLog loadedHistory={loadedHistory} />; //assets bulk upload or single upload

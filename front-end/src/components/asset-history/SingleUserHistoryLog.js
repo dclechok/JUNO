@@ -35,7 +35,7 @@ function SingleUserHistoryLog({ loadedHistory }){
     const sortButtonSubmit = (e) => {
       e.preventDefault();
     };
-  
+    console.log(loadedHistory)
     return (
         <>
         {currentHistoryLog ? (
@@ -52,6 +52,7 @@ function SingleUserHistoryLog({ loadedHistory }){
                     {currentHistoryLog.action_taken}
                   </span>
                 </p>
+                <p><b>Status:</b> {currentHistoryLog.status}</p>
                 <p>
                   <b>Logged By</b>: {currentHistoryLog.action_by}
                 </p>
@@ -90,7 +91,7 @@ function SingleUserHistoryLog({ loadedHistory }){
                       </button>
                     </th>
                     <th>Details</th>
-                    <th>Created By</th>
+                    <th>Action By</th>
                   </tr>
                   {loadedHistory[0] && currentHistoryLog && (
                     <tr>

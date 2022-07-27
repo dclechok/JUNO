@@ -21,7 +21,8 @@ function CreateAdmin({ setCreateAdmin }) {
         action_by_id: "Server Admin",
         history_key: newHistoryKey
       }
-    ]
+    ],
+    status: "Active"
   };
   const [userData, setUserData] = useState(defaultUserData);
   const [validatedUserData, setValidatedUserData] = useState(true); //to be used for future validation

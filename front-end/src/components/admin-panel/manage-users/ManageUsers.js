@@ -4,11 +4,10 @@ import LoaderSpinner from "../../LoaderSpinner";
 import ViewUsers from "./ViewUsers";
 import CreateUser from "./CreateUser";
 import EditUser from "./EditUser";
-//utils
-import { getUsers } from "../../../utils/api";
+import '../AdminPanelTables.css';
 
 function ManageUsers({ accountLogged }) {
-  const [users, setUsers] = useState(null);
+  // const [users, setUsers] = useState(null);
   const [userID, setUserID] = useState(null);
   const defaultButtonStyle = {
     view: "button-link",
@@ -16,13 +15,6 @@ function ManageUsers({ accountLogged }) {
   };
   const [buttonStyle, setButtonStyle] = useState(defaultButtonStyle);
   const [viewOrCreate, setViewOrCreate] = useState("view");
-
-  useEffect(() => {
-    async function populateUsers() {
-      setUsers(await getUsers());
-    }
-    populateUsers();
-  }, [viewOrCreate, setViewOrCreate]);
 
   useEffect(() => {
     setButtonStyle({ ...buttonStyle, [viewOrCreate]: "active-button-link" }); //default to View
@@ -37,8 +29,7 @@ function ManageUsers({ accountLogged }) {
 
   return (
     <>
-      {users && users.length !== 0 ? (
-        <div>
+        <div className="admin-panel-container">
           <span style={{ color: "black" }}>
             [
             <button
@@ -62,13 +53,10 @@ function ManageUsers({ accountLogged }) {
             </button>
             ]
           </span>
-          {viewOrCreate === "view" && <ViewUsers setViewOrCreate={setViewOrCreate} users={users} setUserID={setUserID} />}
-          {viewOrCreate === "create" && <CreateUser users={users} accountLogged={accountLogged} setViewOrCreate={setViewOrCreate} />}
+          {viewOrCreate === "view" && <ViewUsers setViewOrCreate={setViewOrCreate} accountLogged={accountLogged} setUserID={setUserID} />}
+          {viewOrCreate === "create" && <CreateUser accountLogged={accountLogged} setViewOrCreate={setViewOrCreate} />}
           {viewOrCreate === "edit" && <EditUser accountLogged={accountLogged} userID={userID} setViewOrCreate={setViewOrCreate} />}
         </div>
-      ) : (
-        <LoaderSpinner width={45} height={45} message={"User Data"}/>
-      )}
     </>
   );
 }
