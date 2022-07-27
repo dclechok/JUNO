@@ -20,8 +20,12 @@ function Nav({ setLoadAssets, loadAssets, accountLogged }) {
     } 
     else if (id === "settings"){
       if(accountLogged.account[0].access_level === 'admin') navigate(`/admin-panel`);
-      else window.alert("You are not authorized to view this component.");
-    } 
+      else window.alert("You must be an Administrator to view this component.");
+    }
+    else if(id === "import-assets"){
+      if(accountLogged.account[0].access_level === 'admin' || accountLogged.account[0].access_level === 'engineer') navigate(`/admin-panel`);
+      else window.alert("You must be an Administrator or Engineer to view this component.");
+    }
     else navigate(`/${id}`);
     
     setButtonState({...defaultButtonState, [id]: 'middleNavButtonActive'});
