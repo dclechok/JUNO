@@ -22,7 +22,7 @@ function ManageUsers({ accountLogged }) {
       setUsers(await getUsers());
     }
     populateUsers();
-  }, []);
+  }, [viewOrCreate, setViewOrCreate]);
 
   useEffect(() => {
     setButtonStyle({ ...buttonStyle, [viewOrCreate]: "active-button-link" }); //default to View
@@ -63,7 +63,7 @@ function ManageUsers({ accountLogged }) {
             ]
           </span>
           {viewOrCreate === "view" && <ViewUsers setViewOrCreate={setViewOrCreate} users={users} setUserID={setUserID} />}
-          {viewOrCreate === "create" && <CreateUser users={users} accountLogged={accountLogged} />}
+          {viewOrCreate === "create" && <CreateUser users={users} accountLogged={accountLogged} setViewOrCreate={setViewOrCreate} />}
           {viewOrCreate === "edit" && <EditUser accountLogged={accountLogged} userID={userID} setViewOrCreate={setViewOrCreate} />}
         </div>
       ) : (

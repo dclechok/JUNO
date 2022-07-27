@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./CreateUser.css";
 
 import { createUser } from "../../../utils/api";
 //utils
 import validateCreateUser from "../../../utils/validation/validateCreateUser";
 import generateHistoryKey from "../../../utils/generateHistoryKey";
+import LoaderSpinner from "../../LoaderSpinner";
 
-function CreateUser({ users, accountLogged }) {
+function CreateUser({ users, accountLogged, setViewOrCreate }) {
   const newHistoryKey = generateHistoryKey();
   const newDate = new Date();
+  const [createButtonDisabled, setCreateButtonDisabled] = useState(false);
   const [newUser, setNewUser] = useState({
     access_level: "",
     name: "",
@@ -35,15 +37,25 @@ function CreateUser({ users, accountLogged }) {
   const submitHandler = (e) => {
     e.preventDefault();
     //frontend validate new user data
+    setCreateButtonDisabled(true);
     if (validateCreateUser(newUser, users)) {
       if (window.confirm( `Do you confirm the creation of user: ${newUser.username}?` )) {
-        createUser(newUser);
+        async function createThisUser(){
+          if(await createUser(newUser)) setViewOrCreate('view');
+        }
+        createThisUser();
       }
     }
   };
+
+  useEffect(() => {
+
+  }, []);
+
   return (
     <section className="create-user-container upload-container-style">
       <h4>Create User</h4>
+      {!createButtonDisabled ? 
       <form
         className="form-container create-user-form"
         onSubmit={submitHandler}
@@ -110,7 +122,7 @@ function CreateUser({ users, accountLogged }) {
         <div className="fix-button">
           <button className="submit-single-asset">Create User</button>
         </div>
-      </form>
+      </form> : <LoaderSpinner width={45} height={45} message="New User Data" /> }
     </section>
   );
 }
