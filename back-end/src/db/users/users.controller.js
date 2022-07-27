@@ -116,7 +116,6 @@ async function deactivate(req, res){
   const { user_id } = req.params;
   const { status } = req.body.data;
   const history = JSON.stringify(req.body.data.history);
-  console.log(user_id);
   const data = await knex("users")
   .where("user_id", Number(user_id))
   .update({
