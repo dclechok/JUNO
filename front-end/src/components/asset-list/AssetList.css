@@ -146,4 +146,5 @@ th button:hover{
 .page-nav-inline input{
     width: 40px;
     text-align: center;
+    margin-bottom: 5px;
 }

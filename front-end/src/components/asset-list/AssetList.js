@@ -177,7 +177,7 @@ function AssetList({
             <div>
             <div className="page-nav-inline">
               
-            {/* <div><input type="text" id="results-per-page" value={assetsPerPage} onChange={changeResultsPerPage} /><label htmlFor="results-per-page"> : Results Per Page</label></div> */}
+            <div><input type="text" id="results-per-page" value={assetsPerPage} onChange={changeResultsPerPage} /><label htmlFor="results-per-page"> : Results Per Page</label></div>
               <div className="pages">
 
                 <button className="image-button" id="scroll-left" onClick={handleScroll}><img src={scrollLeft} /></button>
