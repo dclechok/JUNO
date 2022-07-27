@@ -1,7 +1,7 @@
 //builds an object that holds page number, and assets per page
 
-function listPages( filteredAssetList, pageNum ){ //and page number?
-    const TOTAL_RESULTS_PER_PAGE = 5;
+function listPages( filteredAssetList, pageNum, assetsPerPage ){ //and page number?
+    const TOTAL_RESULTS_PER_PAGE = 15;
     let buildPages = {};
     let pageCounter = 1; //start on page 1
     filteredAssetList.forEach(asset => {

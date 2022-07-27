@@ -39,7 +39,7 @@ function AssetList({
   const [toggleSortReload, setToggleSortReload] = useState(false);
   const navigate = useNavigate();
   const [pageNum, setPageNum] = useState(1);
-  const assetsPerPage = 5;
+  const [assetsPerPage, setAssetsPerPage] = useState(15);
 
   useEffect(() => {
     //get list of all assets
@@ -116,6 +116,8 @@ function AssetList({
     navKey,
     toggleSortReload,
     setFilteredAssetList,
+    setAssetsPerPage,
+    assetsPerPage
   ]);
 
   const handleSubmitSingleAsset = (e) => {
@@ -140,13 +142,14 @@ function AssetList({
     if(id === 'scroll-right' && pageNum <= Math.ceil((filteredAssetList.length / assetsPerPage) - 1)) setPageNum(Number(pageNum) + 1);
   };
 
-
+  const changeResultsPerPage = (e) => {
+    if(e.currentTarget.value >= 1 && e.currentTarget.value <= 500) setAssetsPerPage(e.currentTarget.value);
+  };
 
   return (
     <section>
       {JSON.parse(localStorage.getItem('acctLogged')).logged && assetList && assetList.length !== 0 ? (
         <>
-
           <div className="inline-tracker-notifications">
             <NotificationCenter assetList={assetList} />
             <AssetTracker
@@ -172,7 +175,11 @@ function AssetList({
               />
             </div>
             <div>
+            <div className="page-nav-inline">
+              
+            {/* <div><input type="text" id="results-per-page" value={assetsPerPage} onChange={changeResultsPerPage} /><label htmlFor="results-per-page"> : Results Per Page</label></div> */}
               <div className="pages">
+
                 <button className="image-button" id="scroll-left" onClick={handleScroll}><img src={scrollLeft} /></button>
                 {filteredAssetList &&
                 <select className="page-numbers" value={pageNum} onChange={handleSelect}>
@@ -184,6 +191,7 @@ function AssetList({
                   /{Math.ceil(filteredAssetList.length / assetsPerPage)}
                 </p>
                 <button className="image-button" id="scroll-right" onClick={handleScroll}><img src={scrollRight} /></button>
+                </div>
               </div>
               <table>
                 <tbody>
@@ -226,8 +234,8 @@ function AssetList({
                       </button>
                     </th>
                   </tr>
-                  {filteredAssetList && listPages(filteredAssetList, pageNum) &&
-                    listPages(filteredAssetList, pageNum).map(
+                  {filteredAssetList && listPages(filteredAssetList, pageNum, assetsPerPage) &&
+                    listPages(filteredAssetList, pageNum, assetsPerPage).map(
                       (asset, index) =>
                         filteredAssetList.length !== 0 &&
                         asset && (
