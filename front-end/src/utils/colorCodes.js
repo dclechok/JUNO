@@ -7,9 +7,11 @@ const colorCode = {
     'Deactivate Job Site': 'rgb(176,196,222)',
     // 'Edit Job Site'
     'Create User': 'rgb(66,103,217)',
-    'Deactivate User': 'rgb(234, 80, 23)'
+    'Deactivate User': 'rgb(234, 80, 23)',
     // 'Edit User'
     // rgb(218,238,156) limegreen
-  }
-
+    "Active": "rgb(107, 155, 228)",
+    "Non-Active": "rgb(170, 175, 191)",
+  };
+  
   export default colorCode;

@@ -27,7 +27,6 @@ function ManageUsers({ accountLogged }) {
     setButtonStyle({ ...defaultButtonStyle, [id]: "active-button-link" });
   };
 
-  console.log(viewOrCreate)
   return (
     <>
         <div className="admin-panel-container">

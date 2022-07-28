@@ -1,3 +1,5 @@
+
+//icons
 import deletePng from "../../../images/delete.png";
 import editPng from "../../../images/pencil-blue-icon.png";
 
@@ -7,16 +9,12 @@ import { useState, useEffect } from "react";
 import dateFormatter from "../../../utils/dateFormatter";
 import { deactivateUser, getUsers } from "../../../utils/api";
 import LoaderSpinner from "../../LoaderSpinner";
+import colorCode from "../../../utils/colorCodes";
 
 function ViewUsers({ setViewOrCreate, setUserID, accountLogged }) {
   const [usersList, setUsersList] = useState(null);
   const [deactivatedUser, setDeactivatedUser] = useState(false);
   const [toggleReload, setToggleReload] = useState(false);
-
-  const colorStatus = {
-    "Active": "rgb(240, 240, 163)",
-    "Non-Active": "rgb(197, 136, 42)",
-  };
 
   useEffect(() => {
     async function populateUsers() {
@@ -101,7 +99,7 @@ function ViewUsers({ setViewOrCreate, setUserID, accountLogged }) {
                       <td>{u.username}</td>
                       <td>{u.access_level.toUpperCase()}</td>
                       <td>
-                        <span style={{ color: colorStatus[u.status] }}>
+                        <span style={{ color: colorCode[u.status] }}>
                           {u.status}
                         </span>
                       </td>

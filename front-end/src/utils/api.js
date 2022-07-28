@@ -127,6 +127,22 @@ export async function getJobSites() {
     console.log(e, "Failed to fetch all job sites.");
   }
 }
+
+export async function getJobSite(jobSiteID){
+  try {
+    const response = await fetch(BASE_URL + `physical_sites/${jobSiteID}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const jsonResponse = await response.json(); //json-ify readablestream data
+    if (jsonResponse) return jsonResponse;
+  } catch (e) {
+    console.log(e, "Failed to fetch all job sites.");
+  }
+}
+
 // JOB SITES - CREATE ONE //
 export async function createJobSite(jobSite) {
   try {

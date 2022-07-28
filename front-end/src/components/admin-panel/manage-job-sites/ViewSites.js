@@ -1,25 +1,32 @@
 import { useState, useEffect } from "react";
+//icons
 import deletePng from "../../../images/delete.png";
+import editPng from "../../../images/pencil-blue-icon.png";
 //utils
 import dateFormatter from "../../../utils/dateFormatter";
+import colorCode from "../../../utils/colorCodes";
 import { getJobSites } from "../../../utils/api";
 import { deactivateJobSite } from "../../../utils/api";
 import LoaderSpinner from "../../LoaderSpinner";
 
-function ViewSites({ accountLogged }) {
+function ViewSites({ setViewOrCreate, accountLogged, setJobSiteID }) {
   const [jobSites, setJobSites] = useState(null);
   const [loadJobSites, setLoadJobSites] = useState();
 
-  const colorStatus = {
-    Active: "rgb(240, 240, 163)",
-    "Non-Active": "rgb(197, 136, 42)",
-  };
   useEffect(() => {
     async function fetchJobSites() {
       setJobSites(await getJobSites());
     }
     fetchJobSites();
   }, [loadJobSites, setLoadJobSites]);
+
+const onClickEditHandler = (e) => {
+  const { id, value } = e.currentTarget;
+  if(id === "editSite"){
+    setJobSiteID(Number(value));
+    setViewOrCreate("edit");
+  }
+};
 
   const onClickHandler = (e) => {
     const { id } = e.currentTarget;
@@ -57,6 +64,9 @@ function ViewSites({ accountLogged }) {
           <tbody>
             <tr>
               <th>
+                <b>Site ID</b>
+              </th>
+              <th>
                 <b>Job Site</b>
               </th>
               <th>
@@ -72,7 +82,10 @@ function ViewSites({ accountLogged }) {
                 <b>Status</b>
               </th>
               <th>
-                <b>Deactivate Site</b>
+                <b>Edit</b>
+              </th>
+              <th>
+                <b>Deactivate</b>
               </th>
             </tr>
             {jobSites &&
@@ -80,15 +93,26 @@ function ViewSites({ accountLogged }) {
               jobSites.map((site, key) => {
                 return (
                   <tr key={key}>
+                    <td>{site.physical_site_id}</td>
                     <td>{site.physical_site_name}</td>
                     <td>{site.physical_site_loc}</td>
                     <td>{accountLogged.account[0].name}</td>
                     <td>{dateFormatter(site.updated_at)}</td>
                     <td>
-                      <span style={{ color: colorStatus[site.status] }}>
+                      <span style={{ color: colorCode[site.status] }}>
                         {site.status}
                       </span>
                     </td>
+                    <td className="delete-icon-td">
+                        <button
+                          className="image-button"
+                          id="editSite"
+                          value={site.physical_site_id}
+                          onClick={onClickEditHandler}
+                        >
+                          <img src={editPng} alt="edit user" />
+                        </button>
+                      </td>
                     <td className="delete-icon-td">
                       <button
                         className="image-button"
