@@ -21,13 +21,14 @@ import Footer from "./Footer.js";
 //utils
 import calculateValues from "./utils/calculateValues";
 import { getAllAssets } from "./utils/api";
+import LoaderSpinner from "./components/LoaderSpinner";
 
 function App() {
-
   const [accountLogged, setAccountLogged] = useState({
     logged: false,
     account: {},
   });
+  const [idlePrompt, setIdlePrompt] = useState(false);
   const [loadAssets, setLoadAssets] = useState(false);
   const [loadSingleAsset, setLoadSingleAsset] = useState(""); //toggle to load single page, or load main list (read/list)
   const [assetList, setAssetList] = useState(""); //holds the loaded list of assets in state
@@ -67,9 +68,10 @@ function App() {
 
   return (
     <div className="App">
+      {idlePrompt && accountLogged && <div className="idle-prompt"><p>You will be logged out due to inactivity in 15 seconds...</p></div>}
       {accountLogged && accountLogged.logged ? (
         <Router>
-          <Nav setLoadAssets={setLoadAssets} loadAssets={loadAssets} accountLogged={accountLogged} setAccountLogged={setAccountLogged} />
+          <Nav setLoadAssets={setLoadAssets} loadAssets={loadAssets} accountLogged={accountLogged} setAccountLogged={setAccountLogged} idlePrompt={idlePrompt} setIdlePrompt={setIdlePrompt} />
           <LoginBar
               accountLogged={accountLogged}
               setAccountLogged={setAccountLogged}
