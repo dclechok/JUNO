@@ -2,8 +2,8 @@ import "./Nav.css";
 import logoTwo from "../../images/logo2.png";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from 'react';
-
-function Nav({ setLoadAssets, loadAssets, accountLogged }) {
+import { useIdleTimer } from 'react-idle-timer';
+function Nav({ setLoadAssets, loadAssets, accountLogged, setAccountLogged }) {
 
   const navigate = new useNavigate();
   const defaultButtonState = {
@@ -12,8 +12,34 @@ function Nav({ setLoadAssets, loadAssets, accountLogged }) {
   };
   const [buttonState, setButtonState] = useState(defaultButtonState);
 
+
+  const sessionTime = 1000 * 60 * 1; //15 minutes of session time
+  const promptTimeout = 1000 * 60 * 1; //1 minute prompt timeout until logout onIdle
+  
+  const onIdle = () => {
+  //when prompt timeout is reached onIdle is called
+      console.log('log out');
+      setAccountLogged(null);
+      localStorage.clear();
+      navigate('/');
+  }
+  const onActive = () => {
+      console.log('carry on');
+  };
+  
+  const onPrompt = () => {
+    // window alert
+    window.alert(`You have been idle for ${sessionTime} minutes. You will be automatically logged out in ${promptTimeout} seconds.`);
+  }
+
+  useIdleTimer({ onIdle, onActive, onPrompt, timeout: sessionTime, promptTimeout: promptTimeout });
+
+
+
+
   const handleSubmit = (e) => {
     const { id = "" } = e.currentTarget;
+
     if (id === "dashboard"){
       setLoadAssets(!loadAssets)
       navigate(`/`);
@@ -23,7 +49,7 @@ function Nav({ setLoadAssets, loadAssets, accountLogged }) {
       else window.alert("You must be an Administrator to view this component.");
     }
     else if(id === "import-assets"){
-      if(accountLogged.account[0].access_level === 'admin' || accountLogged.account[0].access_level === 'engineer') navigate(`/admin-panel`);
+      if(accountLogged.account[0].access_level === 'admin' || accountLogged.account[0].access_level === 'engineer') navigate(`/import-assets`);
       else window.alert("You must be an Administrator or Engineer to view this component.");
     }
     else navigate(`/${id}`);

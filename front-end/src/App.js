@@ -5,6 +5,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+
 //components
 import Login from "./components/login-page/Login";
 import LoginBar from "./components/login-page/LoginBar";
@@ -22,6 +23,7 @@ import calculateValues from "./utils/calculateValues";
 import { getAllAssets } from "./utils/api";
 
 function App() {
+
   const [accountLogged, setAccountLogged] = useState({
     logged: false,
     account: {},
@@ -67,7 +69,7 @@ function App() {
     <div className="App">
       {accountLogged && accountLogged.logged ? (
         <Router>
-          <Nav setLoadAssets={setLoadAssets} loadAssets={loadAssets} accountLogged={accountLogged} />
+          <Nav setLoadAssets={setLoadAssets} loadAssets={loadAssets} accountLogged={accountLogged} setAccountLogged={setAccountLogged} />
           <LoginBar
               accountLogged={accountLogged}
               setAccountLogged={setAccountLogged}
