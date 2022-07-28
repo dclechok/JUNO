@@ -2,15 +2,16 @@ import { useEffect, useState } from "react";
 
 import LoaderSpinner from "../../LoaderSpinner";
 //utils
-import { getJobSite } from "../../../utils/api";
+import { getJobSite, updateJobSite } from "../../../utils/api";
 
-function EditJobSite({ jobSiteID }) {
+function EditJobSite({ jobSiteID, accountLogged, setViewOrCreate }) {
   const [oldSiteData, setOldSiteData] = useState(null);
   const [newSiteData, setNewSiteData] = useState(null);
-
+  const [editJobSiteSuccess, setEditJobSiteSuccess] = useState(null);
   useEffect(() => {
     async function grabJobSite() {
-      setOldSiteData(...(await getJobSite(jobSiteID)));
+      setOldSiteData(...await getJobSite(jobSiteID));
+      if(oldSiteData) setNewSiteData(oldSiteData);
     }
     grabJobSite();
   }, []);
@@ -19,16 +20,26 @@ function EditJobSite({ jobSiteID }) {
     const { id, value } = e.currentTarget;
     setNewSiteData({ ...newSiteData, [id]: value });
   };
-
   const submitHandler = (e) => {
     e.preventDefault();
-
+    async function makeJobSiteUpdate(){
+        setEditJobSiteSuccess(await updateJobSite(newSiteData, accountLogged));
+    }
+    makeJobSiteUpdate();
   };
+
+  useEffect(() => {
+    if(oldSiteData) setNewSiteData(oldSiteData);
+  }, [oldSiteData]);
+
+  useEffect(() => {
+    if(editJobSiteSuccess) setViewOrCreate('view');
+  }, [editJobSiteSuccess]);
 
   return (
     <section className="create-user-container upload-container-style">
       <h4>Edit User</h4>
-      {oldSiteData ? (
+      {newSiteData ? (
         <form
           className="form-container create-user-form"
           onSubmit={submitHandler}

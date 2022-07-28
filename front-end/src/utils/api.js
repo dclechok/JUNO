@@ -176,6 +176,48 @@ export async function createJobSite(jobSite) {
   }
 }
 
+export async function updateJobSite(newSiteData, accountLogged){
+  const newDate = new Date();
+  const newHistoryKey = generateHistoryKey();
+
+  newSiteData.history.push({
+    action_taken: "Edit Job Site",
+    action_by: accountLogged.account[0].name,
+    action_by_id: accountLogged.account[0].user_id,
+    action_key: newHistoryKey,
+    action_date: newDate,
+    action_comment: "Edit Job Site",
+  })
+  try{
+    const response = await fetch(BASE_URL + `physical_sites/${newSiteData.physical_site_id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        data: newSiteData,
+      }),
+    });
+    const jsonResponse = await response.json();
+    if(jsonResponse){ //if updating job site was successful, move to create historical entry
+      const { name, user_id } = accountLogged.account[0];
+      const awaitCreateHistory = await createHistory({
+        logged_action: "Edit Job Site",
+        logged_date: newDate,
+        logged_by: name,
+        logged_by_id: user_id,
+        history_key: newHistoryKey,
+      });
+      console.log(awaitCreateHistory)
+      if (!awaitCreateHistory)
+        throw new Error("Making request for history log failed!");
+      return jsonResponse;
+    }
+  }catch(e){
+    console.log(e, "Failed to update job site.");
+  }
+}
+
 // JOB SITES - DEACTIVATE/UPDATE ONE //
 export async function deactivateJobSite(id, accountLogged, oldJobSiteHistory) {
   //DO NOT ACTUALLY PERMANENTLY DELETE FROM DB
@@ -191,7 +233,7 @@ export async function deactivateJobSite(id, accountLogged, oldJobSiteHistory) {
     action_comment: "Deactivated Job Site",
   });
   try {
-    const response = await fetch(BASE_URL + `physical_sites/${id}`, {
+    const response = await fetch(BASE_URL + `physical_sites/deactivate/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -208,7 +250,6 @@ export async function deactivateJobSite(id, accountLogged, oldJobSiteHistory) {
       //if POST request was successful, create a log in
       //eventually add comments, and "approved_by";
       const { name, user_id } = accountLogged.account[0];
-      console.log(name);
       const awaitCreateHistory = await createHistory({
         logged_action: "Deactivate Job Site",
         logged_date: newDate,

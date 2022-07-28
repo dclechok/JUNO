@@ -22,6 +22,24 @@ async function read(req, res) {
   res.json(data);
 }
 
+async function update(req, res) {
+  const { physical_site_id } = req.params;
+  const { physical_site_name, site_code, first_octet } = req.body.data;
+  let { history } = req.body.data;
+  history = JSON.stringify(history); //restringify
+  const data = await knex("physical_sites")
+  .where("physical_site_id", physical_site_id)
+  .update({
+    physical_site_name, physical_site_name,
+    site_code, site_code,
+    first_octet, first_octet,
+    history, history
+  })
+  .returning('*')
+  .then((results) => results[0]);
+  res.status(200).json({ data });
+}
+
 async function deactivate(req, res) { //update, do not delete
   //remove asset from db
   const { id } = req.params;
@@ -43,6 +61,6 @@ module.exports = {
   list: asyncErrorBoundary(list),
   create: asyncErrorBoundary(create),
   read: asyncErrorBoundary(read),
-  //update
-  update: asyncErrorBoundary(deactivate)
+  update: asyncErrorBoundary(update),
+  remove: asyncErrorBoundary(deactivate)
 };

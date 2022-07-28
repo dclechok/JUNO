@@ -33,7 +33,7 @@ function ManageJobSites({ accountLogged }) {
       </div>
       {viewOrCreate === "view" && <ViewSites accountLogged={accountLogged} setViewOrCreate={setViewOrCreate} setJobSiteID={setJobSiteID} />}
       {viewOrCreate === "create" && <CreateSite accountLogged={accountLogged} setViewOrCreate={setViewOrCreate} />}
-      {viewOrCreate === "edit" && <EditJobSite jobSiteID={jobSiteID} />}
+      {viewOrCreate === "edit" && <EditJobSite accountLogged={accountLogged} jobSiteID={jobSiteID} setViewOrCreate={setViewOrCreate} />}
     </>
   );
 }
