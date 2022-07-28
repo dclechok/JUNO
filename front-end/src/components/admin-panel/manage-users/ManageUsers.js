@@ -17,7 +17,7 @@ function ManageUsers({ accountLogged }) {
   const [viewOrCreate, setViewOrCreate] = useState("view");
 
   useEffect(() => {
-    setButtonStyle({ ...buttonStyle, [viewOrCreate]: "active-button-link" }); //default to View
+    setButtonStyle({ ...defaultButtonStyle, [viewOrCreate]: "active-button-link" }); //default to View
   }, [viewOrCreate, setViewOrCreate]);
 
   const handleClick = (e) => {
@@ -27,6 +27,7 @@ function ManageUsers({ accountLogged }) {
     setButtonStyle({ ...defaultButtonStyle, [id]: "active-button-link" });
   };
 
+  console.log(viewOrCreate)
   return (
     <>
         <div className="admin-panel-container">

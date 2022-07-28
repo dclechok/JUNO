@@ -68,7 +68,7 @@ function App() {
 
   return (
     <div className="App">
-      {idlePrompt && accountLogged && <div className="idle-prompt"><p>You will be logged out due to inactivity in 15 seconds...</p></div>}
+      {idlePrompt && accountLogged && <div className="idle-prompt"><p>You will be logged out due to inactivity in 30 seconds...</p></div>}
       {accountLogged && accountLogged.logged ? (
         <Router>
           <Nav setLoadAssets={setLoadAssets} loadAssets={loadAssets} accountLogged={accountLogged} setAccountLogged={setAccountLogged} idlePrompt={idlePrompt} setIdlePrompt={setIdlePrompt} />

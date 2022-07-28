@@ -11,8 +11,8 @@ function Nav({ setLoadAssets, loadAssets, accountLogged, setAccountLogged, setId
   };
   const [buttonState, setButtonState] = useState(defaultButtonState);
 
-  const sessionTime = 1000 * 60 * 0.1; //15 minutes of session time
-  const promptTimeout = 1000 * 60 * 0.15; //1 minute prompt timeout until logout onIdle
+  const sessionTime = 1000 * 60 * 15; //15 minutes of session time
+  const promptTimeout = 1000 * 60 * 0.5; //30 second prompt timeout until logout onIdle
 
   const onIdle = () => {
     //when prompt timeout is reached onIdle is called

@@ -135,6 +135,8 @@ th{
   height: 100%;
   z-index: 4;
   background-color: rgba(6, 6, 8, 0.744);
+  margin: 0;
+  top: 0;
 }
 
 .idle-prompt p{

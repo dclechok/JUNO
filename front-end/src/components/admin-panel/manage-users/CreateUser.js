@@ -51,7 +51,8 @@ function CreateUser({ accountLogged, setViewOrCreate }) {
       setCreateButtonDisabled(true);
       if (window.confirm( `Do you confirm the creation of user: ${newUser.username}?` )) {
         async function createThisUser(){
-          if(await createUser(newUser)) setViewOrCreate('view');
+          setViewOrCreate('view');
+          await createUser(newUser)
         }
         createThisUser();
       }

@@ -1,6 +1,5 @@
 function validateCreateUser(newUser, users){
     //object can not have empty values
-    console.log(newUser, users)
     for(let property in newUser){
         if(!newUser[property]){ 
             window.alert('No fields can be blank!');
