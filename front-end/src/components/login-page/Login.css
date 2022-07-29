@@ -109,3 +109,13 @@ main {
   margin-bottom: 5%;
 }
 
+.center-spinner{
+  display: flex;
+  text-align: center;
+}
+
+.error-message{
+  text-align: center;
+  margin-top: 2%;
+  width: 100%;
+}

@@ -4,18 +4,19 @@ import LoaderSpinner from "../../LoaderSpinner";
 //utils
 import { getJobSite, updateJobSite } from "../../../utils/api";
 
-function EditJobSite({ jobSiteID, accountLogged, setViewOrCreate }) {
+function CreateEditJobSite({ accountLogged, setViewOrCreate, viewOrCreate, jobSiteID = '' }) {
   const [oldSiteData, setOldSiteData] = useState(null);
   const [newSiteData, setNewSiteData] = useState(null);
-  const [editJobSiteSuccess, setEditJobSiteSuccess] = useState(null);
+  const [success, setSuccess] = useState(null);
+
   useEffect(() => {
     async function grabJobSite() {
       setOldSiteData(...await getJobSite(jobSiteID));
       if(oldSiteData) setNewSiteData(oldSiteData);
     }
-    grabJobSite();
+    if(jobSiteID) grabJobSite();
   }, []);
-
+  console.log(viewOrCreate)
   const changeHandler = (e) => {
     const { id, value } = e.currentTarget;
     setNewSiteData({ ...newSiteData, [id]: value });
@@ -23,7 +24,7 @@ function EditJobSite({ jobSiteID, accountLogged, setViewOrCreate }) {
   const submitHandler = (e) => {
     e.preventDefault();
     async function makeJobSiteUpdate(){
-        setEditJobSiteSuccess(await updateJobSite(newSiteData, accountLogged));
+        setSuccess(await updateJobSite(newSiteData, accountLogged));
     }
     makeJobSiteUpdate();
   };
@@ -33,12 +34,12 @@ function EditJobSite({ jobSiteID, accountLogged, setViewOrCreate }) {
   }, [oldSiteData]);
 
   useEffect(() => {
-    if(editJobSiteSuccess) setViewOrCreate('view');
-  }, [editJobSiteSuccess]);
-
+    if(success) setViewOrCreate('view');
+  }, [success]);
+  
   return (
     <section className="create-user-container upload-container-style">
-      <h4>Edit User</h4>
+      <h4>{viewOrCreate.charAt(0).toUpperCase() + viewOrCreate.slice(1)} Job Site</h4>
       {newSiteData ? (
         <form
           className="form-container create-user-form"
@@ -78,7 +79,7 @@ function EditJobSite({ jobSiteID, accountLogged, setViewOrCreate }) {
             />
           </div>
           <div className="fix-button">
-            <button className="submit-single-asset">Update Job Site</button>
+            <button className="submit-single-asset">{viewOrCreate.charAt(0).toUpperCase() + viewOrCreate.slice(1)} Job Site</button>
           </div>
         </form>
       ) : (
@@ -88,4 +89,4 @@ function EditJobSite({ jobSiteID, accountLogged, setViewOrCreate }) {
   );
 }
 
-export default EditJobSite;
+export default CreateEditJobSite;

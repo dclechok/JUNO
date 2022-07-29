@@ -3,8 +3,7 @@ import { useState, useEffect } from "react";
 
 //components
 import ViewSites from "./ViewSites";
-import CreateSite from './CreateSite';
-import EditJobSite from "./EditJobSite";
+import CreateEditJobSite from "./CreateEditJobSite";
 
 function ManageJobSites({ accountLogged }) {
   const defaultButtonState = {
@@ -24,7 +23,7 @@ function ManageJobSites({ accountLogged }) {
     setViewOrCreate(id);
     setButtonState({...defaultButtonState, [id]: 'active-button-link'});
   };    
-
+  console.log(viewOrCreate);
   return (
     <>
       <div className="sub-manage">
@@ -32,8 +31,7 @@ function ManageJobSites({ accountLogged }) {
         <span style={{color: 'black'}}>[<button className={buttonState.create} id="create" onClick={handleClick}>Create Site</button>]</span>
       </div>
       {viewOrCreate === "view" && <ViewSites accountLogged={accountLogged} setViewOrCreate={setViewOrCreate} setJobSiteID={setJobSiteID} />}
-      {viewOrCreate === "create" && <CreateSite accountLogged={accountLogged} setViewOrCreate={setViewOrCreate} />}
-      {viewOrCreate === "edit" && <EditJobSite accountLogged={accountLogged} jobSiteID={jobSiteID} setViewOrCreate={setViewOrCreate} />}
+      {(viewOrCreate === "edit" || viewOrCreate === "create") && <CreateEditJobSite accountLogged={accountLogged} jobSiteID={jobSiteID} setViewOrCreate={setViewOrCreate} viewOrCreate={viewOrCreate} />}
     </>
   );
 }

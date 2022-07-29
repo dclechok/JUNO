@@ -33,7 +33,7 @@ function SingleHistory({ assetList, searchHistoryType }) {
           assetList.filter((asset) => asset.history.find(assetHist => assetHist.action_key === history_key)));
       }
     }
-    if (searchHistoryType && searchHistoryType.includes("Job Site")) {
+    else if (searchHistoryType && searchHistoryType.includes("Job Site")) {
       //create or deactivate 'job site'
       async function fetchJobSites() {
         const jobSites = await getJobSites();
@@ -57,7 +57,7 @@ function SingleHistory({ assetList, searchHistoryType }) {
       }
       fetchJobSites();
     }
-    if(searchHistoryType && searchHistoryType.includes("User")){
+    else if(searchHistoryType && searchHistoryType.includes("User")){
       async function fetchUsers(){
         const users = await getUsers();
         if(users && users.length !== 0){

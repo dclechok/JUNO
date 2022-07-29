@@ -357,7 +357,20 @@ export async function updateUser(newUserData, accountLogged, userID){
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
     if (jsonResponse) {
-      console.log(jsonResponse)
+      //if POST request was successful, create a log in
+      //eventually add comments, and "approved_by";
+      const { updated_at } = jsonResponse.data;
+      const { action_by, action_by_id, history_key } = (jsonResponse.data.history[0]);
+      const awaitCreateHistory = await createHistory({
+        logged_action: "Edit User",
+        logged_date: updated_at,
+        logged_by: action_by,
+        logged_by_id: action_by_id,
+        history_key: history_key
+      });
+      if (!awaitCreateHistory)
+        throw new Error("Making request create user failed!");
+      return jsonResponse;
     }
   }catch(e){
     console.log(e, "Failed to update user.");
