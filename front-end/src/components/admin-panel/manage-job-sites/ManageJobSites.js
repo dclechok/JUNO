@@ -31,7 +31,7 @@ function ManageJobSites({ accountLogged }) {
         <span style={{color: 'black'}}>[<button className={buttonState.create} id="create" onClick={handleClick}>Create Site</button>]</span>
       </div>
       {viewOrCreate === "view" && <ViewSites accountLogged={accountLogged} setViewOrCreate={setViewOrCreate} setJobSiteID={setJobSiteID} />}
-      {(viewOrCreate === "edit" || viewOrCreate === "create") && <CreateEditJobSite accountLogged={accountLogged} jobSiteID={jobSiteID} setViewOrCreate={setViewOrCreate} viewOrCreate={viewOrCreate} />}
+      {(viewOrCreate === "edit" || viewOrCreate === "create") && <CreateEditJobSite accountLogged={accountLogged} jobSiteID={jobSiteID} setViewOrCreate={setViewOrCreate} viewOrCreate={viewOrCreate} setJobSiteID={setJobSiteID} />}
     </>
   );
 }

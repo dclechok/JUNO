@@ -10,6 +10,7 @@ function CreateEditJobSite({
   setViewOrCreate,
   viewOrCreate,
   jobSiteID = "",
+  setJobSiteID
 }) {
   const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
   const newDate = new Date();
@@ -45,8 +46,8 @@ function CreateEditJobSite({
       if (oldSiteData) setNewSiteData(oldSiteData); //editing old data
     }
     if (jobSiteID) grabJobSite();
-    if (viewOrCreate === "create") setOldSiteData(defaultJobSite);
-  }, [viewOrCreate, setViewOrCreate]);
+    else setNewSiteData(defaultJobSite);
+    }, [viewOrCreate, setViewOrCreate]);
 
   const changeHandler = (e) => {
     const { id, value } = e.currentTarget;
@@ -62,6 +63,12 @@ function CreateEditJobSite({
     }
     makeJobSite();
   };
+
+  console.log(jobSiteID, newSiteData)
+
+  useEffect(() => {
+    if(viewOrCreate === "create") setJobSiteID('');
+  }, [viewOrCreate, setViewOrCreate]);
 
   useEffect(() => {
     if (success) setViewOrCreate("view");
@@ -98,7 +105,7 @@ function CreateEditJobSite({
               placeholder={viewOrCreate === 'edit' ? oldSiteData.site_code : defaultJobSite.site_code}
             />
             <label htmlFor="first_octet">
-              Site IP First Octet (ex. "10".x.x.x)
+              Site IP First Octet (ex. "10".x.x.x) (if applicable)
             </label>
             <input
               type="text"
