@@ -145,6 +145,7 @@ export async function getJobSite(jobSiteID){
 
 // JOB SITES - CREATE ONE //
 export async function createJobSite(jobSite) {
+  console.log(jobSite);
   try {
     const response = await fetch(BASE_URL + "physical_sites", {
       method: "POST",
@@ -179,7 +180,6 @@ export async function createJobSite(jobSite) {
 export async function updateJobSite(newSiteData, accountLogged){
   const newDate = new Date();
   const newHistoryKey = generateHistoryKey();
-
   newSiteData.history.push({
     action_taken: "Edit Job Site",
     action_by: accountLogged.account[0].name,
@@ -208,7 +208,6 @@ export async function updateJobSite(newSiteData, accountLogged){
         logged_by_id: user_id,
         history_key: newHistoryKey,
       });
-      console.log(awaitCreateHistory)
       if (!awaitCreateHistory)
         throw new Error("Making request for history log failed!");
       return jsonResponse;
@@ -338,6 +337,7 @@ export async function updateUser(newUserData, accountLogged, userID){
   const newDate = new Date();
   const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
     //push new entry onto the old job site history list
+    console.log(newUserData)
   newUserData.history.push(
     { 
       action_taken: "Edit User",

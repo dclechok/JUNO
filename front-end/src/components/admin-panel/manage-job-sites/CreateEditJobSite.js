@@ -14,9 +14,6 @@ function CreateEditJobSite({
 }) {
   const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
   const newDate = new Date();
-
-  const [oldSiteData, setOldSiteData] = useState({});
-  const [newSiteData, setNewSiteData] = useState({});
   const [success, setSuccess] = useState(null);
 
   const defaultJobSite = {
@@ -38,42 +35,35 @@ function CreateEditJobSite({
       },
     ],
   };
+  const [oldSiteData, setOldSiteData] = useState({});
+  const [newSiteData, setNewSiteData] = useState(defaultJobSite);
 
   useEffect(() => {
     //get old site data if we are editing
     async function grabJobSite() {
       setOldSiteData(...(await getJobSite(jobSiteID)));
-      if (oldSiteData) setNewSiteData(oldSiteData); //editing old data
     }
     if (jobSiteID) grabJobSite();
-    else setNewSiteData(defaultJobSite);
-    }, [viewOrCreate, setViewOrCreate]);
+  }, [viewOrCreate, setViewOrCreate]);
 
   const changeHandler = (e) => {
     const { id, value } = e.currentTarget;
-    setNewSiteData({ ...newSiteData, [id]: value });
+    if(viewOrCreate === 'create') setNewSiteData({ ...newSiteData, [id]: value });
+    if(viewOrCreate === 'edit') setOldSiteData({...oldSiteData, [id]: value});
   };
+
   const submitHandler = (e) => {
     e.preventDefault();
     async function makeJobSite() {
       if (viewOrCreate === "edit")
-        setSuccess(await updateJobSite(newSiteData, accountLogged));
+        setSuccess(await updateJobSite(oldSiteData, accountLogged));
       else if (viewOrCreate === "create")
-        setSuccess(await createJobSite(newSiteData, accountLogged));
+        setSuccess(await createJobSite({...defaultJobSite, ...newSiteData}, accountLogged));
     }
     makeJobSite();
   };
 
-  console.log(jobSiteID, newSiteData)
-
-  useEffect(() => {
-    if(viewOrCreate === "create") setJobSiteID('');
-  }, [viewOrCreate, setViewOrCreate]);
-
-  useEffect(() => {
-    if (success) setViewOrCreate("view");
-  }, [success]);
-
+  console.log(newSiteData)
   return (
     <section className="create-user-container upload-container-style">
       <h4>
@@ -93,6 +83,7 @@ function CreateEditJobSite({
               id="physical_site_name"
               name="physical_site_name"
               onChange={changeHandler}
+              value={viewOrCreate === 'edit' ? oldSiteData.physical_site_name: newSiteData.physical_site_name}
               placeholder={viewOrCreate === 'edit' ? oldSiteData.physical_site_name : defaultJobSite.physical_site_name}
             />
 
@@ -102,6 +93,7 @@ function CreateEditJobSite({
               id="site_code"
               name="site_code"
               onChange={changeHandler}
+              value={viewOrCreate === 'edit' ? oldSiteData.site_code: newSiteData.site_code}
               placeholder={viewOrCreate === 'edit' ? oldSiteData.site_code : defaultJobSite.site_code}
             />
             <label htmlFor="first_octet">
@@ -112,6 +104,7 @@ function CreateEditJobSite({
               id="first_octet"
               name="first_octet"
               onChange={changeHandler}
+              value={viewOrCreate === 'edit' ? oldSiteData.first_octet: newSiteData.first_octet}
               placeholder={viewOrCreate === 'edit' ? oldSiteData.first_octet : defaultJobSite.first_octet}
             />
           </div>
