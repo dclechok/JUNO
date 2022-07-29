@@ -73,6 +73,9 @@ const onClickEditHandler = (e) => {
                 <b>Site ID</b>
               </th>
               <th>
+                <b>First Octet</b>
+              </th>
+              <th>
                 <b>Created By</b>
               </th>
               <th>
@@ -95,7 +98,8 @@ const onClickEditHandler = (e) => {
                   <tr key={key}>
                     <td>{site.physical_site_id}</td>
                     <td>{site.physical_site_name}</td>
-                    <td>{site.physical_site_loc}</td>
+                    <td>{site.site_code}</td>
+                    <td>{site.first_octet}</td>
                     <td>{accountLogged.account[0].name}</td>
                     <td>{dateFormatter(site.updated_at)}</td>
                     <td>
