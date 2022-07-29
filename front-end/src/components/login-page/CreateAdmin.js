@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 //utils
 import { createUser } from "../../utils/api";
 import generateHistoryKey from "../../utils/generateHistoryKey";
+import validateCreateUser from "../../utils/validation/validateCreateUser";
 
 function CreateAdmin({ setCreateAdmin }) {
   const newHistoryKey = generateHistoryKey();
@@ -25,7 +26,6 @@ function CreateAdmin({ setCreateAdmin }) {
     status: "Active"
   };
   const [userData, setUserData] = useState(defaultUserData);
-  const [validatedUserData, setValidatedUserData] = useState(true); //to be used for future validation
   const [newAdmin, setNewAdmin] = useState(null);
 
   const changeHandler = (e) => {
@@ -39,7 +39,7 @@ function CreateAdmin({ setCreateAdmin }) {
     async function createNewAdmin(){
       setNewAdmin(await createUser(userData));
     }
-    createNewAdmin();
+    if(validateCreateUser(userData)) createNewAdmin();
 
   };
   
