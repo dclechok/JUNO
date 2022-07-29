@@ -9,6 +9,8 @@ function validateCreateUser(newUser, users){
     //validate no duplicate usernames
     if(users.find(user => user.username === newUser.username)) return window.alert('This username already exists!');
 
+    if(!/\S+@\S+\.\S+/.test(newUser.email)) return window.alert('Please enter a valid email address.');
+
     return true;
 }
 
