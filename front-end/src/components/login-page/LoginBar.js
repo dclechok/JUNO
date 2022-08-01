@@ -16,9 +16,16 @@ function LoginBar({ accountLogged, setAccountLogged }){
         }
       };
 
+      const handleClick = (e) => {
+        const { id } = e.currentTarget;
+        if(id === "user-panel"){
+          navigate('/user-panel');
+        }
+      };
+
     return (
         <div className='logged-in-container'>
-        <p className="logged-in">[<button className="button-link">{accountLogged.account[0].username}</button> | <button className="button-link" id="logout" onClick={handleLogout}>logout</button>]</p>
+        <p className="logged-in">[<button className="button-link" id="user-panel" onClick={handleClick}>{accountLogged.account[0].username}</button> | <button className="button-link" id="logout" onClick={handleLogout}>logout</button>]</p>
       </div>
     );
 }

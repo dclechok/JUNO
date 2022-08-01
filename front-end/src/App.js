@@ -22,6 +22,7 @@ import Footer from "./Footer.js";
 import calculateValues from "./utils/calculateValues";
 import { getAllAssets } from "./utils/api";
 import LoaderSpinner from "./components/LoaderSpinner";
+import UserPanel from "./components/login-page/UserPanel";
 
 function App() {
   const [accountLogged, setAccountLogged] = useState({
@@ -147,6 +148,13 @@ function App() {
                   assetList={assetList}
                   searchHistoryType={searchHistoryType}
                 />
+              }
+            ></Route>
+             <Route
+              exact
+              path="/user-panel"
+              element={
+                <UserPanel />
               }
             ></Route>
           </Routes>

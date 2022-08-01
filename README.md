@@ -15,12 +15,13 @@
 ### TODO: Specific Features ###
 -----
 #### Login ####
-* Validation, validation, validation.
+
 * Add LoaderSpinner and remove login button on first onClick.
-* Set timeout (logout after so long)
+* ~~Set timeout (logout after so long)~~
 * Log user out if deleted from DB.
 * ~~Submit on 'enter' press.~~
 * ~~Add LoaderSpinner when loading login component.~~
+* ~~Validation, validation, validation.~~
 #### Asset List ####
 * Styling.
 * ~~Add set amount per page input.~~
@@ -28,7 +29,7 @@
 * Do not allow uploads if job sites in .csv do not exist!
 * ~~Check for duplicates in .csv file (from accidentally scanning device twice, etc.)~~
 #### Single Upload ####
-* More backend validation.
+* ~~More backend validation.~~
 #### Upload Log ####
 * ~~Fix styling issue where texts goes outside of container.~~
 * ~~Fix issue where upload log renders before successful/failed web request..~~
