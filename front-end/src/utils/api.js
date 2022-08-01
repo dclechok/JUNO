@@ -269,8 +269,25 @@ export async function deactivateJobSite(id, accountLogged, oldJobSiteHistory) {
 
 // HISTORY LOG - GET ALL //
 export async function getHistory() {
+  //get all history
   try {
     const response = await fetch(BASE_URL + "history_log", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const jsonResponse = await response.json(); //json-ify readablestream data
+    if (jsonResponse) return jsonResponse;
+  } catch (e) {
+    console.log(e, "Failed to fetch all history.");
+  }
+}
+
+//get history by userID
+export async function listHistoryByUserID(userID){
+  try {
+    const response = await fetch(BASE_URL + `history_log/by-user/${userID}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

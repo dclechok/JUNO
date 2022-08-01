@@ -154,7 +154,7 @@ function App() {
               exact
               path="/user-panel"
               element={
-                <UserPanel />
+                <UserPanel accountLogged={accountLogged} />
               }
             ></Route>
           </Routes>

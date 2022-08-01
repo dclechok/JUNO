@@ -56,7 +56,7 @@ async function create(req, res) {
 }
 
 async function read(req, res) {
-  //return single asset via asset_tag
+  //return single history log via history key
   const { history_key } = req.params;
   const data = await knex("history_log")
     .select("*")
@@ -65,10 +65,20 @@ async function read(req, res) {
   res.json(data);
 }
 
+async function readByID(req, res){
+  //list all history logs by ID
+  const { user_id } = req.params;
+  const data = await knex("history_log")
+    .select("*")
+    .where("logged_by_id", user_id)
+  res.json(data);
+}
+
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [bodyHasResultProperty, validateBody, asyncErrorBoundary(create)],
   read: asyncErrorBoundary(read),
+  readByID: asyncErrorBoundary(readByID)
   //update
   //delete
 };
