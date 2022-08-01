@@ -3,7 +3,7 @@ import "./CreateUser.css";
 
 //utils
 import { createUser, getUsers } from "../../../utils/api";
-import validateCreateUser from "../../../utils/validation/validateCreateUser";
+import validateUserForm from "../../../utils/validation/validateUserForm";
 import generateHistoryKey from "../../../utils/generateHistoryKey";
 import LoaderSpinner from "../../LoaderSpinner";
 
@@ -47,7 +47,7 @@ function CreateUser({ accountLogged, setViewOrCreate }) {
   const submitHandler = (e) => {
     e.preventDefault();
     //frontend validate new user data
-    if (validateCreateUser(newUser, users)) {
+    if (validateUserForm(newUser, users)) {
       setCreateButtonDisabled(true);
       if (window.confirm( `Do you confirm the creation of user: ${newUser.username}?` )) {
         async function createThisUser(){

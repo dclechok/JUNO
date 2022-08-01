@@ -100,7 +100,7 @@ function Nav({ setLoadAssets, loadAssets, accountLogged, setAccountLogged, setId
                 id="history"
                 onClick={handleSubmit}
               >
-                Asset History
+                History Log
               </button>
             </div>
           </div>

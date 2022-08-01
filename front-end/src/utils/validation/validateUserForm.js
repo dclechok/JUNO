@@ -1,4 +1,4 @@
-function validateCreateUser(newUser, users = ''){
+function validateUserForm(newUser, users = ''){
 
     //object can not have empty values
     for(let property in newUser){
@@ -22,4 +22,4 @@ function validateCreateUser(newUser, users = ''){
     return true;
 }
 
-export default validateCreateUser;
+export default validateUserForm;

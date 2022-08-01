@@ -81,7 +81,7 @@ function Login({ accountLogged, setAccountLogged }) {
     }
     login();
   };
-  console.log(loggingIn)
+
   useEffect(() => {
     if (errorMessage) setLoggingIn(false);
   }, [setErrorMessage, errorMessage, loggingIn, setLoggingIn, setAccountLogged, accountLogged]);

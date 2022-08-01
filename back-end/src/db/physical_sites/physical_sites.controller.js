@@ -1,6 +1,32 @@
 const knex = require("../connection");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
+function bodyHasResultProperty(req, res, next) {
+  //post request must have a body
+  const { data } = req.body;
+  if (data) return next(); //if body exists - move to validate body
+  next({ status: 400, message: "A request body is required." });
+}
+
+function validateBody(req, res, next) {
+  //post request must have the required body data
+  const { physical_site_name, site_code } = req.body.data;
+  //validate each separate piece of the requests body data
+  if (!physical_site_name)
+    return next({
+      status: 400,
+      message: "Job site must include a physical site name tag for entry.",
+    });
+  if (!site_code)
+    return next({
+      status: 400,
+      message: "Job site must include a site code.",
+    });
+  next(); //validated - onto next middleware
+}
+
+
+
 async function list(req, res) {
   const data = await knex("physical_sites").select("*");
   res.json(data);
@@ -59,8 +85,8 @@ async function deactivate(req, res) { //update, do not delete
 
 module.exports = {
   list: asyncErrorBoundary(list),
-  create: asyncErrorBoundary(create),
+  create: [bodyHasResultProperty, validateBody, asyncErrorBoundary(create)],
   read: asyncErrorBoundary(read),
-  update: asyncErrorBoundary(update),
+  update: [bodyHasResultProperty, validateBody, asyncErrorBoundary(update)],
   remove: asyncErrorBoundary(deactivate)
 };

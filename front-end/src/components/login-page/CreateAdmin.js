@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 //utils
 import { createUser } from "../../utils/api";
 import generateHistoryKey from "../../utils/generateHistoryKey";
-import validateCreateUser from "../../utils/validation/validateCreateUser";
+import validateUserForm from "../../utils/validation/validateUserForm";
 
 function CreateAdmin({ setCreateAdmin }) {
   const newHistoryKey = generateHistoryKey();
@@ -39,7 +39,7 @@ function CreateAdmin({ setCreateAdmin }) {
     async function createNewAdmin(){
       setNewAdmin(await createUser(userData));
     }
-    if(validateCreateUser(userData)) createNewAdmin();
+    if(validateUserForm(userData)) createNewAdmin();
 
   };
   
