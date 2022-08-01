@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 
 import LoaderSpinner from '../LoaderSpinner';
 //utils
 import dateFormatter from "../../utils/dateFormatter";
 import { getUser, listHistoryByUserID } from "../../utils/api";
-import colorCodes from '../../utils/calculateValues'
+import colorCode from '../../utils/colorCodes';
 
 function UserPanel({ accountLogged }) {
   const [userDetails, setUserDetails] = useState(null);
   const [userHistory, setUserHistory] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getUserDetails() {
@@ -24,8 +26,9 @@ function UserPanel({ accountLogged }) {
     gatherHistory();
   }, []);
 
-  const onClickHandler = (e) => {
-    console.log(e.currentTarget);
+  const clickHistoryHandler = (e) => {
+    const { id } = e.currentTarget;
+    navigate(`/history/${id}`);
   };
 
   return (
@@ -113,7 +116,7 @@ function UserPanel({ accountLogged }) {
                         <td>
                           <span
                             style={{
-                              color: colorCodes[history.logged_action],
+                              color: colorCode[history.logged_action],
                             }}
                           >
                             {history.logged_action}
@@ -121,7 +124,7 @@ function UserPanel({ accountLogged }) {
                         </td>
                         <td>{history.logged_by}</td>
                         <td>
-                          <span style={{color: "black"}}>[<button className="button-link" id={history.history_key} value={history.logged_action} onClick={onClickHandler}>View</button>]</span>
+                          <span style={{color: "black"}}>[<button className="button-link" id={history.history_key} value={history.logged_action} onClick={clickHistoryHandler}>View</button>]</span>
                         </td>
                       </tr>
                     );

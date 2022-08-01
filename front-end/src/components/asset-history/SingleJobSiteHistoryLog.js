@@ -81,6 +81,11 @@ function SingleJobSiteHistoryLog({ loadedHistory }) {
                     </button>
                   </th>
                   <th>
+                    <button id="site_code" onClick={sortButtonSubmit}>
+                      Site Code
+                    </button>
+                  </th>
+                  <th>
                     <button id="updated_at" onClick={sortButtonSubmit}>
                       Date of Action
                     </button>
@@ -96,6 +101,7 @@ function SingleJobSiteHistoryLog({ loadedHistory }) {
                   <tr>
                     <td>{loadedHistory[0].physical_site_name}</td>
                     <td>{loadedHistory[0].physical_site_loc}</td>
+                    <td>{loadedHistory[0].site_code}</td>
                     <td>{dateFormatter(currentHistoryLog.action_date)}</td>
                     <td>{currentHistoryLog.action_comment}</td>
                     <td>
