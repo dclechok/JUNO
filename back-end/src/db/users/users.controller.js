@@ -47,6 +47,21 @@ function validateBody(req, res, next) {
   next(); //validated - onto next middleware
 }
 
+function validatePassForUpdate(req, res, next){ //for updating passwords
+  const { data } = req.body;
+  console.log(data);
+  if(data[0].new_password1 === data[0].new_password2){ //make sure new password fields are the same
+    if(bcrypt.compareSync(data[0].old_password, data[1].hash)){ //if "old password" aka current password matches
+      return next();
+    }else return next({
+      status: 400, 
+      message: "Current password field does not match existing password."
+    })
+  }else return next({
+    status: 400, 
+    message: "New password fields do not match!"
+  })
+}
 /// END VALIDATION MIDDLEWARE ///
 async function list(req, res) {
   const data = await knex("users").select("*");
@@ -112,6 +127,23 @@ async function update(req, res) {
   }
 }
 
+async function updatePass(req, res){
+  const { user_id } = req.params;
+  const { new_password1 } = req.body.data[0];
+  const history = JSON.stringify(req.body.data[1].history);
+  const hash = bcrypt.hashSync(new_password1, 15)
+  console.log(history)
+  const data = await knex("users")
+  .where("user_id", user_id)
+  .update({
+    hash: hash,
+    history: history
+  })
+  .then((results) => results[0]);
+  res.status(200).json({ data });
+
+}
+
 async function deactivate(req, res){
   const { user_id } = req.params;
   const { status } = req.body.data;
@@ -131,6 +163,7 @@ module.exports = {
   list: asyncErrorBoundary(list),
   create: [bodyHasResultProperty, validateBody, asyncErrorBoundary(create)], // TODO: verify each data field format
   read: asyncErrorBoundary(read),
-  update: asyncErrorBoundary(update),
+  update: [bodyHasResultProperty, asyncErrorBoundary(update)],
+  updatePass: [bodyHasResultProperty, validatePassForUpdate, asyncErrorBoundary(updatePass)],
   deactivate: asyncErrorBoundary(deactivate)
 };

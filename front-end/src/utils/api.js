@@ -354,7 +354,6 @@ export async function updateUser(newUserData, accountLogged, userID){
   const newDate = new Date();
   const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
     //push new entry onto the old job site history list
-    console.log(newUserData)
   newUserData.history.push(
     { 
       action_taken: "Edit User",
@@ -393,6 +392,52 @@ export async function updateUser(newUserData, accountLogged, userID){
     console.log(e, "Failed to update user.");
   }
 }
+
+export async function updatePass(userDetails, newUserDetails, accountLogged){
+  const newDate = new Date();
+  const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
+  const user_id = accountLogged.account[0].user_id;
+    //push new entry onto the old job site history list
+  userDetails.history.push(
+    { 
+      action_taken: "Edit User",
+      action_by: accountLogged.account[0].name,
+      action_by_id: user_id,
+      action_key: newHistoryKey,
+      action_date: newDate,
+      // action_comment: "Edited User Details"
+  });
+  try {
+    const response = await fetch(BASE_URL + `users/updatepw/${user_id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ data: [newUserDetails, userDetails] }),
+    });
+    const jsonResponse = await response.json(); //json-ify readablestream data
+    if (jsonResponse) {
+      //if POST request was successful, create a log in
+      //eventually add comments, and "approved_by";
+      const { updated_at } = jsonResponse.data;
+      const { action_by, action_by_id, history_key } = (jsonResponse.data.history[0]);
+      const awaitCreateHistory = await createHistory({
+        logged_action: "Edit User",
+        logged_date: updated_at,
+        logged_by: action_by,
+        logged_by_id: action_by_id,
+        history_key: history_key
+      });
+      if (!awaitCreateHistory)
+        throw new Error("Making request create user failed!");
+      return jsonResponse;
+    }
+  }catch(e){
+    console.log(e, "Failed to update user.");
+  }
+}
+
+
 // USERS - CREATE ONE //
 export async function createUser(user) {
   try {

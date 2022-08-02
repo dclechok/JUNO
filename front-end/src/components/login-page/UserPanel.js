@@ -5,13 +5,14 @@ import './UserPanel.css';
 import LoaderSpinner from '../LoaderSpinner';
 //utils
 import dateFormatter from "../../utils/dateFormatter";
-import { getUser, listHistoryByUserID } from "../../utils/api";
+import { getUser, listHistoryByUserID, updatePass } from "../../utils/api";
 import colorCode from '../../utils/colorCodes';
 
 function UserPanel({ accountLogged }) {
   const [userDetails, setUserDetails] = useState(null);
   const [userHistory, setUserHistory] = useState(null);
   const [changePassword, setChangePassword] = useState(false);
+  const [updateSuccess, setUpdateSuccess] = useState(null);
   const [newUserPasswordDetails, setNewUserPasswordDetails] = useState({
     old_password: '',
     new_password1: '',
@@ -52,12 +53,16 @@ function UserPanel({ accountLogged }) {
     const { id } = e.currentTarget;
     if(id === "cancel-change-password") setChangePassword(false);
   };
-
   const changePasswordHandler = (e) => { //submit password change
     e.preventDefault();
     const { id } = e.currentTarget;
     if(id === "submit-pw-change"){
-        console.log('hello')
+        if(newUserPasswordDetails.new_password1 === newUserPasswordDetails.new_password2){
+            async function updatePassword(){
+               setUpdateSuccess(await updatePass(userDetails, newUserPasswordDetails, accountLogged));
+            }
+            updatePassword();
+        }else window.alert('The "New Password" fields must match!');
     }
   };
 
