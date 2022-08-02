@@ -9,7 +9,7 @@ import { getUser, listHistoryByUserID, updatePass } from "../../utils/api";
 import colorCode from '../../utils/colorCodes';
 import validatePass from "../../utils/validation/validatePass";
 
-function UserPanel({ accountLogged }) {
+function UserPanel({ accountLogged, setSearchHistoryType }) {
   const [toggleButton, setToggleButton] = useState(true); //toggle button off and on after submit form
   const [userDetails, setUserDetails] = useState(null);
   const [userHistory, setUserHistory] = useState(null);
@@ -37,7 +37,8 @@ function UserPanel({ accountLogged }) {
   }, [updateSuccess, setUpdateSuccess]);
 
   const clickHistoryHandler = (e) => { //navigate to individual history log
-    const { id } = e.currentTarget;
+    const { id, value } = e.currentTarget;
+    setSearchHistoryType(value);
     navigate(`/history/${id}`);
   };
 

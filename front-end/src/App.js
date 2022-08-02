@@ -154,7 +154,7 @@ function App() {
               exact
               path="/user-panel"
               element={
-                <UserPanel accountLogged={accountLogged} />
+                <UserPanel accountLogged={accountLogged} setSearchHistoryType={setSearchHistoryType} />
               }
             ></Route>
           </Routes>

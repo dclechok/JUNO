@@ -15,6 +15,7 @@ function CreateEditJobSite({
   const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
   const newDate = new Date();
   const [success, setSuccess] = useState(null);
+  const [toggleButton, setToggleButton] = useState(true);
 
   const defaultJobSite = {
     physical_site_name: "",
@@ -55,6 +56,7 @@ function CreateEditJobSite({
   const submitHandler = (e) => {
     e.preventDefault();
     async function makeJobSite() {
+      setToggleButton(false);
       if (viewOrCreate === "edit")
         setSuccess(await updateJobSite(oldSiteData, accountLogged));
       else if (viewOrCreate === "create")
@@ -63,13 +65,18 @@ function CreateEditJobSite({
     makeJobSite();
   };
 
-  console.log(newSiteData)
+  useEffect(() => {
+    if(success){
+      setToggleButton(true);
+    }
+  }, [setSuccess, success]);
+
   return (
     <section className="create-user-container upload-container-style">
       <h4>
         {viewOrCreate.charAt(0).toUpperCase() + viewOrCreate.slice(1)} Job Site
       </h4>
-      {newSiteData ? (
+      {(newSiteData && toggleButton) ? (
         <form
           className="form-container create-user-form"
           onSubmit={submitHandler}
