@@ -2,7 +2,7 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { Triangle } from "react-loader-spinner";
 import "./LoaderSpinner.css";
 
-function LoaderSpinner({height = 180, width = 180, message = "Mawson Assets"}) {
+function LoaderSpinner({height = 180, width = 180, message = "..."}) {
   return (
     <div className="center-load-text">
       <h1>Loading {message}</h1>

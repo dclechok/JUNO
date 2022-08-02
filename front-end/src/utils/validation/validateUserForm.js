@@ -1,3 +1,5 @@
+import validatePass from "./validatePass";
+
 function validateUserForm(newUser, users = ''){
 
     //object can not have empty values
@@ -12,7 +14,7 @@ function validateUserForm(newUser, users = ''){
     //validate username length
     if(newUser.username.length < 3) return window.alert('Username must be at least 3 characters.');
     //validate password length
-    if(newUser.hash.length < 8) return window.alert('Password must be at least 8 characters.');
+    validatePass(newUser.hash);
     //validate email format
     if(!/\S+@\S+\.\S+/.test(newUser.email)) return window.alert('Please enter a valid email address.');
 

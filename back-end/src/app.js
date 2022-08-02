@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+const pg = require('pg');
+
+pg.defaults.poolSize = 5;
 
 require("dotenv").config({ path: path.join(__dirname, "../..", ".env") });
 

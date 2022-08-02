@@ -275,7 +275,7 @@ function AssetList({
         </>
       ) : (
         <div className="loading">
-          <LoaderSpinner />
+          <LoaderSpinner message="Mawson Assets"/>
         </div>
       )}
     </section>

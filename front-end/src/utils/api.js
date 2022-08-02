@@ -416,6 +416,7 @@ export async function updatePass(userDetails, newUserDetails, accountLogged){
       body: JSON.stringify({ data: [newUserDetails, userDetails] }),
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
+    console.log(jsonResponse);
     if (jsonResponse) {
       //if POST request was successful, create a log in
       //eventually add comments, and "approved_by";

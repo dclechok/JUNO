@@ -49,7 +49,6 @@ function validateBody(req, res, next) {
 
 function validatePassForUpdate(req, res, next){ //for updating passwords
   const { data } = req.body;
-  console.log(data);
   if(data[0].new_password1 === data[0].new_password2){ //make sure new password fields are the same
     if(bcrypt.compareSync(data[0].old_password, data[1].hash)){ //if "old password" aka current password matches
       return next();
@@ -60,6 +59,15 @@ function validatePassForUpdate(req, res, next){ //for updating passwords
   }else return next({
     status: 400, 
     message: "New password fields do not match!"
+  })
+}
+
+function validatePassFormat(req, res, next){
+  const password = Array.isArray(req.body.data) ? req.body.data[0].new_password1 : req.body.data.hash;
+  if(password.length > 7) return next();
+  else return next({
+    status: 400,
+    message: "Password must be at least 8 characters!"
   })
 }
 /// END VALIDATION MIDDLEWARE ///
@@ -131,14 +139,14 @@ async function updatePass(req, res){
   const { user_id } = req.params;
   const { new_password1 } = req.body.data[0];
   const history = JSON.stringify(req.body.data[1].history);
-  const hash = bcrypt.hashSync(new_password1, 15)
-  console.log(history)
+  const hash = bcrypt.hashSync(new_password1, 15);
   const data = await knex("users")
-  .where("user_id", user_id)
+  .where("user_id", Number(user_id))
   .update({
-    hash: hash,
-    history: history
+    hash, hash,
+    history, history
   })
+  .returning('*')
   .then((results) => results[0]);
   res.status(200).json({ data });
 
@@ -161,9 +169,9 @@ async function deactivate(req, res){
 
 module.exports = {
   list: asyncErrorBoundary(list),
-  create: [bodyHasResultProperty, validateBody, asyncErrorBoundary(create)], // TODO: verify each data field format
+  create: [bodyHasResultProperty, validateBody, validatePassFormat, asyncErrorBoundary(create)], // TODO: verify each data field format
   read: asyncErrorBoundary(read),
-  update: [bodyHasResultProperty, asyncErrorBoundary(update)],
-  updatePass: [bodyHasResultProperty, validatePassForUpdate, asyncErrorBoundary(updatePass)],
+  update: [bodyHasResultProperty, validatePassFormat, asyncErrorBoundary(update)],
+  updatePass: [bodyHasResultProperty, validatePassFormat, validatePassForUpdate, asyncErrorBoundary(updatePass)],
   deactivate: asyncErrorBoundary(deactivate)
 };

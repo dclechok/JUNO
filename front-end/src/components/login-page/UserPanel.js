@@ -7,8 +7,10 @@ import LoaderSpinner from '../LoaderSpinner';
 import dateFormatter from "../../utils/dateFormatter";
 import { getUser, listHistoryByUserID, updatePass } from "../../utils/api";
 import colorCode from '../../utils/colorCodes';
+import validatePass from "../../utils/validation/validatePass";
 
 function UserPanel({ accountLogged }) {
+  const [toggleButton, setToggleButton] = useState(true); //toggle button off and on after submit form
   const [userDetails, setUserDetails] = useState(null);
   const [userHistory, setUserHistory] = useState(null);
   const [changePassword, setChangePassword] = useState(false);
@@ -55,16 +57,24 @@ function UserPanel({ accountLogged }) {
   };
   const changePasswordHandler = (e) => { //submit password change
     e.preventDefault();
+    setToggleButton(false);
     const { id } = e.currentTarget;
     if(id === "submit-pw-change"){
         if(newUserPasswordDetails.new_password1 === newUserPasswordDetails.new_password2){
+            if(validatePass(newUserPasswordDetails.new_password1)){
             async function updatePassword(){
                setUpdateSuccess(await updatePass(userDetails, newUserPasswordDetails, accountLogged));
             }
             updatePassword();
+        }
         }else window.alert('The "New Password" fields must match!');
     }
   };
+
+  console.log(updateSuccess);
+  useEffect(() => {
+    if(updateSuccess) setChangePassword(false);
+  }, [updateSuccess])
 
   return (
     <div className="single-asset-render">
@@ -106,14 +116,14 @@ function UserPanel({ accountLogged }) {
 
             <form className="form-container" onSubmit={changePasswordHandler} >
                 <label htmlFor="old_password">Old Password</label>
-                <input id="old_password" type="text" onChange={handleFormChange} value={newUserPasswordDetails.old_password} />
+                <input id="old_password" type="password" onChange={handleFormChange} value={newUserPasswordDetails.old_password} />
                 <label htmlFor="new_password1">New Password</label>
-                <input id="new_password1" type="text" onChange={handleFormChange} value={newUserPasswordDetails.new_password1} />
+                <input id="new_password1" type="password" onChange={handleFormChange} value={newUserPasswordDetails.new_password1} />
                 <label htmlFor="new_password2">New Password</label>
-                <input id="new_password2" type="text" onChange={handleFormChange} value={newUserPasswordDetails.new_password2} />
-                <div className="change-pass-btn-container fix-button">
+                <input id="new_password2" type="password" onChange={handleFormChange} value={newUserPasswordDetails.new_password2} />
+                {toggleButton ? <div className="change-pass-btn-container fix-button">
                 <span style={{color: "black"}}>[<button type="submit" id="submit-pw-change" className="button-link password-change-btn" onClick={changePasswordHandler}>Submit</button>]&nbsp;[<button className="button-link" id="cancel-change-password" onClick={cancelChangePasswordHandler} >Cancel</button>]</span>
-                </div>
+                </div> : <LoaderSpinner width={45} height={45} />}
             </form>
 
             }</td>
