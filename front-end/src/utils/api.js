@@ -376,7 +376,7 @@ export async function updateUser(newUserData, accountLogged, userID){
       //if POST request was successful, create a log in
       //eventually add comments, and "approved_by";
       const { updated_at } = jsonResponse.data;
-      const { action_by, action_by_id, history_key } = (jsonResponse.data.history[0]);
+      const { action_by, action_by_id, history_key } = (jsonResponse.data.history[jsonResponse.data.history.length - 1]);
       const awaitCreateHistory = await createHistory({
         logged_action: "Edit User",
         logged_date: updated_at,
@@ -398,6 +398,7 @@ export async function updatePass(userDetails, newUserDetails, accountLogged){
   const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
   const user_id = accountLogged.account[0].user_id;
     //push new entry onto the old job site history list
+  console.log(accountLogged.account)
   userDetails.history.push(
     { 
       action_taken: "Edit User",
@@ -421,7 +422,7 @@ export async function updatePass(userDetails, newUserDetails, accountLogged){
       //if POST request was successful, create a log in
       //eventually add comments, and "approved_by";
       const { updated_at } = jsonResponse.data;
-      const { action_by, action_by_id, history_key } = (jsonResponse.data.history[0]);
+      const { action_by, action_by_id, history_key } = (jsonResponse.data.history[jsonResponse.data.history.length - 1]);
       const awaitCreateHistory = await createHistory({
         logged_action: "Edit User",
         logged_date: updated_at,

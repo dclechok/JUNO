@@ -34,7 +34,7 @@ function UserPanel({ accountLogged }) {
         setUserHistory(await listHistoryByUserID(accountLogged.account[0].user_id));
     }
     gatherHistory();
-  }, []);
+  }, [updateSuccess, setUpdateSuccess]);
 
   const clickHistoryHandler = (e) => { //navigate to individual history log
     const { id } = e.currentTarget;
@@ -57,16 +57,16 @@ function UserPanel({ accountLogged }) {
   };
   const changePasswordHandler = (e) => { //submit password change
     e.preventDefault();
-    setToggleButton(false);
+
     const { id } = e.currentTarget;
     if(id === "submit-pw-change"){
         if(newUserPasswordDetails.new_password1 === newUserPasswordDetails.new_password2){
             if(validatePass(newUserPasswordDetails.new_password1)){
+                setToggleButton(false);
             async function updatePassword(){
                setUpdateSuccess(await updatePass(userDetails, newUserPasswordDetails, accountLogged));
             }
             updatePassword();
-
         }
         }else window.alert('The "New Password" fields must match!');
     }

@@ -20,27 +20,27 @@ function validateBody(req, res, next) {
       if (!username)
         return next({
           status: 400,
-          message: "Asset must include an asset tag for entry.",
+          message: "User must include a username.",
         });
       if (!hash)
         return next({
           status: 400,
-          message: "Asset must include a location.",
+          message: "User must include a password.",
         });
       if (!email)
         return next({
           status: 400,
-          message: "Asset must include a serial number.",
+          message: "User must include an email.",
         });
       if (!name)
         return next({
           status: 400,
-          message: "Asset must include a make.",
+          message: "User must include a name.",
         });
       if (!access_level)
         return next({
           status: 400,
-          message: "Asset must include a model.",
+          message: "User must include an access level.",
         });
     });4
   }
