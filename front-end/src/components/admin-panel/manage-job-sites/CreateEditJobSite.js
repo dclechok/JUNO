@@ -71,14 +71,16 @@ function CreateEditJobSite({
 
   const submitHandler = (e) => {
     e.preventDefault();
-    setToggleButton(false);
+
     async function makeJobSite() {
       if (viewOrCreate === "edit") {
         if(validateSiteForm(oldSiteData, allJobSites)){
+          setToggleButton(false);
           setSuccess(await updateJobSite(oldSiteData, accountLogged));
         }
       } else if (viewOrCreate === "create") {
         if(validateSiteForm(newSiteData, allJobSites)){
+          setToggleButton(false);
           setSuccess(
             await createJobSite(
               { ...defaultJobSite, ...newSiteData },
@@ -98,6 +100,7 @@ function CreateEditJobSite({
     }
   }, [setSuccess, success]);
 
+  console.log(toggleButton)
   return (
     <section className="create-user-container upload-container-style">
       <h4>
