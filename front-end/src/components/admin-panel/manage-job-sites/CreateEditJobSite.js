@@ -2,15 +2,20 @@ import { useEffect, useState } from "react";
 
 import LoaderSpinner from "../../LoaderSpinner";
 //utils
-import { getJobSite, updateJobSite, createJobSite } from "../../../utils/api";
+import {
+  getJobSite,
+  updateJobSite,
+  createJobSite,
+  getJobSites,
+} from "../../../utils/api";
 import generateHistoryKey from "../../../utils/generateHistoryKey";
+import validateSiteForm from "../../../utils/validation/validateSiteForm";
 
 function CreateEditJobSite({
   accountLogged,
   setViewOrCreate,
   viewOrCreate,
   jobSiteID = "",
-  setJobSiteID
 }) {
   const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
   const newDate = new Date();
@@ -21,9 +26,9 @@ function CreateEditJobSite({
     physical_site_name: "",
     physical_site_loc: "",
     created_by: accountLogged.account[0].name,
-    site_code: '',
+    site_code: "",
     status: "Active",
-    first_octet: '',
+    first_octet: "",
     history: [
       //the date of creation can be found by searching history_log via key of historical item
       {
@@ -44,30 +49,44 @@ function CreateEditJobSite({
     async function grabJobSite() {
       setOldSiteData(...(await getJobSite(jobSiteID)));
     }
-    if (jobSiteID) grabJobSite();
+    if (jobSiteID && viewOrCreate === "edit") grabJobSite();
+    else setOldSiteData(null);
   }, [viewOrCreate, setViewOrCreate]);
 
   const changeHandler = (e) => {
     const { id, value } = e.currentTarget;
-    if(viewOrCreate === 'create') setNewSiteData({ ...newSiteData, [id]: value });
-    if(viewOrCreate === 'edit') setOldSiteData({...oldSiteData, [id]: value});
+    if (viewOrCreate === "create")
+      setNewSiteData({ ...newSiteData, [id]: value });
+    if (viewOrCreate === "edit")
+      setOldSiteData({ ...oldSiteData, [id]: value });
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
+    setToggleButton(false);
     async function makeJobSite() {
-      setToggleButton(false);
-      if (viewOrCreate === "edit")
-        setSuccess(await updateJobSite(oldSiteData, accountLogged));
-      else if (viewOrCreate === "create")
-        setSuccess(await createJobSite({...defaultJobSite, ...newSiteData}, accountLogged));
+      if (viewOrCreate === "edit") {
+        if(validateSiteForm(oldSiteData)){
+          setSuccess(await updateJobSite(oldSiteData, accountLogged));
+        }
+      } else if (viewOrCreate === "create") {
+        if(validateSiteForm(newSiteData)){
+          setSuccess(
+            await createJobSite(
+              { ...defaultJobSite, ...newSiteData },
+              accountLogged
+            )
+          )
+        }
+      }
     }
     makeJobSite();
   };
 
   useEffect(() => {
-    if(success){
+    if (success) {
       setToggleButton(true);
+      setViewOrCreate("view");
     }
   }, [setSuccess, success]);
 
@@ -76,7 +95,7 @@ function CreateEditJobSite({
       <h4>
         {viewOrCreate.charAt(0).toUpperCase() + viewOrCreate.slice(1)} Job Site
       </h4>
-      {(newSiteData && toggleButton) ? (
+      {newSiteData && toggleButton ? (
         <form
           className="form-container create-user-form"
           onSubmit={submitHandler}
@@ -90,8 +109,16 @@ function CreateEditJobSite({
               id="physical_site_name"
               name="physical_site_name"
               onChange={changeHandler}
-              value={viewOrCreate === 'edit' ? oldSiteData.physical_site_name: newSiteData.physical_site_name}
-              placeholder={viewOrCreate === 'edit' ? oldSiteData.physical_site_name : defaultJobSite.physical_site_name}
+              value={
+                viewOrCreate === "edit"
+                  ? oldSiteData.physical_site_name
+                  : newSiteData.physical_site_name
+              }
+              placeholder={
+                viewOrCreate === "edit"
+                  ? oldSiteData.physical_site_name
+                  : defaultJobSite.physical_site_name
+              }
             />
 
             <label htmlFor="site_code">Site Code (ex. "MLP/P1")</label>
@@ -100,8 +127,16 @@ function CreateEditJobSite({
               id="site_code"
               name="site_code"
               onChange={changeHandler}
-              value={viewOrCreate === 'edit' ? oldSiteData.site_code: newSiteData.site_code}
-              placeholder={viewOrCreate === 'edit' ? oldSiteData.site_code : defaultJobSite.site_code}
+              value={
+                viewOrCreate === "edit"
+                  ? oldSiteData.site_code
+                  : newSiteData.site_code
+              }
+              placeholder={
+                viewOrCreate === "edit"
+                  ? oldSiteData.site_code
+                  : defaultJobSite.site_code
+              }
             />
             <label htmlFor="first_octet">
               Site IP First Octet (ex. "10".x.x.x) (if applicable)
@@ -111,8 +146,16 @@ function CreateEditJobSite({
               id="first_octet"
               name="first_octet"
               onChange={changeHandler}
-              value={viewOrCreate === 'edit' ? oldSiteData.first_octet: newSiteData.first_octet}
-              placeholder={viewOrCreate === 'edit' ? oldSiteData.first_octet : defaultJobSite.first_octet}
+              value={
+                viewOrCreate === "edit"
+                  ? oldSiteData.first_octet
+                  : newSiteData.first_octet
+              }
+              placeholder={
+                viewOrCreate === "edit"
+                  ? oldSiteData.first_octet
+                  : defaultJobSite.first_octet
+              }
             />
           </div>
           <div className="fix-button">

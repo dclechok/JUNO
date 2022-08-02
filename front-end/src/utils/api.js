@@ -145,7 +145,7 @@ export async function getJobSite(jobSiteID){
 
 // JOB SITES - CREATE ONE //
 export async function createJobSite(jobSite) {
-  console.log(jobSite);
+  // console.log(jobSite);
   try {
     const response = await fetch(BASE_URL + "physical_sites", {
       method: "POST",

@@ -25,8 +25,6 @@ function validateBody(req, res, next) {
   next(); //validated - onto next middleware
 }
 
-
-
 async function list(req, res) {
   const data = await knex("physical_sites").select("*");
   res.json(data);
