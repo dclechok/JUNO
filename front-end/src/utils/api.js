@@ -417,7 +417,7 @@ export async function updatePass(userDetails, newUserDetails, accountLogged){
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
     console.log(jsonResponse);
-    if (jsonResponse) {
+    if (jsonResponse && !jsonResponse.error) {
       //if POST request was successful, create a log in
       //eventually add comments, and "approved_by";
       const { updated_at } = jsonResponse.data;
@@ -431,8 +431,8 @@ export async function updatePass(userDetails, newUserDetails, accountLogged){
       });
       if (!awaitCreateHistory)
         throw new Error("Making request create user failed!");
-      return jsonResponse;
     }
+    return jsonResponse;
   }catch(e){
     console.log(e, "Failed to update user.");
   }

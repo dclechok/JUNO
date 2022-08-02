@@ -66,20 +66,24 @@ function UserPanel({ accountLogged }) {
                setUpdateSuccess(await updatePass(userDetails, newUserPasswordDetails, accountLogged));
             }
             updatePassword();
+
         }
         }else window.alert('The "New Password" fields must match!');
     }
   };
 
-  console.log(updateSuccess);
   useEffect(() => {
-    if(updateSuccess) setChangePassword(false);
-  }, [updateSuccess])
+    if(updateSuccess){
+        setChangePassword(false);
+        setToggleButton(true);
+        updateSuccess.error ? window.alert(`${updateSuccess.error}`) : window.alert("You have successsfully changed your password!");
+    }
+  }, [updateSuccess]);
 
   return (
     <div className="single-asset-render">
       <h1>User Panel</h1>
-      {(userDetails && userHistory) ? 
+      {(userDetails && userHistory && toggleButton) ? 
       <>
       <header className="single-asset-header container-style center-header">
       <table className="history-table">
@@ -113,7 +117,6 @@ function UserPanel({ accountLogged }) {
               <b>Password</b>
             </td>
             <td>{!changePassword ? <span style={{color: "black"}}> [<button className="button-link" onClick={handleChangePassword} id="change-pass">Change Password</button>]</span> : 
-
             <form className="form-container" onSubmit={changePasswordHandler} >
                 <label htmlFor="old_password">Old Password</label>
                 <input id="old_password" type="password" onChange={handleFormChange} value={newUserPasswordDetails.old_password} />
@@ -121,11 +124,10 @@ function UserPanel({ accountLogged }) {
                 <input id="new_password1" type="password" onChange={handleFormChange} value={newUserPasswordDetails.new_password1} />
                 <label htmlFor="new_password2">New Password</label>
                 <input id="new_password2" type="password" onChange={handleFormChange} value={newUserPasswordDetails.new_password2} />
-                {toggleButton ? <div className="change-pass-btn-container fix-button">
+                <div className="change-pass-btn-container fix-button">
                 <span style={{color: "black"}}>[<button type="submit" id="submit-pw-change" className="button-link password-change-btn" onClick={changePasswordHandler}>Submit</button>]&nbsp;[<button className="button-link" id="cancel-change-password" onClick={cancelChangePasswordHandler} >Cancel</button>]</span>
-                </div> : <LoaderSpinner width={45} height={45} />}
+                </div>
             </form>
-
             }</td>
           </tr>
           <tr>
