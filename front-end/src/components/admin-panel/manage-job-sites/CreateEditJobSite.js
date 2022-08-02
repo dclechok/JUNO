@@ -21,7 +21,7 @@ function CreateEditJobSite({
   const newDate = new Date();
   const [success, setSuccess] = useState(null);
   const [toggleButton, setToggleButton] = useState(true);
-
+  const [allJobSites, setAllJobSites] = useState(null); //when creating, store list of job sites here to validate new job site data
   const defaultJobSite = {
     physical_site_name: "",
     physical_site_loc: "",
@@ -44,15 +44,23 @@ function CreateEditJobSite({
   const [oldSiteData, setOldSiteData] = useState({});
   const [newSiteData, setNewSiteData] = useState(defaultJobSite);
 
+
+  useEffect(() => {      
+    async function getAllJobSites(){
+      setAllJobSites(await getJobSites());
+    }
+    getAllJobSites();
+  }, []);
+
   useEffect(() => {
     //get old site data if we are editing
     async function grabJobSite() {
       setOldSiteData(...(await getJobSite(jobSiteID)));
     }
     if (jobSiteID && viewOrCreate === "edit") grabJobSite();
-    else setOldSiteData(null);
+    else if(viewOrCreate === "create") setOldSiteData(null);
   }, [viewOrCreate, setViewOrCreate]);
-
+  
   const changeHandler = (e) => {
     const { id, value } = e.currentTarget;
     if (viewOrCreate === "create")
@@ -66,11 +74,11 @@ function CreateEditJobSite({
     setToggleButton(false);
     async function makeJobSite() {
       if (viewOrCreate === "edit") {
-        if(validateSiteForm(oldSiteData)){
+        if(validateSiteForm(oldSiteData, allJobSites)){
           setSuccess(await updateJobSite(oldSiteData, accountLogged));
         }
       } else if (viewOrCreate === "create") {
-        if(validateSiteForm(newSiteData)){
+        if(validateSiteForm(newSiteData, allJobSites)){
           setSuccess(
             await createJobSite(
               { ...defaultJobSite, ...newSiteData },
