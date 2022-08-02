@@ -12,7 +12,11 @@ function UserPanel({ accountLogged }) {
   const [userDetails, setUserDetails] = useState(null);
   const [userHistory, setUserHistory] = useState(null);
   const [changePassword, setChangePassword] = useState(false);
-
+  const [newUserPasswordDetails, setNewUserPasswordDetails] = useState({
+    old_password: '',
+    new_password1: '',
+    new_password2: ''
+  });
   const navigate = useNavigate();
 
   useEffect(() => { //get this users specific details
@@ -39,15 +43,21 @@ function UserPanel({ accountLogged }) {
     if(id === "change-pass") setChangePassword(true);
   };
 
+  const handleFormChange = (e) => {
+    const { id, value } = e.currentTarget;
+    setNewUserPasswordDetails({...newUserPasswordDetails, [id]: value });
+  }
+
   const cancelChangePasswordHandler = (e) => { //cancel change password form
     const { id } = e.currentTarget;
     if(id === "cancel-change-password") setChangePassword(false);
   };
 
   const changePasswordHandler = (e) => { //submit password change
+    e.preventDefault();
     const { id } = e.currentTarget;
     if(id === "submit-pw-change"){
-
+        console.log('hello')
     }
   };
 
@@ -64,6 +74,12 @@ function UserPanel({ accountLogged }) {
               <b>User ID</b>
             </td>
             <td>{userDetails.user_id}</td>
+          </tr>
+          <tr>
+            <td>
+              <b>Name</b>
+            </td>
+            <td>{userDetails.name}</td>
           </tr>
           <tr>
             <td>
@@ -84,14 +100,14 @@ function UserPanel({ accountLogged }) {
             <td>{!changePassword ? <span style={{color: "black"}}> [<button className="button-link" onClick={handleChangePassword} id="change-pass">Change Password</button>]</span> : 
 
             <form className="form-container" onSubmit={changePasswordHandler} >
-                <label htmlFor="old-pass">Old Password</label>
-                <input id="old-pass" type="text" />
-                <label htmlFor="new-pass1">New Password</label>
-                <input id="new-pass1" type="text" />
-                <label htmlFor="new-pass2">New Password</label>
-                <input id="new-pass2" type="text" />
+                <label htmlFor="old_password">Old Password</label>
+                <input id="old_password" type="text" onChange={handleFormChange} value={newUserPasswordDetails.old_password} />
+                <label htmlFor="new_password1">New Password</label>
+                <input id="new_password1" type="text" onChange={handleFormChange} value={newUserPasswordDetails.new_password1} />
+                <label htmlFor="new_password2">New Password</label>
+                <input id="new_password2" type="text" onChange={handleFormChange} value={newUserPasswordDetails.new_password2} />
                 <div className="change-pass-btn-container fix-button">
-                <span style={{color: "black"}}>[<button type="submit" id="submit-pw-change" className="button-link password-change-btn">Submit</button>]&nbsp;[<button className="button-link" id="cancel-change-password" onClick={cancelChangePasswordHandler} >Cancel</button>]</span>
+                <span style={{color: "black"}}>[<button type="submit" id="submit-pw-change" className="button-link password-change-btn" onClick={changePasswordHandler}>Submit</button>]&nbsp;[<button className="button-link" id="cancel-change-password" onClick={cancelChangePasswordHandler} >Cancel</button>]</span>
                 </div>
             </form>
 
