@@ -1,0 +1,13 @@
+.password-form{
+    display:inline;
+}
+
+.change-pass-btn-container{
+    display: block;
+    width: 100%;
+}
+.password-change-btn{
+        margin-right: auto;
+        margin-left: auto;
+        margin-top: 1%;
+}

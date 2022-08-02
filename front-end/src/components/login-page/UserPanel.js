@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
+import './UserPanel.css';
 
 import LoaderSpinner from '../LoaderSpinner';
 //utils
@@ -10,9 +11,11 @@ import colorCode from '../../utils/colorCodes';
 function UserPanel({ accountLogged }) {
   const [userDetails, setUserDetails] = useState(null);
   const [userHistory, setUserHistory] = useState(null);
+  const [changePassword, setChangePassword] = useState(false);
+
   const navigate = useNavigate();
 
-  useEffect(() => {
+  useEffect(() => { //get this users specific details
     async function getUserDetails() {
       setUserDetails(await getUser(accountLogged.account[0].user_id));
     }
@@ -20,15 +23,32 @@ function UserPanel({ accountLogged }) {
   }, []);
 
   useEffect(() => {
-    async function gatherHistory(){
+    async function gatherHistory(){ //get all users related to our user
         setUserHistory(await listHistoryByUserID(accountLogged.account[0].user_id));
     }
     gatherHistory();
   }, []);
 
-  const clickHistoryHandler = (e) => {
+  const clickHistoryHandler = (e) => { //navigate to individual history log
     const { id } = e.currentTarget;
     navigate(`/history/${id}`);
+  };
+
+  const handleChangePassword = (e) => { //start change password form
+    const { id } = e.currentTarget;
+    if(id === "change-pass") setChangePassword(true);
+  };
+
+  const cancelChangePasswordHandler = (e) => { //cancel change password form
+    const { id } = e.currentTarget;
+    if(id === "cancel-change-password") setChangePassword(false);
+  };
+
+  const changePasswordHandler = (e) => { //submit password change
+    const { id } = e.currentTarget;
+    if(id === "submit-pw-change"){
+
+    }
   };
 
   return (
@@ -61,7 +81,21 @@ function UserPanel({ accountLogged }) {
             <td>
               <b>Password</b>
             </td>
-            <td><span style={{color: "black"}}>[<button className="button-link">Change Password</button>]</span></td>
+            <td>{!changePassword ? <span style={{color: "black"}}> [<button className="button-link" onClick={handleChangePassword} id="change-pass">Change Password</button>]</span> : 
+
+            <form className="form-container" onSubmit={changePasswordHandler} >
+                <label htmlFor="old-pass">Old Password</label>
+                <input id="old-pass" type="text" />
+                <label htmlFor="new-pass1">New Password</label>
+                <input id="new-pass1" type="text" />
+                <label htmlFor="new-pass2">New Password</label>
+                <input id="new-pass2" type="text" />
+                <div className="change-pass-btn-container fix-button">
+                <span style={{color: "black"}}>[<button type="submit" id="submit-pw-change" className="button-link password-change-btn">Submit</button>]&nbsp;[<button className="button-link" id="cancel-change-password" onClick={cancelChangePasswordHandler} >Cancel</button>]</span>
+                </div>
+            </form>
+
+            }</td>
           </tr>
           <tr>
             <td>

@@ -1,4 +1,3 @@
-import './UploadAssets.css';
 import { useEffect, useState } from 'react';
 import BulkUpload from './BulkUpload.js';
 import SingleUpload from './SingleUpload.js';

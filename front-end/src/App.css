@@ -150,3 +150,9 @@ th{
 .this{
   color: rgb(107, 155, 228)
 }
+
+.fix-button{
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 70%;
+}
