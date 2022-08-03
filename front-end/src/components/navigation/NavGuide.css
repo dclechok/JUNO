@@ -22,15 +22,17 @@
 
 select{
     position: relative;
-    background-color: rgb(197, 197, 197);
-    color: rgb(0, 0, 0);
+    background-color: rgb(33, 37, 51);
+    color: rgb(255, 255, 255);
     font-size: 18px;
     z-index: 0;
     font-family: 'Nunito', sans-serif;
+    margin-top: 2%;
 }
 
 .nav-guide-container p{
     color: white;
+    margin: 4px 0 4px 0;
 }
 
 .nav-guide-container button{
