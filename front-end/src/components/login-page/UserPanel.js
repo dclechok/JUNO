@@ -23,17 +23,21 @@ function UserPanel({ accountLogged, setSearchHistoryType }) {
   const navigate = useNavigate();
 
   useEffect(() => { //get this users specific details
+    const abortController = new AbortController();
     async function getUserDetails() {
       setUserDetails(await getUser(accountLogged.account[0].user_id));
     }
     getUserDetails();
+    return () => abortController.abort();
   }, []);
 
   useEffect(() => {
+    const abortController = new AbortController();
     async function gatherHistory(){ //get all users related to our user
         setUserHistory(await listHistoryByUserID(accountLogged.account[0].user_id));
     }
     gatherHistory();
+    return () => abortController.abort();
   }, [updateSuccess, setUpdateSuccess]);
 
   const clickHistoryHandler = (e) => { //navigate to individual history log

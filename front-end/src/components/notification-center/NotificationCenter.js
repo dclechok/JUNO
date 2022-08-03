@@ -30,11 +30,13 @@ function NotificationCenter({ assetList }) {
   }, []);
 
   useEffect(() => {
+    const abortController = new AbortController();
     if(latestHistory && latestHistory.length !== 0) setLatestHistory(latestHistory.sort((a, b) => {
       return new Date(b.logged_date) - new Date(a.logged_date);
     }).filter((val, key) => {
       return key <= 5 // limit the amount that renders on latest notifications
     }));
+    return () => abortController.abort();
   }, []);
 
   const handleClick = (e) => {

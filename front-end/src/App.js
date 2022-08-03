@@ -56,15 +56,19 @@ function App() {
 
   useEffect(() => {
     //get list of all assets
+    const abortController = new AbortController();
     async function getAssets() {
       setAssetList(await getAllAssets()); //this list will hold the entire list of asset data and will not be modified
       setFilteredAssetList(await getAllAssets());
     }
     getAssets();
+    return abortController.abort();
   }, []);
 
   useEffect(() => {
+    const abortController = new AbortController();
     setAccountLogged(JSON.parse(localStorage.getItem("acctLogged")));
+    return () => abortController.abort();
   }, []);
 
   return (

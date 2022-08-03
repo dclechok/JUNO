@@ -18,8 +18,10 @@ function UploadAssets({ assetList, setLoadAssets, loadAssets, accountLogged }){
     };
 
     useEffect(() => {
+      const abortController = new AbortController();
       setButtonState({...defaultButtonState, bulkUpload: "active-button-link"})
       setToggleUpload("bulkUpload");
+      return () => abortController.abort();
     }, []);
 
     return(

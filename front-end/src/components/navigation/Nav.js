@@ -64,10 +64,12 @@ function Nav({ setLoadAssets, loadAssets, accountLogged, setAccountLogged, setId
   };
 
   useEffect(() => {
+    const abortController = new AbortController();
     setButtonState({
       ...defaultButtonState,
       dashboard: "middleNavButtonActive",
     });
+    return () => abortController.abort();
   }, []);
 
   return (

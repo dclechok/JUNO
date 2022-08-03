@@ -83,7 +83,9 @@ function Login({ accountLogged, setAccountLogged }) {
   };
 
   useEffect(() => {
+    const abortController = new AbortController();
     if (errorMessage) setLoggingIn(false);
+    return () => abortController.abort();
   }, [setErrorMessage, errorMessage, loggingIn, setLoggingIn, setAccountLogged, accountLogged]);
 
   //login with 'enter' key press on form

@@ -44,11 +44,13 @@ function AssetList({
 
   useEffect(() => {
     //get list of all assets
+    const abortController = new AbortController();
     async function getAssets() {
       setAssetList(await getAllAssets()); //this list will hold the entire list of asset data and will not be modified
       setFilteredAssetList(await getAllAssets());
     }
     getAssets();
+    return () => abortController.abort();
   }, []);
 
   useEffect(() => {

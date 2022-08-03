@@ -44,7 +44,9 @@ function CreateAdmin({ setCreateAdmin }) {
   };
   
   useEffect(() => {
+    const abortController = new AbortController();
     if(newAdmin) setCreateAdmin(false);
+    return () => abortController.abort();
   }, [setNewAdmin, newAdmin]);
 
   return (

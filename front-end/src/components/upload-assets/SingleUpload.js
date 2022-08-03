@@ -77,10 +77,12 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
 
   useEffect(() => {
     //populate job sites in location field
+    const abortController = new AbortController();
     async function populateSites() {
       setJobSites(await getJobSites());
     }
     populateSites();
+    return () => abortController.abort();
   }, [setAssetFields]);
 
   useEffect(() => {}, [setLogItem]);
