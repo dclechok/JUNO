@@ -3,8 +3,6 @@ import generateHistoryKey from "../generateHistoryKey";
 function validateBulkUpload(assetList, parsedAssets, accountLogged) {
   const rejectionList = [];
   const newAssetList = [];
-
-
   //validate against data in database
   const validateAssetsByDatabaseAndCSV = (asset) => {
     //if incoming bulk upload list has an asset that matches a device in our database
@@ -22,7 +20,6 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged) {
   //check for 6 headers: asset tag, location, status, serial_number, make, model, hr\
 
   if (
-    parsedAssets[0][0].toLowerCase() === "location" &&
     parsedAssets[0][1].toLowerCase() === "serial #" &&
     parsedAssets[0][2].toLowerCase() === "asset #" &&
     parsedAssets[0][3].toLowerCase() === "make" &&

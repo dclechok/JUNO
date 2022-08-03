@@ -95,3 +95,11 @@ h5{ padding-bottom: 1%; }
 .bulk-upload-button{
     margin-top: 4%;
 }
+
+.select-container{
+    display: block;
+    justify-content: center;
+    align-content: center;
+    width: auto;
+    margin: 2% 20% 4% 15%;
+}
