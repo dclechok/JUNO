@@ -17,7 +17,9 @@ function ManageUsers({ accountLogged }) {
   const [viewOrCreate, setViewOrCreate] = useState("view");
 
   useEffect(() => {
+    const abortController = new AbortController();
     setButtonStyle({ ...defaultButtonStyle, [viewOrCreate]: "active-button-link" }); //default to View
+    return () => abortController.abort();
   }, [viewOrCreate, setViewOrCreate]);
 
   const handleClick = (e) => {

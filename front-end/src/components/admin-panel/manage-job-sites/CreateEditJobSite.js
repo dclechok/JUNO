@@ -46,19 +46,23 @@ function CreateEditJobSite({
 
 
   useEffect(() => {      
+    const abortController = new AbortController();
     async function getAllJobSites(){
       setAllJobSites(await getJobSites());
     }
     getAllJobSites();
+    return () => abortController.abort();
   }, []);
 
   useEffect(() => {
     //get old site data if we are editing
+    const abortController = new abortController();
     async function grabJobSite() {
       setOldSiteData(...(await getJobSite(jobSiteID)));
     }
     if (jobSiteID && viewOrCreate === "edit") grabJobSite();
     else if(viewOrCreate === "create") setOldSiteData(null);
+    return () => abortController.abort();
   }, [viewOrCreate, setViewOrCreate]);
   
   const changeHandler = (e) => {
@@ -94,13 +98,14 @@ function CreateEditJobSite({
   };
 
   useEffect(() => {
+    const abortController = new AbortController();
     if (success) {
       setToggleButton(true);
       setViewOrCreate("view");
     }
+    return () => abortController.abort();
   }, [setSuccess, success]);
-
-  console.log(toggleButton)
+  
   return (
     <section className="create-user-container upload-container-style">
       <h4>

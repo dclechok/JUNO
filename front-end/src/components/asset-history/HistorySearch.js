@@ -25,8 +25,9 @@ function HistorySearch({ daysSelected, setDaysSelected, radioCheck, setRadioChec
   };
 
   useEffect(() => {
+    const abortController = new AbortController();
     formatPlaceholder(); //format the day(s) selected and render what days we're searching
-
+    return () => abortController.abort();
   }, [setRadioCheck, radioCheck, daysSelected, setDaysSelected]);
 
   const formatPlaceholder = (daysSelected) => {

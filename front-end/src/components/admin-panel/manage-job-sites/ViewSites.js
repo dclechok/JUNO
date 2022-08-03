@@ -14,10 +14,12 @@ function ViewSites({ setViewOrCreate, accountLogged, setJobSiteID }) {
   const [loadJobSites, setLoadJobSites] = useState();
 
   useEffect(() => {
+    const abortController = new AbortController();
     async function fetchJobSites() {
       setJobSites(await getJobSites());
     }
     fetchJobSites();
+    return () => abortController.abort();
   }, [loadJobSites, setLoadJobSites]);
 
 const onClickEditHandler = (e) => {

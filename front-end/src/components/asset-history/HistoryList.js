@@ -24,17 +24,21 @@ function HistoryList({ resetDatePicker, setResetDatePicker, setSearchHistoryType
 
   //load our general history table
   useEffect(() => {
+    const abortController = new AbortController();
     async function loadHistoryList(){
       const abortController = new AbortController();
       setHistoryList(await getHistory());
       return abortController.abort();
     }
     loadHistoryList();
+    return () => abortController.abort();
   }, [resetDatePicker, setResetDatePicker]);
  
   //set our filtered list to default history list
   useEffect(() => {
+    const abortController = new AbortController();
     if(historyList) setDateFilteredList(historyList);
+    return () => abortController.abort();
   }, [historyList, setHistoryList])
 
   const filterDate = (daysSelected) => {
@@ -74,6 +78,7 @@ function HistoryList({ resetDatePicker, setResetDatePicker, setSearchHistoryType
 
   useEffect(() => {
     //filter history list by day or day range
+    const abortController = new AbortController();
     if (daysSelected && Object.keys(daysSelected).includes("day")) {
       //sort by day
       setDayOrRange("day");
@@ -83,6 +88,7 @@ function HistoryList({ resetDatePicker, setResetDatePicker, setSearchHistoryType
       setDayOrRange("range");
       filterDate(daysSelected);
     }
+    return () => abortController.abort();
   }, [daysSelected, setDaysSelected, dayOrRange]);
 
   const onClickHandler = (e) => {

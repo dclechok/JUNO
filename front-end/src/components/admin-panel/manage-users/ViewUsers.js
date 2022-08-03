@@ -17,10 +17,12 @@ function ViewUsers({ setViewOrCreate, setUserID, accountLogged }) {
   const [toggleReload, setToggleReload] = useState(false);
 
   useEffect(() => {
+    const abortController = new AbortController();
     async function populateUsers() {
       setUsersList(await getUsers());
     }
     populateUsers();
+    return () => abortController.abort();
   }, [setViewOrCreate, deactivatedUser, setDeactivatedUser, toggleReload, setToggleReload]);
 
   const clickHandler = (e) => {
@@ -52,8 +54,10 @@ function ViewUsers({ setViewOrCreate, setUserID, accountLogged }) {
   };
 
   useEffect(() => {
+    const abortController = new AbortController();
     setUsersList(null);
     setToggleReload(false);
+    return () => abortController.abort();
   }, [deactivatedUser, setDeactivatedUser]);
 
   return (

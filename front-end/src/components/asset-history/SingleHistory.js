@@ -18,6 +18,7 @@ function SingleHistory({ assetList, searchHistoryType }) {
   useEffect(() => {
     //load data via history_key
     //check assets for key(s) (assets are already loaded)
+    const abortController = new AbortController();
     if (
       searchHistoryType &&
       (searchHistoryType === "Single Upload" ||
@@ -66,6 +67,7 @@ function SingleHistory({ assetList, searchHistoryType }) {
       }
       fetchUsers();
     }
+    return () => abortController.abort();
     //check job sites for key
   }, [searchHistoryType]);
 

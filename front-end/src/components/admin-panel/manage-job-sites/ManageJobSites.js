@@ -15,7 +15,9 @@ function ManageJobSites({ accountLogged }) {
   const [jobSiteID, setJobSiteID] = useState(null);
 
   useEffect(() => {
+    const abortController = new AbortController();
     setButtonState({...defaultButtonState, [viewOrCreate]: 'active-button-link'});
+    return () => abortController.abort();
   }, [viewOrCreate, setViewOrCreate]);
 
   const handleClick = (e) => {

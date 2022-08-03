@@ -14,6 +14,7 @@ function SingleUserHistoryLog({ loadedHistory }){
     const [currentHistoryLog, setCurrentHistoryLog] = useState();
 
     useEffect(() => {
+      const abortController = new AbortController();
         async function loadHistoryLog(){
           if (loadedHistory[0]) {
             setCurrentHistoryLog(
@@ -24,6 +25,7 @@ function SingleUserHistoryLog({ loadedHistory }){
           }
         }
         loadHistoryLog();
+        return abortController.abort();
       }, [loadedHistory]);
     
     //render a job sites historical data? what besides create/delete?
@@ -35,7 +37,7 @@ function SingleUserHistoryLog({ loadedHistory }){
     const sortButtonSubmit = (e) => {
       e.preventDefault();
     };
-    console.log(loadedHistory)
+
     return (
         <>
         {currentHistoryLog ? (

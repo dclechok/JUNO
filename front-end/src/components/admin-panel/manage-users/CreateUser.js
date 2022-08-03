@@ -14,10 +14,12 @@ function CreateUser({ accountLogged, setViewOrCreate }) {
   const [users, setUsers] = useState(null);
 
   useEffect(() => {
+    const abortController = new AbortController();
     async function populateUsers() {
       setUsers(await getUsers());
     }
     populateUsers();
+    return () => abortController.abort();
   }, [setViewOrCreate]);
 
   const [newUser, setNewUser] = useState({

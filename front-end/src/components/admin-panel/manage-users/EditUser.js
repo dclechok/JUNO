@@ -18,17 +18,21 @@ function EditUser({ accountLogged, userID, setViewOrCreate }) {
 
   useEffect(() => {
     //get user information
+    const abortController = new AbortController();
     async function findUser() {
       setUser(await getUser(userID));
     }
     findUser();
+    return () => abortController.abort();
   }, []);
 
   useEffect(() => {
+    const abortController = new AbortController();
     if (user) {
       setButtonPlaceholder({ ...defaultRadioBtn, [user.access_level]: true });
       setNewUserData({ ...user, hash: "" });
     }
+    return () => abortController.abort();
   }, [user]);
 
   const changeHandler = (e) => {
@@ -50,7 +54,9 @@ function EditUser({ accountLogged, userID, setViewOrCreate }) {
   };
 
   useEffect(() => {
+    const abortController = new AbortController();
     if(editUserSuccess) setViewOrCreate('view');
+    return () => abortController.abort();
   }, [editUserSuccess]);
 
   return (

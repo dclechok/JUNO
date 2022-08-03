@@ -22,11 +22,13 @@ function AdminPanel({ accountLogged }) {
   };
 
   useEffect(() => {
+    const abortController = new AbortController();
     setButtonState({
       ...defaultButtonState,
       manageJobSites: "active-button-link",
     });
     setRenderPage("manageJobSites");
+    return () => abortController.abort();
   }, []);
 
   return (

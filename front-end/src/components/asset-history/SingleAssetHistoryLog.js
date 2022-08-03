@@ -21,6 +21,7 @@ function SingleAssetHistoryLog({ loadedHistory }) {
   };
 
   useEffect(() => {
+    const abortController = new AbortController();
     async function loadHistoryLog() {
       if (loadedHistory[0]) {
         setCurrentHistoryLog(
@@ -31,6 +32,7 @@ function SingleAssetHistoryLog({ loadedHistory }) {
       }
     }
     loadHistoryLog();
+    return () => abortController.abort();
   }, [loadedHistory, history_key]);
 
   return (

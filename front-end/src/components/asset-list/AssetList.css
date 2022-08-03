@@ -120,6 +120,7 @@ th button:hover{
     max-width: 140px;
     margin-left: 20px;
     margin-right: 6px;
+    margin-top: 0;
     text-align: center;
     background-color: rgb(19, 21, 26);
     color: white;

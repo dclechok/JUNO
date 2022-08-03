@@ -8,9 +8,11 @@ function SingleAssetHistory({ singleAsset }) {
   const [singleAssetHistory, setSingleAssetHistory] = useState(null);
 
   useEffect(() => {
+    const abortController = new AbortController();
     if (singleAsset) {
       setSingleAssetHistory(singleAsset[0].history);
     }
+    return () => abortController.abort();
   }, [singleAsset]);
 
   return (
