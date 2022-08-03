@@ -33,7 +33,6 @@ function SingleAssetHistoryLog({ loadedHistory }) {
     loadHistoryLog();
   }, [loadedHistory, history_key]);
 
-  console.log(currentHistoryLog, 'test');
   return (
     <>
       {currentHistoryLog ? (

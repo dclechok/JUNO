@@ -35,12 +35,14 @@ function NavGuide({
     setMdcSelectVal(mdcDefaultVal);
     if (value === "00") {
       //attempting to reset select-option values to defaults when disabling them
+      setNavKey({ site: value, mdc: "00", shelf: "00", unit: "00" });
     } else{
-      setSite(value);
+      setSite(JSON.parse(value));
       setMdcDisabled(false);
+      setNavKey({ site: { physical_site_name: JSON.parse(value).physical_site_name, first_octet: JSON.parse(value).first_octet }, mdc: "00", shelf: "00", unit: "00" });
     }
-    setNavKey({ site: value, mdc: "00", shelf: "00", unit: "00" });
   };
+
   const selectMdcHandler = (e) => {
     //set mdc in nav key, and handle nav resets
     const { value } = e.currentTarget;
@@ -57,7 +59,6 @@ function NavGuide({
     };
     setNavKey({ ...navKey, mdc: value, shelf: "00", unit: "00" });
   };
-
   const selectShelfHandler = (e) => {
     //set shelves in nav key, and handle nav resets
     const { value } = e.currentTarget;
@@ -87,7 +88,9 @@ function NavGuide({
   };
 
   useEffect(() => {
+    const abortController = new AbortController();
     setLoadAssets(!loadAssets); //toggle loading of asset lists
+    return () => abortController.abort();
   }, [navKey, setNavKey]);
   //format 'viewing' nav key
   //eventually load 'viewing' after 'go'
@@ -95,7 +98,7 @@ function NavGuide({
     let key = "";
     if (navKey.site === "00") setFormattedKey("World Wide");
     else {
-      key += navKey.site === "00" ? "World Wide" : `${navKey.site} - 10`;
+      key += navKey.site === "00" ? "World Wide" : `${navKey.site.physical_site_name} - ${navKey.site.first_octet ? navKey.site.first_octet : 'xx'}`;
       key += navKey.mdc === "00" ? ".xx" : `.${navKey.mdc}`;
       key += navKey.shelf === "00" ? ".xx" : `.${navKey.shelf}`;
       key += navKey.unit === "00" ? ".xx" : `.${navKey.unit}`;
@@ -110,8 +113,9 @@ function NavGuide({
           World Wide
         </option>
         {jobSites && jobSites.map((site, key) => {
+          // console.log(site.physical_site_name)
           if(site.status === "Active")
-          return <option value={site.physical_site_name} key={key + 1}>{site.physical_site_name} - 10</option>
+          return <option value={JSON.stringify({physical_site_name: site.physical_site_name, first_octet: site.first_octet})} key={key + 1}>{site.physical_site_name}{site.first_octet && ` - ${site.first_octet}`}</option>
         })}
       </select>
       <select

@@ -1,6 +1,6 @@
 import generateHistoryKey from "../generateHistoryKey";
 
-function validateBulkUpload(assetList, parsedAssets, accountLogged) {
+function validateBulkUpload(assetList, parsedAssets, accountLogged, locChoice) {
   const rejectionList = [];
   const newAssetList = [];
   //validate against data in database
@@ -56,7 +56,7 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged) {
             newAssetList.push({
               asset_tag: asset[2],
               location: {
-                site: asset[0].includes("PA01") ? "Midland, PA" : "", //refers to physical site
+                site: locChoice, //refers to physical site
                 site_loc: "", //refers to IP - null until verified through Foreman
                 csv_index: parsedAssets.indexOf(asset) + 1, //use this to render upload log, remove key before making post request
               },

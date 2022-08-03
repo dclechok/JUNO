@@ -68,8 +68,7 @@ function SingleHistory({ assetList, searchHistoryType }) {
     }
     //check job sites for key
   }, [searchHistoryType]);
-  console.log(searchHistoryType)
-  // console.log(loadedHistory)
+
   const renderSwitch = () => {
     if (searchHistoryType.includes("Upload") || searchHistoryType.includes("Edit Asset"))
       return <SingleAssetHistoryLog loadedHistory={loadedHistory} />; //assets bulk upload or single upload

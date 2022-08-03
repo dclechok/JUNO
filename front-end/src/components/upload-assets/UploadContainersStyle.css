@@ -90,7 +90,10 @@
     float: left;
 }
 
-h5{ padding-bottom: 1%; }
+h5{ 
+    padding-bottom: 1%;
+    padding-top: 12px;
+}
 
 .bulk-upload-button{
     margin-top: 4%;

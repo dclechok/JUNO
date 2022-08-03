@@ -53,12 +53,15 @@ function AssetList({
 
   useEffect(() => {
     //get list of all job sites
+    const abortController = new AbortController();
     async function getJobs() {
       setJobSites(await getJobSites());
     }
     getJobs();
-  }, []);
 
+    return () => abortController.abort();
+  }, []);
+  console.log(navKey.site)
   useEffect(() => {
     const abortController = new AbortController();
     //navKey is the properties we're looking for in the device
@@ -70,7 +73,7 @@ function AssetList({
           setFilteredAssetList(
             assetList
               .filter(
-                (correctSite) => correctSite.location.site === navKey.site
+                (correctSite) => correctSite.location.site === navKey.site.physical_site_name
               )
               .filter((asset) => {
                 try {

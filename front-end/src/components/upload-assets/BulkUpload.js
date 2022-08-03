@@ -20,10 +20,12 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
   let formattedAssets = [];
 
   useEffect(() => {
+    const newAbortController = new AbortController();
     async function getAllSites(){
       setJobSites(await getJobSites());
     }
     getAllSites();
+    return newAbortController.abort();
   }, []); //populate jobsite list
 
   const handleChange = (e) => {
@@ -81,8 +83,10 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
       <section className="upload-container-style" >
         <h4>Bulk Upload</h4>
         <form className="form-container-bulk">
+          {!loadSuccessLog && 
+          <>
           <div className="select-container">
-          <p>Uploade these assets to: </p>
+          <p>Upload these assets to: </p>
           <select className="bulk-upload-select" value={locChoice} onChange={handleSelectChange}>
           <option>--Choose Location--</option>
             {jobSites &&
@@ -96,7 +100,7 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
             download
           </a>{" "}
           template)
-        </h5>
+        </h5></>}
         <div>
           {!loadSuccessLog && (
             <>
