@@ -56,7 +56,7 @@ function CreateEditJobSite({
 
   useEffect(() => {
     //get old site data if we are editing
-    const abortController = new abortController();
+    const abortController = new AbortController();
     async function grabJobSite() {
       setOldSiteData(...(await getJobSite(jobSiteID)));
     }

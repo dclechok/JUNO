@@ -26,7 +26,7 @@
 * Styling.
 * ~~Add set amount per page input.~~
 #### Bulk Upload ####
-* Do not allow uploads if job sites in .csv do not exist!
+* ~~Do not allow uploads if job sites in .csv do not exist!~~
 * ~~Check for duplicates in .csv file (from accidentally scanning device twice, etc.)~~
 #### Single Upload ####
 * ~~More backend validation.~~
@@ -34,7 +34,7 @@
 * ~~Fix styling issue where texts goes outside of container.~~
 * ~~Fix issue where upload log renders before successful/failed web request..~~
 #### Single Asset Component ####
-* Validate submitted updated information via editing asset.
+* ~~Validate submitted updated information via editing asset.~~
 * Add functionality for "move", ~~"delete", and "edit".~~
 * ~~Make all fields editable.~~
 #### Notification Tracker ####
