@@ -80,7 +80,8 @@ function AssetList({
                   if(navKey.site === "All Live") return correctSite.status !== "Repair" || correctSite.status !== "Storage";
                   if(navKey.site === "All Repairs") return correctSite.status === "Repair";
                   if(navKey.site === "All Storage") return correctSite.status === "Storage";
-                  return navKey.site === correctSite.location.site;
+                  // console.log(navKey.site.physical_site_name, correctSite.location.site)
+                  return navKey.site.physical_site_name === correctSite.location.site;
                 }
               )
               .filter((asset) => {
