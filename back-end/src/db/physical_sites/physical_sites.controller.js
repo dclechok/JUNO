@@ -48,16 +48,18 @@ async function read(req, res) {
 
 async function update(req, res) {
   const { physical_site_id } = req.params;
-  const { physical_site_name, site_code, first_octet } = req.body.data;
+  const { physical_site_name, site_code, first_octet, category } = req.body.data;
+  console.log(physical_site_id, physical_site_name, site_code, first_octet, category)
   let { history } = req.body.data;
   history = JSON.stringify(history); //restringify
   const data = await knex("physical_sites")
-  .where("physical_site_id", physical_site_id)
+  .where("physical_site_id", Number(physical_site_id))
   .update({
     physical_site_name, physical_site_name,
     site_code, site_code,
     first_octet, first_octet,
-    history, history
+    history, history,
+    category, category
   })
   .returning('*')
   .then((results) => results[0]);
