@@ -29,6 +29,7 @@ function CreateEditJobSite({
     site_code: "",
     status: "Active",
     first_octet: "",
+    category: "",
     history: [
       //the date of creation can be found by searching history_log via key of historical item
       {
@@ -41,13 +42,19 @@ function CreateEditJobSite({
       },
     ],
   };
+
   const [oldSiteData, setOldSiteData] = useState({});
   const [newSiteData, setNewSiteData] = useState(defaultJobSite);
+  const defaultButtonChecked = {
+    "Live": false,
+    "Storage": false,
+    "Repair": false,
+  };
+  const [radioBtnChecked, setRadioBtnChecked] = useState(defaultButtonChecked);
 
-
-  useEffect(() => {      
+  useEffect(() => {
     const abortController = new AbortController();
-    async function getAllJobSites(){
+    async function getAllJobSites() {
       setAllJobSites(await getJobSites());
     }
     getAllJobSites();
@@ -60,37 +67,51 @@ function CreateEditJobSite({
     async function grabJobSite() {
       setOldSiteData(...(await getJobSite(jobSiteID)));
     }
-    if (jobSiteID && viewOrCreate === "edit") grabJobSite();
-    else if(viewOrCreate === "create") setOldSiteData(null);
-    return () => abortController.abort();
+    if (jobSiteID && viewOrCreate === "edit") {
+      grabJobSite();
+    }
+    else if (viewOrCreate === "create") {
+      setOldSiteData(null);
+      setNewSiteData(defaultJobSite);
+      setRadioBtnChecked(defaultButtonChecked);
+    }
+      return () => abortController.abort();
   }, [viewOrCreate, setViewOrCreate]);
-  
+
   const changeHandler = (e) => {
-    const { id, value } = e.currentTarget;
-    if (viewOrCreate === "create")
-      setNewSiteData({ ...newSiteData, [id]: value });
-    if (viewOrCreate === "edit")
-      setOldSiteData({ ...oldSiteData, [id]: value });
+    const { type, id, value } = e.currentTarget;
+    if (viewOrCreate === "create") {
+      if (type === "radio") {
+        setRadioBtnChecked({ ...defaultButtonChecked, [value]: true });
+        setNewSiteData({ ...newSiteData, category: value });
+      } else setNewSiteData({ ...newSiteData, [id]: value });
+    }
+    if (viewOrCreate === "edit") {
+      if (type === "radio") {
+        setRadioBtnChecked({ ...defaultButtonChecked, [value]: true });
+        setNewSiteData({ ...oldSiteData, category: value });
+      } else setOldSiteData({ ...oldSiteData, [id]: value });
+    }
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
-
     async function makeJobSite() {
       if (viewOrCreate === "edit") {
-        if(validateSiteForm(oldSiteData, allJobSites)){
+        //todo: remove first_octet if not 'live' site?
+        if (validateSiteForm(newSiteData, allJobSites)) {
           setToggleButton(false);
-          setSuccess(await updateJobSite(oldSiteData, accountLogged));
+          setSuccess(await updateJobSite(newSiteData, accountLogged));
         }
       } else if (viewOrCreate === "create") {
-        if(validateSiteForm(newSiteData, allJobSites)){
+        if (validateSiteForm(newSiteData, allJobSites)) {
           setToggleButton(false);
           setSuccess(
             await createJobSite(
               { ...defaultJobSite, ...newSiteData },
               accountLogged
             )
-          )
+          );
         }
       }
     }
@@ -105,7 +126,15 @@ function CreateEditJobSite({
     }
     return () => abortController.abort();
   }, [setSuccess, success]);
-  
+
+  useEffect(() => {
+    if(oldSiteData) setRadioBtnChecked({ ...defaultButtonChecked, [oldSiteData.category]: true });
+  }, [oldSiteData, setOldSiteData]);
+
+  useEffect(() => {
+    setNewSiteData({ ...newSiteData, first_octet: '' });
+  }, [radioBtnChecked, setRadioBtnChecked]);
+
   return (
     <section className="create-user-container upload-container-style">
       <h4>
@@ -116,6 +145,45 @@ function CreateEditJobSite({
           className="form-container create-user-form"
           onSubmit={submitHandler}
         >
+          <fieldset>
+            <legend>Job Site Category</legend>
+            <div className="radio-buttons-container">
+              <div className="flex-header">
+                <label htmlFor="live">Live Site</label>
+                <label htmlFor="storage">Storage</label>
+                <label htmlFor="repair">Repair</label>
+              </div>
+              <div className="flex-buttons">
+                <input
+                  type="radio"
+                  id="live"
+                  name="category"
+                  value="Live"
+                  onChange={changeHandler}
+                  checked={radioBtnChecked["Live"]}
+                />
+
+                <input
+                  type="radio"
+                  id="storage"
+                  name="category"
+                  value="Storage"
+                  onChange={changeHandler}
+                  checked={radioBtnChecked["Storage"]}
+                />
+
+                <input
+                  type="radio"
+                  id="repair"
+                  name="category"
+                  value="Repair"
+                  onChange={changeHandler}
+                  checked={radioBtnChecked["Repair"]}
+                />
+              </div>
+            </div>
+          </fieldset>
+
           <div className="create-space">
             <label htmlFor="physical_site_name">
               Physical Site Name (ex. "Midland, PA")
@@ -129,6 +197,7 @@ function CreateEditJobSite({
                 viewOrCreate === "edit"
                   ? oldSiteData.physical_site_name
                   : newSiteData.physical_site_name
+                  || ''
               }
               placeholder={
                 viewOrCreate === "edit"
@@ -147,6 +216,7 @@ function CreateEditJobSite({
                 viewOrCreate === "edit"
                   ? oldSiteData.site_code
                   : newSiteData.site_code
+                  || ''
               }
               placeholder={
                 viewOrCreate === "edit"
@@ -154,25 +224,30 @@ function CreateEditJobSite({
                   : defaultJobSite.site_code
               }
             />
-            <label htmlFor="first_octet">
-              Site IP First Octet (ex. "10".x.x.x) (if applicable)
-            </label>
-            <input
-              type="text"
-              id="first_octet"
-              name="first_octet"
-              onChange={changeHandler}
-              value={
-                viewOrCreate === "edit"
-                  ? oldSiteData.first_octet
-                  : newSiteData.first_octet
-              }
-              placeholder={
-                viewOrCreate === "edit"
-                  ? oldSiteData.first_octet
-                  : defaultJobSite.first_octet
-              }
-            />
+            {radioBtnChecked && radioBtnChecked["Live"] && (oldSiteData || newSiteData) && (
+              <>
+                <label htmlFor="first_octet">
+                  Site IP First Octet (ex. "10".x.x.x)
+                </label>
+                <input
+                  type="text"
+                  id="first_octet"
+                  name="first_octet"
+                  onChange={changeHandler}
+                  value={
+                    viewOrCreate === "edit"
+                      ? oldSiteData.first_octet
+                      : newSiteData.first_octet
+                      || ''
+                  }
+                  placeholder={
+                    viewOrCreate === "edit"
+                      ? oldSiteData.first_octet
+                      : defaultJobSite.first_octet
+                  }
+                />
+              </>
+            )}
           </div>
           <div className="fix-button">
             <button className="submit-single-asset">

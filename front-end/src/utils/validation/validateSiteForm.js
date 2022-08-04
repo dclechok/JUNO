@@ -1,6 +1,7 @@
 function validateSiteForm(siteData, allJobSites) {
   //allJobSites when creating to check to see if there are duplicates
-  console.log(siteData.physical_site_id);
+  if (!siteData.category)
+    return window.alert("You must select a category for the job site to belong to!");
   if (!siteData.physical_site_name)
     return window.alert("Job site must have a name!");
   if (!siteData.site_code)

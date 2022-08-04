@@ -66,13 +66,16 @@ const onClickEditHandler = (e) => {
           <tbody>
             <tr>
               <th>
-                <b>Site ID</b>
+                <b>ID</b>
               </th>
               <th>
-                <b>Job Site</b>
+                <b>Site Name</b>
               </th>
               <th>
-                <b>Site ID</b>
+                <b>Site Code</b>
+              </th>
+              <th>
+                <b>Category</b>
               </th>
               <th>
                 <b>First Octet</b>
@@ -101,6 +104,7 @@ const onClickEditHandler = (e) => {
                     <td>{site.physical_site_id}</td>
                     <td>{site.physical_site_name}</td>
                     <td>{site.site_code}</td>
+                    <td>{site.category}</td>
                     <td>{site.first_octet}</td>
                     <td>{accountLogged.account[0].name}</td>
                     <td>{dateFormatter(site.updated_at)}</td>
