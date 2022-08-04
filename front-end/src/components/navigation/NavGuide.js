@@ -33,7 +33,7 @@ function NavGuide({
     setShelfDisabled(true);
     setUnitDisabled(true);
     setMdcSelectVal(mdcDefaultVal);
-    if (value === "00") {
+    if (value.includes("All")) {
       //attempting to reset select-option values to defaults when disabling them
       setNavKey({ site: value, mdc: "00", shelf: "00", unit: "00" });
     } else{
@@ -96,9 +96,9 @@ function NavGuide({
   //eventually load 'viewing' after 'go'
   useEffect(() => {
     let key = "";
-    if (navKey.site === "00") setFormattedKey("World Wide");
+    if (JSON.stringify(navKey.site).includes("All")) setFormattedKey(`${navKey.site}`);
     else {
-      key += navKey.site === "00" ? "World Wide" : `${navKey.site.physical_site_name} - ${navKey.site.first_octet ? navKey.site.first_octet : 'xx'}`;
+      key += navKey.site === "All Assets" ? "All Assets" : `${navKey.site.physical_site_name} - ${navKey.site.first_octet ? navKey.site.first_octet : 'xx'}`;
       key += navKey.mdc === "00" ? ".xx" : `.${navKey.mdc}`;
       key += navKey.shelf === "00" ? ".xx" : `.${navKey.shelf}`;
       key += navKey.unit === "00" ? ".xx" : `.${navKey.unit}`;
@@ -109,11 +109,13 @@ function NavGuide({
   return (
     <form className="nav-guide-container" id="filter-form" >
       <select name="site" id="site" onChange={selectSiteHandler} >
-        <option value="00" defaultValue>
-          World Wide
+        <option value="All Assets" defaultValue>
+          All Assets
         </option>
+        <option value="All Live">All Live</option>
+        <option value="All Repairs">All Repairs</option>
+        <option value="All Storage">All Storage</option>
         {jobSites && jobSites.map((site, key) => {
-          // console.log(site.physical_site_name)
           if(site.status === "Active")
           return <option value={JSON.stringify({physical_site_name: site.physical_site_name, first_octet: site.first_octet})} key={key + 1}>{site.physical_site_name}{site.first_octet && ` - ${site.first_octet}`}</option>
         })}

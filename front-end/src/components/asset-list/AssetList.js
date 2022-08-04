@@ -67,7 +67,7 @@ function AssetList({
   useEffect(() => {
     const abortController = new AbortController();
     //navKey is the properties we're looking for in the device
-    if (navKey.site !== "00") {
+    if (navKey.site !== "All Assets") {
       //if not World Wide assets, then we must filter
       function filterAssetList() {
         assetList &&
@@ -75,7 +75,13 @@ function AssetList({
           setFilteredAssetList(
             assetList
               .filter(
-                (correctSite) => correctSite.location.site === navKey.site.physical_site_name
+                (correctSite) => {
+                  //filter by status or filter by job site
+                  if(navKey.site === "All Live") return correctSite.status !== "Repair" || correctSite.status !== "Storage";
+                  if(navKey.site === "All Repairs") return correctSite.status === "Repair";
+                  if(navKey.site === "All Storage") return correctSite.status === "Storage";
+                  return navKey.site === correctSite.location.site;
+                }
               )
               .filter((asset) => {
                 try {

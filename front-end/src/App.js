@@ -36,7 +36,7 @@ function App() {
   const [filteredAssetList, setFilteredAssetList] = useState(assetList);
   const [assetListValues, setAssetListValues] = useState({});
   const [navKey, setNavKey] = useState({
-    site: "00",
+    site: "All Assets",
     mdc: "00",
     shelf: "00",
     unit: "00",
