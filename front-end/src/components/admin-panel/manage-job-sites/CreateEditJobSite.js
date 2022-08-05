@@ -43,7 +43,7 @@ function CreateEditJobSite({
     ],
   };
 
-  const [oldSiteData, setOldSiteData] = useState({});
+  const [oldSiteData, setOldSiteData] = useState(defaultJobSite);
   const [newSiteData, setNewSiteData] = useState(defaultJobSite);
   const defaultButtonChecked = {
     "Live": false,
