@@ -4,7 +4,7 @@
 .single-asset-render {
   display: inline-block;
   margin-top: 5%;
-  width: 1200px;
+  min-width: 800px;
   font-family: "Montserrat", sans-serif;
   white-space: nowrap;
 }
@@ -29,6 +29,9 @@
 .single-asset-body {
   margin-top: 2%;
   display: block;
+  margin-left: auto;
+  margin-right: auto;
+
 }
 
 .single-asset-body table {

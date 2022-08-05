@@ -1,11 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
+//utils
 import { updateAsset } from "../../../utils/api";
+import LoaderSpinner from '../../LoaderSpinner';
 import generateHistoryKey from "../../../utils/generateHistoryKey";
 
 function SingleAssetEdit({ singleAsset, accountLogged }) {
   const [assetFields, setAssetFields] = useState(...singleAsset);
   const [updateSuccess, setUpdateSuccess] = useState(null);
+  const [toggleButton, setToggleButton] = useState(true);
+  const navigate = useNavigate();
 
   const changeHandler = (e) => {
     //create controlled input
@@ -14,9 +19,14 @@ function SingleAssetEdit({ singleAsset, accountLogged }) {
     setAssetFields({ ...assetFields, [id]: value });
   };
 
+  useEffect(() => {
+    if(updateSuccess) window.location.reload(false);
+  }, [setUpdateSuccess, updateSuccess]);
+
   const submitHandler = (e) => {
     //make a PUT request to submit asset update
     e.preventDefault();
+    setToggleButton(false);
     const newHistoryKey = generateHistoryKey();
     const action_date = new Date();
     async function editAsset() {
@@ -43,6 +53,7 @@ function SingleAssetEdit({ singleAsset, accountLogged }) {
   return (
     <section className="upload-container-style">
       <h3>Edit Asset Details</h3>
+      {toggleButton ?
       <form className="form-container" onSubmit={submitHandler}>
         <div>
           <label htmlFor="asset_tag">Asset Tag</label>
@@ -104,7 +115,7 @@ function SingleAssetEdit({ singleAsset, accountLogged }) {
             Submit Change
           </button>
         </div>
-      </form>
+      </form> : <LoaderSpinner width={45} height={45} message={"New Asset Data"} /> }
     </section>
   );
 }

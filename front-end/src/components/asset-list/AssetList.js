@@ -130,7 +130,7 @@ function AssetList({
     assetsPerPage
   ]);
 
-  useEffect(() => {
+  useEffect(() => { //flip back to page one if adjusting results per page
     setPageNum(1);
   }, [assetsPerPage, setAssetsPerPage]);
 
