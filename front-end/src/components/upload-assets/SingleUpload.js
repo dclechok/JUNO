@@ -15,6 +15,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
   const [jobSites, setJobSites] = useState([]);
   const [locationSelect, setLocationSelect] = useState("All Locations");
   const [logItem, setLogItem] = useState();
+  const [targetSite, setTargetSite] = useState();
   const [successfulUpload, setSuccessfulUpload] = useState(false);
   const [assetFields, setAssetFields] = useState({
     asset_tag: "",
@@ -30,10 +31,23 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
     //create controlled input
     e.preventDefault();
     setLocationSelect(e.currentTarget.value);
-    setAssetFields({
+
+   setAssetFields({
       ...assetFields,
       location: { site: e.currentTarget.value, site_loc: "" },
     });
+  };
+
+  useEffect(() => {
+    setTargetSite(jobSites.find(js => {
+      if(js.physical_site_name === locationSelect) return js.category;
+    }));
+  }, [locationSelect, setLocationSelect])
+
+  const setStatus = () => {
+    if(targetSite && targetSite.category === "Live") return "Needs Verified";
+    if(targetSite && targetSite.category === "Repair") return "Repair";
+    if(targetSite && targetSite.category === "Storage") return "Storage";
   };
 
   const changeHandler = (e) => {
@@ -42,6 +56,8 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
     const { value, id } = e.currentTarget;
     setAssetFields({ ...assetFields, [id]: value });
   };
+
+  console.log(setStatus())
   const submitHandler = (e) => {
     e.preventDefault();
     acceptOrReject = validateSingleUpload(assetFields, assetList);
@@ -55,7 +71,8 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
           setSuccessfulUpload(await createAsset(
             {
               ...assetFields,
-              status: "Needs Verified",
+              status: setStatus(),
+              ip: setStatus(),
               history: [
                 {
                   action_taken: "Single Upload",

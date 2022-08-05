@@ -63,7 +63,7 @@ function AssetList({
 
     return () => abortController.abort();
   }, []);
-
+  console.log(navKey)
   useEffect(() => {
     const abortController = new AbortController();
     //navKey is the properties we're looking for in the device
