@@ -31,7 +31,6 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
     //create controlled input
     e.preventDefault();
     setLocationSelect(e.currentTarget.value);
-
    setAssetFields({
       ...assetFields,
       location: { site: e.currentTarget.value, site_loc: "" },
@@ -57,7 +56,6 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
     setAssetFields({ ...assetFields, [id]: value });
   };
 
-  console.log(setStatus())
   const submitHandler = (e) => {
     e.preventDefault();
     acceptOrReject = validateSingleUpload(assetFields, assetList);

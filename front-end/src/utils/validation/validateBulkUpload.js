@@ -1,6 +1,6 @@
 import generateHistoryKey from "../generateHistoryKey";
 
-function validateBulkUpload(assetList, parsedAssets, accountLogged, locChoice) {
+function validateBulkUpload(assetList, parsedAssets, accountLogged, locChoice, targetSite) {
   const rejectionList = [];
   const newAssetList = [];
   //validate against data in database
@@ -17,8 +17,16 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged, locChoice) {
     if (parsedAssets.filter((a) => asset[2] === a[2]).length > 1)
       return "Duplicate asset tag found in CSV file!";
   };
-  //check for 6 headers: asset tag, location, status, serial_number, make, model, hr\
+  //setStatus of asset via locChoice
+  const setStatus = () => {
+    if(targetSite && targetSite.category === "Live") return "Needs Verified";
+    if(targetSite && targetSite.category === "Repair") return "Repair";
+    if(targetSite && targetSite.category === "Storage") return "Storage";
+    return "Needs Verified";
+  };
+  //check for 6 headers: asset tag, location, status, serial_number, make, model, hr
 
+  console.log(setStatus());
   if (
     parsedAssets[0][1].toLowerCase() === "serial #" &&
     parsedAssets[0][2].toLowerCase() === "asset #" &&
@@ -60,7 +68,7 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged, locChoice) {
                 site_loc: "", //refers to IP - null until verified through Foreman
                 csv_index: parsedAssets.indexOf(asset) + 1, //use this to render upload log, remove key before making post request
               },
-              status: "Needs Verified", //default on upload - **needs verified through foreman**
+              status: setStatus(), //default on upload - **needs verified through foreman**
               history: [
                 {
                   action_date: action_date,

@@ -16,6 +16,8 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
   const [stateAssets, setStateAssets] = useState([]);
   const [jobSites, setJobSites] = useState([]);
   const [locChoice, setLocChoice] = useState();
+  const [targetSite, setTargetSite] = useState(null); //job site picked
+
   let parsedAssets = [];
   let formattedAssets = [];
 
@@ -36,6 +38,12 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
     setLocChoice(e.target.value)
   };
 
+  useEffect(() => {
+    setTargetSite(jobSites.find(js => {
+      if(js.physical_site_name === locChoice) return js.category;
+    }));
+  }, [locChoice, setLocChoice]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if(!locChoice || locChoice === "--Choose Location--") return window.alert("You must choose a valid job site to upload these assets to!");
@@ -50,7 +58,7 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
             parsedAssets = results.data.splice(0, results.data.length - 1);
             // setParsedAssets(results.data.splice(0, results.data.length - 1)); //last entry is blank/invalid
             if (parsedAssets && parsedAssets.length !== 0)
-              formattedAssets = validateBulkUpload(assetList, parsedAssets, accountLogged, locChoice); //HANDLE ALL FORMATTING AND VALIDATION!
+              formattedAssets = validateBulkUpload(assetList, parsedAssets, accountLogged, locChoice, targetSite); //HANDLE ALL FORMATTING AND VALIDATION!
             setStateAssets(formattedAssets);
             async function createNewAsset(newAssetList) {
               if (newAssetList.length !== 0) {
