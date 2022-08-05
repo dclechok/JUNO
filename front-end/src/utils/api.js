@@ -83,6 +83,7 @@ export async function getSingleAsset(asset_id){
 
 // ASSETS - UPDATE //
 export async function updateAsset(asset_id, data){
+  console.log(data)
   try{
     const response = await fetch(BASE_URL + `assets/${asset_id}`, {
       method: "PUT",
@@ -90,10 +91,9 @@ export async function updateAsset(asset_id, data){
       body: JSON.stringify({ data: data })
     });
     const jsonResponse = await response.json();
-    if(jsonResponse){
+    if(jsonResponse && !jsonResponse.error){
       const { action_by, action_by_id, action_key, action_taken } =
       jsonResponse.data.history[jsonResponse.data.history.length - 1];
-      console.log(jsonResponse.data)
     const { updated_at } = jsonResponse.data;
     //eventually add comments, and "approved_by";
     const awaitCreateHistory = await createHistory({
@@ -105,8 +105,8 @@ export async function updateAsset(asset_id, data){
     });
     if (!awaitCreateHistory)
       throw new Error("Making request for history log failed!");
-    return jsonResponse;
     }
+    return jsonResponse;
   }catch(e){
     console.log(e, 'Failed to update asset.');
   }

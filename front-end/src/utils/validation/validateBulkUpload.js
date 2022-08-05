@@ -37,7 +37,7 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged, locChoice, t
       //if valid headers exist, then filter the assets
       const newHistoryKey = generateHistoryKey();
       parsedAssets
-        .filter((val, key) => key !== 0 && key <= 100) //skip first row for headers
+        .filter((val, key) => key !== 0) //skip first row for headers
         .forEach((asset) => {
           //builds out rejection list, and good asset list
           //first check if there is a duplicate in the existing list of assets

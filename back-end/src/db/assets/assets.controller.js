@@ -82,8 +82,8 @@ async function update(req, res) {
   //update asset
   const { asset_id } = req.params;
   //fields we can update
-  const { asset_tag, serial_number, make, model, hr } = req.body.data;
-  // console.log(JSON.stringify(req.body));
+  const { asset_tag, serial_number, make, model, hr } = req.body.data[0];
+  console.log(asset_tag)
   const history = JSON.stringify(req.body.data.history);
   const data = await knex('assets')
   .where('asset_id', asset_id)
@@ -112,6 +112,6 @@ module.exports = {
   list: asyncErrorBoundary(list),
   create: [bodyHasResultProperty, validateBody, asyncErrorBoundary(create)], // TODO: verify each data field format
   read: asyncErrorBoundary(read), //read individual asset
-  update: asyncErrorBoundary(update),
+  update: [bodyHasResultProperty, validateBody, asyncErrorBoundary(update)],
   delete: asyncErrorBoundary(remove)
 };
