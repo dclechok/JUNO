@@ -5,10 +5,8 @@ import { useEffect, useState } from "react";
 import CreateAdmin from "./CreateAdmin";
 
 //utils
-import { getUsers } from "../../utils/api";
+import { getUsers, handleLoginPassCheck } from "../../utils/api";
 import LoaderSpinner from "../LoaderSpinner";
-
-const bcrypt = require("bcryptjs");
 
 function Login({ accountLogged, setAccountLogged }) {
   const [users, setUsers] = useState(null);
@@ -55,10 +53,9 @@ function Login({ accountLogged, setAccountLogged }) {
     setLoggingIn(true);
     setErrorMessage(null);
     async function login() {
-
       const foundAcct = users.filter((acct) => acct.username === user.username);
       if (foundAcct && foundAcct.length !== 0) {
-        if (bcrypt.compareSync(user.hash, foundAcct[0].hash)) {
+        if (!Object.keys(await handleLoginPassCheck(user.hash, foundAcct[0])).includes("error")) {
           //passwords hash compare is good
           localStorage.setItem(
             "acctLogged",

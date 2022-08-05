@@ -2,6 +2,21 @@ import generateHistoryKey from "./generateHistoryKey";
 
 const BASE_URL = "http://localhost:5000/";
 
+export async function handleLoginPassCheck(pass, user){
+  try {
+    const response = await fetch(BASE_URL + "login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ data: { unhashed: pass, user: user } })
+    });
+    const jsonResponse = await response.json(); //json-ify readablestream data
+    if (jsonResponse) return jsonResponse;
+  } catch (e) {
+    console.log(e, "Failed to fetch all assets.");
+  }
+}
 // ASSETS - GET ALL //
 export async function getAllAssets() {
   try {
