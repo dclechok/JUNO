@@ -75,7 +75,6 @@ function AssetList({
             assetList
               .filter(
                 (correctSite) => {
-                  console.log(correctSite.status === "Repair", navKey.site)
                   //filter by status or filter by job site
                   if(navKey.site === "All Live") return correctSite.status !== "Repair" && correctSite.status !== "Storage";
                   if(navKey.site === "All Repairs") return correctSite.status === "Repair";

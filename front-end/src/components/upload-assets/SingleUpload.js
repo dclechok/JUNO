@@ -59,9 +59,9 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
   const submitHandler = (e) => {
     e.preventDefault();
     acceptOrReject = validateSingleUpload(assetFields, assetList);
-    setLogItem(acceptOrReject);
     // make post request
     if (acceptOrReject !== "fields not validated") {
+      setLogItem(acceptOrReject);
       if (acceptOrReject.rejected.length === 0) {
         const action_date = new Date();
         const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
@@ -99,8 +99,6 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
     return () => abortController.abort();
   }, [setAssetFields]);
 
-  // useEffect(() => {}, [setLogItem]);
-  console.log(locationSelect)
   return (
     <section className="upload-container-style">
       <h4>Single Upload</h4>
