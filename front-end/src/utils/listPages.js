@@ -2,6 +2,8 @@
 
 function listPages( filteredAssetList, pageNum, assetsPerPage ){ //and page number?
     const TOTAL_RESULTS_PER_PAGE = Number(assetsPerPage);
+
+    console.log(assetsPerPage, pageNum)
     let buildPages = {};
     let pageCounter = 1; //start on page 1
     filteredAssetList.forEach(asset => {

@@ -130,6 +130,10 @@ function AssetList({
     assetsPerPage
   ]);
 
+  useEffect(() => {
+    setPageNum(1);
+  }, [assetsPerPage, setAssetsPerPage]);
+
   const handleSubmitSingleAsset = (e) => {
     const { value } = e.currentTarget;
     navigate(`/${value}`); //load single assest page
@@ -145,7 +149,6 @@ function AssetList({
     const { value } = e.currentTarget;
     setPageNum(value);
   };
-
   const handleScroll = (e) => {
     const { id } = e.currentTarget;
     if(id === 'scroll-left' && pageNum >= 2 ) setPageNum(Number(pageNum) - 1);
