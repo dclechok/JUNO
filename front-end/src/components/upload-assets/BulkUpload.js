@@ -133,6 +133,7 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
               <UploadSuccess
                 rejectedLog={stateAssets.rejected}
                 newAssets={stateAssets.accepted}
+                locChoice={locChoice}
               />
             )}
           </div>

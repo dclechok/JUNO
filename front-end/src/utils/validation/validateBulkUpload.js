@@ -26,7 +26,6 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged, locChoice, t
   };
   //check for 6 headers: asset tag, location, status, serial_number, make, model, hr
 
-  console.log(setStatus());
   if (
     parsedAssets[0][1].toLowerCase() === "serial #" &&
     parsedAssets[0][2].toLowerCase() === "asset #" &&

@@ -70,7 +70,6 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
             {
               ...assetFields,
               status: setStatus(),
-              ip: setStatus(),
               history: [
                 {
                   action_taken: "Single Upload",
@@ -100,8 +99,8 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
     return () => abortController.abort();
   }, [setAssetFields]);
 
-  useEffect(() => {}, [setLogItem]);
-
+  // useEffect(() => {}, [setLogItem]);
+  console.log(locationSelect)
   return (
     <section className="upload-container-style">
       <h4>Single Upload</h4>
@@ -201,6 +200,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
         <UploadSuccess
           rejectedLog={logItem.rejected}
           newAssets={logItem.accepted}
+          locChoice={locationSelect}
         />
       }
     </section>

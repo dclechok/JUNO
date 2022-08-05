@@ -1,6 +1,6 @@
 import "./UploadSuccess.css";
 
-function UploadSuccess({ rejectedLog, newAssets }) {
+function UploadSuccess({ rejectedLog, newAssets, locChoice }) {
   let percentOfSuccess = 0,
     percentOfFails = 0;
   let totalAmtOfUploads = rejectedLog ? newAssets.length + rejectedLog.length : newAssets.length;
@@ -19,7 +19,7 @@ function UploadSuccess({ rejectedLog, newAssets }) {
     <div className="upload-success-log">
       <h5 className="log-header">[ Upload Log ]</h5>
       <hr />
-      <h3>Total Uploads: {totalAmtOfUploads}</h3>
+      <h3>Total Uploads to {locChoice} : {totalAmtOfUploads}</h3>
       <h6>
         Successes: {newAssets && newAssets.length}
         <span className="success-green">

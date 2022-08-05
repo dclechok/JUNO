@@ -93,6 +93,7 @@
 h5{ 
     padding-bottom: 1%;
     padding-top: 12px;
+    font-size: 30px;
 }
 
 .bulk-upload-button{
@@ -105,4 +106,8 @@ h5{
     align-content: center;
     width: auto;
     margin: 2% 20% 4% 15%;
+}
+
+h3{
+    font-size: 20px;
 }
