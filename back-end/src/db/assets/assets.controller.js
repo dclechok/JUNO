@@ -82,9 +82,8 @@ async function update(req, res) {
   //update asset
   const { asset_id } = req.params;
   //fields we can update
-  const { asset_tag, serial_number, make, model, hr } = req.body.data[0];
-  console.log(asset_tag)
-  const history = JSON.stringify(req.body.data.history);
+  const { asset_tag, serial_number, make, model, hr, updated_at } = req.body.data[0];
+  const history = JSON.stringify(req.body.data[0].history);
   const data = await knex('assets')
   .where('asset_id', asset_id)
   .update({
@@ -93,7 +92,8 @@ async function update(req, res) {
     make, make,
     model, model,
     hr, hr, 
-    history, history
+    history, history,
+    updated_at, updated_at
   })
   .returning('*')
   .then((results) => results[0]);

@@ -39,7 +39,7 @@ function AssetList({
   const [toggleSortReload, setToggleSortReload] = useState(false);
   const navigate = useNavigate();
   const [pageNum, setPageNum] = useState(1);
-  const defaultAssetsPerPage = 15;
+  const defaultAssetsPerPage = 500;
   const [assetsPerPage, setAssetsPerPage] = useState(defaultAssetsPerPage);
 
   useEffect(() => {

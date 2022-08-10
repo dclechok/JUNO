@@ -83,7 +83,6 @@ export async function getSingleAsset(asset_id){
 
 // ASSETS - UPDATE //
 export async function updateAsset(asset_id, data){
-  console.log(data)
   try{
     const response = await fetch(BASE_URL + `assets/${asset_id}`, {
       method: "PUT",
@@ -91,6 +90,7 @@ export async function updateAsset(asset_id, data){
       body: JSON.stringify({ data: data })
     });
     const jsonResponse = await response.json();
+    console.log(jsonResponse.data.updated_at);
     if(jsonResponse && !jsonResponse.error){
       const { action_by, action_by_id, action_key, action_taken } =
       jsonResponse.data.history[jsonResponse.data.history.length - 1];
@@ -103,6 +103,7 @@ export async function updateAsset(asset_id, data){
       logged_by_id: action_by_id,
       history_key: action_key,
     });
+    console.log(awaitCreateHistory, 'test')
     if (!awaitCreateHistory)
       throw new Error("Making request for history log failed!");
     }

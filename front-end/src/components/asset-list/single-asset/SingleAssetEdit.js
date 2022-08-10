@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 //utils
 import { updateAsset } from "../../../utils/api";
@@ -33,6 +32,7 @@ function SingleAssetEdit({ singleAsset, accountLogged }) {
     setToggleButton(false);
     const newHistoryKey = generateHistoryKey();
     const action_date = new Date();
+    console.log(action_date)
     async function editAsset() {
       setUpdateSuccess(
         await updateAsset(assetFields.asset_id, {
@@ -48,12 +48,13 @@ function SingleAssetEdit({ singleAsset, accountLogged }) {
               action_comment: "Updated Miner Details",
             },
           ],
-        })
+          updated_at: action_date
+        }, accountLogged)
       );
     }
     editAsset();
   };
-  console.log(errorMsg)
+
   return (
     <section className="upload-container-style">
       <h3>Edit Asset Details</h3>

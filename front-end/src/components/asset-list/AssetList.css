@@ -6,8 +6,7 @@ section{
     justify-content: flex-start;
     align-items: flex-start;
     margin-top: 1%;
-    /* height: 100%; */
-
+    position: static;
 }
 
 .inline-tracker-notifications{
@@ -30,14 +29,16 @@ section{
     background-color: rgb(19, 22, 30);
     list-style-type: none;
     padding: 0;
-    columns: 10;
-    -webkit-columns: 10;
-    -moz-columns: 10;
+    columns: 9;
+    -webkit-columns: 9;
+    -moz-columns: 9;
     font-family: 'Nunito', sans-serif;
-    position: absolute;
+    position: relative;
     width: auto;
     border-radius: 3px;
     min-width: 1100px;
+    table-layout: fixed;
+    margin-bottom: 6%;
 }
 
 tr{
@@ -52,9 +53,10 @@ tr:nth-child(odd) {
     background-color: rgb(19, 21, 26);
 }
 
-td{
+th, td{
     padding-right: 8px;
     padding-left: 8px;
+    word-wrap: break-word;
 }
 
 .asset-tag-button{ 
@@ -153,5 +155,5 @@ th button:hover{
 .table-height-fixed{
     display: block;
     position: absolute;
-    height: 100%;
+    height: auto;
 }
