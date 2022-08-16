@@ -9,31 +9,28 @@
     padding: 0;
     position: relative;
     top: 40px;
+    
 }
 
 .search-btn{
-    background-color:rgb(129, 142, 160);
+    background-color:rgb(146, 160, 180);
     font-family: 'Work Sans', sans-serif;
     color:rgb(0, 0, 0);
     border-radius: 4px;
     padding-left: 5%;
     padding-right: 5%;
-    margin-top: 2%;
-    font-size: 16px;
+    margin: 1%;
+    font-size: 18px;
 }
 
 .search-btn:hover{
-    background-color: rgb(150, 171, 188);
+    background-color: rgb(186, 192, 207);
 }
 .search-btn:active, button:target{
-    background-color:rgb(206, 209, 213);
+    background-color:rgb(96, 110, 126);
 }
 
-.by-ip{
-    margin-right: 5%;
-}
-
-.radio-label{
-    margin-right: 2%;
-    font-size: 14px;
+#search-form{
+    border-radius: 4px;
+    padding: 0 2%;
 }

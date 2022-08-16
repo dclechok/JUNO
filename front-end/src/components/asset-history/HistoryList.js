@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 //components
 import HistorySearch from "./HistorySearch";
-import LoaderSpinner from "../LoaderSpinner";
+// import LoaderSpinner from "../LoaderSpinner";
 
 //utils
 import dateFormatter from "../../utils/dateFormatter.js";

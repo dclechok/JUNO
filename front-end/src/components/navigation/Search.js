@@ -3,20 +3,19 @@ import { useState } from "react";
 
 function Search({ assetList, setFilteredAssetList }) {
   const [searchTag, setSearchTag] = useState("");
-  const [radioCheck, setRadioCheck] = useState(true);
+  const [searchProp, setSearchProp] = useState("ip"); //default selected option by "ip"
 
-  function searchAssetList(defaultByIP) {
-    const parsedSearchTag = {
-      site_loc: searchTag.split(".")[0],
-      mdc: searchTag.split(".")[1],
-      shelf: searchTag.split(".")[2],
-      unit: searchTag.split(".")[3],
-    };
-    //NEEDS VALIDATION//
-    if (defaultByIP) {
-      try {
-        const result = assetList.filter((asset) => {
-          if (
+  function searchAssetList() {
+    //search by IP
+    if (searchProp === "ip") {
+      const parsedSearchTag = {
+        site_loc: searchTag.split(".")[0],
+        mdc: searchTag.split(".")[1],
+        shelf: searchTag.split(".")[2],
+        unit: searchTag.split(".")[3],
+      };
+      const result = assetList.filter((asset) => {
+        if (
             asset.location.site_loc === parsedSearchTag.site_loc &&
             asset.location.mdc === parsedSearchTag.mdc &&
             asset.location.shelf === parsedSearchTag.shelf &&
@@ -27,47 +26,47 @@ function Search({ assetList, setFilteredAssetList }) {
         if (result.length === 0) window.alert(`Sorry, IP not found!`);
         else setFilteredAssetList(result);
         //LOAD ASSET BY IP
-      } catch (e) {
-        console.log(e, "Finding device failed.");
-      }
-    } else {
+    }else{ //search by asset_tag, serial_num, make, model, status
       if (
         assetList.find(
-          (asset) => asset.asset_tag.toLowerCase() === searchTag.toLowerCase()
+          (asset) => {
+            if(asset[searchProp]) return asset[searchProp].toLowerCase() === searchTag.toLowerCase() //asset property must not be null. ie. invoice_num
+          }
         )
       ) {
         //SET NAV KEY
         setFilteredAssetList(
           assetList.filter(
-            (asset) => asset.asset_tag.toLowerCase() === searchTag.toLowerCase()
+            (asset) => asset[searchProp].toLowerCase() === searchTag.toLowerCase()
           )
         ); //LOAD ASSET BY ASSET TAG
       } else {
-        window.alert(`Sorry, Asset Tag not found!`);
+        window.alert(`Sorry, we can not find the current asset using this search method!`);
       }
     }
   }
 
   const handleSubmit = (e) => {
     e.preventDefault(); //stop page from reload
-    //check radio buttons
-    try {
-      searchAssetList(e.target.ip.checked);
-    } catch (e) {
-      window.alert("Asset list is not yet loaded.");
-    }
-    //search asset list - default ip radio button checked
-    setSearchTag(""); //reset searchTag
+    //validate input so that not blank
+    if(e.currentTarget.id === "reset") console.log('reset')
+    else if(searchTag.length < 1) window.alert("Search field cannot be blank!");
+    else searchAssetList();
   };
 
   const handleChange = (e) => {
-    setSearchTag(e.target.value); //create controlled input
+    if(e.currentTarget.id === "search") setSearchTag(e.currentTarget.value);
+    else setSearchProp(e.currentTarget.value);
   };
 
-  const handleRadioChange = (e) => {
-    //alternate between radio buttons
-    setRadioCheck(!radioCheck);
-  };
+  const handleClearSearch = (e) => {
+    e.preventDefault();
+    if(e.currentTarget.id === "reset"){
+      setFilteredAssetList(assetList);
+      setSearchTag('');
+      setSearchProp('ip');
+    }
+};
 
   return (
     <div className="search-container">
@@ -79,29 +78,15 @@ function Search({ assetList, setFilteredAssetList }) {
           value={searchTag}
           onChange={handleChange}
         />
-        <div className="radio-btns">
-          <label htmlFor="by-ip" className="radio-label">
-            By IP
-          </label>
-          <input
-            type="radio"
-            id="ip"
-            name="by-ip"
-            className="by-ip"
-            checked={radioCheck}
-            onChange={handleRadioChange}
-          />
-          <label htmlFor="by-assetTag" className="radio-label">
-            By Asset Tag
-          </label>
-          <input
-            type="radio"
-            id="assetTag"
-            name="by-asset-tag"
-            checked={!radioCheck}
-            onChange={handleRadioChange}
-          />
-        </div>
+        <select onChange={handleChange} value={searchProp} > 
+          <option id="ip" value="ip" default>IP</option>
+          <option id="assetTag" value="asset_tag">Asset Tag</option>
+          <option id="serialNum" value="serial_number">Serial #</option>
+          <option id="invoiceNum" value="invoice_num">Invoice #</option>
+          <option id="make" value="make">Make</option>
+          <option id="model" value="model">Model</option>
+        </select>
+        <div>
         <button
           type="submit"
           className="search-btn"
@@ -110,6 +95,16 @@ function Search({ assetList, setFilteredAssetList }) {
         >
           Search
         </button>
+        <button
+          type="submit"
+          className="search-btn"
+          id="reset"
+          form="search-form"
+          onClick={handleClearSearch}
+        >
+          Clear
+        </button>
+        </div>
       </form>
     </div>
   );
