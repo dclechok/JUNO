@@ -157,7 +157,7 @@ function AssetList({
 
   const changeResultsPerPage = (e) => {
     if(e.currentTarget.id === "reset-results-per") setAssetsPerPage(defaultAssetsPerPage);
-    if(e.currentTarget.value >= 1 && e.currentTarget.value <= 500) setAssetsPerPage(e.currentTarget.value);
+    if(e.currentTarget.value >= 1 && e.currentTarget.value <= defaultAssetsPerPage) setAssetsPerPage(e.currentTarget.value);
   };
 
   return (

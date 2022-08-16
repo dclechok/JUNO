@@ -85,6 +85,7 @@ function HistoryList({
       }
     }
   };
+
   useEffect(() => {
     //filter history list by day or day range
     const abortController = new AbortController();
@@ -97,6 +98,7 @@ function HistoryList({
       setDayOrRange("range");
       filterDate(daysSelected);
     }
+    setEntriesPerPage(MAX_ENTRIES_PER_PAGE); //reset to max entries per page when changing date
     return () => abortController.abort();
   }, [daysSelected, setDaysSelected, dayOrRange]);
 
@@ -109,13 +111,13 @@ function HistoryList({
 
   const changeResultsPerPage = (e) => {
     if(e.currentTarget.id === "reset-results-per") setEntriesPerPage(MAX_ENTRIES_PER_PAGE);
-    if(e.currentTarget.value >= 1 && e.currentTarget.value <= 500) setEntriesPerPage(e.currentTarget.value);
+    if(e.currentTarget.value >= 1 && e.currentTarget.value <= MAX_ENTRIES_PER_PAGE) setEntriesPerPage(e.currentTarget.value);
   };
 
   const handleScroll = (e) => {
     const { id } = e.currentTarget;
     if(id === 'scroll-left' && pageNum >= 2 ) setPageNum(Number(pageNum) - 1);
-    if(id === 'scroll-right' && pageNum <= Math.ceil((historyList.length / MAX_ENTRIES_PER_PAGE) - 1)) setPageNum(Number(pageNum) + 1);
+    if(id === 'scroll-right' && pageNum <= Math.ceil((dateFilteredList.length / entriesPerPage) - 1)) setPageNum(Number(pageNum) + 1);
   };
 
   const handleSelect = (e) => {
@@ -123,7 +125,10 @@ function HistoryList({
     setPageNum(value);
   };
 
-  console.log(pageNum)
+  useEffect(() => { //flip back to page one if adjusting results per page
+    setPageNum(1);
+  }, [entriesPerPage, setEntriesPerPage]);
+
   return (
     <div className="single-asset-render">
       <>
@@ -177,7 +182,7 @@ function HistoryList({
                     >
                       {Array.from(
                         Array(
-                          Math.ceil(dateFilteredList.length / MAX_ENTRIES_PER_PAGE)
+                          Math.ceil(dateFilteredList.length / entriesPerPage)
                         )
                       ).map((page, key) => {
                         return <option key={key + 1}>{key + 1}</option>;
@@ -185,7 +190,7 @@ function HistoryList({
                     </select>
                   )}
                   <p className="page-num-height">
-                    /{Math.ceil(dateFilteredList.length / MAX_ENTRIES_PER_PAGE)}
+                    /{Math.ceil(dateFilteredList.length / entriesPerPage)}
                   </p>
                   <button
                     className="image-button"
