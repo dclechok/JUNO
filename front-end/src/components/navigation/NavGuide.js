@@ -162,7 +162,7 @@ function NavGuide({
         })}
       </select>
       <p className="viewing">
-        Viewing:&#160;&#160;<span className="ip-color">{formattedKey}</span>
+        Viewing:&#160;&#160;<span className="ip-color">{formattedKey} - Total: {filteredAssetList.length} Asset{filteredAssetList.length > 1 && 's'}</span>
       </p>
     </form>
   );

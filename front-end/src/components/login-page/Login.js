@@ -136,7 +136,7 @@ function Login({ accountLogged, setAccountLogged }) {
                         </button>
                       ) : (
                         <div className="center-spinner">
-                          <LoaderSpinner width={45} height={45} />
+                          <LoaderSpinner width={45} height={45} message={"Login..."} />
                         </div>
                       )}
                     </div>

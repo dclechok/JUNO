@@ -10,7 +10,7 @@ function listPages( filteredAssetList, pageNum, assetsPerPage ){ //and page numb
             else buildPages[pageCounter].push(asset);
             if(Object.entries(buildPages[pageCounter]).length === TOTAL_RESULTS_PER_PAGE) pageCounter++; //
     });
-    console.log(buildPages[pageNum]);
+
     //return an array, using pageNum from
     return buildPages[pageNum];
 }

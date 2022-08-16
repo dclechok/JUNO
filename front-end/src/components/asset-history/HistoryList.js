@@ -123,6 +123,7 @@ function HistoryList({
     setPageNum(value);
   };
 
+  console.log(pageNum)
   return (
     <div className="single-asset-render">
       <>
@@ -138,7 +139,7 @@ function HistoryList({
           />
           {dateFilteredList && dateFilteredList.length !== 0 ? (
             <>
-              <div className="page-nav-inline">
+              <div className="history-pages">
                 <div>
                   <input
                     type="text"
@@ -160,7 +161,7 @@ function HistoryList({
                     ]
                   </span>
                 </div>
-                <div className="pages">
+                <div className="history-page-selector">
                   <button
                     className="image-button"
                     id="scroll-left"
@@ -183,7 +184,7 @@ function HistoryList({
                       })}
                     </select>
                   )}
-                  <p className="page-num-p">
+                  <p className="page-num-height">
                     /{Math.ceil(dateFilteredList.length / MAX_ENTRIES_PER_PAGE)}
                   </p>
                   <button
