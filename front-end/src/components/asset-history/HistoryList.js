@@ -49,7 +49,7 @@ function HistoryList({
     const abortController = new AbortController();
     if (historyList) setDateFilteredList(historyList);
     return () => abortController.abort();
-  }, [historyList, setHistoryList, entriesPerPage, setEntriesPerPage]);
+  }, [historyList, setHistoryList, entriesPerPage, setEntriesPerPage, setResetDatePicker, resetDatePicker]);
 
   const filterDate = (daysSelected) => {
     if (dayOrRange === "day") {
@@ -213,8 +213,8 @@ function HistoryList({
                     </th>
                   </tr>
                   {dateFilteredList &&
-                    listPages(historyList, pageNum, entriesPerPage) &&
-                    listPages(historyList, pageNum, entriesPerPage).sort(
+                    listPages(dateFilteredList, pageNum, entriesPerPage) &&
+                    listPages(dateFilteredList, pageNum, entriesPerPage).sort(
                       (a, b) => {
                         const aTime = new Date(a.logged_date);
                         const bTime = new Date(b.logged_date);
