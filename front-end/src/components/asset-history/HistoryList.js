@@ -214,9 +214,12 @@ function HistoryList({
                   </tr>
                   {dateFilteredList &&
                     listPages(historyList, pageNum, entriesPerPage) &&
-                    listPages(historyList, pageNum, entriesPerPage).map(
-                      (log, index) => 
-                      [log]
+                    listPages(historyList, pageNum, entriesPerPage).sort(
+                      (a, b) => {
+                        const aTime = new Date(a.logged_date);
+                        const bTime = new Date(b.logged_date);
+                        return bTime - aTime;
+                      })
                       .map((history, key) => {
                         return (
                           <tr key={`row ${key}`}>
@@ -246,9 +249,8 @@ function HistoryList({
                               </span>
                             </td>
                           </tr>
-                        );
-                      })
-                    )
+                        )
+                       })
                    }
                 </tbody>
               </table>{" "}
