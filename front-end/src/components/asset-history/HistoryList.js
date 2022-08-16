@@ -8,24 +8,34 @@ import LoaderSpinner from "../LoaderSpinner";
 
 //utils
 import dateFormatter from "../../utils/dateFormatter.js";
-import { getHistory } from "../../utils/api.js"
+import { getHistory } from "../../utils/api.js";
 import colorCode from "../../utils/colorCodes";
+import listPages from "../../utils/listPages";
+
+//images
+import scrollLeft from "../../images/scroll-left-icon.png";
+import scrollRight from "../../images/scroll-right-icon.png";
 
 //renders a lot of all historical data in order from oldest to newest history
-function HistoryList({ resetDatePicker, setResetDatePicker, setSearchHistoryType }) {
-
+function HistoryList({
+  resetDatePicker,
+  setResetDatePicker,
+  setSearchHistoryType,
+}) {
   const navigate = new useNavigate();
-
+  const MAX_ENTRIES_PER_PAGE = 500;
   const [historyList, setHistoryList] = useState(null); //where we will fetch History data and store here.
   const [daysSelected, setDaysSelected] = useState(null);
   const [dateFilteredList, setDateFilteredList] = useState(historyList);
   const [dayOrRange, setDayOrRange] = useState("");
   const [radioCheck, setRadioCheck] = useState(true);
+  const [entriesPerPage, setEntriesPerPage] = useState(MAX_ENTRIES_PER_PAGE);
+  const [pageNum, setPageNum] = useState(1); //starting page number
 
   //load our general history table
   useEffect(() => {
     const abortController = new AbortController();
-    async function loadHistoryList(){
+    async function loadHistoryList() {
       const abortController = new AbortController();
       setHistoryList(await getHistory());
       return abortController.abort();
@@ -33,13 +43,13 @@ function HistoryList({ resetDatePicker, setResetDatePicker, setSearchHistoryType
     loadHistoryList();
     return () => abortController.abort();
   }, [resetDatePicker, setResetDatePicker]);
- 
+
   //set our filtered list to default history list
   useEffect(() => {
     const abortController = new AbortController();
-    if(historyList) setDateFilteredList(historyList);
+    if (historyList) setDateFilteredList(historyList);
     return () => abortController.abort();
-  }, [historyList, setHistoryList])
+  }, [historyList, setHistoryList, entriesPerPage, setEntriesPerPage]);
 
   const filterDate = (daysSelected) => {
     if (dayOrRange === "day") {
@@ -93,9 +103,25 @@ function HistoryList({ resetDatePicker, setResetDatePicker, setSearchHistoryType
 
   const onClickHandler = (e) => {
     e.preventDefault();
-    const { id = '', value } = e.currentTarget;
+    const { id = "", value } = e.currentTarget;
     setSearchHistoryType(value);
-    if(id) navigate(`/history/${id}`);
+    if (id) navigate(`/history/${id}`);
+  };
+
+  const changeResultsPerPage = (e) => {
+    if(e.currentTarget.id === "reset-results-per") setEntriesPerPage(MAX_ENTRIES_PER_PAGE);
+    if(e.currentTarget.value >= 1 && e.currentTarget.value <= 500) setEntriesPerPage(e.currentTarget.value);
+  };
+
+  const handleScroll = (e) => {
+    const { id } = e.currentTarget;
+    if(id === 'scroll-left' && pageNum >= 2 ) setPageNum(Number(pageNum) - 1);
+    if(id === 'scroll-right' && pageNum <= Math.ceil((historyList.length / MAX_ENTRIES_PER_PAGE) - 1)) setPageNum(Number(pageNum) + 1);
+  };
+
+  const handleSelect = (e) => {
+    const { value } = e.currentTarget;
+    setPageNum(value);
   };
 
   return (
@@ -111,52 +137,125 @@ function HistoryList({ resetDatePicker, setResetDatePicker, setSearchHistoryType
             setResetDatePicker={setResetDatePicker}
             resetDatePicker={resetDatePicker}
           />
-          {dateFilteredList && dateFilteredList.length !== 0 ? 
-          <table className="history-table">
-            <tbody>
-              <tr>
-                <th>
-                  <b>Date of Action</b>
-                </th>
-                <th>
-                  <b>Action Taken</b>
-                </th>
-                <th>
-                  <b>Action By</b>
-                </th>
-                <th>
-                  <b>View</b>
-                </th>
-              </tr>
-              {dateFilteredList &&
-                dateFilteredList
-                  .sort((a, b) =>
-                    b.logged_date
-                      .toString()
-                      .localeCompare(a.logged_date.toString())
-                  )
-                  .map((history, key) => {
-                    return (
-                      <tr key={`row ${key}`}>
-                        <td>{dateFormatter(history.logged_date)}</td>
-                        <td>
-                          <span
-                            style={{
-                              color: colorCode[history.logged_action],
-                            }}
-                          >
-                            {history.logged_action}
-                          </span>
-                        </td>
-                        <td>{history.logged_by}</td>
-                        <td>
-                          <span style={{color: "black"}}>[<button className="button-link" id={history.history_key} value={history.logged_action} onClick={onClickHandler}>View</button>]</span>
-                        </td>
-                      </tr>
-                    );
-                  })}
-            </tbody>
-          </table>: <LoaderSpinner width={45} height={45} message={"History Log"}/> }
+          {dateFilteredList && dateFilteredList.length !== 0 ? (
+            <>
+              <div className="page-nav-inline">
+                <div>
+                  <input
+                    type="text"
+                    id="results-per-page"
+                    value={entriesPerPage}
+                    onChange={changeResultsPerPage}
+                  />
+                  <label htmlFor="results-per-page"> Results Per Page</label>
+                  &nbsp;
+                  <span style={{ color: "black" }}>
+                    [
+                    <button
+                      className="button-link"
+                      onClick={changeResultsPerPage}
+                      id="reset-results-per"
+                    >
+                      Reset
+                    </button>
+                    ]
+                  </span>
+                </div>
+                <div className="pages">
+                  <button
+                    className="image-button"
+                    id="scroll-left"
+                    onClick={handleScroll}
+                  >
+                    <img src={scrollLeft} />
+                  </button>
+                  {historyList && (
+                    <select
+                      className="page-numbers"
+                      value={pageNum}
+                      onChange={handleSelect}
+                    >
+                      {Array.from(
+                        Array(
+                          Math.ceil(dateFilteredList.length / MAX_ENTRIES_PER_PAGE)
+                        )
+                      ).map((page, key) => {
+                        return <option key={key + 1}>{key + 1}</option>;
+                      })}
+                    </select>
+                  )}
+                  <p className="page-num-p">
+                    /{Math.ceil(dateFilteredList.length / MAX_ENTRIES_PER_PAGE)}
+                  </p>
+                  <button
+                    className="image-button"
+                    id="scroll-right"
+                    onClick={handleScroll}
+                  >
+                    <img src={scrollRight} />
+                  </button>
+                </div>
+              </div>
+              <table className="history-table">
+                <tbody>
+                  <tr>
+                    <th>
+                      <b>Date of Action</b>
+                    </th>
+                    <th>
+                      <b>Action Taken</b>
+                    </th>
+                    <th>
+                      <b>Action By</b>
+                    </th>
+                    <th>
+                      <b>View</b>
+                    </th>
+                  </tr>
+                  {dateFilteredList &&
+                    listPages(historyList, pageNum, entriesPerPage) &&
+                    listPages(historyList, pageNum, entriesPerPage).map(
+                      (log, index) => 
+                      [log]
+                      .map((history, key) => {
+                        return (
+                          <tr key={`row ${key}`}>
+                            <td>{dateFormatter(history.logged_date)}</td>
+                            <td>
+                              <span
+                                style={{
+                                  color: colorCode[history.logged_action],
+                                }}
+                              >
+                                {history.logged_action}
+                              </span>
+                            </td>
+                            <td>{history.logged_by}</td>
+                            <td>
+                              <span style={{ color: "black" }}>
+                                [
+                                <button
+                                  className="button-link"
+                                  id={history.history_key}
+                                  value={history.logged_action}
+                                  onClick={onClickHandler}
+                                >
+                                  View
+                                </button>
+                                ]
+                              </span>
+                            </td>
+                          </tr>
+                        );
+                      })
+                    )
+                   }
+                </tbody>
+              </table>{" "}
+            </>
+          ) : (
+            <LoaderSpinner width={45} height={45} message={"History Log"} />
+          )}
         </div>
       </>
     </div>

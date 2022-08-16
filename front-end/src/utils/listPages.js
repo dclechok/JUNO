@@ -11,7 +11,6 @@ function listPages( filteredAssetList, pageNum, assetsPerPage ){ //and page numb
             if(Object.entries(buildPages[pageCounter]).length === TOTAL_RESULTS_PER_PAGE) pageCounter++; //
     });
     //return an array, using pageNum from
-    
     return buildPages[pageNum];
 }
 

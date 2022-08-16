@@ -90,8 +90,7 @@ export async function updateAsset(asset_id, data){
       body: JSON.stringify({ data: data })
     });
     const jsonResponse = await response.json();
-    console.log(jsonResponse.data.updated_at);
-    if(jsonResponse && !jsonResponse.error){
+    if(jsonResponse && !jsonResponse.error){ //if update request is successful, make a request to create new history log
       const { action_by, action_by_id, action_key, action_taken } =
       jsonResponse.data.history[jsonResponse.data.history.length - 1];
     const { updated_at } = jsonResponse.data;
