@@ -85,7 +85,6 @@ function HistoryList({
       }
     }
   };
-
   useEffect(() => {
     //filter history list by day or day range
     const abortController = new AbortController();
@@ -256,7 +255,7 @@ function HistoryList({
               </table>{" "}
             </>
           ) : (
-            <LoaderSpinner width={45} height={45} message={"History Log"} />
+            <div className="no-entries"><h3>No entries on this date!</h3></div>
           )}
         </div>
       </>
