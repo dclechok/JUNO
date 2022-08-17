@@ -15,8 +15,6 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
   const [loadSuccessLog, setLoadSuccessLog] = useState(false);
   const [stateAssets, setStateAssets] = useState([]);
   const [jobSites, setJobSites] = useState([]);
-  const [locChoice, setLocChoice] = useState();
-  const [targetSite, setTargetSite] = useState(null); //job site picked
 
   let parsedAssets = [];
   let formattedAssets = [];
@@ -34,19 +32,8 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
     setSelectedFile(e.target.files); //set file to parse from
   };
 
-  const handleSelectChange = (e) => {
-    setLocChoice(e.target.value)
-  };
-
-  useEffect(() => {
-    setTargetSite(jobSites.find(js => {
-      if(js.physical_site_name === locChoice) return js.category;
-    }));
-  }, [locChoice, setLocChoice]);
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(!locChoice || locChoice === "--Choose Location--") return window.alert("You must choose a valid job site to upload these assets to!");
     if (selectedFile) {
       if (selectedFile[0].type !== "text/csv")
         window.alert(
@@ -58,7 +45,7 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
             parsedAssets = results.data.splice(0, results.data.length - 1);
             // setParsedAssets(results.data.splice(0, results.data.length - 1)); //last entry is blank/invalid
             if (parsedAssets && parsedAssets.length !== 0)
-              formattedAssets = validateBulkUpload(assetList, parsedAssets, accountLogged, locChoice, targetSite); //HANDLE ALL FORMATTING AND VALIDATION!
+              formattedAssets = validateBulkUpload(assetList, parsedAssets, accountLogged, jobSites); //HANDLE ALL FORMATTING AND VALIDATION!
             setStateAssets(formattedAssets);
             async function createNewAsset(newAssetList) {
               if (newAssetList.length !== 0) {
@@ -73,7 +60,7 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
               formattedAssets.accepted &&
               formattedAssets.accepted.length > 0
             ) {
-              createNewAsset(formattedAssets.accepted);
+              // createNewAsset(formattedAssets.accepted);
               setLoadAssets(!loadAssets);
             }
           },
@@ -93,15 +80,6 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
         <form className="form-container-bulk">
           {!loadSuccessLog && 
           <>
-          <div className="select-container">
-          <p>Upload these assets to: </p>
-          <select className="bulk-upload-select" value={locChoice} onChange={handleSelectChange}>
-          <option>--Choose Location--</option>
-            {jobSites &&
-              jobSites.map((site, key) => { return <option key={key} id={site.physical_site_id} value={site.physical_site_name} >{site.physical_site_name}</option>  }
-            )}
-          </select>
-          </div>
         <h5>
           (.csv file -{" "}
           <a href={uploadTemplate} download="upload-template">
@@ -133,7 +111,6 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
               <UploadSuccess
                 rejectedLog={stateAssets.rejected}
                 newAssets={stateAssets.accepted}
-                locChoice={locChoice}
               />
             )}
           </div>

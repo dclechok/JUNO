@@ -1,17 +1,21 @@
 import generateHistoryKey from "../generateHistoryKey";
 
-function validateBulkUpload(assetList, parsedAssets, accountLogged, locChoice, targetSite) {
+function validateBulkUpload(assetList, parsedAssets, accountLogged, jobSites) {
   const rejectionList = [];
   const newAssetList = [];
   //validate against data in database
   const validateAssetsByDatabaseAndCSV = (asset) => {
     //if incoming bulk upload list has an asset that matches a device in our database
     //by database
+    if (assetList.find((existingAsset) => existingAsset.location === asset[0]))
+    return "Duplicate location found in database!";
     if (assetList.find((existingAsset) => existingAsset.serial_number === asset[1]))
       return "Duplicate serial number found in database!";
     if (assetList.find((existingAsset) => existingAsset.asset_tag === asset[2]))
       return "Duplicate asset tag found in database!";
     //by csv
+    if (parsedAssets.filter((a) => asset[0] === a[0]).length > 1)
+    return "Duplicate location found in CSV file!";
     if (parsedAssets.filter((a) => asset[1] === a[1]).length > 1)
       return "Duplicate serial number found in CSV file!";
     if (parsedAssets.filter((a) => asset[2] === a[2]).length > 1)
@@ -19,13 +23,30 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged, locChoice, t
   };
   //setStatus of asset via locChoice
   const setStatus = () => {
-    if(targetSite && targetSite.category === "Live") return "Needs Verified";
-    if(targetSite && targetSite.category === "Repair") return "Repair";
-    if(targetSite && targetSite.category === "Storage") return "Storage";
+    // if(targetSite && targetSite.category === "Live") return "Needs Verified";
+    // if(targetSite && targetSite.category === "Repair") return "Repair";
+    // if(targetSite && targetSite.category === "Storage") return "Storage";
     return "Needs Verified";
   };
+
+  const parseLoc = (loc) => { //parse location column format -> "PA01-MDC01-01-01"
+    //asset.location.site = find location matching site code (ie. PA01)
+    //asset.location.site_loc = build IP
+    const splitLoc = loc.split('-'); //break location into 4 index array
+    const siteData = jobSites.find(js => js.site_code === splitLoc[0]);
+    const ip = {
+      first_octet: siteData.first_octet,
+      mdc: splitLoc[1].slice(-2),
+      shelf: splitLoc[2],
+      unit: splitLoc[3]
+    }
+    //add more contraints to mdc, shelf, unit ranges and special cases
+    return { site: siteData.physical_site_name, site_loc: ip };
+  };
+
   //check for 5 headers: asset tag, status, serial_number, make, model, hr
   if (
+    parsedAssets[0][0].toLowerCase() === "location" &&
     parsedAssets[0][1].toLowerCase() === "serial #" &&
     parsedAssets[0][2].toLowerCase() === "asset #" &&
     parsedAssets[0][3].toLowerCase() === "make" &&
@@ -62,8 +83,7 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged, locChoice, t
             newAssetList.push({
               asset_tag: asset[2],
               location: {
-                site: locChoice, //refers to physical site
-                site_loc: "", //refers to IP - null until verified through Foreman
+                ...parseLoc(asset[0]),
                 csv_index: parsedAssets.indexOf(asset) + 1, //use this to render upload log, remove key before making post request
               },
               status: setStatus(), //default on upload - **needs verified through foreman**
