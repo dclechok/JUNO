@@ -112,7 +112,7 @@ function NavGuide({
         <option value="All Assets" defaultValue>
           All Assets
         </option>
-        <option value="All Live">All Live</option>
+        <option value="All Production">All Production</option>
         <option value="All Repairs">All Repairs</option>
         <option value="All Storage">All Storage</option>
         {jobSites && jobSites.map((site, key) => {

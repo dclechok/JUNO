@@ -8,18 +8,20 @@ function Search({ assetList, setFilteredAssetList }) {
   function searchAssetList() {
     //search by IP
     if (searchProp === "ip") {
+      console.log(searchTag)
       const parsedSearchTag = {
-        site_loc: searchTag.split(".")[0],
+        first_octet: searchTag.split(".")[0],
         mdc: searchTag.split(".")[1],
         shelf: searchTag.split(".")[2],
         unit: searchTag.split(".")[3],
       };
+      console.log(parsedSearchTag)
       const result = assetList.filter((asset) => {
         if (
-            asset.location.site_loc === parsedSearchTag.site_loc &&
-            asset.location.mdc === parsedSearchTag.mdc &&
-            asset.location.shelf === parsedSearchTag.shelf &&
-            asset.location.unit === parsedSearchTag.unit
+            asset.location.site_loc.first_octet === parsedSearchTag.first_octet &&
+            asset.location.site_loc.mdc === parsedSearchTag.mdc &&
+            asset.location.site_loc.shelf === parsedSearchTag.shelf &&
+            asset.location.site_loc.unit === parsedSearchTag.unit
           )
             return asset;
         });
