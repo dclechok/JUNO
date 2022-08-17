@@ -186,7 +186,7 @@ function CreateEditJobSite({
 
           <div className="create-space">
             <label htmlFor="physical_site_name">
-              Physical Site Name (ex. "Midland, PA")
+              Physical Site Name (ex. "Sandersville, GA")
             </label>
             <input
               type="text"
@@ -206,7 +206,7 @@ function CreateEditJobSite({
               }
             />
 
-            <label htmlFor="site_code">Site Code (ex. "MLP/P1")</label>
+            <label htmlFor="site_code">Site Code (ex. "GA01")</label>
             <input
               type="text"
               id="site_code"
@@ -227,7 +227,7 @@ function CreateEditJobSite({
             {radioBtnChecked && radioBtnChecked["Live"] && (oldSiteData || newSiteData) && (
               <>
                 <label htmlFor="first_octet">
-                  Site IP First Octet (ex. "10".x.x.x)
+                  Site IP First Octet (ex. "10")
                 </label>
                 <input
                   type="text"

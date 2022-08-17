@@ -8,14 +8,14 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged, jobSites) {
     //if incoming bulk upload list has an asset that matches a device in our database
     //by database
     if (assetList.find((existingAsset) => existingAsset.location === asset[0]))
-    return "Duplicate location found in database!";
+      return "Duplicate location found in database!";
     if (assetList.find((existingAsset) => existingAsset.serial_number === asset[1]))
       return "Duplicate serial number found in database!";
     if (assetList.find((existingAsset) => existingAsset.asset_tag === asset[2]))
       return "Duplicate asset tag found in database!";
     //by csv
     if (parsedAssets.filter((a) => asset[0] === a[0]).length > 1)
-    return "Duplicate location found in CSV file!";
+      return "Duplicate location found in CSV file!";
     if (parsedAssets.filter((a) => asset[1] === a[1]).length > 1)
       return "Duplicate serial number found in CSV file!";
     if (parsedAssets.filter((a) => asset[2] === a[2]).length > 1)
