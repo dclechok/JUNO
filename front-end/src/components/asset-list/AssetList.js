@@ -76,7 +76,6 @@ function AssetList({
               .filter(
                 (correctSite) => {
                   //filter by status or filter by job site
-                  console.log(correctSite.location);
                   if(navKey.site === "All Production") return !!correctSite.location.site_loc;
                   if(navKey.site === "All Repairs") return correctSite.status === "Repair";
                   if(navKey.site === "All Storage") return correctSite.status === "Storage";
