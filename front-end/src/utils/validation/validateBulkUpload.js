@@ -7,11 +7,15 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged, locChoice, t
   const validateAssetsByDatabaseAndCSV = (asset) => {
     //if incoming bulk upload list has an asset that matches a device in our database
     //by database
+    if (assetList.find((existingAsset) => existingAsset.location === asset[0]))
+      return "Duplicate location found in database!";
     if (assetList.find((existingAsset) => existingAsset.serial_number === asset[1]))
       return "Duplicate serial number found in database!";
     if (assetList.find((existingAsset) => existingAsset.asset_tag === asset[2]))
       return "Duplicate asset tag found in database!";
     //by csv
+    if (parsedAssets.filter((a) => asset[0] === a[0]).length > 1)
+      return "Duplicate location found in CSV file!";
     if (parsedAssets.filter((a) => asset[1] === a[1]).length > 1)
       return "Duplicate serial number found in CSV file!";
     if (parsedAssets.filter((a) => asset[2] === a[2]).length > 1)
@@ -26,6 +30,7 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged, locChoice, t
   };
   //check for 5 headers: asset tag, status, serial_number, make, model, hr
   if (
+    parsedAssets[0][0].toLowerCase() === "location" &&
     parsedAssets[0][1].toLowerCase() === "serial #" &&
     parsedAssets[0][2].toLowerCase() === "asset #" &&
     parsedAssets[0][3].toLowerCase() === "make" &&

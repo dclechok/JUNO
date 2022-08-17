@@ -93,15 +93,6 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
         <form className="form-container-bulk">
           {!loadSuccessLog && 
           <>
-          <div className="select-container">
-          <p>Upload these assets to: </p>
-          <select className="bulk-upload-select" value={locChoice} onChange={handleSelectChange}>
-          <option>--Choose Location--</option>
-            {jobSites &&
-              jobSites.map((site, key) => { return <option key={key} id={site.physical_site_id} value={site.physical_site_name} >{site.physical_site_name}</option>  }
-            )}
-          </select>
-          </div>
         <h5>
           (.csv file -{" "}
           <a href={uploadTemplate} download="upload-template">
