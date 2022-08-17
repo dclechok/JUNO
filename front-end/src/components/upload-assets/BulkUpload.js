@@ -60,7 +60,7 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
               formattedAssets.accepted &&
               formattedAssets.accepted.length > 0
             ) {
-              // createNewAsset(formattedAssets.accepted);
+              createNewAsset(formattedAssets.accepted);
               setLoadAssets(!loadAssets);
             }
           },
