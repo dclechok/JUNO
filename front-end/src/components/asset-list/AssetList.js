@@ -76,7 +76,8 @@ function AssetList({
               .filter(
                 (correctSite) => {
                   //filter by status or filter by job site
-                  if(navKey.site === "All Production") return correctSite.status !== "Repair" && correctSite.status !== "Storage";
+                  console.log(correctSite.location);
+                  if(navKey.site === "All Production") return !!correctSite.location.site_loc;
                   if(navKey.site === "All Repairs") return correctSite.status === "Repair";
                   if(navKey.site === "All Storage") return correctSite.status === "Storage";
                   // console.log(navKey.site.physical_site_name, correctSite.location.site)
@@ -87,10 +88,7 @@ function AssetList({
                 try {
                   if (asset.location.site_loc === "")
                     return asset; //if no IP address is set
-                  else if (
-                    asset.location.site_loc &&
-                    asset.location.site_loc.includes("10")
-                  ) {
+                  else if (asset.location.site_loc) {
                     //not in storage, repair or retired if it has site number 10 then its deployed?
                     if (navKey.mdc === "00") return asset;
                     else {
