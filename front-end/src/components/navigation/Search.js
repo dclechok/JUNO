@@ -8,14 +8,12 @@ function Search({ assetList, setFilteredAssetList }) {
   function searchAssetList() {
     //search by IP
     if (searchProp === "ip") {
-      console.log(searchTag)
       const parsedSearchTag = {
         first_octet: searchTag.split(".")[0],
         mdc: searchTag.split(".")[1],
         shelf: searchTag.split(".")[2],
         unit: searchTag.split(".")[3],
       };
-      console.log(parsedSearchTag)
       const result = assetList.filter((asset) => {
         if (
             asset.location.site_loc.first_octet === parsedSearchTag.first_octet &&
@@ -51,11 +49,13 @@ function Search({ assetList, setFilteredAssetList }) {
   const handleSubmit = (e) => {
     e.preventDefault(); //stop page from reload
     //validate input so that not blank
-    if(e.currentTarget.id === "reset") console.log('reset')
+    //clear space with regex
+    if(searchTag.includes(' ')) window.alert("Search field cannot contain spaces!");
     else if(searchTag.length < 1) window.alert("Search field cannot be blank!");
     else searchAssetList();
   };
 
+  console.log(searchTag)
   const handleChange = (e) => {
     if(e.currentTarget.id === "search") setSearchTag(e.currentTarget.value);
     else setSearchProp(e.currentTarget.value);
