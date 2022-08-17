@@ -160,8 +160,6 @@ function AssetList({
     if(e.currentTarget.value >= 1 && e.currentTarget.value <= defaultAssetsPerPage) setAssetsPerPage(e.currentTarget.value);
   };
 
-  console.log(filteredAssetList);
-
   return (
     <section>
       {JSON.parse(localStorage.getItem('acctLogged')).logged && assetList && assetList.length !== 0 && filteredAssetList ? (
