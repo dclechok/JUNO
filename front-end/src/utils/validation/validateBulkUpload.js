@@ -26,7 +26,7 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged, jobSites) {
     // if(targetSite && targetSite.category === "Live") return "Needs Verified";
     // if(targetSite && targetSite.category === "Repair") return "Repair";
     // if(targetSite && targetSite.category === "Storage") return "Storage";
-    return "Needs Verified";
+    return "Hashing";
   };
 
   const parseLoc = (loc) => { //parse location column format -> "PA01-MDC01-01-01"
@@ -68,7 +68,7 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged, jobSites) {
               location: {
                 csv_index: parsedAssets.indexOf(asset) + 1, //use this to render upload log, remove key before making post request
               },
-              status: "Needs Verified", //default on upload - **needs verified through foreman**
+              status: "", //default on upload - **needs verified through foreman**
               serial_number: asset[1],
               make: asset[3],
               model: asset[4],

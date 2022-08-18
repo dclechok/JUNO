@@ -14,15 +14,15 @@ function calculateValues(assetList) {
 
     assetList.forEach((asset) => {
       if (
-        asset.status !== "DRAP" &&
+        asset.status !== "Storage" &&
         asset.status !== "Repair" && //possibly make includes('repair') since we will be showing multiple repair sites eventually
         asset.status !== "Retired" &&
         asset.status !== "Needs Verified"
       ) {
         assetValues.numOfHashing++;
-      } else if (asset.status === "DRAP") {
+      } else if (asset.status === "Storage") {
         assetValues.numInStorage++;
-      } else if (asset.status === "REPAIR") { //possibly includes(repair)
+      } else if (asset.status === "Repair") { //possibly includes(repair)
         assetValues.numInRepair++;
       } else if(asset.status === "Needs Verified"){
         assetValues.numNeedVerified++; 

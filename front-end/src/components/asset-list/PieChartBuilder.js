@@ -10,47 +10,42 @@ function PieChartBuilder({ assetListValues }) {
   // numInRepair: 0,
   // numRetired: 0,
   //TODO : add a new legend
+  console.log(assetListValues);
   return (
     <div className="pie-box">
       <div className="pie-container">
         <RadialChart
+        colorType="literal"
           data={[
             {
               angle: assetListValues.numOfHashing,
               label: "Hashing",
-              // color: "rgb(123, 255, 0)",
+              color: "rgb(57, 255, 20)"
             },
             { 
               angle: assetListValues.numInStorage, 
               label: "Storage", 
-              // color: "rgb(96, 79, 255)"
+              color: "rgb(107, 155, 228)"
             },
             { 
               angle: assetListValues.numInRepair, 
               label: "Repair", 
-              // color: "rgb(255, 123, 0)"
+              color: "rgb(255, 123, 0)"
             },
             { 
               angle: assetListValues.numRetired, 
               label: "Retired", 
-              // color: "rgb(0, 0, 0)"
+              color: "rgb(0, 0, 0)"
             },
             { 
               angle: assetListValues.numNeedVerified, 
               label: "Needs Verified", 
-              // color: "rgb(0, 0, 0)"
+              color: "rgb(255, 87, 51)"
             },
             
           ]}
-          label={[ "Hashing", "Storage", "Repair", "Retired"]}
           width={300}
           height={300}
-          color={[
-            "rgb(10, 228, 39)", //hashing
-            "rgb(96, 79, 255)", //storage
-            "rgb(255, 123, 0)", //repair
-            "rgb(0, 0, 0)", //retired
-          ]}
         />
       </div>
     </div>
