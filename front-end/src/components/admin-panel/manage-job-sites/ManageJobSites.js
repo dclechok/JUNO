@@ -1,6 +1,6 @@
 //allow admin to view and manage all physical job sites
 import { useState, useEffect } from "react";
-
+import './ManageJobSites.css';
 //components
 import ViewSites from "./ViewSites";
 import CreateEditJobSite from "./CreateEditJobSite";
@@ -28,11 +28,14 @@ function ManageJobSites({ accountLogged }) {
 
   return (
     <>
-      <div className="sub-manage">
+      <div>
         <span style={{color: 'black'}}>[<button className={buttonState.view} id="view" onClick={handleClick}>View Sites</button>]</span>&nbsp;
         <span style={{color: 'black'}}>[<button className={buttonState.create} id="create" onClick={handleClick}>Create Site</button>]</span>
       </div>
+
+      <div className="sub-manage">
       {viewOrCreate === "view" && <ViewSites accountLogged={accountLogged} setViewOrCreate={setViewOrCreate} setJobSiteID={setJobSiteID} />}
+      </div>
       {(viewOrCreate === "edit" || viewOrCreate === "create") && <CreateEditJobSite accountLogged={accountLogged} jobSiteID={jobSiteID} setViewOrCreate={setViewOrCreate} viewOrCreate={viewOrCreate} setJobSiteID={setJobSiteID} />}
     </>
   );

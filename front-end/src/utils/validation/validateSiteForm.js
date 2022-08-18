@@ -1,5 +1,4 @@
 function validateSiteForm(siteData, allJobSites) {
-  console.log(siteData)
   //allJobSites when creating to check to see if there are duplicates
   if (siteData.category === "Live" && !siteData.first_octet)
     return window.alert("Production job sites must have a first octet property!");

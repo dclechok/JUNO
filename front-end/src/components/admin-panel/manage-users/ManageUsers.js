@@ -4,7 +4,6 @@ import LoaderSpinner from "../../LoaderSpinner";
 import ViewUsers from "./ViewUsers";
 import CreateUser from "./CreateUser";
 import EditUser from "./EditUser";
-import '../AdminPanelTables.css';
 
 function ManageUsers({ accountLogged }) {
   // const [users, setUsers] = useState(null);

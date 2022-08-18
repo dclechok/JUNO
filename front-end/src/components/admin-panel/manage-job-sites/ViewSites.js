@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import './ViewSites.css';
 //icons
 import deletePng from "../../../images/delete.png";
 import editPng from "../../../images/pencil-blue-icon.png";
@@ -51,25 +52,27 @@ function ViewSites({ setViewOrCreate, accountLogged, setJobSiteID }) {
           async function removeJobSite() {
             setLoadJobSites(
               setDeactivateSuccess(
-                await deactivateJobSite(
+                setDeactivateSuccess(await deactivateJobSite(
                   id,
                   accountLogged,
                   oldJobSiteHistory[0].history
                 )
-              )
+              ))
             );
           }
           removeJobSite();
-
         }
+
       }
     }
   };
 
+  console.log(deactivateSuccess);
+
   return (
     <>
       {jobSites && jobSites.length !== 0 ? (
-        <table className="shrink-font">
+        <table className="shrink-font admin-panel-container">
           <tbody>
             <tr>
               <th>
