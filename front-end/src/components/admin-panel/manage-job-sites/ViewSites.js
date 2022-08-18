@@ -12,6 +12,8 @@ import LoaderSpinner from "../../LoaderSpinner";
 function ViewSites({ setViewOrCreate, accountLogged, setJobSiteID }) {
   const [jobSites, setJobSites] = useState(null);
   const [loadJobSites, setLoadJobSites] = useState();
+  const [deactivateSuccess, setDeactivateSuccess] = useState(null);
+  const [toggleSiteList, setToggleSiteList] = useState(true);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -20,16 +22,18 @@ function ViewSites({ setViewOrCreate, accountLogged, setJobSiteID }) {
     }
     fetchJobSites();
     return () => abortController.abort();
-  }, [loadJobSites, setLoadJobSites]);
+  }, [loadJobSites, setLoadJobSites, toggleSiteList, setToggleSiteList, deactivateSuccess, setDeactivateSuccess]);
 
-const onClickEditHandler = (e) => {
-  console.log(jobSites[0])
-  const { id, value } = e.currentTarget;
-  if(id === "editSite"){
-    setJobSiteID(Number(value));
-    jobSites.find(js => js.physical_site_id === Number(value)).status === "Active" ? setViewOrCreate("edit") : window.alert("You currently cannot edit a deactivated site!");
-  }
-};
+  const onClickEditHandler = (e) => {
+    const { id, value } = e.currentTarget;
+    if (id === "editSite") {
+      setJobSiteID(Number(value));
+      jobSites.find((js) => js.physical_site_id === Number(value)).status ===
+      "Active"
+        ? setViewOrCreate("edit")
+        : window.alert("You currently cannot edit a deactivated site!");
+    }
+  };
 
   const onClickHandler = (e) => {
     const { id } = e.currentTarget;
@@ -45,20 +49,29 @@ const onClickEditHandler = (e) => {
             "Would you like to deactivate this job site? (This currently cannot be undone.)"
           )
         ) {
+          setToggleSiteList(false);
           async function removeJobSite() {
             setLoadJobSites(
-              await deactivateJobSite(
-                id,
-                accountLogged,
-                oldJobSiteHistory[0].history
+              setDeactivateSuccess(
+                await deactivateJobSite(
+                  id,
+                  accountLogged,
+                  oldJobSiteHistory[0].history
+                )
               )
             );
           }
           removeJobSite();
+
         }
       }
     }
   };
+
+  useEffect(() => {
+    console.log(deactivateSuccess)
+    if(deactivateSuccess) setToggleSiteList(true);
+  }, [deactivateSuccess, setDeactivateSuccess]);
 
   return (
     <>
@@ -97,7 +110,7 @@ const onClickEditHandler = (e) => {
                 <b>Deactivate</b>
               </th>
             </tr>
-            {jobSites &&
+            {jobSites && toggleSiteList &&
               jobSites.length !== 0 &&
               jobSites.map((site, key) => {
                 return (
@@ -115,15 +128,15 @@ const onClickEditHandler = (e) => {
                       </span>
                     </td>
                     <td className="delete-icon-td">
-                        <button
-                          className="image-button"
-                          id="editSite"
-                          value={site.physical_site_id}
-                          onClick={onClickEditHandler}
-                        >
-                          <img src={editPng} alt="edit user" />
-                        </button>
-                      </td>
+                      <button
+                        className="image-button"
+                        id="editSite"
+                        value={site.physical_site_id}
+                        onClick={onClickEditHandler}
+                      >
+                        <img src={editPng} alt="edit user" />
+                      </button>
+                    </td>
                     <td className="delete-icon-td">
                       <button
                         className="image-button"
