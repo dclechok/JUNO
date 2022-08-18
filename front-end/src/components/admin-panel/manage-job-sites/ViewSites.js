@@ -13,7 +13,6 @@ function ViewSites({ setViewOrCreate, accountLogged, setJobSiteID }) {
   const [jobSites, setJobSites] = useState(null);
   const [loadJobSites, setLoadJobSites] = useState();
   const [deactivateSuccess, setDeactivateSuccess] = useState(null);
-  const [toggleSiteList, setToggleSiteList] = useState(true);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -22,7 +21,7 @@ function ViewSites({ setViewOrCreate, accountLogged, setJobSiteID }) {
     }
     fetchJobSites();
     return () => abortController.abort();
-  }, [loadJobSites, setLoadJobSites, toggleSiteList, setToggleSiteList, deactivateSuccess, setDeactivateSuccess]);
+  }, [loadJobSites, setLoadJobSites, deactivateSuccess, setDeactivateSuccess]);
 
   const onClickEditHandler = (e) => {
     const { id, value } = e.currentTarget;
@@ -49,7 +48,6 @@ function ViewSites({ setViewOrCreate, accountLogged, setJobSiteID }) {
             "Would you like to deactivate this job site? (This currently cannot be undone.)"
           )
         ) {
-          setToggleSiteList(false);
           async function removeJobSite() {
             setLoadJobSites(
               setDeactivateSuccess(
@@ -67,11 +65,6 @@ function ViewSites({ setViewOrCreate, accountLogged, setJobSiteID }) {
       }
     }
   };
-
-  useEffect(() => {
-    console.log(deactivateSuccess)
-    if(deactivateSuccess) setToggleSiteList(true);
-  }, [deactivateSuccess, setDeactivateSuccess]);
 
   return (
     <>
@@ -110,7 +103,7 @@ function ViewSites({ setViewOrCreate, accountLogged, setJobSiteID }) {
                 <b>Deactivate</b>
               </th>
             </tr>
-            {jobSites && toggleSiteList &&
+            {jobSites &&
               jobSites.length !== 0 &&
               jobSites.map((site, key) => {
                 return (
