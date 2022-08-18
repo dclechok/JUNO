@@ -26,9 +26,9 @@ function NavGuide({
   const [mdcSelectVal, setMdcSelectVal] = useState(""); //make mdc select controlled
   const [shelfSelectVal, setShelfSelectVal] = useState("");
   const [unitSelectVal, setUnitSelectVal] = useState("");
-
   const selectSiteHandler = (e) => {
     const { value } = e.currentTarget;
+
     setMdcDisabled(true);
     setShelfDisabled(true);
     setUnitDisabled(true);
@@ -42,24 +42,23 @@ function NavGuide({
       setNavKey({ site: JSON.parse(value).physical_site_name, first_octet: JSON.parse(value).first_octet, mdc: "00", shelf: "00", unit: "00" });
     }
   };
-  console.log(navKey)
   const selectMdcHandler = (e) => {
     //set mdc in nav key, and handle nav resets
     const { value } = e.currentTarget;
-    console.log(value, 'test')
     setMdcSelectVal(value);
     setShelfSelectVal(shelfDefaultVal);
     setShelfDisabled(true);
     setUnitDisabled(true);
     if (value === "00") {
-      // setShelfDisabled(true);
+      setShelfDisabled(true);
       setUnitDisabled(true);
     } else{
-      setNavKey({ ...navKey, mdc: "00", shelf: "00", unit: "00" });
+      setNavKey({ ...navKey, mdc: value, shelf: "00", unit: "00" });
       setShelfDisabled(false);
     };
     setNavKey({ ...navKey, mdc: value, shelf: "00", unit: "00" });
   };
+
   const selectShelfHandler = (e) => {
     //set shelves in nav key, and handle nav resets
     const { value } = e.currentTarget;
@@ -106,7 +105,6 @@ function NavGuide({
       setFormattedKey(key);
     }
   }, [setNavKey, filteredAssetList]);
-
   return (
     <form className="nav-guide-container" id="filter-form" >
       <select name="site" id="site" onChange={selectSiteHandler} >

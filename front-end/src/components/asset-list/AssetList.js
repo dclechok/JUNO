@@ -73,31 +73,30 @@ function AssetList({
           assetList.length !== 0 &&
           setFilteredAssetList(
             assetList
-              .filter(
+              .filter( //filter by actual site (type)
                 (correctSite) => {
                   //filter by status or filter by job site
                   if(navKey.site === "All Production") return !!correctSite.location.site_loc;
                   if(navKey.site === "All Repairs") return correctSite.status === "Repair";
                   if(navKey.site === "All Storage") return correctSite.status === "Storage";
-                  // console.log(navKey.site.physical_site_name, correctSite.location.site)
                   return navKey.site === correctSite.location.site;
                 }
               )
-              .filter((asset) => {
+              .filter((asset) => { //once filtered to site, if
                 try {
-                  if (asset.location.site_loc === "")
-                    return asset; //if no IP address is set
+                  if (asset.location.site_loc === "") //if no IP address is set
+                    return asset; 
                   else if (asset.location.site_loc) {
                     //not in storage, repair or retired if it has site number 10 then its deployed?
                     if (navKey.mdc === "00") return asset;
                     else {
-                      if (asset.location.mdc === navKey.mdc) {
+                      if (asset.location.site_loc.mdc === navKey.mdc) {
                         if (navKey.shelf === "00") return asset;
                         else {
-                          if (asset.location.shelf === navKey.shelf) {
+                          if (asset.location.site_loc.shelf === navKey.shelf) {
                             if (navKey.unit === "00") return asset;
                             else {
-                              if (asset.location.unit === navKey.unit) {
+                              if (asset.location.site_loc.unit === navKey.unit) {
                                 return asset;
                               }
                             }
@@ -124,8 +123,13 @@ function AssetList({
     toggleSortReload,
     setFilteredAssetList,
     setAssetsPerPage,
-    assetsPerPage, setNavKey
+    assetsPerPage, 
+    setNavKey, 
+    setFormattedKey,
+    formattedKey
   ]);
+
+  // console.log(filteredAssetList)
 
   useEffect(() => { //flip back to page one if adjusting results per page
     setPageNum(1);
@@ -156,7 +160,7 @@ function AssetList({
     if(e.currentTarget.id === "reset-results-per") setAssetsPerPage(defaultAssetsPerPage);
     if(e.currentTarget.value >= 1 && e.currentTarget.value <= defaultAssetsPerPage) setAssetsPerPage(e.currentTarget.value);
   };
-
+  // console.log(navKey)
   return (
     <section>
       {JSON.parse(localStorage.getItem('acctLogged')).logged && assetList && assetList.length !== 0 && filteredAssetList ? (

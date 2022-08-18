@@ -4,10 +4,12 @@ function dropdownFormatter(assetList, navPos, site) {
     if (assetList.length !== 0 && site) { //make sure assetList is loaded, and site is loaded
         // FILTER ALL RESULTS BASED ON JOB SITES //
       const dropdownAssetList = assetList.filter((asset) => asset.location.site === site.physical_site_name);
+      console.log(dropdownAssetList)
       if (navPos === "mdc"){
         dropdownAssetList.sort(
-          (a, b) => Number(a.location.site_loc.mdc) - Number(b.location.site_loc.mdc)
-        );
+          (a, b) =>
+            Number(a.location.site_loc.mdc) - Number(b.location.site_loc.mdc)
+          );
         dropdownAssetList.forEach(asset => setOfDropdownVals.add(asset.location.site_loc.mdc));
       }
         if (navPos === "shelf"){
