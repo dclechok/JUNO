@@ -117,7 +117,7 @@ function CreateEditJobSite({
     }
     makeJobSite();
   };
-  console.log(oldSiteData)
+
   useEffect(() => {
     const abortController = new AbortController();
     if (success) {

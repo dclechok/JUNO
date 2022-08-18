@@ -23,10 +23,11 @@ function ViewSites({ setViewOrCreate, accountLogged, setJobSiteID }) {
   }, [loadJobSites, setLoadJobSites]);
 
 const onClickEditHandler = (e) => {
+  console.log(jobSites[0])
   const { id, value } = e.currentTarget;
   if(id === "editSite"){
     setJobSiteID(Number(value));
-    setViewOrCreate("edit");
+    jobSites.find(js => js.physical_site_id === Number(value)).status === "Active" ? setViewOrCreate("edit") : window.alert("You currently cannot edit a deactivated site!");
   }
 };
 
