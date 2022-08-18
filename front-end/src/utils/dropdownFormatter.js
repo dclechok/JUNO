@@ -1,28 +1,19 @@
-function dropdownFormatter(assetList, navPos, site) {
+function dropdownFormatter(assetList, navPos, site, navKey) {
   const setOfDropdownVals = new Set(); //do not allow duplicates
+  console.log(navKey)
   try {
     if (assetList.length !== 0 && site) { //make sure assetList is loaded, and site is loaded
         // FILTER ALL RESULTS BASED ON JOB SITES //
-      const dropdownAssetList = assetList.filter((asset) => asset.location.site === site.physical_site_name);
+      const dropdownAssetList = assetList.filter((asset) => asset.location.site === site.physical_site_name); //all assets for jobsite
       console.log(dropdownAssetList)
       if (navPos === "mdc"){
-        dropdownAssetList.sort(
-          (a, b) =>
-            Number(a.location.site_loc.mdc) - Number(b.location.site_loc.mdc)
-          );
         dropdownAssetList.forEach(asset => setOfDropdownVals.add(asset.location.site_loc.mdc));
       }
         if (navPos === "shelf"){
-          dropdownAssetList.sort(
-            (a, b) => Number(a.location.site_loc.shelf) - Number(b.location.site_loc.shelf)
-          );
-          dropdownAssetList.forEach(asset => setOfDropdownVals.add(asset.location.site_loc.shelf));
+          dropdownAssetList.forEach(asset => asset.location.site_loc.mdc === navKey.mdc && setOfDropdownVals.add(asset.location.site_loc.shelf));
         }
         if (navPos === "unit") {
-          dropdownAssetList.sort(
-            (a, b) => Number(a.location.site_loc.unit) - Number(b.location.site_loc.unit)
-          );
-          dropdownAssetList.forEach(asset => setOfDropdownVals.add(asset.location.site_loc.unit));
+          dropdownAssetList.forEach(asset => asset.location.site_loc.shelf === navKey.shelf && setOfDropdownVals.add(asset.location.site_loc.unit));
         }
       return Array.from(setOfDropdownVals);
     }

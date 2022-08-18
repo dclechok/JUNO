@@ -12,7 +12,8 @@ function NavGuide({
   setLoadAssets,
   loadAssets,
   filteredAssetList,
-  jobSites
+  jobSites,
+  assetList
 }) {
   //for disabling/enabling dropdowns
   const [mdcDisabled, setMdcDisabled] = useState(true);
@@ -26,9 +27,9 @@ function NavGuide({
   const [mdcSelectVal, setMdcSelectVal] = useState(""); //make mdc select controlled
   const [shelfSelectVal, setShelfSelectVal] = useState("");
   const [unitSelectVal, setUnitSelectVal] = useState("");
+
   const selectSiteHandler = (e) => {
     const { value } = e.currentTarget;
-
     setMdcDisabled(true);
     setShelfDisabled(true);
     setUnitDisabled(true);
@@ -92,8 +93,8 @@ function NavGuide({
     setLoadAssets(!loadAssets); //toggle loading of asset lists
     return () => abortController.abort();
   }, [navKey, setNavKey]);
+  
   //format 'viewing' nav key
-  //eventually load 'viewing' after 'go'
   useEffect(() => {
     let key = "";
     if (JSON.stringify(navKey.site).includes("All")) setFormattedKey(`${navKey.site}`);
@@ -128,7 +129,7 @@ function NavGuide({
       ><option value="00" defaultValue>
       {mdcDefaultVal}
     </option>
-        {!mdcDisabled && filteredAssetList.length !== 0 && dropdownFormatter(filteredAssetList, "mdc", site).sort((a, b) => Number(a) - Number(b)).map((mdc, key) => {
+        {!mdcDisabled && assetList.length !== 0 && dropdownFormatter(assetList, "mdc", site, navKey).sort((a, b) => Number(a) - Number(b)).map((mdc, key) => {
           if(mdc) return <option value={mdc} key={key}>MDC {mdc}</option>
         })}
       </select>
@@ -142,7 +143,7 @@ function NavGuide({
         <option value="00" defaultValue>
           {shelfDefaultVal}
         </option>
-        {!shelfDisabled && !mdcDisabled && filteredAssetList.length !== 0 && dropdownFormatter(filteredAssetList, "shelf", site).sort((a, b) => Number(a) - Number(b)).map((shelf, key) => {
+        {!shelfDisabled && !mdcDisabled && assetList.length !== 0 && dropdownFormatter(assetList, "shelf", site, navKey).sort((a, b) => Number(a) - Number(b)).map((shelf, key) => {
           if(shelf) return <option value={shelf} key={key + 1}>Shelf {shelf}</option>
         })}
       </select>
@@ -156,7 +157,7 @@ function NavGuide({
         <option value="00" defaultValue>
           {unitDefaultVal}
         </option>
-        {!mdcDisabled && !shelfDisabled && !unitDisabled && dropdownFormatter(filteredAssetList, "unit", site).map((unit, key) => {
+        {!mdcDisabled && !shelfDisabled && !unitDisabled && assetList.length !== 0 && dropdownFormatter(assetList, "unit", site, navKey).map((unit, key) => {
           if(unit) return <option value={unit} key={key + 1}>Unit {unit}</option>
         })}
       </select>

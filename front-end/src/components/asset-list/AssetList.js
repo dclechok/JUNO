@@ -126,10 +126,8 @@ function AssetList({
     assetsPerPage, 
     setNavKey, 
     setFormattedKey,
-    formattedKey
+    formattedKey, loadAssets, setLoadAssets
   ]);
-
-  // console.log(filteredAssetList)
 
   useEffect(() => { //flip back to page one if adjusting results per page
     setPageNum(1);
@@ -186,7 +184,8 @@ function AssetList({
                 setLoadAssets={setLoadAssets}
                 loadAssets={loadAssets}
                 filteredAssetList={filteredAssetList} //so we update Viewing when filtered asset list is rendered
-                jobSites={jobSites} //to populate our nav guide's job sites
+                jobSites={jobSites} //to populate our nav guide's job sites]
+                assetList={assetList}
               />
             </div>
             <div>
