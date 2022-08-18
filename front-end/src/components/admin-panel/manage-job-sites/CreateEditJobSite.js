@@ -69,6 +69,7 @@ function CreateEditJobSite({
     }
     if (jobSiteID && viewOrCreate === "edit") {
       grabJobSite();
+      setNewSiteData(oldSiteData)
     }
     else if (viewOrCreate === "create") {
       setOldSiteData(null);
@@ -88,8 +89,7 @@ function CreateEditJobSite({
     }
     if (viewOrCreate === "edit") {
       if (type === "radio") {
-        setRadioBtnChecked({ ...defaultButtonChecked, [value]: true });
-        setNewSiteData({ ...oldSiteData, category: value });
+       setOldSiteData({ ...oldSiteData, category: value });
       } else setOldSiteData({ ...oldSiteData, [id]: value });
     }
   };
@@ -99,9 +99,9 @@ function CreateEditJobSite({
     async function makeJobSite() {
       if (viewOrCreate === "edit") {
         //todo: remove first_octet if not 'live' site?
-        if (validateSiteForm(newSiteData, allJobSites)) {
+        if (validateSiteForm(oldSiteData, allJobSites)) {
           setToggleButton(false);
-          setSuccess(await updateJobSite(newSiteData, accountLogged));
+          radioBtnChecked["Live"] ? setSuccess(await updateJobSite(oldSiteData, accountLogged)) : setSuccess(await updateJobSite({...oldSiteData, first_octet: '' }, accountLogged ));
         }
       } else if (viewOrCreate === "create") {
         if (validateSiteForm(newSiteData, allJobSites)) {
@@ -117,7 +117,7 @@ function CreateEditJobSite({
     }
     makeJobSite();
   };
-
+  console.log(oldSiteData)
   useEffect(() => {
     const abortController = new AbortController();
     if (success) {
@@ -128,19 +128,21 @@ function CreateEditJobSite({
   }, [setSuccess, success]);
 
   useEffect(() => {
-    if(oldSiteData) setRadioBtnChecked({ ...defaultButtonChecked, [oldSiteData.category]: true });
-  }, [oldSiteData, setOldSiteData]);
+    if(oldSiteData){
+      setRadioBtnChecked({ ...defaultButtonChecked, [oldSiteData.category]: true });
+    }
+  }, [oldSiteData]);
 
   useEffect(() => {
     setNewSiteData({ ...newSiteData, first_octet: '' });
-  }, [radioBtnChecked, setRadioBtnChecked]);
+  }, [setRadioBtnChecked]);
 
   return (
     <section className="create-user-container upload-container-style">
       <h4>
         {viewOrCreate.charAt(0).toUpperCase() + viewOrCreate.slice(1)} Job Site
       </h4>
-      {newSiteData && toggleButton ? (
+      {oldSiteData || newSiteData && toggleButton ? (
         <form
           className="form-container create-user-form"
           onSubmit={submitHandler}

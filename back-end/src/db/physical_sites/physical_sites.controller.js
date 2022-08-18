@@ -49,7 +49,6 @@ async function read(req, res) {
 async function update(req, res) {
   const { physical_site_id } = req.params;
   const { physical_site_name, site_code, first_octet, category } = req.body.data;
-  console.log(physical_site_id, physical_site_name, site_code, first_octet, category)
   let { history } = req.body.data;
   history = JSON.stringify(history); //restringify
   const data = await knex("physical_sites")

@@ -1,6 +1,5 @@
 function dropdownFormatter(assetList, navPos, site, navKey) {
   const setOfDropdownVals = new Set(); //do not allow duplicates
-  console.log(navKey)
   try {
     if (assetList.length !== 0 && site) { //make sure assetList is loaded, and site is loaded
         // FILTER ALL RESULTS BASED ON JOB SITES //
