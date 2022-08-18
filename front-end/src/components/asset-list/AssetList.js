@@ -80,7 +80,7 @@ function AssetList({
                   if(navKey.site === "All Repairs") return correctSite.status === "Repair";
                   if(navKey.site === "All Storage") return correctSite.status === "Storage";
                   // console.log(navKey.site.physical_site_name, correctSite.location.site)
-                  return navKey.site.physical_site_name === correctSite.location.site;
+                  return navKey.site === correctSite.location.site;
                 }
               )
               .filter((asset) => {
@@ -124,7 +124,7 @@ function AssetList({
     toggleSortReload,
     setFilteredAssetList,
     setAssetsPerPage,
-    assetsPerPage
+    assetsPerPage, setNavKey
   ]);
 
   useEffect(() => { //flip back to page one if adjusting results per page

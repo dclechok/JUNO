@@ -39,13 +39,14 @@ function NavGuide({
     } else{
       setSite(JSON.parse(value));
       setMdcDisabled(false);
-      setNavKey({ site: { physical_site_name: JSON.parse(value).physical_site_name, first_octet: JSON.parse(value).first_octet }, mdc: "00", shelf: "00", unit: "00" });
+      setNavKey({ site: JSON.parse(value).physical_site_name, first_octet: JSON.parse(value).first_octet, mdc: "00", shelf: "00", unit: "00" });
     }
   };
-
+  console.log(navKey)
   const selectMdcHandler = (e) => {
     //set mdc in nav key, and handle nav resets
     const { value } = e.currentTarget;
+    console.log(value, 'test')
     setMdcSelectVal(value);
     setShelfSelectVal(shelfDefaultVal);
     setShelfDisabled(true);
@@ -98,7 +99,7 @@ function NavGuide({
     let key = "";
     if (JSON.stringify(navKey.site).includes("All")) setFormattedKey(`${navKey.site}`);
     else {
-      key += navKey.site === "All Assets" ? "All Assets" : `${navKey.site.physical_site_name} - ${navKey.site.first_octet ? navKey.site.first_octet : 'xx'}`;
+      key += navKey.site === "All Assets" ? "All Assets" : `${navKey.site} - ${navKey.first_octet ? navKey.first_octet : 'xx'}`;
       key += navKey.mdc === "00" ? ".xx" : `.${navKey.mdc}`;
       key += navKey.shelf === "00" ? ".xx" : `.${navKey.shelf}`;
       key += navKey.unit === "00" ? ".xx" : `.${navKey.unit}`;
@@ -143,7 +144,7 @@ function NavGuide({
         <option value="00" defaultValue>
           {shelfDefaultVal}
         </option>
-        {!shelfDisabled && !mdcDisabled && dropdownFormatter(filteredAssetList, "shelf", site).sort((a, b) => Number(a) - Number(b)).map((shelf, key) => {
+        {!shelfDisabled && !mdcDisabled && filteredAssetList.length !== 0 && dropdownFormatter(filteredAssetList, "shelf", site).sort((a, b) => Number(a) - Number(b)).map((shelf, key) => {
           if(shelf) return <option value={shelf} key={key + 1}>Shelf {shelf}</option>
         })}
       </select>

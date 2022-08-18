@@ -1,5 +1,4 @@
 function dropdownFormatter(assetList, navPos, site) {
-
   const setOfDropdownVals = new Set(); //do not allow duplicates
   try {
     if (assetList.length !== 0 && site) { //make sure assetList is loaded, and site is loaded
@@ -23,7 +22,6 @@ function dropdownFormatter(assetList, navPos, site) {
           );
           dropdownAssetList.forEach(asset => setOfDropdownVals.add(asset.location.site_loc.unit));
         }
-        console.log(setOfDropdownVals)
       return Array.from(setOfDropdownVals);
     }
   } catch (e) {
