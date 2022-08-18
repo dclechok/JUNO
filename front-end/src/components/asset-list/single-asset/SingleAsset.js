@@ -47,12 +47,10 @@ function SingleAsset({ loadSingleAsset, accountLogged }) {
     //sets toggle to render which of the 3 "pages" or edit/delete
     const { id } = e.currentTarget;
     e.preventDefault();
-    if(id === "delete") if(window.confirm(`This will permenantly delete the asset ${asset_id} and all its history. Do you wish to proceed?`)) deleteSingleAsset();
+    if(id === "delete") window.confirm(`This will permenantly delete the asset ${asset_id} and all its history. Do you wish to proceed?`) ? deleteSingleAsset() : console.log('nope');
     if(id === "edit" && accountLogged.account[0].access_level === 'analyst') window.alert("You must be an Administrator or Engineer to edit this component.");    
-    else{
     setButtonState({...defaultButtonState, [id]: "active-button-link"});
     setSingleAssetNav(e.currentTarget.id); //info, history, move, edit
-    }
   };
 
   return (

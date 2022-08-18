@@ -51,13 +51,12 @@ function ViewSites({ setViewOrCreate, accountLogged, setJobSiteID }) {
         ) {
           async function removeJobSite() {
             setLoadJobSites(
-              setDeactivateSuccess(
-                setDeactivateSuccess(await deactivateJobSite(
+              setDeactivateSuccess(await deactivateJobSite(
                   id,
                   accountLogged,
                   oldJobSiteHistory[0].history
                 )
-              ))
+              )
             );
           }
           removeJobSite();
@@ -67,7 +66,12 @@ function ViewSites({ setViewOrCreate, accountLogged, setJobSiteID }) {
     }
   };
 
-  console.log(deactivateSuccess);
+  useEffect(() => {
+    if(deactivateSuccess)
+      //change status of all devices belonging to job site to "Pending Transfer"
+      //strip location data from device except "site" ie. "Midland, PA"
+      console.log('Pending Transfer')
+  }, [deactivateSuccess]);
 
   return (
     <>
