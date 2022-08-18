@@ -46,7 +46,7 @@ function CreateEditJobSite({
   const [oldSiteData, setOldSiteData] = useState(defaultJobSite);
   const [newSiteData, setNewSiteData] = useState(defaultJobSite);
   const defaultButtonChecked = {
-    "Live": false,
+    "Production": false,
     "Storage": false,
     "Repair": false,
   };
@@ -101,7 +101,7 @@ function CreateEditJobSite({
         //todo: remove first_octet if not 'live' site?
         if (validateSiteForm(oldSiteData, allJobSites)) {
           setToggleButton(false);
-          radioBtnChecked["Live"] ? setSuccess(await updateJobSite(oldSiteData, accountLogged)) : setSuccess(await updateJobSite({...oldSiteData, first_octet: '' }, accountLogged ));
+          radioBtnChecked["Production"] ? setSuccess(await updateJobSite(oldSiteData, accountLogged)) : setSuccess(await updateJobSite({...oldSiteData, first_octet: '' }, accountLogged ));
         }
       } else if (viewOrCreate === "create") {
         if (validateSiteForm(newSiteData, allJobSites)) {
@@ -151,18 +151,18 @@ function CreateEditJobSite({
             <legend>Job Site Category</legend>
             <div className="radio-buttons-container">
               <div className="flex-header">
-                <label htmlFor="live">Live Site</label>
+                <label htmlFor="production">Production</label>
                 <label htmlFor="storage">Storage</label>
                 <label htmlFor="repair">Repair</label>
               </div>
               <div className="flex-buttons">
                 <input
                   type="radio"
-                  id="live"
+                  id="production"
                   name="category"
-                  value="Live"
+                  value="Production"
                   onChange={changeHandler}
-                  checked={radioBtnChecked["Live"]}
+                  checked={radioBtnChecked["Production"]}
                 />
 
                 <input
@@ -226,7 +226,7 @@ function CreateEditJobSite({
                   : defaultJobSite.site_code
               }
             />
-            {radioBtnChecked && radioBtnChecked["Live"] && (oldSiteData || newSiteData) && (
+            {radioBtnChecked && radioBtnChecked["Production"] && (oldSiteData || newSiteData) && (
               <>
                 <label htmlFor="first_octet">
                   Site IP First Octet (ex. "10")
