@@ -15,6 +15,7 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
   const [loadSuccessLog, setLoadSuccessLog] = useState(false);
   const [stateAssets, setStateAssets] = useState([]);
   const [jobSites, setJobSites] = useState([]);
+  const [uploadSuccess, setUploadSuccess] = useState(null);
 
   let parsedAssets = [];
   let formattedAssets = [];
@@ -50,7 +51,7 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
             async function createNewAsset(newAssetList) {
               if (newAssetList.length !== 0) {
                 try {
-                  await createAsset(newAssetList); //create log of fails/successes
+                  setUploadSuccess(await createAsset(newAssetList)); //create log of fails/successes
                 } catch (e) {
                   console.log(e, "Failed to create new assets.");
                 }
@@ -70,6 +71,8 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
       setLoadAssets(!loadAssets);
     }
   };
+
+  console.log(formattedAssets, uploadSuccess);
 
   return (
     <div>

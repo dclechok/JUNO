@@ -10,7 +10,6 @@ function PieChartBuilder({ assetListValues }) {
   // numInRepair: 0,
   // numRetired: 0,
   //TODO : add a new legend
-  console.log(assetListValues);
   return (
     <div className="pie-box">
       <div className="pie-container">

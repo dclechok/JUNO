@@ -58,13 +58,15 @@ async function list(req, res) {
 
 async function create(req, res) {
   //create new asset in the system
+  const chunkSize = 120000;
   const result = !Array.isArray(req.body.data) ? { //stringify single asset history into json array
     ...req.body.data, history: JSON.stringify(req.body.data.history)
   } : req.body.data.map(data => {return {...data, history: JSON.stringify(data.history)}}); //stringify each bulk asset's history into json array
-  const data = await knex("assets")
-    .insert(result)
+  const data = await knex
+    // .insert(result)
+    .batchInsert('assets', result, chunkSize)
     .returning("*")
-    .then((results) => results[0]); //insert body data into assets
+    .then((results) => results[0]); //return result
   res.status(201).json({ data });
 }
 

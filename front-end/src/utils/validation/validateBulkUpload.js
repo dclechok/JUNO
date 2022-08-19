@@ -9,7 +9,11 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged, jobSites) {
     //by database
     if (assetList.find((existingAsset) => existingAsset.location === asset[0]))
       return "Duplicate location found in database!";
-    if (assetList.find((existingAsset) => existingAsset.serial_number === asset[1]))
+    if (
+      assetList.find(
+        (existingAsset) => existingAsset.serial_number === asset[1]
+      )
+    )
       return "Duplicate serial number found in database!";
     if (assetList.find((existingAsset) => existingAsset.asset_tag === asset[2]))
       return "Duplicate asset tag found in database!";
@@ -29,19 +33,30 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged, jobSites) {
     return "Hashing";
   };
 
-  const parseLoc = (loc) => { //parse location column format -> "PA01-MDC01-01-01"
+  const parseLoc = (loc) => {
+    //parse location column format -> "PA01-MDC01-01-01"
     //asset.location.site = find location matching site code (ie. PA01)
     //asset.location.site_loc = build IP
-    const splitLoc = loc.split('-'); //break location into 4 index array
-    const siteData = jobSites.find(js => js.site_code === splitLoc[0]);
-    const ip = {
-      first_octet: siteData.first_octet,
-      mdc: splitLoc[1].slice(-2),
-      shelf: splitLoc[2],
-      unit: splitLoc[3]
+    try {
+      if (jobSites) {
+        const splitLoc = loc.split("-"); //break location into 4 index array
+        const siteData = jobSites.find((js) => js.site_code === splitLoc[0]);
+        const ip = {
+          first_octet: siteData.first_octet,
+          mdc: splitLoc[1].slice(-2),
+          shelf: splitLoc[2],
+          unit: splitLoc[3],
+        };
+        console.log(siteData.first_octet);
+        //add more contraints to mdc, shelf, unit ranges and special cases
+        return { site: siteData.physical_site_name, site_loc: ip };
+      } else
+        window.alert(
+          "Either job site does not exist, or the site code in column 1 (ie. GA01) does not match any existing site codes!"
+        );
+    } catch (e) {
+      console.log(e, "Parsing location data failed. No job site matches.");
     }
-    //add more contraints to mdc, shelf, unit ranges and special cases
-    return { site: siteData.physical_site_name, site_loc: ip };
   };
 
   //check for 5 headers: asset tag, status, serial_number, make, model, hr
