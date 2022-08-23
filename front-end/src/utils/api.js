@@ -27,8 +27,11 @@ export async function getAllAssets() {
       },
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
-    if (jsonResponse) return jsonResponse;
-  } catch (e) {
+    if (jsonResponse) 
+    {
+      return jsonResponse;
+    }
+    } catch (e) {
     console.log(e, "Failed to fetch all assets.");
   }
 }

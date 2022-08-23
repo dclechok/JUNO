@@ -36,6 +36,7 @@ function UploadSuccess({ rejectedLog, newAssets }) {
       <hr />
       {newAssets.length !== 0 &&
         newAssets.map((asset, key) => {
+          const locationData = asset.location.site_loc;
           return (
             <div key={`div1 ${key}`}>
               <p key={`p1 ${key}`}>
@@ -43,6 +44,7 @@ function UploadSuccess({ rejectedLog, newAssets }) {
                 <span key={`linespan ${key}`} className="line-span">
                   [Line {asset.location.csv_index}]
                 </span>)}
+                {locationData.first_octet}{locationData.mdc}{locationData.shelf}{locationData.unit}&nbsp;·&nbsp;
                 {asset.serial_number}&nbsp;·&nbsp;
                 {asset.asset_tag}&nbsp;·&nbsp;
                 {asset.make}&nbsp;·&nbsp;

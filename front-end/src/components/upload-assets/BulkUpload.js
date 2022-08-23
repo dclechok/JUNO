@@ -3,24 +3,34 @@ import { useState, useEffect } from "react";
 
 import Papa from "papaparse";
 import { createAsset, getJobSites } from "../../utils/api";
-import validateBulkUpload from "../../utils/validation/validateBulkUpload";
 
 import UploadSuccess from "./UploadSuccess";
 
+//utils
 import uploadTemplate from "../../downloads/upload-template.csv";
 import LoaderSpinner from "../LoaderSpinner";
+import validateBulkUpload from "../../utils/validation/validateBulkUpload";
+import { getAllAssets } from '../../utils/api';
 
-function BulkUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
+function BulkUpload({ setLoadAssets, loadAssets, accountLogged }) {
   const [selectedFile, setSelectedFile] = useState();
   const [loadSuccessLog, setLoadSuccessLog] = useState(false);
   const [stateAssets, setStateAssets] = useState([]);
   const [jobSites, setJobSites] = useState([]);
   const [uploadSuccess, setUploadSuccess] = useState(null);
+  const [assetList, setAssetList] = useState(null);
 
   let parsedAssets = [];
   let formattedAssets = [];
 
-  useEffect(() => {
+  useEffect(() => { //get most updated asset list 
+    async function loadAssets(){
+      setAssetList(await getAllAssets());
+    }
+    loadAssets();
+  }, []);
+
+  useEffect(() => { //load job sites
     const newAbortController = new AbortController();
     async function getAllSites(){
       setJobSites(await getJobSites());
@@ -32,7 +42,6 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
   const handleChange = (e) => {
     setSelectedFile(e.target.files); //set file to parse from
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (selectedFile) {
@@ -72,11 +81,9 @@ function BulkUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
     }
   };
 
-  console.log(formattedAssets, uploadSuccess);
-
   return (
     <div>
-      {jobSites ? 
+      {jobSites && assetList ? 
       <>
       <section className="upload-container-style" >
         <h4>Bulk Upload</h4>

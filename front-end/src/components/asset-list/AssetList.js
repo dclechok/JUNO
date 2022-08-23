@@ -158,7 +158,7 @@ function AssetList({
     if(e.currentTarget.id === "reset-results-per") setAssetsPerPage(defaultAssetsPerPage);
     if(e.currentTarget.value >= 1 && e.currentTarget.value <= defaultAssetsPerPage) setAssetsPerPage(e.currentTarget.value);
   };
-
+  
   return (
     <section>
       {JSON.parse(localStorage.getItem('acctLogged')).logged && assetList && assetList.length !== 0 && filteredAssetList ? (

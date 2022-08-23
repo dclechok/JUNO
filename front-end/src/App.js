@@ -64,7 +64,7 @@ function App() {
     getAssets();
     return abortController.abort();
   }, []);
-
+  
   useEffect(() => {
     const abortController = new AbortController();
     setAccountLogged(JSON.parse(localStorage.getItem("acctLogged")));

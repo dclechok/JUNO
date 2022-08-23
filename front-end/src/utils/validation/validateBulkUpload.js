@@ -6,14 +6,10 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged, jobSites) {
   //validate against data in database
   const validateAssetsByDatabaseAndCSV = (asset) => {
     //if incoming bulk upload list has an asset that matches a device in our database
-    //by database
+    //by database and csv
     if (assetList.find((existingAsset) => existingAsset.location === asset[0]))
       return "Duplicate location found in database!";
-    if (
-      assetList.find(
-        (existingAsset) => existingAsset.serial_number === asset[1]
-      )
-    )
+    if (assetList.find((existingAsset) => existingAsset.serial_number === asset[1]))
       return "Duplicate serial number found in database!";
     if (assetList.find((existingAsset) => existingAsset.asset_tag === asset[2]))
       return "Duplicate asset tag found in database!";
@@ -24,6 +20,7 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged, jobSites) {
       return "Duplicate serial number found in CSV file!";
     if (parsedAssets.filter((a) => asset[2] === a[2]).length > 1)
       return "Duplicate asset tag found in CSV file!";
+    //validate location
   };
   //setStatus of asset via locChoice
   const setStatus = () => {
@@ -37,26 +34,39 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged, jobSites) {
     //parse location column format -> "PA01-MDC01-01-01"
     //asset.location.site = find location matching site code (ie. PA01)
     //asset.location.site_loc = build IP
-    try {
-      if (jobSites) {
+    if (jobSites) {
+      try {
         const splitLoc = loc.split("-"); //break location into 4 index array
-        const siteData = jobSites.find((js) => js.site_code === splitLoc[0]);
-        const ip = {
-          first_octet: siteData.first_octet,
-          mdc: splitLoc[1].slice(-2),
-          shelf: splitLoc[2],
-          unit: splitLoc[3],
-        };
-        console.log(siteData.first_octet);
+        const siteData = jobSites.find((js) => js.site_code === splitLoc[0] && js.status === "Active");
+        if (siteData) {
+          const mdc = splitLoc[1].slice(-2);
+          const shelf = splitLoc[2];
+          const unit = splitLoc[3];
+
+          if(Number(siteData.first_octet) <= 0 || Number(siteData.first_octet) > 99)
+            return { error: `First octet is out of range! (Must be between 01-99)`};
+          if(Number(mdc) <= 0 || Number(mdc) > 99)
+            return { error: `MDC is out of range! (Must be between 01-99)`};
+          if(Number(shelf) <= 0 || Number(shelf) > 14)
+            return { error: `Shelf is out of range! (Must be between 01-14)`};
+          if(Number(unit) <= 0 || Number(unit) > 42)
+            return { error: `Unit is out of range! (Must be between 01-42)`};
+          const ip = {
+            first_octet: siteData.first_octet,
+            mdc: mdc,
+            shelf: shelf,
+            unit: unit
+          };
+          return { site: siteData.physical_site_name, site_loc: ip };
+        }else return "Job site is either inactive or does not exist.";
         //add more contraints to mdc, shelf, unit ranges and special cases
-        return { site: siteData.physical_site_name, site_loc: ip };
-      } else
-        window.alert(
-          "Either job site does not exist, or the site code in column 1 (ie. GA01) does not match any existing site codes!"
-        );
-    } catch (e) {
-      console.log(e, "Parsing location data failed. No job site matches.");
-    }
+      } catch (e) {
+        console.log(e, "Parsing location data failed. No job site matches.");
+      }
+    } else
+      window.alert(
+        "Either job site does not exist, or the site code in column 1 (ie. GA01) does not match any existing site codes!"
+      );
   };
 
   //check for 5 headers: asset tag, status, serial_number, make, model, hr
@@ -72,12 +82,13 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged, jobSites) {
       //if valid headers exist, then filter the assets
       const newHistoryKey = generateHistoryKey();
       parsedAssets
-        .filter((val, key) => key !== 0) //skip first row for headers
+        .filter((val, key) => key !== 0 && key <= 100) //skip first row for headers2
         .forEach((asset) => {
           //builds out rejection list, and good asset list
           //first check if there is a duplicate in the existing list of assets
-          const reject_err = validateAssetsByDatabaseAndCSV(asset);
-          if (reject_err) {
+          const validatedLoc = parseLoc(asset[0]) //parse and validate location data
+          let reject_err = validateAssetsByDatabaseAndCSV(asset);
+          if (reject_err || validatedLoc.error) {
             rejectionList.push({
               asset_tag: asset[2],
               location: {
@@ -88,7 +99,7 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged, jobSites) {
               make: asset[3],
               model: asset[4],
               hr: asset[5],
-              reject_err: reject_err,
+              reject_err: reject_err || validatedLoc.error,
             });
           }
           //then check if there is a duplicate in the incoming upload list
@@ -104,7 +115,7 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged, jobSites) {
               status: setStatus(), //default on upload - **needs verified through foreman**
               history: [
                 {
-                  action_date: action_date,
+                  action_date: JSON.stringify(action_date),
                   action_taken: "Bulk Upload",
                   action_by: accountLogged.account[0].name,
                   action_by_id: accountLogged.account[0].user_id,
