@@ -50,24 +50,24 @@ function validateBody(req, res, next) {
   next(); //validated - onto next middleware
 }
 //validate location data
-function validateLoc(req, res, next){
-  const { first_octet, mdc, shelf, unit } = req.body.data;
-  //these ranges can be changed via req.body.data
-  if(Array.isArray(req.body.data)){
-    req.body.data.forEach(asset => {
-      const {first_octet, mdc, shelf, unit} = asset.location.site_loc;
-      if(Number(first_octet) <= 0 || Number(first_octet) > 99)
-      return next({ status: 400, message: `First octet is out of range! (Must be between 01-99)`});
-    if(Number(mdc) <= 0 || Number(mdc) > 99)
-      return next({ status: 400, message: `MDC is out of range! (Must be between 01-99)`});
-    if(Number(shelf) <= 0 || Number(shelf) > 14)
-      return next({ status: 400, message: `Shelf is out of range! (Must be between 01-14`});
-    if(Number(unit) <= 0 || Number(unit) > 588)
-      return next({ status: 400, message: `Unit is out of range! (Must be between 01-42`});
-    })
-  }
-  next();
-}
+// function validateLoc(req, res, next){
+//   const { first_octet, mdc, shelf, unit } = req.body.data;
+//   //these ranges can be changed via req.body.data
+//   if(Array.isArray(req.body.data)){
+//     req.body.data.forEach(asset => {
+//       const {first_octet, mdc, shelf, unit} = asset.location.site_loc;
+//       if(Number(first_octet) <= 0 || Number(first_octet) > 99)
+//       return next({ status: 400, message: `First octet is out of range! (Must be between 01-99)`});
+//     if(Number(mdc) <= 0 || Number(mdc) > 99)
+//       return next({ status: 400, message: `MDC is out of range! (Must be between 01-99)`});
+//     if(Number(shelf) <= 0 || Number(shelf) > 14)
+//       return next({ status: 400, message: `Shelf is out of range! (Must be between 01-14`});
+//     if(Number(unit) <= 0 || Number(unit) > 588)
+//       return next({ status: 400, message: `Unit is out of range! (Must be between 01-42`});
+//     })
+//   }
+//   next();
+// }
 
 /// END VALIDATION MIDDLEWARE ///
 async function list(req, res) {
@@ -132,7 +132,7 @@ async function remove(req, res) {
 }
 module.exports = {
   list: asyncErrorBoundary(list),
-  create: [bodyHasResultProperty, validateBody, validateLoc, asyncErrorBoundary(create)], // TODO: verify each data field format
+  create: [bodyHasResultProperty, validateBody, asyncErrorBoundary(create)], // TODO: verify each data field format
   read: asyncErrorBoundary(read), //read individual asset
   update: [bodyHasResultProperty, validateBody, asyncErrorBoundary(update)],
   delete: asyncErrorBoundary(remove)
