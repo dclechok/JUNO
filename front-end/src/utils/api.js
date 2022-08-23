@@ -46,7 +46,7 @@ export async function createAsset(assets) {
       body: JSON.stringify({ data: assets }),
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
-    if (jsonResponse) {
+    if (jsonResponse && !jsonResponse.error) {
       //if POST request was successful, create a log 
       const { action_by, action_by_id, action_taken, action_key } =
         jsonResponse.data.history[0];

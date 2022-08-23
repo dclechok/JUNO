@@ -81,6 +81,10 @@ function BulkUpload({ setLoadAssets, loadAssets, accountLogged }) {
     }
   };
 
+  useEffect(() => {
+    if(uploadSuccess && !Object.keys(uploadSuccess).includes("error")) setLoadAssets(!loadAssets);
+  }, [uploadSuccess])
+
   return (
     <div>
       {jobSites && assetList ? 
@@ -119,6 +123,7 @@ function BulkUpload({ setLoadAssets, loadAssets, accountLogged }) {
           <div>
             {loadSuccessLog && (
               <UploadSuccess
+                uploadSuccess={uploadSuccess}
                 rejectedLog={stateAssets.rejected}
                 newAssets={stateAssets.accepted}
               />
