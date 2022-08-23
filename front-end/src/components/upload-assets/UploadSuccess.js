@@ -18,7 +18,7 @@ function UploadSuccess({ uploadSuccess, rejectedLog, newAssets }) {
 
   return (
     <div className="upload-success-log">
-      {uploadSuccess && !Object.keys(uploadSuccess).includes("error") ?
+      {!Object.keys(uploadSuccess).includes("error") ?
       <>
       <h5 className="log-header">[ Upload Log ]</h5>
 

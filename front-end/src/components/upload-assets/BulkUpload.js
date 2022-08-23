@@ -19,12 +19,13 @@ function BulkUpload({ setLoadAssets, loadAssets, accountLogged }) {
   const [jobSites, setJobSites] = useState([]);
   const [uploadSuccess, setUploadSuccess] = useState(null);
   const [assetList, setAssetList] = useState(null);
+  const [toggleLoader, setToggleLoader] = useState(null);
 
   let parsedAssets = [];
   let formattedAssets = [];
 
   useEffect(() => { //get most updated asset list 
-    async function loadAssets(){
+    async function loadAssets() {
       setAssetList(await getAllAssets());
     }
     loadAssets();
@@ -32,7 +33,7 @@ function BulkUpload({ setLoadAssets, loadAssets, accountLogged }) {
 
   useEffect(() => { //load job sites
     const newAbortController = new AbortController();
-    async function getAllSites(){
+    async function getAllSites() {
       setJobSites(await getJobSites());
     }
     getAllSites();
@@ -76,63 +77,69 @@ function BulkUpload({ setLoadAssets, loadAssets, accountLogged }) {
           },
         });
       }
+      setToggleLoader(true);
       setLoadSuccessLog(true);
       setLoadAssets(!loadAssets);
     }
   };
 
   useEffect(() => {
-    if(uploadSuccess && !Object.keys(uploadSuccess).includes("error")) setLoadAssets(!loadAssets);
-  }, [uploadSuccess])
+    if (uploadSuccess && !Object.keys(uploadSuccess).includes("error")) {
+      setToggleLoader(false);
+      setLoadSuccessLog(false);
+      setLoadAssets(!loadAssets);
+    }
+  }, [uploadSuccess, setUploadSuccess])
+
+  console.log(uploadSuccess)
 
   return (
     <div>
-      {jobSites && assetList ? 
-      <>
-      <section className="upload-container-style" >
-        <h4>Bulk Upload</h4>
-        <form className="form-container-bulk">
-          {!loadSuccessLog && 
-          <>
-        <h5>
-          (.csv file -{" "}
-          <a href={uploadTemplate} download="upload-template">
-            download
-          </a>{" "}
-          template)
-        </h5></>}
-        <div>
-          {!loadSuccessLog && (
-            <>
-              <input className="csv-input"
-                type="file"
-                name="csv-file"
-                accept=".csv"
-                onChange={handleChange}
-              />
+      {jobSites && assetList ?
+        <>
+          <section className="upload-container-style" >
 
-              <div>
-                <button className="submit-single-asset bulk-upload-button" onClick={handleSubmit}>
-                  Upload
-                </button>
-              </div>
-            </>
-          )}
-        </div>
-        {stateAssets.rejected && stateAssets.accepted && (
-          <div>
-            {loadSuccessLog && (
-              <UploadSuccess
-                uploadSuccess={uploadSuccess}
-                rejectedLog={stateAssets.rejected}
-                newAssets={stateAssets.accepted}
-              />
-            )}
-          </div>
-        )}
-        </form>
-      </section>
-      </>: <LoaderSpinner height={45} width={45} message={"Job Sites"} />}
+            <h4>Bulk Upload</h4>
+            <form className="form-container-bulk">
+            {!loadSuccessLog && !toggleLoader &&
+                <>
+                  <h5>
+                    (.csv file -{" "}
+                    <a href={uploadTemplate} download="upload-template">
+                      download
+                    </a>{" "}
+                    template)
+                  </h5>
+                  <div>
+                    <input className="csv-input"
+                      type="file"
+                      name="csv-file"
+                      accept=".csv"
+                      onChange={handleChange}
+                    />
+
+                    <div>
+                      <button className="submit-single-asset bulk-upload-button" onClick={handleSubmit}>
+                        Upload
+                      </button>
+                    </div>
+                  </div>
+                  </>}
+                  {stateAssets.rejected && stateAssets.accepted && (
+                    <div>
+                      {!toggleLoader ?
+                        <UploadSuccess
+                          uploadSuccess={uploadSuccess}
+                          rejectedLog={stateAssets.rejected}
+                          newAssets={stateAssets.accepted}
+                        /> : <LoaderSpinner height={45} width={45} message={"Validating and Uploading Assets..."}/>
+                      }
+                    </div>
+                  )}
+
+            </form>
+          </section>
+        </> : <LoaderSpinner height={45} width={45} message={"Data..."} />}
     </div>
   );
 }
