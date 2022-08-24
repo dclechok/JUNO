@@ -13,9 +13,11 @@ function bodyHasResultProperty(req, res, next) {
 function validateBody(req, res, next) {
   //post request must have the required body data
   if(!Array.isArray(req.body.data)) req.body.data = [req.body.data];
+  console.log(req.body.data)
   req.body.data.forEach(entry => {
     const { asset_tag, location, serial_number, make, model, hr } = entry;
   //validate each separate piece of the requests body data
+  console.log(entry, 'test')
   if (!asset_tag)
     return next({
       status: 400,

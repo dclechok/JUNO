@@ -16,7 +16,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
   const [locationSelect, setLocationSelect] = useState("All Locations");
   const [logItem, setLogItem] = useState();
   const [targetSite, setTargetSite] = useState();
-  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(null);
   const defaultSiteIP = { first_octet: '', mdc: '', shelf: '', unit: '' };
   const [siteIP, setSiteIP] = useState(defaultSiteIP);
   const [assetFields, setAssetFields] = useState({
@@ -53,7 +53,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
   }, [targetSite, setTargetSite]);
 
   const setStatus = () => {
-    if (targetSite && targetSite.category === "Live") return "Needs Verified";
+    if (targetSite && targetSite.category === "Production") return "Hashing";
     if (targetSite && targetSite.category === "Repair") return "Repair";
     if (targetSite && targetSite.category === "Storage") return "Storage";
   };
@@ -75,16 +75,16 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
     e.preventDefault();
     acceptOrReject = validateSingleUpload(assetFields, assetList, siteIP);
     // make POST request
-    console.log(acceptOrReject)
     if (acceptOrReject !== "fields not validated") {
       setLogItem(acceptOrReject);
-      if (acceptOrReject.rejected.length === 0) {
+      if (acceptOrReject.rejected.length === 0 && acceptOrReject.accepted.length > 0) {
         const action_date = new Date();
         const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
+        console.log(acceptOrReject.accepted)
         async function postSingleAsset() {
           setUploadSuccess(await createAsset(
             {
-              ...assetFields,
+              ...acceptOrReject.accepted[0],
               status: setStatus(),
               history: [
                 {
@@ -99,11 +99,19 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
             },
           ));
         }
-        // postSingleAsset();
+        postSingleAsset();
       }
       setLoadAssets(!loadAssets);
     }
   };
+  console.log(uploadSuccess)
+  //clear data once submitted 
+  useEffect(() => {
+    if(uploadSuccess){
+      setAssetFields('');
+      setSiteIP('');
+    } 
+  }, [uploadSuccess, setUploadSuccess]);
 
   useEffect(() => {
     //populate job sites in location field
@@ -249,13 +257,13 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
       ) : (
         <LoaderSpinner height={45} width={45} message={"Job Sites"} />
       )}
-      {logItem && logItem !== "fields not validated" &&
+      {/* {logItem && logItem !== "fields not validated" &&
         <UploadSuccess
           rejectedLog={logItem.rejected}
           newAssets={logItem.accepted}
           uploadSuccess={uploadSuccess}
         />
-      }
+      } */}
     </section>
   );
 }

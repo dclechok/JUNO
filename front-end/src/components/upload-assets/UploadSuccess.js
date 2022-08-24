@@ -15,10 +15,10 @@ function UploadSuccess({ uploadSuccess, rejectedLog, newAssets }) {
     percentOfFails = rejectedLog ? rejectedLog.length / totalAmtOfUploads : 0 / totalAmtOfUploads;
   };
   calcSuccessFailure();
-
+  console.log(uploadSuccess)
   return (
     <div className="upload-success-log">
-      {!Object.keys(uploadSuccess).includes("error") ?
+      {/* {!Object.keys(uploadSuccess).includes("error") ? */}
       <>
       <h5 className="log-header">[ Upload Log ]</h5>
 
@@ -81,8 +81,8 @@ function UploadSuccess({ uploadSuccess, rejectedLog, newAssets }) {
               <hr />
             </div>
           );
-        })}
-        </> : <LoaderSpinner width={45} height={45} message={"Update Log"} />}
+        })}</>
+        {/* </> : <LoaderSpinner width={45} height={45} message={"Update Log"} />} */}
     </div>
   );
 }

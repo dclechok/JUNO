@@ -23,9 +23,9 @@ function validateSingleUpload(asset, assetList, siteIP) {
 
   const validateAssetsByDatabase = () => {
     //add more form/frontend validation here
-    if (assetList.find((existingAsset) => asset.serial_number === existingAsset.serial_number))
+    if (assetList && assetList.find((existingAsset) => asset.serial_number === existingAsset.serial_number))
       reject_err = "Duplicate serial number found in database!";
-    if (assetList.find((existingAsset) => asset.asset_tag === existingAsset.asset_tag))
+    if (assetList && assetList.find((existingAsset) => asset.asset_tag === existingAsset.asset_tag))
       reject_err = "Duplicate asset tag found in database!";
   }
 
@@ -38,16 +38,21 @@ function validateSingleUpload(asset, assetList, siteIP) {
       //set our IP address to be loaded in post request
       if (siteIP[locData].length === 1) newIP[locData] = '0'.concat(siteIP[locData]); // if a single digit like 2 is entered, we add an 0 to make it a two digit octet "02"
       else newIP[locData] = siteIP[locData];
+
     }
     //check if slot is unavailable in our assetList (database)
-    if (assetList.find(asset => {
-      return (
-        asset.location.site_loc.first_octet === newIP.first_octet &&
-        asset.location.site_loc.mdc === newIP.mdc &&
-        asset.location.site_loc.shelf === newIP.shelf &&
-        asset.location.site_loc.unit === newIP.unit
-      )
-    })) return reject_err = `Invalid IP! There is already a device located at ${newIP.first_octet}.${newIP.mdc}.${newIP.shelf}.${newIP.unit}!`;
+    try {
+      if (assetList && assetList.find(asset => {
+
+        console.log(asset.location.site_loc.first_octet);
+        return (
+          asset.location.site_loc.first_octet === newIP.first_octet &&
+          asset.location.site_loc.mdc === newIP.mdc &&
+          asset.location.site_loc.shelf === newIP.shelf &&
+          asset.location.site_loc.unit === newIP.unit
+        )
+      })) return reject_err = `Invalid IP! There is already a device located at ${newIP.first_octet}.${newIP.mdc}.${newIP.shelf}.${newIP.unit}!`;
+    } catch (e) { console.log(e, "Validating new IP data against existing IP data in JUNO database failed."); }
   };
 
   if (blankFields && blankFields.length === 0) {
@@ -60,7 +65,7 @@ function validateSingleUpload(asset, assetList, siteIP) {
           site: asset.location.site, //use this to render upload log
           site_loc: newIP
         },
-        status: "Needs Verified", //default on upload - **needs verified through foreman**
+        status: "Rejected", //default on upload - **needs verified through foreman**
         serial_number: asset.serial_number,
         make: asset.make,
         model: asset.model,
@@ -75,7 +80,6 @@ function validateSingleUpload(asset, assetList, siteIP) {
           site: asset.location.site, //use this to render upload log
           site_loc: newIP
         },
-        status: "Needs Verified", //default on upload - **needs verified through foreman**
         serial_number: asset.serial_number,
         make: asset.make,
         model: asset.model,
