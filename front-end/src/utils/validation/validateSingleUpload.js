@@ -34,7 +34,7 @@ function validateSingleUpload(asset, assetList, siteIP) {
     for(let locData in siteIP){
       //validation
       if(siteIP[locData] === '') return reject_err = "IP data field(s) cannot be empty!";
-      if(siteIP[locData].split().forEach(char => Number(char).charCodeAt() < 48 || Number(char).charCodeAt() > 57)) return reject_err = "IP data must consist of numbers only! (Up to two digits)";
+      if(!siteIP[locData].split().forEach(char => { if(char.charCodeAt() < 48 || char.charCodeAt() > 57) return false; })) return reject_err = "IP data must consist of numbers only! (Up to two digits)";
       //setting
       if(siteIP[locData].length === 1) newIP[locData] = '0'.concat(siteIP[locData]); // if a single digit like 2 is entered, we add an 0 to make it a two digit octet "02"
       else newIP[locData] = siteIP[locData];
