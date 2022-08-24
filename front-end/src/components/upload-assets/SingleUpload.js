@@ -134,6 +134,16 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                 <br />
               </div>
               <div>
+              <label htmlFor="asset_tag">IP ("xx.xx.xx.xx")</label>
+                <input
+                  id="ip"
+                  type="text"
+                  value={assetFields.location.site_loc}
+                  onChange={changeHandler}
+                />
+                <br />
+                </div>
+              <div>
                 <label htmlFor="asset_tag">Asset Tag</label>
                 <input
                   id="asset_tag"
