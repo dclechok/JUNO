@@ -1,4 +1,4 @@
-function validateSingleUpload(asset, assetList) {
+function validateSingleUpload(asset, assetList, siteIP) {
   const blankFields = []; //log of all errors to be returned from function
   const rejectionLog = [];
   const newAsset = [];
@@ -27,6 +27,12 @@ function validateSingleUpload(asset, assetList) {
     if(assetList.find((existingAsset) => asset.asset_tag === existingAsset.asset_tag))
       reject_err = "Duplicate asset tag found in database!";
   }
+
+  //parse and validate siteIP
+  const validateAndParseIP = () => {
+    console.log(siteIP)
+  };
+  
 
   if (blankFields && blankFields.length === 0) {
     validateAssetsByDatabase();

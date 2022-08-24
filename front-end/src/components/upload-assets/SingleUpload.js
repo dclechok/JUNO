@@ -17,6 +17,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
   const [logItem, setLogItem] = useState();
   const [targetSite, setTargetSite] = useState();
   const [successfulUpload, setSuccessfulUpload] = useState(false);
+  const [siteIP, setSiteIP] = useState(null);
   const [assetFields, setAssetFields] = useState({
     asset_tag: "",
     location: "",
@@ -33,7 +34,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
     setLocationSelect(e.currentTarget.value);
    setAssetFields({
       ...assetFields,
-      location: { site: e.currentTarget.value, site_loc: "" },
+      location: { site: e.currentTarget.value, site_loc: {first_octet: targetSite.first_octet} },
     });
   };
 
@@ -53,12 +54,13 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
     //create controlled input
     e.preventDefault();
     const { value, id } = e.currentTarget;
-    setAssetFields({ ...assetFields, [id]: value });
+    if(id === "site_loc") setSiteIP({ ...siteIP, value });
+    else setAssetFields({ ...assetFields, [id]: value });
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
-    acceptOrReject = validateSingleUpload(assetFields, assetList);
+    acceptOrReject = validateSingleUpload(assetFields, assetList, siteIP);
     // make post request
     if (acceptOrReject !== "fields not validated") {
       setLogItem(acceptOrReject);
@@ -134,11 +136,11 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                 <br />
               </div>
               <div>
-                <label htmlFor="asset_tag">IP ("xx.xx.xx.xx")</label><br />
+                <label htmlFor="site_loc">IP ("xx.xx.xx.xx")</label><br />
                 <input
-                  id="asset_tag"
+                  id="site_loc"
                   type="text"
-                  value={assetFields.asset_tag}
+                  value={assetFields.location.site_loc}
                   onChange={changeHandler}
                 />
                 <br />
