@@ -30,12 +30,15 @@ function validateSingleUpload(asset, assetList, siteIP) {
 
   //parse and validate siteIP
   const validateAndParseIP = () => {
-    console.log(siteIP)
+    const splitIP = siteIP.value.split('.');
+    if(splitIP.length !== 4) reject_err = "IP is formatted incorrectly!";
+    console.log(splitIP)
   };
   
 
   if (blankFields && blankFields.length === 0) {
     validateAssetsByDatabase();
+    validateAndParseIP();
     if (reject_err) {
       rejectionLog.push({
         asset_tag: asset.asset_tag,

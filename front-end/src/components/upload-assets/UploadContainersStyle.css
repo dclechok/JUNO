@@ -75,6 +75,7 @@
     text-align: center;
     color: rgb(228, 241, 255);
     min-width: 500px;
+    margin-bottom: 2%;
   }
 
 .upload-container-style select{
@@ -111,4 +112,16 @@ h5{
 
 h3{
     font-size: 20px;
+}
+
+.ip-inputs{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+}
+
+.ip-inputs input{
+    width: 30px;
+    text-align: center;
 }
