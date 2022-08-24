@@ -16,35 +16,43 @@ function validateSingleUpload(asset, assetList, siteIP) {
   }
   if (blankFields && blankFields.length !== 0) {
     window.confirm(
-      `Fix the following issues: ${blankFields.map((issue, key) => issue.message )}`
+      `Fix the following issues: ${blankFields.map((issue, key) => issue.message)}`
     );
     return "fields not validated";
   } //if fields are not blank, check duplicates in existing inventory
 
   const validateAssetsByDatabase = () => {
     //add more form/frontend validation here
-    if(assetList.find((existingAsset) => asset.serial_number === existingAsset.serial_number))
+    if (assetList.find((existingAsset) => asset.serial_number === existingAsset.serial_number))
       reject_err = "Duplicate serial number found in database!";
-    if(assetList.find((existingAsset) => asset.asset_tag === existingAsset.asset_tag))
+    if (assetList.find((existingAsset) => asset.asset_tag === existingAsset.asset_tag))
       reject_err = "Duplicate asset tag found in database!";
   }
 
   //parse and validate siteIP
   const validateSetIP = () => {
-    for(let locData in siteIP){
+    for (let locData in siteIP) {
       //validation
-      if(siteIP[locData] === '') return reject_err = "IP data field(s) cannot be empty!";
-      if(!siteIP[locData].split().forEach(char => { if(char.charCodeAt() < 48 || char.charCodeAt() > 57) return false; })) return reject_err = "IP data must consist of numbers only! (Up to two digits)";
-      //setting
-      if(siteIP[locData].length === 1) newIP[locData] = '0'.concat(siteIP[locData]); // if a single digit like 2 is entered, we add an 0 to make it a two digit octet "02"
+      if (siteIP[locData] === '') return reject_err = "IP data field(s) cannot be empty!";
+      if (!siteIP[locData].split().filter(char => char.charCodeAt() < 48 || char.charCodeAt() > 57)) return reject_err = "IP data must consist of numbers only! (Up to two digits)";
+      //set our IP address to be loaded in post request
+      if (siteIP[locData].length === 1) newIP[locData] = '0'.concat(siteIP[locData]); // if a single digit like 2 is entered, we add an 0 to make it a two digit octet "02"
       else newIP[locData] = siteIP[locData];
     }
+    //check if slot is unavailable in our assetList (database)
+    if (assetList.find(asset => {
+      return (
+        asset.location.site_loc.first_octet === newIP.first_octet &&
+        asset.location.site_loc.mdc === newIP.mdc &&
+        asset.location.site_loc.shelf === newIP.shelf &&
+        asset.location.site_loc.unit === newIP.unit
+      )
+    })) return reject_err = `Invalid IP! There is already a device located at ${newIP.first_octet}.${newIP.mdc}.${newIP.shelf}.${newIP.unit}!`;
   };
- 
+
   if (blankFields && blankFields.length === 0) {
     validateAssetsByDatabase();
     validateSetIP();
-    console.log(newIP, 'hello')
     if (reject_err) {
       rejectionLog.push({
         asset_tag: asset.asset_tag,
@@ -60,7 +68,7 @@ function validateSingleUpload(asset, assetList, siteIP) {
         history: asset.history,
         reject_err: reject_err
       });
-    }else{
+    } else {
       newAsset.push({
         asset_tag: asset.asset_tag,
         location: {
@@ -76,7 +84,7 @@ function validateSingleUpload(asset, assetList, siteIP) {
       })
     }
   }
-  return {accepted: newAsset, rejected: rejectionLog};
+  return { accepted: newAsset, rejected: rejectionLog };
 }
 
 export default validateSingleUpload;
