@@ -78,7 +78,6 @@ function BulkUpload({ setLoadAssets, loadAssets, accountLogged }) {
         });
       }
       setToggleLoader(true);
-      setLoadSuccessLog(true);
       setLoadAssets(!loadAssets);
     }
   };
@@ -86,7 +85,7 @@ function BulkUpload({ setLoadAssets, loadAssets, accountLogged }) {
   useEffect(() => {
     if (uploadSuccess && !Object.keys(uploadSuccess).includes("error")) {
       setToggleLoader(false);
-      setLoadSuccessLog(false);
+      setLoadSuccessLog(true);
       setLoadAssets(!loadAssets);
     }
   }, [uploadSuccess, setUploadSuccess])

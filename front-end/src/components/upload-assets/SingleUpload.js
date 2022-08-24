@@ -134,7 +134,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                 <br />
               </div>
               <div>
-                <label htmlFor="asset_tag">Asset Tag</label>
+                <label htmlFor="asset_tag">IP ("xx.xx.xx.xx")</label><br />
                 <input
                   id="asset_tag"
                   type="text"
@@ -144,7 +144,17 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                 <br />
               </div>
               <div>
-                <label htmlFor="serial-number">Serial #</label>
+                <label htmlFor="asset_tag">Asset Tag</label><br />
+                <input
+                  id="asset_tag"
+                  type="text"
+                  value={assetFields.asset_tag}
+                  onChange={changeHandler}
+                />
+                <br />
+              </div>
+              <div>
+                <label htmlFor="serial-number">Serial #</label><br />
                 <input
                   id="serial_number"
                   type="text"
@@ -154,7 +164,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                 <br />
               </div>
               <div>
-                <label htmlFor="make">Make</label>
+                <label htmlFor="make">Make</label><br />
                 <input
                   id="make"
                   type="text"
@@ -164,7 +174,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                 <br />
               </div>
               <div>
-                <label htmlFor="model">Model</label>
+                <label htmlFor="model">Model</label><br />
                 <input
                   id="model"
                   type="text"
@@ -174,7 +184,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                 <br />
               </div>
               <div>
-                <label htmlFor="hr">Hashrate</label>
+                <label htmlFor="hr">Hashrate</label><br />
                 <input
                   id="hr"
                   type="text"

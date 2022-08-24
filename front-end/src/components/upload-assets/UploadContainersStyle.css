@@ -1,9 +1,11 @@
 /* single uploads */
 .form-container{
+    display: inline-block;
     margin: 0;
     background-color: rgb(19, 21, 26);
     padding-right: 8%;
     padding-left: 8%;
+    min-width: auto;
 }
 /* bulk uploads */
 .form-container-bulk{
@@ -22,7 +24,6 @@
 .form-container input{
     font-size: 14px;
     width: 300px;
-    float: right;
     background-color: rgb(67, 72, 87);
     margin-top: 2%;
     margin-bottom: 4%;
@@ -73,7 +74,7 @@
     border-radius: 4px 4px 4px 4px;
     text-align: center;
     color: rgb(228, 241, 255);
-    width: auto;
+    min-width: 500px;
   }
 
 .upload-container-style select{
@@ -97,7 +98,7 @@ h5{
 }
 
 .bulk-upload-button{
-    margin-top: 4%;
+    margin-top: 1%;
 }
 
 .select-container{
