@@ -49,7 +49,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
 
   useEffect(() => {
     if (targetSite) setSiteIP({ first_octet: targetSite.first_octet });
-    else setSiteIP({ first_octet: '' });
+    else setSiteIP(defaultSiteIP);
   }, [targetSite, setTargetSite]);
 
   const setStatus = () => {
@@ -61,20 +61,15 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
   const changeIPHandler = (e) => {
     e.preventDefault();
     const { id, value } = e.currentTarget;
-    console.log(id, value)
+    setSiteIP({ ...siteIP, [id]: value });
   };
-  console.log(siteIP)
+  console.log(siteIP, 'ehehee')
   const changeHandler = (e) => {
     //create controlled input
     e.preventDefault();
     const { value, id } = e.currentTarget;
-    if (id === "site_loc") {
-      if (siteIP && siteIP.length === 2) setSiteIP({ ...siteIP, ["value"]: '.' + value })
-      else setSiteIP({ ...siteIP, ["value"]: value })
-    }
-    else setAssetFields({ ...assetFields, [id]: value });
+    setAssetFields({ ...assetFields, [id]: value });
   };
-  console.log(siteIP)
   const submitHandler = (e) => {
     e.preventDefault();
     acceptOrReject = validateSingleUpload(assetFields, assetList, siteIP);
@@ -162,6 +157,8 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                       type="text"
                       value={siteIP.first_octet}
                       maxLength="2"
+                      pattern="^[0-9]{0,2}$"
+                      readOnly
                     />&nbsp;.&nbsp;
                     <input
                       onChange={changeIPHandler}
@@ -170,6 +167,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                       type="text"
                       value={siteIP.mdc}
                       maxLength="2"
+                      pattern="^[0-9]{0,2}$"
                     />&nbsp;.&nbsp;
                     <input
                       onChange={changeIPHandler}

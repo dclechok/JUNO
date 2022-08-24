@@ -2,6 +2,7 @@ function validateSingleUpload(asset, assetList, siteIP) {
   const blankFields = []; //log of all errors to be returned from function
   const rejectionLog = [];
   const newAsset = [];
+  let newIP = {};
   let reject_err = '';
   //block upload if there are empty form fields
 
@@ -29,21 +30,27 @@ function validateSingleUpload(asset, assetList, siteIP) {
   }
 
   //parse and validate siteIP
-  const validateAndParseIP = () => {
-    const splitIP = siteIP.value.split('.');
-    if(splitIP.length !== 4) reject_err = "IP is formatted incorrectly!";
-    console.log(splitIP)
+  const validateSetIP = () => {
+    for(let locData in siteIP){
+      //validation
+      if(siteIP[locData] === '') return reject_err = "IP data field(s) cannot be empty!";
+      if(siteIP[locData].split().forEach(char => Number(char).charCodeAt() < 48 || Number(char).charCodeAt() > 57)) return reject_err = "IP data must consist of numbers only! (Up to two digits)";
+      //setting
+      if(siteIP[locData].length === 1) newIP[locData] = '0'.concat(siteIP[locData]); // if a single digit like 2 is entered, we add an 0 to make it a two digit octet "02"
+      else newIP[locData] = siteIP[locData];
+    }
   };
-  
-
+ 
   if (blankFields && blankFields.length === 0) {
     validateAssetsByDatabase();
-    validateAndParseIP();
+    validateSetIP();
+    console.log(newIP, 'hello')
     if (reject_err) {
       rejectionLog.push({
         asset_tag: asset.asset_tag,
         location: {
           site: asset.location.site, //use this to render upload log
+          site_loc: newIP
         },
         status: "Needs Verified", //default on upload - **needs verified through foreman**
         serial_number: asset.serial_number,
@@ -58,6 +65,7 @@ function validateSingleUpload(asset, assetList, siteIP) {
         asset_tag: asset.asset_tag,
         location: {
           site: asset.location.site, //use this to render upload log
+          site_loc: newIP
         },
         status: "Needs Verified", //default on upload - **needs verified through foreman**
         serial_number: asset.serial_number,
