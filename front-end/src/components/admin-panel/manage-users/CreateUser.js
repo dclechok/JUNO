@@ -62,11 +62,11 @@ function CreateUser({ accountLogged, setViewOrCreate }) {
   };
 
   return (
-    <section className="create-user-container upload-container-style">
+    <section className="create-user-container">
       <h4>Create User</h4>
       {!createButtonDisabled ? 
       <form
-        className="form-container create-user-form"
+        className="create-user-form" 
         onSubmit={submitHandler}
       >
         <fieldset>
@@ -105,28 +105,28 @@ function CreateUser({ accountLogged, setViewOrCreate }) {
           </div>
         </fieldset>
 
-        <div className="create-space">
-          <label htmlFor="name">Name ("John Doe")</label>
+        <div className="form-container">
+          <label htmlFor="name">Name ("John Doe")</label><br />
           <input type="text" id="name" name="name" onChange={changeHandler} />
-
-          <label htmlFor="username">Username</label>
+          <br/>
+          <label htmlFor="username">Username</label><br />
           <input
             type="username"
             id="username"
             name="username"
             onChange={changeHandler}
-          />
+          />          <br/><br/>
 
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">Password</label><br />
           <input
             type="password"
             id="hash"
             name="hash"
             onChange={changeHandler}
           />
-
-          <label htmlFor="email">Email Address</label>
-          <input type="text" id="email" name="email" onChange={changeHandler} />
+          <br/><br/>
+          <label htmlFor="email">Email Address</label><br />
+          <input type="text" id="email" name="email" onChange={changeHandler} />          <br/><br/>
         </div>
         <div className="fix-button">
           <button className="submit-single-asset">Create User</button>

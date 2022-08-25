@@ -10,24 +10,22 @@
 
 .create-user-form{
     min-height: 400px;
+    margin-bottom: 2%;
 }
 
 .radio-buttons-container{
     display: inline-block;
-    max-width: 300px;
+    max-width: 500px;
 }
 
 .flex-buttons{
     display: flex;
-    justify-content: center;
-}
-
-.flex-buttons input{
-    position: relative;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .flex-header{
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
+    min-width: 300px;
 }
-
