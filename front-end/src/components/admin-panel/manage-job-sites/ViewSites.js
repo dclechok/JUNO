@@ -118,7 +118,7 @@ function ViewSites({ setViewOrCreate, accountLogged, setJobSiteID }) {
                     <td>{site.physical_site_id}</td>
                     <td>{site.physical_site_name}</td>
                     <td>{site.site_code}</td>
-                    <td>{site.category}</td>
+                    <td>{site.category.toUpperCase()}</td>
                     <td>{site.first_octet}</td>
                     <td>{accountLogged.account[0].name}</td>
                     <td>{dateFormatter(site.updated_at)}</td>

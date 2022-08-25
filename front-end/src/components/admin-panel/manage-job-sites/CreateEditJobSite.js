@@ -74,6 +74,8 @@ function CreateEditJobSite({
       return () => abortController.abort();
   }, [viewOrCreate, setViewOrCreate]);
 
+  console.log(oldSiteData);
+
   useEffect(() => {
     if(oldSiteData) setActiveCategory(oldSiteData.category.toLowerCase());
   }, [oldSiteData, setOldSiteData]);
@@ -91,7 +93,7 @@ function CreateEditJobSite({
         if(oldSiteData.category === "no-selection") return window.alert("You must choose a type of job site!");
         if (validateSiteForm(oldSiteData, allJobSites)) {
           setToggleButton(false);
-          oldSiteData.category === "Production" ? setSuccess(await updateJobSite(oldSiteData, accountLogged)) : setSuccess(await updateJobSite({...oldSiteData, first_octet: '' }, accountLogged ));
+          oldSiteData.category === "production" ? setSuccess(await updateJobSite(oldSiteData, accountLogged)) : setSuccess(await updateJobSite({...oldSiteData, first_octet: '' }, accountLogged ));
         }
       } else if (viewOrCreate === "create") {
         if(newSiteData.category === "no-selection") return window.alert("You must choose a type of job site!");
