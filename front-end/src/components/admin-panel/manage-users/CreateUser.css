@@ -1,7 +1,8 @@
 .create-user-container{
     display: block;
     max-width: 500px;
-    padding: 2%;
+    padding: 1%;
+    margin-bottom: 1%;
 }
 
 .create-user-container fieldset{
@@ -10,12 +11,13 @@
 
 .create-user-form{
     min-height: 400px;
-    margin-bottom: 2%;
+    display: inline-block;
+    width: 100%;
 }
 
 .radio-buttons-container{
     display: inline-block;
-    max-width: 500px;
+    max-width: 250px;
 }
 
 .flex-buttons{
@@ -27,5 +29,6 @@
 .flex-header{
     display: flex;
     justify-content: space-around;
+    align-items: center;
     min-width: 300px;
 }

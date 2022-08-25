@@ -138,13 +138,13 @@ function CreateEditJobSite({
   }, [setRadioBtnChecked]);
 
   return (
-    <section className="create-user-container upload-container-style">
+    <section className="create-user-container">
       <h4>
         {viewOrCreate.charAt(0).toUpperCase() + viewOrCreate.slice(1)} Job Site
       </h4>
       {oldSiteData || newSiteData && toggleButton ? (
         <form
-          className="form-container create-user-form"
+          className="form-container"
           onSubmit={submitHandler}
         >
           <fieldset>
@@ -186,10 +186,10 @@ function CreateEditJobSite({
             </div>
           </fieldset>
 
-          <div className="create-space">
+          <div>
             <label htmlFor="physical_site_name">
-              Physical Site Name (ex. "Sandersville, GA")
-            </label>
+              Site Name (ex. "Sandersville, GA")
+            </label><br />
             <input
               type="text"
               id="physical_site_name"
@@ -206,9 +206,9 @@ function CreateEditJobSite({
                   ? oldSiteData.physical_site_name
                   : defaultJobSite.physical_site_name
               }
-            />
+            /><br />
 
-            <label htmlFor="site_code">Site Code (ex. "GA01")</label>
+            <label htmlFor="site_code">Site Code (ex. "GA01")</label><br />
             <input
               type="text"
               id="site_code"
@@ -225,12 +225,12 @@ function CreateEditJobSite({
                   ? oldSiteData.site_code
                   : defaultJobSite.site_code
               }
-            />
+            /><br />
             {radioBtnChecked && radioBtnChecked["Production"] && (oldSiteData || newSiteData) && (
               <>
                 <label htmlFor="first_octet">
                   Site IP First Octet (ex. "10")
-                </label>
+                </label><br />
                 <input
                   type="text"
                   id="first_octet"
@@ -247,7 +247,7 @@ function CreateEditJobSite({
                       ? oldSiteData.first_octet
                       : defaultJobSite.first_octet
                   }
-                />
+                /><br />
               </>
             )}
           </div>
