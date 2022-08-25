@@ -23,7 +23,7 @@ function CreateUser({ accountLogged, setViewOrCreate }) {
   }, [setViewOrCreate]);
 
   const [newUser, setNewUser] = useState({
-    access_level: "",
+    access_level: "no-selection",
     name: "",
     username: "",
     hash: "",
@@ -48,7 +48,7 @@ function CreateUser({ accountLogged, setViewOrCreate }) {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if(newUser.access_level === "no-selection" || newUser.access_level === "no-selection") return window.alert("You must select a role for this new user!");
+    if(newUser.access_level === "no-selection") return window.alert("You must select a role for this new user!");
     //frontend validate new user data
     if (validateUserForm(newUser, users)) {
       setCreateButtonDisabled(true);
