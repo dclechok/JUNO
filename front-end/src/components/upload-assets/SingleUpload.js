@@ -53,9 +53,9 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
   }, [targetSite, setTargetSite]);
 
   const setStatus = () => {
-    if (targetSite && targetSite.category === "Production") return "Hashing";
-    if (targetSite && targetSite.category === "Repair") return "Repair";
-    if (targetSite && targetSite.category === "Storage") return "Storage";
+    if (targetSite && targetSite.category === "production") return "Hashing";
+    if (targetSite && targetSite.category === "repair") return "Repair";
+    if (targetSite && targetSite.category === "storage") return "Storage";
   };
   //handling state of IP fields
   const changeIPHandler = (e) => {

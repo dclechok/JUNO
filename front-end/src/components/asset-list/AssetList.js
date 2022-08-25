@@ -52,7 +52,7 @@ function AssetList({
     getAssets();
     return () => abortController.abort();
   }, []);
-
+  console.log(assetList)
   useEffect(() => {
     //get list of all job sites
     const abortController = new AbortController();

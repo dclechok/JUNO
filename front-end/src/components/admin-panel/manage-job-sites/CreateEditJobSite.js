@@ -74,8 +74,6 @@ function CreateEditJobSite({
       return () => abortController.abort();
   }, [viewOrCreate, setViewOrCreate]);
 
-  console.log(oldSiteData);
-
   useEffect(() => {
     if(oldSiteData) setActiveCategory(oldSiteData.category.toLowerCase());
   }, [oldSiteData, setOldSiteData]);
