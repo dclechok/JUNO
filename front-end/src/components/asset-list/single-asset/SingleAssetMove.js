@@ -8,7 +8,8 @@ function SingleAssetMove({ singleAsset, accountLogged }){
     const [jobSites, setJobSites] = useState(); //fetch all job sites
     const [selectedSite, setSelectedSite] = useState(); //selected site name from drop down
     const [site, setSite] = useState();
-    const [currentIP, setCurrentIP] = useState({ first_octet: '', mdc: '', shelf: '', unit: '' });
+    const defaultIP = { first_octet: '', mdc: '', shelf: '', unit: '' };
+    const [currentIP, setCurrentIP] = useState(defaultIP);
 
     useEffect(() => {
         async function getAllSites(){
@@ -34,7 +35,9 @@ function SingleAssetMove({ singleAsset, accountLogged }){
     }, [jobSites, setJobSites, selectedSite, setSelectedSite]);
 
     useEffect(() => {
-        if(site && site.category === "production" && singleAsset[0]) setCurrentIP({ first_octet: site.first_octet, mdc: singleAsset[0].location.site_loc.mdc, shelf: singleAsset[0].location.site_loc.shelf, unit: singleAsset[0].location.site_loc.unit})
+        //if the site is production and matches the site the singleAsset belongs to, fill the form fields with existing location data
+        if((site && site.category === "production" && singleAsset[0]) && site.physical_site_name === singleAsset[0].location.site) setCurrentIP({ first_octet: site.first_octet, mdc: singleAsset[0].location.site_loc.mdc, shelf: singleAsset[0].location.site_loc.shelf, unit: singleAsset[0].location.site_loc.unit})
+        else setCurrentIP(defaultIP); //otherwise clear the current working IP
     }, [site, setSite]);
 
     return (
