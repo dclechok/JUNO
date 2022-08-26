@@ -6,7 +6,6 @@ import { getJobSites, getAllAssets } from '../../../utils/api';
 import LoaderSpinner from '../../LoaderSpinner';
 import validateLoc from '../../../utils/validation/validateLoc';
 
-
 function SingleAssetMove({ singleAsset, accountLogged }){
     const [jobSites, setJobSites] = useState(); //fetch all job sites
     const [assetList, setAssetList] = useState();
@@ -58,7 +57,11 @@ function SingleAssetMove({ singleAsset, accountLogged }){
     const submitHandler = (e) => {
         //validate location
         e.preventDefault();
-        validateLoc(currentLoc, singleAsset, assetList);
+        //returns object if location is valid, or error string
+        const validated = validateLoc(currentLoc, singleAsset, assetList);
+        if(typeof validated === "string"){
+            window.alert(validated);
+        }else console.log('validated and lets move!');
     };
 
     return (

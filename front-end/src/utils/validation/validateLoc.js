@@ -3,7 +3,7 @@
         // -> must be within range of site's set ranges
         // -> asset much be two digits (string of number digits only) or we concat a 0
 
-var _ = require('lodash');
+const _ = require('lodash'); //for comparing objects
 
 function validateLoc(currentLoc, singleAsset, assetList){
     
@@ -27,7 +27,6 @@ function validateLoc(currentLoc, singleAsset, assetList){
     const newLocObject = {...currentLoc, ["site_loc"]: { ...newIP }};
     //compare site name, and site_loc (ip)
     const existingSlot = assetList.find(asset => asset.location.site === newLocObject.site && _.isEqual(asset.location.site_loc, newLocObject.site_loc));
-    console.log(existingSlot)
     //we are trying to move the object to the same position it is in?
     if(existingSlot && existingSlot.asset_id === singleAsset.asset_id) return "This device is already slotted in this location!";
     //we are trying to move the object to a filled slot that is not this current singleAsset device
