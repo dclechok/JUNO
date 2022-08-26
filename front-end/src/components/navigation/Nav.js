@@ -19,7 +19,6 @@ function Nav({ setLoadAssets, loadAssets, accountLogged, setAccountLogged, setId
     setAccountLogged(null); //clear state storage
     localStorage.clear(); //clear browser storage
     navigate("/"); //navigate back to login
-
   };
 
   const onPrompt = () => {

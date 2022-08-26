@@ -8,8 +8,6 @@ function AssetTracker({ assetListValues, formattedKey}) {
   // numInStorage: 0,
   // numInRepair: 0,
   // numRetired: 0,
-
-
   const machinesDown =
     assetListValues.totalNumOfAssets - assetListValues.numOfHashing;
   return (

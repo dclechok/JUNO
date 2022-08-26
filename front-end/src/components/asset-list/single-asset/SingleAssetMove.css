@@ -1,0 +1,41 @@
+.move-input-container{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin-top: 4%;
+    margin-bottom: 4%;
+}
+
+.move-input-container select{
+    margin-top: 0;
+    margin-right: 4%;
+}
+
+.move-input-container input{
+    margin: 4%;
+}
+
+.submit-move-btn{
+    background-color: rgb(31, 31, 36);
+    border-width: 2px;
+    border-color: rgb(30, 91, 129);
+    border-style: solid;
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    padding: 1%;
+    margin-bottom: 2%;
+    margin-left: 1%;
+    margin-right: 1%;
+    color: rgb(239, 248, 255);
+}
+
+.submit-move-btn:hover{
+    color:rgb(167, 208, 255);
+    background-color: rgb(32, 31, 31);
+}
+
+.submit-move-btn:active, button:target{
+    background-color: rgb(26, 26, 31);
+}

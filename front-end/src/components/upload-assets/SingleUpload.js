@@ -104,7 +104,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
       setLoadAssets(!loadAssets);
     }
   };
-  console.log(uploadSuccess)
+
   //clear data once submitted 
   useEffect(() => {
     if(uploadSuccess){
@@ -247,7 +247,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                 <br />
               </div>
               <div className="fix-button">
-                <button className="submit-single-asset" type="submit">
+                <button className="submit-move-btn" type="submit">
                   Upload Single Asset
                 </button>
               </div>

@@ -15,7 +15,7 @@ function UploadSuccess({ uploadSuccess, rejectedLog, newAssets }) {
     percentOfFails = rejectedLog ? rejectedLog.length / totalAmtOfUploads : 0 / totalAmtOfUploads;
   };
   calcSuccessFailure();
-  console.log(uploadSuccess)
+
   return (
     <div className="upload-success-log">
       {/* {!Object.keys(uploadSuccess).includes("error") ? */}

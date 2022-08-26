@@ -152,3 +152,15 @@ th{
   margin-left: auto;
   margin-top: 1%;
 }
+
+.ip-inputs{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+}
+
+.ip-inputs input{
+  width: 30px;
+  text-align: center;
+}

@@ -125,13 +125,12 @@ h3{
     justify-content: center;
     align-items: center;
     width: auto;
-}
-
-.ip-inputs input{
+  }
+  
+  .ip-inputs input{
     width: 30px;
     text-align: center;
-    
-}
+  }
 /* for input type 'number' - removes scrollbars */
 /* input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button
