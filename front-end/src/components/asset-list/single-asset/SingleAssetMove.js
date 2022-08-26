@@ -1,15 +1,19 @@
 import { useEffect, useState } from 'react';
 import './SingleAssetMove.css';
-import { getJobSites } from '../../../utils/api';
+
+//utils
+import { getJobSites, getAllAssets } from '../../../utils/api';
 import LoaderSpinner from '../../LoaderSpinner';
+import validateLoc from '../../../utils/validation/validateLoc';
 
 
 function SingleAssetMove({ singleAsset, accountLogged }){
     const [jobSites, setJobSites] = useState(); //fetch all job sites
+    const [assetList, setAssetList] = useState();
     const [selectedSite, setSelectedSite] = useState(); //selected site name from drop down
     const [site, setSite] = useState();
-    const defaultIP = { first_octet: '', mdc: '', shelf: '', unit: '' };
-    const [currentIP, setCurrentIP] = useState(defaultIP);
+    const defaultIP = { site: '', site_loc: { first_octet: '', mdc: '', shelf: '', unit: '' }};
+    const [currentLoc, setCurrentLoc] = useState(defaultIP);
 
     useEffect(() => {
         async function getAllSites(){
@@ -19,15 +23,26 @@ function SingleAssetMove({ singleAsset, accountLogged }){
         setSelectedSite(singleAsset[0].location.site)
     }, []);
 
+    useEffect(() => {
+        async function getAssets(){
+            setAssetList(await getAllAssets());
+        }
+        getAssets();
+    }, []);
+
     const changeHandler = (e) => {
         e.preventDefault();
         setSelectedSite(e.currentTarget.value);
     };
 
+    useEffect(() => {
+        if(selectedSite) setCurrentLoc({ ...currentLoc, site: selectedSite });
+    }, [selectedSite, setSelectedSite]);
+
     const changeIPHandler = (e) => {
         e.preventDefault();
         const { id, value } = e.currentTarget;
-        setCurrentIP({ ...currentIP, [id]: value });
+        setCurrentLoc({ ...currentLoc, ["site_loc"]: {...currentLoc.site_loc, [id]: value}});
     };
 
     useEffect(() => {
@@ -36,14 +51,20 @@ function SingleAssetMove({ singleAsset, accountLogged }){
 
     useEffect(() => {
         //if the site is production and matches the site the singleAsset belongs to, fill the form fields with existing location data
-        if((site && site.category === "production" && singleAsset[0]) && site.physical_site_name === singleAsset[0].location.site) setCurrentIP({ first_octet: site.first_octet, mdc: singleAsset[0].location.site_loc.mdc, shelf: singleAsset[0].location.site_loc.shelf, unit: singleAsset[0].location.site_loc.unit})
-        else setCurrentIP(defaultIP); //otherwise clear the current working IP
+        if((site && site.category === "production" && singleAsset[0]) && site.physical_site_name === singleAsset[0].location.site) setCurrentLoc({ site: site.physical_site_name, site_loc: { first_octet: site.first_octet, mdc: singleAsset[0].location.site_loc.mdc, shelf: singleAsset[0].location.site_loc.shelf, unit: singleAsset[0].location.site_loc.unit}})
+        else setCurrentLoc({...defaultIP, site: selectedSite }); //otherwise clear the current working IP
     }, [site, setSite]);
+
+    const submitHandler = (e) => {
+        //validate location
+        e.preventDefault();
+        validateLoc(currentLoc, singleAsset, assetList);
+    };
 
     return (
         <div>
-            {jobSites ? 
-            <form className="upload-container">
+            {jobSites && assetList ? 
+            <form id="move-asset-form" className="upload-container" onSubmit={submitHandler}>
                 <h3>Current Device Location: {singleAsset[0].location.site} - {singleAsset[0].location.site_loc.first_octet}.{singleAsset[0].location.site_loc.mdc}.{singleAsset[0].location.site_loc.shelf}.{singleAsset[0].location.site_loc.unit}</h3>
                 <div className='move-input-container'>
                 <select onChange={changeHandler} defaultValue={selectedSite}>
@@ -51,15 +72,15 @@ function SingleAssetMove({ singleAsset, accountLogged }){
                         return <option key={key} value={js.physical_site_name}>{js.physical_site_name}</option>
                     })}
                 </select>
-                {site && site.category === "production" &&
+                {site && site.category === "production" && currentLoc && 
                 <div className='ip-inputs'> - 
                 <input type="text" id="first_octet" defaultValue={site.first_octet} readOnly maxLength="2" />.
-                <input type="text" id="mdc" value={currentIP.mdc} onChange={changeIPHandler} maxLength="2" /> . 
-                <input type="text" id="shelf" value={currentIP.shelf} onChange={changeIPHandler} maxLength="2" /> . 
-                <input type="text" id="unit" value={currentIP.unit} onChange={changeIPHandler} maxLength="2" />
+                <input type="text" id="mdc" value={currentLoc.site_loc.mdc} onChange={changeIPHandler} maxLength="2" /> . 
+                <input type="text" id="shelf" value={currentLoc.site_loc.shelf} onChange={changeIPHandler} maxLength="2" /> . 
+                <input type="text" id="unit" value={currentLoc.site_loc.unit} onChange={changeIPHandler} maxLength="2" />
                 </div>}
                 </div>
-                <button className="submit-move-btn">
+                <button className="submit-move-btn" type="submit" form='move-asset-form'>
                   Move Asset
                 </button>
                 <button className="submit-move-btn">
