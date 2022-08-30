@@ -19,7 +19,7 @@ function SingleAssetHistoryLog({ loadedHistory }) {
   const sortButtonSubmit = (e) => {
     e.preventDefault();
   };
-  console.log(loadedHistory)
+
   useEffect(() => {
     const abortController = new AbortController();
     async function loadHistoryLog() {
@@ -34,7 +34,7 @@ function SingleAssetHistoryLog({ loadedHistory }) {
     loadHistoryLog();
     return () => abortController.abort();
   }, [loadedHistory, history_key]);
-  console.log(currentHistoryLog)
+
   return (
     <>
       {currentHistoryLog ? (
@@ -59,7 +59,7 @@ function SingleAssetHistoryLog({ loadedHistory }) {
               </p>
               <p>
                 <b>Logged Date</b>:{" "}
-                {dateFormatter(currentHistoryLog.action_date)}
+                {dateFormatter(JSON.parse(currentHistoryLog.action_date))}
               </p>
               <p>
                 <b>Total Assets Mutated</b>: {loadedHistory.length}

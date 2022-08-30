@@ -19,6 +19,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
   const [uploadSuccess, setUploadSuccess] = useState(null);
   const defaultSiteIP = { first_octet: '', mdc: '', shelf: '', unit: '' };
   const [siteIP, setSiteIP] = useState(defaultSiteIP);
+  const [toggleReload, setToggleReload] = useState(false);
   const [assetFields, setAssetFields] = useState({
     asset_tag: "",
     location: "",
@@ -80,7 +81,6 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
       if (acceptOrReject.rejected.length === 0 && acceptOrReject.accepted.length > 0) {
         const action_date = new Date();
         const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
-        console.log(acceptOrReject.accepted)
         async function postSingleAsset() {
           setUploadSuccess(await createAsset(
             {
@@ -89,7 +89,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
               history: [
                 {
                   action_taken: "Single Upload",
-                  action_date: action_date,
+                  action_date: JSON.stringify(action_date),
                   action_by: accountLogged.account[0].name,
                   action_by_id: accountLogged.account[0].user_id,
                   action_key: newHistoryKey,
@@ -104,14 +104,14 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
       setLoadAssets(!loadAssets);
     }
   };
-
   //clear data once submitted 
   useEffect(() => {
     if(uploadSuccess){
       setAssetFields('');
       setSiteIP('');
+      window.location.reload();
     } 
-  }, [uploadSuccess, setUploadSuccess]);
+  }, [uploadSuccess]);
 
   useEffect(() => {
     //populate job sites in location field
@@ -257,13 +257,13 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
       ) : (
         <LoaderSpinner height={45} width={45} message={"Job Sites"} />
       )}
-      {/* {logItem && logItem !== "fields not validated" &&
+      {logItem && logItem !== "fields not validated" &&
         <UploadSuccess
           rejectedLog={logItem.rejected}
           newAssets={logItem.accepted}
           uploadSuccess={uploadSuccess}
         />
-      } */}
+      }
     </section>
   );
 }

@@ -15,7 +15,7 @@ function validateLoc(currentLoc, singleAsset, assetList){
         //char can only be a number
         if(currentLoc.site_loc[locData].split().find(char => char.charCodeAt() < 48 || char.charCodeAt() > 57)) return "IP data must consist of numbers only! (Up to two digits)";
         //construct new IP octet if user only entered one digit (ex. "3" becomes "03")
-        if(currentLoc.site_loc[locData].length < 2) newIP[locData] = '0'.concat(currentLoc.site_loc[locData]);
+        if(currentLoc.site_loc[locData].length === 1) newIP[locData] = '0'.concat(currentLoc.site_loc[locData]);
         else newIP[locData] = currentLoc.site_loc[locData];
         //"00" is an invalid entry
         if(newIP[locData] === "00") return `The entry for ${locData} must not be less than "01"!`;
