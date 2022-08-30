@@ -19,7 +19,7 @@ function SingleAssetHistoryLog({ loadedHistory }) {
   const sortButtonSubmit = (e) => {
     e.preventDefault();
   };
-
+  console.log(loadedHistory)
   useEffect(() => {
     const abortController = new AbortController();
     async function loadHistoryLog() {
@@ -34,7 +34,7 @@ function SingleAssetHistoryLog({ loadedHistory }) {
     loadHistoryLog();
     return () => abortController.abort();
   }, [loadedHistory, history_key]);
-
+  console.log(currentHistoryLog)
   return (
     <>
       {currentHistoryLog ? (
@@ -122,7 +122,7 @@ function SingleAssetHistoryLog({ loadedHistory }) {
                         <td>
                           {asset.location.site_loc === ""
                             ? "Needs Verified"
-                            : asset.location.site_loc}
+                            : `${asset.location.site_loc.first_octet}.${asset.location.site_loc.mdc}.${asset.location.site_loc.shelf}.${asset.location.site_loc.unit}`}
                         </td>
                         <td>{asset.serial_number}</td>
                         <td>{asset.make}</td>

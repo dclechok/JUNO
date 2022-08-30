@@ -50,10 +50,12 @@ function Search({ assetList, setFilteredAssetList }) {
     e.preventDefault(); //stop page from reload
     //validate input so that not blank
     //clear space with regex
+    setSearchTag(searchTag.trim());
     if(searchTag.includes(' ')) window.alert("Search field cannot contain spaces!");
     else if(searchTag.length < 1) window.alert("Search field cannot be blank!");
     else searchAssetList();
   };
+  console.log(searchTag)
   
   const handleChange = (e) => {
     if(e.currentTarget.id === "search") setSearchTag(e.currentTarget.value);

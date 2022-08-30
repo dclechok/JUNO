@@ -27,7 +27,7 @@ function SingleHistory({ assetList, searchHistoryType }) {
       if (assetList && assetList.length !== 0) {
         if (
           assetList.find((asset) =>
-            asset.history.find(
+            asset.history.filter(
               (assetHist) => assetHist.action_key === history_key ))
         )
         setLoadedHistory(

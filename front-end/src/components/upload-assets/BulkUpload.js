@@ -131,7 +131,7 @@ function BulkUpload({ setLoadAssets, loadAssets, accountLogged }) {
                           uploadSuccess={uploadSuccess}
                           rejectedLog={stateAssets.rejected}
                           newAssets={stateAssets.accepted}
-                        /> : <LoaderSpinner height={45} width={45} message={"Validating and Uploading Assets..."}/>
+                        /> : <LoaderSpinner height={45} width={45} message={"New Asset Data..."}/>
                       }
                     </div>
                   )}
