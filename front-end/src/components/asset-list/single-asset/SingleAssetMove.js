@@ -62,7 +62,6 @@ function SingleAssetMove({ singleAsset, accountLogged }){
         e.preventDefault();
         //returns object if location is valid, or error string
         const validated = validateLoc(currentLoc, singleAsset, assetList);
-        console.log(validated);
         if(typeof validated === "string"){
             window.alert(validated);
         }else 
@@ -108,7 +107,7 @@ function SingleAssetMove({ singleAsset, accountLogged }){
                 <button className="submit-move-btn">
                   Cancel
                 </button>
-            </form> : <LoaderSpinner height={45} width={45} message={"Job Sites"} />}
+            </form> : <LoaderSpinner height={45} width={45} message={"Data"} />}
         </div>
     );
 }
