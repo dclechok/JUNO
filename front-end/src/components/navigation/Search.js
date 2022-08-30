@@ -55,7 +55,6 @@ function Search({ assetList, setFilteredAssetList }) {
     else if(searchTag.length < 1) window.alert("Search field cannot be blank!");
     else searchAssetList();
   };
-  console.log(searchTag)
   
   const handleChange = (e) => {
     if(e.currentTarget.id === "search") setSearchTag(e.currentTarget.value);

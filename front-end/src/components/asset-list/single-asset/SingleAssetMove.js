@@ -8,19 +8,19 @@ import validateLoc from '../../../utils/validation/validateLoc';
 import { updateAsset } from '../../../utils/api';
 import colorCodes from '../../../utils/colorCodes';
 
-function SingleAssetMove({ singleAsset, accountLogged }){
+function SingleAssetMove({ singleAsset, accountLogged }) {
     const [jobSites, setJobSites] = useState(); //fetch all job sites
     const [assetList, setAssetList] = useState();
     const [selectedSite, setSelectedSite] = useState(); //selected site name from drop down
     const [site, setSite] = useState();
-    const defaultIP = { site: '', site_loc: { first_octet: '', mdc: '', shelf: '', unit: '' }};
+    const defaultIP = { site: '', site_loc: { first_octet: '', mdc: '', shelf: '', unit: '' } };
     const [currentLoc, setCurrentLoc] = useState(defaultIP);
     const [locUpdatedSuccess, setLocUpdatedSuccess] = useState(null);
     const [toggleBtn, setToggleBtn] = useState(true);
     const [moveSuccessful, setMoveSuccessful] = useState(false);
 
     useEffect(() => {
-        async function getAllSites(){
+        async function getAllSites() {
             setJobSites(await getJobSites());
         }
         getAllSites();
@@ -28,7 +28,7 @@ function SingleAssetMove({ singleAsset, accountLogged }){
     }, []);
 
     useEffect(() => {
-        async function getAssets(){
+        async function getAssets() {
             setAssetList(await getAllAssets());
         }
         getAssets();
@@ -39,24 +39,36 @@ function SingleAssetMove({ singleAsset, accountLogged }){
         setSelectedSite(e.currentTarget.value);
     };
 
+    const setStatus = () => {
+        if (site && site.category === "production") return "Hashing";
+        if (site && site.category === "repair") return "Repair";
+        if (site && site.category === "storage") return "Storage";
+      };
+      if(site) console.log(site.category)
     useEffect(() => {
-        if(selectedSite) setCurrentLoc({ ...currentLoc, site: selectedSite });
+        const abortController = new AbortController();
+        if (selectedSite) setCurrentLoc({ ...currentLoc, site: selectedSite });
+        return () => abortController.abort();
     }, [selectedSite, setSelectedSite]);
 
     const changeIPHandler = (e) => {
         e.preventDefault();
         const { id, value } = e.currentTarget;
-        setCurrentLoc({ ...currentLoc, ["site_loc"]: {...currentLoc.site_loc, [id]: value}});
+        setCurrentLoc({ ...currentLoc, ["site_loc"]: { ...currentLoc.site_loc, [id]: value } });
     };
 
     useEffect(() => {
-        if(jobSites && selectedSite) setSite(jobSites.find(site => site.physical_site_name === selectedSite));
+        const abortController = new AbortController();
+        if (jobSites && selectedSite) setSite(jobSites.find(site => site.physical_site_name === selectedSite));
+        return () => abortController.abort();
     }, [jobSites, setJobSites, selectedSite, setSelectedSite]);
 
     useEffect(() => {
+        const abortController = new AbortController();
         //if the site is production and matches the site the singleAsset belongs to, fill the form fields with existing location data
-        if((site && site.category === "production" && singleAsset) && site.physical_site_name === singleAsset.location.site) setCurrentLoc({ site: site.physical_site_name, site_loc: { first_octet: site.first_octet, mdc: singleAsset.location.site_loc.mdc, shelf: singleAsset.location.site_loc.shelf, unit: singleAsset.location.site_loc.unit}})
-        else setCurrentLoc({...defaultIP, site: selectedSite }); //otherwise clear the current working IP
+        if ((site && site.category === "production" && singleAsset) && site.physical_site_name === singleAsset.location.site) setCurrentLoc({ site: site.physical_site_name, site_loc: { first_octet: site.first_octet, mdc: singleAsset.location.site_loc.mdc, shelf: singleAsset.location.site_loc.shelf, unit: singleAsset.location.site_loc.unit } })
+        else setCurrentLoc({ ...defaultIP, site: selectedSite }); //otherwise clear the current working IP
+        return abortController.abort();
     }, [site, setSite]);
 
     const submitHandler = (e) => {
@@ -64,22 +76,22 @@ function SingleAssetMove({ singleAsset, accountLogged }){
         e.preventDefault();
         setMoveSuccessful(false); //move is not successful yet
         //returns object if location is valid, or error string
-        const validated = validateLoc(currentLoc, singleAsset, assetList);
-        if(typeof validated === "string"){
+        let validated = '';
+        if(site.category === "production") validated = validateLoc(currentLoc, singleAsset, assetList);
+        else validated = { site: site.physical_site_name, site_loc: defaultIP.site_loc }; //if job site is not production (ie. no ip should exist) then set site_loc fields to empty
+        if (typeof validated === "string") {
             window.alert(validated);
-        }else 
-    {
-        console.log('validated and lets move!');
-        setToggleBtn(false); //set to loading screen
-        async function postNewLocData(){
-            setLocUpdatedSuccess(await updateAsset(singleAsset.asset_id, {...singleAsset, location: validated }));
+        } else {
+            setToggleBtn(false); //set to loading screen
+            async function postNewLocData() {
+                setLocUpdatedSuccess(await updateAsset(singleAsset.asset_id, { ...singleAsset, location: validated, status: setStatus() }));
+            }
+            postNewLocData();
         }
-        postNewLocData();
-    }
     };
 
-    useEffect(() => {  
-        if(locUpdatedSuccess && !locUpdatedSuccess.error){
+    useEffect(() => {
+        if (locUpdatedSuccess && !locUpdatedSuccess.error) {
             setToggleBtn(true); //toggle loading spinner
             setMoveSuccessful(true); //toggle success message
             window.location.reload(); //reload component so single asset info is updated with new data
@@ -88,31 +100,31 @@ function SingleAssetMove({ singleAsset, accountLogged }){
 
     return (
         <div>
-            {jobSites && assetList && toggleBtn ? 
-            <form id="move-asset-form" className="upload-container" onSubmit={submitHandler}>
-                <h3>Current Device Location: {singleAsset.location.site} - {singleAsset.location.site_loc.first_octet}.{singleAsset.location.site_loc.mdc}.{singleAsset.location.site_loc.shelf}.{singleAsset.location.site_loc.unit}</h3>
-                <div className='move-input-container'>
-                <select onChange={changeHandler} defaultValue={selectedSite}>
-                    {jobSites.map((js, key) => {
-                        return <option key={key} value={js.physical_site_name}>{js.physical_site_name}</option>
-                    })}
-                </select>
-                {site && site.category === "production" && currentLoc && 
-                <div className='ip-inputs'> - 
-                <input type="text" id="first_octet" defaultValue={site.first_octet} readOnly maxLength="2" />.
-                <input type="text" id="mdc" value={currentLoc.site_loc.mdc} onChange={changeIPHandler} maxLength="2" /> . 
-                <input type="text" id="shelf" value={currentLoc.site_loc.shelf} onChange={changeIPHandler} maxLength="2" /> . 
-                <input type="text" id="unit" value={currentLoc.site_loc.unit} onChange={changeIPHandler} maxLength="2" />
-                </div>}
-                </div>
-                {moveSuccessful && locUpdatedSuccess && <div className='move-success'><p style={{color: colorCodes["Active"]}}>Move to  - {locUpdatedSuccess.data.location.site_loc.first_octet}.{locUpdatedSuccess.data.location.site_loc.mdc}.{locUpdatedSuccess.data.location.site_loc.shelf}.{locUpdatedSuccess.data.location.site_loc.unit} - Successful!</p></div>}
-                <button className="submit-move-btn" type="submit" form='move-asset-form'>
-                  Move Asset
-                </button>
-                <button className="submit-move-btn">
-                  Cancel
-                </button>
-            </form> : <LoaderSpinner height={45} width={45} message={"Data"} />}
+            {jobSites && assetList && toggleBtn ?
+                <form id="move-asset-form" className="upload-container" onSubmit={submitHandler}>
+                    <h3>Current Device Location: {singleAsset.location.site} - {singleAsset.location.site_loc.first_octet}.{singleAsset.location.site_loc.mdc}.{singleAsset.location.site_loc.shelf}.{singleAsset.location.site_loc.unit}</h3>
+                    <div className='move-input-container'>
+                        <select onChange={changeHandler} defaultValue={selectedSite}>
+                            {jobSites.map((js, key) => {
+                                return <option key={key} value={js.physical_site_name}>{js.physical_site_name}</option>
+                            })}
+                        </select>
+                        {site && site.category === "production" && currentLoc &&
+                            <div className='ip-inputs'> -
+                                <input type="text" id="first_octet" defaultValue={site.first_octet} readOnly maxLength="2" />.
+                                <input type="text" id="mdc" value={currentLoc.site_loc.mdc} onChange={changeIPHandler} maxLength="2" /> .
+                                <input type="text" id="shelf" value={currentLoc.site_loc.shelf} onChange={changeIPHandler} maxLength="2" /> .
+                                <input type="text" id="unit" value={currentLoc.site_loc.unit} onChange={changeIPHandler} maxLength="2" />
+                            </div>}
+                    </div>
+                    {moveSuccessful && locUpdatedSuccess && <div className='move-success'><p style={{ color: colorCodes["Active"] }}>Move to  - {locUpdatedSuccess.data.location.site_loc.first_octet}.{locUpdatedSuccess.data.location.site_loc.mdc}.{locUpdatedSuccess.data.location.site_loc.shelf}.{locUpdatedSuccess.data.location.site_loc.unit} - Successful!</p></div>}
+                    <button className="submit-move-btn" type="submit" form='move-asset-form'>
+                        Move Asset
+                    </button>
+                    <button className="submit-move-btn">
+                        Cancel
+                    </button>
+                </form> : <LoaderSpinner height={45} width={45} message={"Data"} />}
         </div>
     );
 }
