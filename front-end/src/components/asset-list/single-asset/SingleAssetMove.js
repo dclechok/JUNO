@@ -6,6 +6,7 @@ import { getJobSites, getAllAssets } from '../../../utils/api';
 import LoaderSpinner from '../../LoaderSpinner';
 import validateLoc from '../../../utils/validation/validateLoc';
 import { updateAsset } from '../../../utils/api';
+import colorCodes from '../../../utils/colorCodes';
 
 function SingleAssetMove({ singleAsset, accountLogged }){
     const [jobSites, setJobSites] = useState(); //fetch all job sites
@@ -16,6 +17,7 @@ function SingleAssetMove({ singleAsset, accountLogged }){
     const [currentLoc, setCurrentLoc] = useState(defaultIP);
     const [locUpdatedSuccess, setLocUpdatedSuccess] = useState(null);
     const [toggleBtn, setToggleBtn] = useState(true);
+    const [moveSuccessful, setMoveSuccessful] = useState(false);
 
     useEffect(() => {
         async function getAllSites(){
@@ -60,6 +62,7 @@ function SingleAssetMove({ singleAsset, accountLogged }){
     const submitHandler = (e) => {
         //validate location
         e.preventDefault();
+        setMoveSuccessful(false); //move is not successful yet
         //returns object if location is valid, or error string
         const validated = validateLoc(currentLoc, singleAsset, assetList);
         if(typeof validated === "string"){
@@ -78,6 +81,8 @@ function SingleAssetMove({ singleAsset, accountLogged }){
     useEffect(() => {  
         if(locUpdatedSuccess && !locUpdatedSuccess.error){
             setToggleBtn(true);
+            setMoveSuccessful(true);
+            window.location.reload();
         }
     }, [locUpdatedSuccess]);
 
@@ -101,6 +106,7 @@ function SingleAssetMove({ singleAsset, accountLogged }){
                 <input type="text" id="unit" value={currentLoc.site_loc.unit} onChange={changeIPHandler} maxLength="2" />
                 </div>}
                 </div>
+                {moveSuccessful && locUpdatedSuccess && <div className='move-success'><p style={{color: colorCodes["Active"]}}>Move to  - {locUpdatedSuccess.data.location.site_loc.first_octet}.{locUpdatedSuccess.data.location.site_loc.mdc}.{locUpdatedSuccess.data.location.site_loc.shelf}.{locUpdatedSuccess.data.location.site_loc.unit} - Successful!</p></div>}
                 <button className="submit-move-btn" type="submit" form='move-asset-form'>
                   Move Asset
                 </button>

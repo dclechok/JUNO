@@ -39,3 +39,7 @@
 .submit-move-btn:active, button:target{
     background-color: rgb(26, 26, 31);
 }
+
+.move-success{
+    margin-bottom: 4%;
+}
