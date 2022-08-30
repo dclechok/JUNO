@@ -37,7 +37,6 @@ export async function getAllAssets() {
 }
 // ASSETS - CREATE ONE //
 export async function createAsset(assets) {
-  console.log(assets)
   try {
     const response = await fetch(BASE_URL + "assets", {
       method: "POST",

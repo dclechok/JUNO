@@ -7,11 +7,10 @@ import UploadSuccess from "./UploadSuccess.js";
 import LoaderSpinner from "../LoaderSpinner.js";
 
 //utils
-import { createAsset } from "../../utils/api.js";
-import { getJobSites } from "../../utils/api.js";
+import { getJobSites, getAllAssets, createAsset } from "../../utils/api.js";
 import validateSingleUpload from "../../utils/validation/validateSingleUpload";
 
-function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
+function SingleUpload({ accountLogged }) {
   const [jobSites, setJobSites] = useState([]);
   const [locationSelect, setLocationSelect] = useState("All Locations");
   const [logItem, setLogItem] = useState();
@@ -19,7 +18,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
   const [uploadSuccess, setUploadSuccess] = useState(null);
   const defaultSiteIP = { first_octet: '', mdc: '', shelf: '', unit: '' };
   const [siteIP, setSiteIP] = useState(defaultSiteIP);
-  const [toggleReload, setToggleReload] = useState(false);
+  const [assetList, setAssetList] = useState([]);
   const [assetFields, setAssetFields] = useState({
     asset_tag: "",
     location: "",
@@ -39,6 +38,14 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
       location: { site: e.currentTarget.value },
     });
   };
+
+  useEffect(() => {
+    async function loadAllAssets(){
+      setAssetList(await getAllAssets());
+    }
+    loadAllAssets();
+  }, [uploadSuccess, setUploadSuccess]);
+
   useEffect(() => {
     if (locationSelect && locationSelect !== '-- select an option --') {
       setTargetSite(jobSites.find(js => {
@@ -101,7 +108,6 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
         }
         postSingleAsset();
       }
-      setLoadAssets(!loadAssets);
     }
   };
   //clear data once submitted 
@@ -109,7 +115,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
     if(uploadSuccess){
       setAssetFields('');
       setSiteIP('');
-      window.location.reload();
+      // window.location.reload();
     } 
   }, [uploadSuccess]);
 
