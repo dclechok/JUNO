@@ -24,7 +24,7 @@ function SingleAssetMove({ singleAsset, accountLogged }){
             setJobSites(await getJobSites());
         }
         getAllSites();
-        setSelectedSite(singleAsset[0].location.site)
+        setSelectedSite(singleAsset.location.site)
     }, []);
 
     useEffect(() => {
@@ -55,7 +55,7 @@ function SingleAssetMove({ singleAsset, accountLogged }){
 
     useEffect(() => {
         //if the site is production and matches the site the singleAsset belongs to, fill the form fields with existing location data
-        if((site && site.category === "production" && singleAsset[0]) && site.physical_site_name === singleAsset[0].location.site) setCurrentLoc({ site: site.physical_site_name, site_loc: { first_octet: site.first_octet, mdc: singleAsset[0].location.site_loc.mdc, shelf: singleAsset[0].location.site_loc.shelf, unit: singleAsset[0].location.site_loc.unit}})
+        if((site && site.category === "production" && singleAsset) && site.physical_site_name === singleAsset.location.site) setCurrentLoc({ site: site.physical_site_name, site_loc: { first_octet: site.first_octet, mdc: singleAsset.location.site_loc.mdc, shelf: singleAsset.location.site_loc.shelf, unit: singleAsset.location.site_loc.unit}})
         else setCurrentLoc({...defaultIP, site: selectedSite }); //otherwise clear the current working IP
     }, [site, setSite]);
 
@@ -72,7 +72,7 @@ function SingleAssetMove({ singleAsset, accountLogged }){
         console.log('validated and lets move!');
         setToggleBtn(false); //set to loading screen
         async function postNewLocData(){
-            setLocUpdatedSuccess(await updateAsset(singleAsset[0].asset_id, {...singleAsset[0], location: validated }));
+            setLocUpdatedSuccess(await updateAsset(singleAsset.asset_id, {...singleAsset, location: validated }));
         }
         postNewLocData();
     }
@@ -80,18 +80,17 @@ function SingleAssetMove({ singleAsset, accountLogged }){
 
     useEffect(() => {  
         if(locUpdatedSuccess && !locUpdatedSuccess.error){
-            setToggleBtn(true);
-            setMoveSuccessful(true);
-            window.location.reload();
+            setToggleBtn(true); //toggle loading spinner
+            setMoveSuccessful(true); //toggle success message
+            window.location.reload(); //reload component so single asset info is updated with new data
         }
     }, [locUpdatedSuccess]);
 
-    console.log(locUpdatedSuccess);
     return (
         <div>
             {jobSites && assetList && toggleBtn ? 
             <form id="move-asset-form" className="upload-container" onSubmit={submitHandler}>
-                <h3>Current Device Location: {singleAsset[0].location.site} - {singleAsset[0].location.site_loc.first_octet}.{singleAsset[0].location.site_loc.mdc}.{singleAsset[0].location.site_loc.shelf}.{singleAsset[0].location.site_loc.unit}</h3>
+                <h3>Current Device Location: {singleAsset.location.site} - {singleAsset.location.site_loc.first_octet}.{singleAsset.location.site_loc.mdc}.{singleAsset.location.site_loc.shelf}.{singleAsset.location.site_loc.unit}</h3>
                 <div className='move-input-container'>
                 <select onChange={changeHandler} defaultValue={selectedSite}>
                     {jobSites.map((js, key) => {

@@ -30,7 +30,7 @@ function SingleAsset({ loadSingleAsset, accountLogged }) {
   useEffect(() => {
     const abortController = new AbortController();
     async function grabSingleAsset() {
-      setSingleAsset([await getSingleAsset(asset_id)]); //this list will hold the entire list of asset data and will not be modified
+      setSingleAsset(await getSingleAsset(asset_id)); //this list will hold the entire list of asset data and will not be modified
     }
     grabSingleAsset();
     setButtonState({ ...defaultButtonState, info: "active-button-link" }); //default to our info component, make button active
@@ -42,12 +42,12 @@ function SingleAsset({ loadSingleAsset, accountLogged }) {
     deleteAsset(asset_id);
     return () => abortController.abort;
   }
-
+  console.log(singleAsset)
   const handleSubmit = (e) => {
     //sets toggle to render which of the 3 "pages" or edit/delete
     const { id } = e.currentTarget;
     e.preventDefault();
-    if (id === "delete") window.confirm(`This will permenantly deactivate the asset ${asset_id} and all its history. Do you wish to proceed?`) ? deleteSingleAsset() : console.log('nope');
+    if (id === "delete") window.confirm(`This will permenantly deactivate asset ${singleAsset && singleAsset.asset_tag}) and all its history. Do you wish to proceed?`) ? deleteSingleAsset() : window.location.reload();
     if (id === "edit" && accountLogged.account[0].access_level === 'analyst') window.alert("You must be an Administrator or Engineer to edit this component.");
     setButtonState({ ...defaultButtonState, [id]: "active-button-link" });
     setSingleAssetNav(e.currentTarget.id); //info, history, move, edit
@@ -55,19 +55,19 @@ function SingleAsset({ loadSingleAsset, accountLogged }) {
 
   return (
     <div className="single-asset-render">
-      {singleAsset && Object.keys(singleAsset[0]) !== 0 ? (
+      {singleAsset && Object.keys(singleAsset) !== 0 ? (
         <>
           <h1>Miner Details</h1>
           <header className="single-asset-header container-style">
             <div>
               <p>
-                <b>Asset Tag</b>: {singleAsset[0].asset_tag}
+                <b>Asset Tag</b>: {singleAsset.asset_tag}
               </p>
               <p>
-                <b>Status</b>: {singleAsset[0].status}
+                <b>Status</b>: {singleAsset.status}
               </p>
               <p>
-                <b>Last Updated</b>: {dateFormatter(singleAsset[0].updated_at)}
+                <b>Last Updated</b>: {dateFormatter(singleAsset.updated_at)}
               </p>
             </div>
             <div>

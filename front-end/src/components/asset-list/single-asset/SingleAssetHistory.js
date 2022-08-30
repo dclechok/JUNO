@@ -10,7 +10,7 @@ function SingleAssetHistory({ singleAsset }) {
   useEffect(() => {
     const abortController = new AbortController();
     if (singleAsset) {
-      setSingleAssetHistory(singleAsset[0].history);
+      setSingleAssetHistory(singleAsset.history);
     }
     return () => abortController.abort();
   }, [singleAsset]);
