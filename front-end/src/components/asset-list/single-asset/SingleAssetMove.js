@@ -5,6 +5,7 @@ import './SingleAssetMove.css';
 import { getJobSites, getAllAssets } from '../../../utils/api';
 import LoaderSpinner from '../../LoaderSpinner';
 import validateLoc from '../../../utils/validation/validateLoc';
+import { updateAsset } from '../../../utils/api';
 
 function SingleAssetMove({ singleAsset, accountLogged }){
     const [jobSites, setJobSites] = useState(); //fetch all job sites
@@ -13,6 +14,7 @@ function SingleAssetMove({ singleAsset, accountLogged }){
     const [site, setSite] = useState();
     const defaultIP = { site: '', site_loc: { first_octet: '', mdc: '', shelf: '', unit: '' }};
     const [currentLoc, setCurrentLoc] = useState(defaultIP);
+    const [locUpdatedSuccess, setLocUpdatedSuccess] = useState(null);
 
     useEffect(() => {
         async function getAllSites(){
@@ -59,11 +61,20 @@ function SingleAssetMove({ singleAsset, accountLogged }){
         e.preventDefault();
         //returns object if location is valid, or error string
         const validated = validateLoc(currentLoc, singleAsset, assetList);
+        console.log(validated);
         if(typeof validated === "string"){
             window.alert(validated);
-        }else console.log('validated and lets move!');
+        }else 
+    {
+        console.log('validated and lets move!');
+        async function postNewLocData(){
+            setLocUpdatedSuccess(await updateAsset(singleAsset[0].asset_id, {...singleAsset[0], location: validated }));
+        }
+        postNewLocData();
+    }
     };
 
+    console.log(locUpdatedSuccess);
     return (
         <div>
             {jobSites && assetList ? 
