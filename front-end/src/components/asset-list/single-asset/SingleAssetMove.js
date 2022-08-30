@@ -15,6 +15,7 @@ function SingleAssetMove({ singleAsset, accountLogged }){
     const defaultIP = { site: '', site_loc: { first_octet: '', mdc: '', shelf: '', unit: '' }};
     const [currentLoc, setCurrentLoc] = useState(defaultIP);
     const [locUpdatedSuccess, setLocUpdatedSuccess] = useState(null);
+    const [toggleBtn, setToggleBtn] = useState(true);
 
     useEffect(() => {
         async function getAllSites(){
@@ -67,6 +68,7 @@ function SingleAssetMove({ singleAsset, accountLogged }){
         }else 
     {
         console.log('validated and lets move!');
+        setToggleBtn(false); //set to loading screen
         async function postNewLocData(){
             setLocUpdatedSuccess(await updateAsset(singleAsset[0].asset_id, {...singleAsset[0], location: validated }));
         }
@@ -74,10 +76,16 @@ function SingleAssetMove({ singleAsset, accountLogged }){
     }
     };
 
+    useEffect(() => {  
+        if(locUpdatedSuccess && !locUpdatedSuccess.error){
+            setToggleBtn(true);
+        }
+    }, [locUpdatedSuccess]);
+
     console.log(locUpdatedSuccess);
     return (
         <div>
-            {jobSites && assetList ? 
+            {jobSites && assetList && toggleBtn ? 
             <form id="move-asset-form" className="upload-container" onSubmit={submitHandler}>
                 <h3>Current Device Location: {singleAsset[0].location.site} - {singleAsset[0].location.site_loc.first_octet}.{singleAsset[0].location.site_loc.mdc}.{singleAsset[0].location.site_loc.shelf}.{singleAsset[0].location.site_loc.unit}</h3>
                 <div className='move-input-container'>
