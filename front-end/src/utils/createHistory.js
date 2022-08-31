@@ -13,7 +13,7 @@ async function createHistory(successfulRequest){
     logged_by: action_by, //user's name
     logged_by_id: action_by_id, //119
     history_key: action_key, //unique history key that can be searched for
-    logged_details: 'Details of History' //to be changed to details of change
+    logged_details: {details: 'Details of History'} //to be changed to details of change
     };
 
     try {
