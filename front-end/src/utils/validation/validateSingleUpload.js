@@ -33,7 +33,7 @@ function validateSingleUpload(asset, assetList, siteIP) {
   const validateSetIP = () => {
     for (let locData in siteIP) {
       //validation
-      if (siteIP[locData] === '') return reject_err = "IP data field(s) cannot be empty!";
+      if (siteIP[locData] === '' || siteIP[locData] === undefined) return reject_err = "IP data field(s) cannot be empty!";
       if (siteIP[locData].split().find(char => char.charCodeAt() < 48 || char.charCodeAt() > 57)) return reject_err = "IP data must consist of numbers only! (Up to two digits)";
       //set our IP address to be loaded in post request
       if (siteIP[locData].length === 1) newIP[locData] = '0'.concat(siteIP[locData]); // if a single digit like 2 is entered, we add an 0 to make it a two digit octet "02"

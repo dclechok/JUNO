@@ -46,18 +46,18 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
         if (site && site.category === "storage") return "Storage";
     };
 
-    console.log(currentLoc)
     useEffect(() => { //find job site from selected job site drop down
         const abortController = new AbortController();
         if (jobSites) setSite(jobSites.find(site => site.physical_site_name === selectedSite))
         return () => abortController.abort();
     }, [jobSites, setJobSites, selectedSite, setSelectedSite]);
-// console.log(((site && site.category === "production") && singleAsset && site.physical_site_name === singleAsset.location.site))
+
     useEffect(() => { //update current location to match jobsite
         const abortController = new AbortController();
         //if the site is production and matches the site the singleAsset belongs to, fill the form fields with existing location data
+        setCat(site && site.category);
         if (((site && site.category === "production") && singleAsset && site.physical_site_name !== singleAsset.location.site)){
-            setCurrentLoc({ site: site.physical_site_name, site_loc: { first_octet: site.first_octet } });
+            setCurrentLoc({ site: site.physical_site_name, site_loc: { first_octet: site.first_octet, mdc: defaultIP.mdc, shelf: defaultIP.shelf, unit: defaultIP.unit } });
         }
         else if (((site && site.category === "production") && singleAsset && site.physical_site_name === singleAsset.location.site)) {
             console.log('hello')
@@ -65,14 +65,18 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
         }
         else setCurrentLoc({ ...defaultIP, site: selectedSite }); //otherwise clear the current working IP
         return abortController.abort();
-    }, [jobSites, setJobSites, site, setSite, selectedSite, setSelectedSite]);
-    
+    }, [site, setSite, selectedSite, setSelectedSite]);
+
     const changeIPHandler = (e) => {
         e.preventDefault();
         const { id, value } = e.currentTarget;
         setCurrentLoc({ ...currentLoc, ["site_loc"]: { ...currentLoc.site_loc, [id]: value } });
     };
 
+    const formatLoc = () => {
+        if(currentLoc.site_loc.first_octet) return `${currentLoc.site} - ${currentLoc.site_loc.first_octet}.${currentLoc.site_loc.mdc}.${currentLoc.site_loc.shelf}.${currentLoc.site_loc.unit}`
+        else return `${currentLoc.site}`;
+    };
     const submitHandler = (e) => {
         //validate location
         e.preventDefault();
@@ -84,11 +88,13 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
         if (typeof validated === "string") {
             window.alert(validated);
         } else {
-            setToggleBtn(false); //set to loading screen
-            async function postNewLocData() {
-                setLocUpdatedSuccess(await updateAsset(singleAsset.asset_id, { ...singleAsset, location: validated, status: setStatus() }));
+            if(window.confirm(`Are you sure you wish to move this asset to ${formatLoc()}?`)){
+                setToggleBtn(false); //set to loading screen
+                async function postNewLocData() {
+                    setLocUpdatedSuccess(await updateAsset(singleAsset.asset_id, { ...singleAsset, location: validated, status: setStatus() }));
+                }
+                postNewLocData();
             }
-            postNewLocData();
         }
     };
     // console.log(currentLoc)
@@ -99,7 +105,7 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
             window.location.reload(); //reload component so single asset info is updated with new data
         }
     }, [locUpdatedSuccess]);
-    // console.log(currentLoc)
+
     return (
         <div>
             {jobSites && assetList && toggleBtn && site ?
@@ -113,10 +119,10 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
                         </select>
                         {site && site.category === "production" && currentLoc &&
                             <div className='ip-inputs'> -
-                                <input type="text" id="first_octet" defaultValue={site.first_octet} readOnly maxLength="2" />.
-                                <input type="text" id="mdc" value={currentLoc.site_loc.mdc} onChange={changeIPHandler} maxLength="2" /> .
-                                <input type="text" id="shelf" value={currentLoc.site_loc.shelf} onChange={changeIPHandler} maxLength="2" /> .
-                                <input type="text" id="unit" value={currentLoc.site_loc.unit} onChange={changeIPHandler} maxLength="2" />
+                                <input type="text" id="first_octet" defaultValue={site.first_octet || ''} readOnly maxLength="2" />.
+                                <input type="text" id="mdc" value={currentLoc.site_loc.mdc || ''} onChange={changeIPHandler} maxLength="2" /> .
+                                <input type="text" id="shelf" value={currentLoc.site_loc.shelf || ''} onChange={changeIPHandler} maxLength="2" /> .
+                                <input type="text" id="unit" value={currentLoc.site_loc.unit || ''} onChange={changeIPHandler} maxLength="2" />
                             </div>}
                     </div>
                     {moveSuccessful && locUpdatedSuccess && <div className='move-success'>{cat === "production" ? <p style={{ color: colorCodes["Active"] }}>Move to {locUpdatedSuccess.data.location.site} - {locUpdatedSuccess.data.location.site_loc.first_octet}.{locUpdatedSuccess.data.location.site_loc.mdc}.{locUpdatedSuccess.data.location.site_loc.shelf}.{locUpdatedSuccess.data.location.site_loc.unit} - Successful!</p> : <p>Move to {locUpdatedSuccess.data.location.site} Successful!</p>}</div>}

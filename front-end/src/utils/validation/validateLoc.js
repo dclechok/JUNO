@@ -9,9 +9,10 @@ function validateLoc(currentLoc, singleAsset, assetList){
     
     //make sure all values in currentLoc are two digits (and numbers only)
     let newIP = {}; //build and validate newIP (if we need to concat an 0 on a single digit entry)
+    console.log(currentLoc)
     for(let locData in currentLoc.site_loc){
         //no fields can be blank
-        if(currentLoc.site_loc[locData] === '') return "IP data field(s) cannot be empty!";
+        if(currentLoc.site_loc[locData] === '' || currentLoc.site_loc[locData] === undefined) return "IP data field(s) cannot be empty!";
         //char can only be a number
         if(currentLoc.site_loc[locData].split().find(char => char.charCodeAt() < 48 || char.charCodeAt() > 57)) return "IP data must consist of numbers only! (Up to two digits)";
         //construct new IP octet if user only entered one digit (ex. "3" becomes "03")
