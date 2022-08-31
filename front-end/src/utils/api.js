@@ -105,7 +105,7 @@ export async function updateAsset(asset_id, data){
       logged_by_id: action_by_id,
       history_key: action_key,
     });
-    console.log(awaitCreateHistory, 'test')
+    console.log(awaitCreateHistory, 'testnew')
     if (!awaitCreateHistory)
       throw new Error("Making request for history log failed!");
     }

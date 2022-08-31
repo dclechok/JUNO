@@ -10,14 +10,15 @@ import colorCodes from '../../../utils/colorCodes';
 
 function SingleAssetMove({ singleAsset, accountLogged }) {
     const [jobSites, setJobSites] = useState(); //fetch all job sites
-    const [assetList, setAssetList] = useState();
+    const [assetList, setAssetList] = useState(); //fetch all current asset list
     const [selectedSite, setSelectedSite] = useState(); //selected site name from drop down
-    const [site, setSite] = useState();
+    const [site, setSite] = useState(); //to store our single site data
     const defaultIP = { site: '', site_loc: { first_octet: '', mdc: '', shelf: '', unit: '' } };
     const [currentLoc, setCurrentLoc] = useState(defaultIP);
     const [locUpdatedSuccess, setLocUpdatedSuccess] = useState(null);
     const [toggleBtn, setToggleBtn] = useState(true);
     const [moveSuccessful, setMoveSuccessful] = useState(false);
+    const [cat, setCat] = useState(null); //storing the current category of job site
 
     useEffect(() => {
         async function getAllSites() {
@@ -43,21 +44,26 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
         if (site && site.category === "production") return "Hashing";
         if (site && site.category === "repair") return "Repair";
         if (site && site.category === "storage") return "Storage";
-      };
+    };
+
+    // console.log(selectedSite)
 
     useEffect(() => { //find job site from selected job site drop down
         const abortController = new AbortController();
-        if (selectedSite && jobSites) setSite(jobSites.find(site => site.physical_site_name === selectedSite))
+        if (jobSites) setSite(jobSites.find(site => site.physical_site_name === selectedSite))
         return () => abortController.abort();
-    }, [selectedSite, setSelectedSite]);
-
+    }, [jobSites, setJobSites, selectedSite, setSelectedSite]);
+    console.log(singleAsset)
     useEffect(() => { //update current location to match jobsite
         const abortController = new AbortController();
         //if the site is production and matches the site the singleAsset belongs to, fill the form fields with existing location data
-        if ((site && site.category === "production" && singleAsset)) setCurrentLoc({ site: site.physical_site_name, site_loc: { first_octet: site.first_octet, mdc: singleAsset.location.site_loc.mdc, shelf: singleAsset.location.site_loc.shelf, unit: singleAsset.location.site_loc.unit } })
+        if (site) setCat(site.category);
+        if (((site && site.category === "production") && singleAsset && site.physical_site_name === singleAsset.location.site)) {
+            setCurrentLoc({ site: site.physical_site_name, site_loc: { first_octet: site.first_octet, mdc: singleAsset.location.site_loc.mdc, shelf: singleAsset.location.site_loc.shelf, unit: singleAsset.location.site_loc.unit } });
+        }
         else setCurrentLoc({ ...defaultIP, site: selectedSite }); //otherwise clear the current working IP
         return abortController.abort();
-    }, [site, setSite]);
+    }, [site, setSite, selectedSite, setSelectedSite]);
 
     const changeIPHandler = (e) => {
         e.preventDefault();
@@ -71,7 +77,7 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
         setMoveSuccessful(false); //move is not successful yet
         //returns object if location is valid, or error string
         let validated = '';
-        if(site.category === "production") validated = validateLoc(currentLoc, singleAsset, assetList);
+        if (site.category === "production") validated = validateLoc(currentLoc, singleAsset, assetList);
         else validated = { site: site.physical_site_name, site_loc: defaultIP.site_loc }; //if job site is not production (ie. no ip should exist) then set site_loc fields to empty
         if (typeof validated === "string") {
             window.alert(validated);
@@ -83,7 +89,7 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
             postNewLocData();
         }
     };
-    console.log(currentLoc)
+
     useEffect(() => {
         if (locUpdatedSuccess && !locUpdatedSuccess.error) {
             setToggleBtn(true); //toggle loading spinner
@@ -91,12 +97,12 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
             window.location.reload(); //reload component so single asset info is updated with new data
         }
     }, [locUpdatedSuccess]);
-
+    // console.log(currentLoc)
     return (
         <div>
-            {jobSites && assetList && toggleBtn ?
+            {jobSites && assetList && toggleBtn && site ?
                 <form id="move-asset-form" className="upload-container" onSubmit={submitHandler}>
-                    <h3>Current Device Location: {singleAsset.location.site} - {singleAsset.location.site_loc.first_octet}.{singleAsset.location.site_loc.mdc}.{singleAsset.location.site_loc.shelf}.{singleAsset.location.site_loc.unit}</h3>
+                    <h3>Current Device Location: {singleAsset.location.site}{singleAsset.location.site_loc.first_octet !== "" ? <span>- {singleAsset.location.site_loc.first_octet}.{singleAsset.location.site_loc.mdc}.{singleAsset.location.site_loc.shelf}.{singleAsset.location.site_loc.unit}</span> : <></>}</h3>
                     <div className='move-input-container'>
                         <select onChange={changeHandler} defaultValue={selectedSite}>
                             {jobSites.map((js, key) => {
@@ -111,7 +117,7 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
                                 <input type="text" id="unit" value={currentLoc.site_loc.unit} onChange={changeIPHandler} maxLength="2" />
                             </div>}
                     </div>
-                    {moveSuccessful && locUpdatedSuccess && <div className='move-success'><p style={{ color: colorCodes["Active"] }}>Move to  - {locUpdatedSuccess.data.location.site_loc.first_octet}.{locUpdatedSuccess.data.location.site_loc.mdc}.{locUpdatedSuccess.data.location.site_loc.shelf}.{locUpdatedSuccess.data.location.site_loc.unit} - Successful!</p></div>}
+                    {moveSuccessful && locUpdatedSuccess && <div className='move-success'>{cat === "production" ? <p style={{ color: colorCodes["Active"] }}>Move to {locUpdatedSuccess.data.location.site} - {locUpdatedSuccess.data.location.site_loc.first_octet}.{locUpdatedSuccess.data.location.site_loc.mdc}.{locUpdatedSuccess.data.location.site_loc.shelf}.{locUpdatedSuccess.data.location.site_loc.unit} - Successful!</p> : <p>Move to {locUpdatedSuccess.data.location.site} Successful!</p>}</div>}
                     <button className="submit-move-btn" type="submit" form='move-asset-form'>
                         Move Asset
                     </button>
