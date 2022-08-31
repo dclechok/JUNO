@@ -44,32 +44,26 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
         if (site && site.category === "repair") return "Repair";
         if (site && site.category === "storage") return "Storage";
       };
-      if(site) console.log(site.category)
-    useEffect(() => {
+
+    useEffect(() => { //find job site from selected job site drop down
         const abortController = new AbortController();
-        if (selectedSite) setCurrentLoc({ ...currentLoc, site: selectedSite });
+        if (selectedSite && jobSites) setSite(jobSites.find(site => site.physical_site_name === selectedSite))
         return () => abortController.abort();
     }, [selectedSite, setSelectedSite]);
+
+    useEffect(() => { //update current location to match jobsite
+        const abortController = new AbortController();
+        //if the site is production and matches the site the singleAsset belongs to, fill the form fields with existing location data
+        if ((site && site.category === "production" && singleAsset)) setCurrentLoc({ site: site.physical_site_name, site_loc: { first_octet: site.first_octet, mdc: singleAsset.location.site_loc.mdc, shelf: singleAsset.location.site_loc.shelf, unit: singleAsset.location.site_loc.unit } })
+        else setCurrentLoc({ ...defaultIP, site: selectedSite }); //otherwise clear the current working IP
+        return abortController.abort();
+    }, [site, setSite]);
 
     const changeIPHandler = (e) => {
         e.preventDefault();
         const { id, value } = e.currentTarget;
         setCurrentLoc({ ...currentLoc, ["site_loc"]: { ...currentLoc.site_loc, [id]: value } });
     };
-
-    useEffect(() => {
-        const abortController = new AbortController();
-        if (jobSites && selectedSite) setSite(jobSites.find(site => site.physical_site_name === selectedSite));
-        return () => abortController.abort();
-    }, [jobSites, setJobSites, selectedSite, setSelectedSite]);
-
-    useEffect(() => {
-        const abortController = new AbortController();
-        //if the site is production and matches the site the singleAsset belongs to, fill the form fields with existing location data
-        if ((site && site.category === "production" && singleAsset) && site.physical_site_name === singleAsset.location.site) setCurrentLoc({ site: site.physical_site_name, site_loc: { first_octet: site.first_octet, mdc: singleAsset.location.site_loc.mdc, shelf: singleAsset.location.site_loc.shelf, unit: singleAsset.location.site_loc.unit } })
-        else setCurrentLoc({ ...defaultIP, site: selectedSite }); //otherwise clear the current working IP
-        return abortController.abort();
-    }, [site, setSite]);
 
     const submitHandler = (e) => {
         //validate location
@@ -89,7 +83,7 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
             postNewLocData();
         }
     };
-
+    console.log(currentLoc)
     useEffect(() => {
         if (locUpdatedSuccess && !locUpdatedSuccess.error) {
             setToggleBtn(true); //toggle loading spinner
