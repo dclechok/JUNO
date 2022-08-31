@@ -7,6 +7,7 @@ import LoaderSpinner from '../../LoaderSpinner';
 import validateLoc from '../../../utils/validation/validateLoc';
 import { updateAsset } from '../../../utils/api';
 import colorCodes from '../../../utils/colorCodes';
+import generateHistoryKey from '../../../utils/generateHistoryKey';
 
 function SingleAssetMove({ singleAsset, accountLogged }) {
     const [jobSites, setJobSites] = useState(); //fetch all job sites
@@ -60,7 +61,6 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
             setCurrentLoc({ site: site.physical_site_name, site_loc: { first_octet: site.first_octet, mdc: defaultIP.mdc, shelf: defaultIP.shelf, unit: defaultIP.unit } });
         }
         else if (((site && site.category === "production") && singleAsset && site.physical_site_name === singleAsset.location.site)) {
-            console.log('hello')
             setCurrentLoc({ site: site.physical_site_name, site_loc: { first_octet: site.first_octet, mdc: singleAsset.location.site_loc.mdc, shelf: singleAsset.location.site_loc.shelf, unit: singleAsset.location.site_loc.unit } });
         }
         else setCurrentLoc({ ...defaultIP, site: selectedSite }); //otherwise clear the current working IP
@@ -91,7 +91,26 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
             if(window.confirm(`Are you sure you wish to move this asset to ${formatLoc()}?`)){
                 setToggleBtn(false); //set to loading screen
                 async function postNewLocData() {
-                    setLocUpdatedSuccess(await updateAsset(singleAsset.asset_id, { ...singleAsset, location: validated, status: setStatus() }));
+                    const action_date = new Date();
+                    const newHistoryKey = generateHistoryKey();
+                    setLocUpdatedSuccess(await updateAsset(
+                        singleAsset.asset_id,
+                         { 
+                            ...singleAsset, 
+                            location: validated, 
+                            status: setStatus(),
+                            history: [
+                                {
+                                  action_date: JSON.stringify(action_date),
+                                  action_taken: "Move Asset",
+                                  action_by: accountLogged.account[0].name,
+                                  action_by_id: accountLogged.account[0].user_id,
+                                  action_key: newHistoryKey,
+                                  action_comment: "Move Asset Details"
+                                }, 
+                                ...singleAsset.history, 
+                              ],
+                        }));
                 }
                 postNewLocData();
             }
@@ -102,7 +121,7 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
         if (locUpdatedSuccess && !locUpdatedSuccess.error) {
             setToggleBtn(true); //toggle loading spinner
             setMoveSuccessful(true); //toggle success message
-            window.location.reload(); //reload component so single asset info is updated with new data
+            // window.location.reload(); //reload component so single asset info is updated with new data
         }
     }, [locUpdatedSuccess]);
 

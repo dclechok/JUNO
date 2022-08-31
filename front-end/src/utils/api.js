@@ -1,4 +1,5 @@
 import generateHistoryKey from "./generateHistoryKey";
+import createHistory from "./createHistory";
 
 const BASE_URL = "http://localhost:5000/";
 
@@ -48,18 +49,8 @@ export async function createAsset(assets) {
     const jsonResponse = await response.json(); //json-ify readablestream data
     if (jsonResponse && !jsonResponse.error) {
       //if POST request was successful, create a log 
-      const { action_by, action_by_id, action_taken, action_key } =
-        jsonResponse.data.history[0];
-
-      const { updated_at } = jsonResponse.data;
-      //eventually add comments, and "approved_by";
-      const awaitCreateHistory = await createHistory({
-        logged_action: action_taken,
-        logged_date: updated_at,
-        logged_by: action_by,
-        logged_by_id: action_by_id,
-        history_key: action_key,
-      });
+      //eventually add comments, and "approved_by"?
+      const awaitCreateHistory = await createHistory(jsonResponse);
       if (!awaitCreateHistory)
         throw new Error("Making request for history log failed!");
       return jsonResponse;
@@ -94,18 +85,8 @@ export async function updateAsset(asset_id, data){
     });
     const jsonResponse = await response.json();
     if(jsonResponse && !jsonResponse.error){ //if update request is successful, make a request to create new history log
-      const { action_by, action_by_id, action_key, action_taken } =
-      jsonResponse.data.history[jsonResponse.data.history.length - 1];
-    const { updated_at } = jsonResponse.data;
     //eventually add comments, and "approved_by";
-    const awaitCreateHistory = await createHistory({
-      logged_action: action_taken,
-      logged_date: updated_at,
-      logged_by: action_by,
-      logged_by_id: action_by_id,
-      history_key: action_key,
-    });
-    console.log(awaitCreateHistory, 'testnew')
+    const awaitCreateHistory = await createHistory(jsonResponse);
     if (!awaitCreateHistory)
       throw new Error("Making request for history log failed!");
     }
@@ -315,23 +296,6 @@ export async function listHistoryByUserID(userID){
     if (jsonResponse) return jsonResponse;
   } catch (e) {
     console.log(e, "Failed to fetch all history.");
-  }
-}
-
-// HISTORY LOG - CREATE ONE //
-async function createHistory(historyLog) {
-  try {
-    const response = await fetch(BASE_URL + "history_log", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ data: historyLog }),
-    });
-    const jsonResponse = await response.json(); //json-ify readablestream data
-    if (jsonResponse) return jsonResponse;
-  } catch (e) {
-    console.log(e, "Failed to post history.");
   }
 }
 

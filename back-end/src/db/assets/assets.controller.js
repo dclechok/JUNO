@@ -80,10 +80,10 @@ async function list(req, res) {
 async function create(req, res) {
   //create new asset in the system
   const chunkSize = 12000;
+  const date = new Date();
   const result = !Array.isArray(req.body.data) ? { //stringify single asset history into json array
     ...req.body.data, history: JSON.stringify(req.body.data.history)
-  } : req.body.data.map(data => {return {...data, history: JSON.stringify(data.history)}}); //stringify each bulk asset's history into json array
-  console.log(req.body.data.location)
+  } : req.body.data.map(data => {return {...data, history: JSON.stringify(data.history), updated_at: JSON.stringify(date)}}); //stringify each bulk asset's history into json array
   const data = await knex
     // .insert(result)
     .batchInsert('assets', result, chunkSize)
@@ -106,8 +106,9 @@ async function update(req, res) {
   //update asset
   const { asset_id } = req.params;
   //fields we can update
-  const { asset_tag, serial_number, make, model, hr, updated_at, location, status } = req.body.data[0];
+  const { asset_tag, serial_number, make, model, hr, location, status } = req.body.data[0];
   const history = JSON.stringify(req.body.data[0].history);
+  const updated_at = new Date(); //time is now
   const data = await knex('assets')
   .where('asset_id', asset_id)
   .update({
@@ -126,6 +127,8 @@ async function update(req, res) {
   res.status(200).json({ data });
 }
 
+//we no longer want to permanently delete assets
+//TODO: DEACTIVATE assets
 async function remove(req, res) {
   //remove asset from db
   const { asset_id } = req.params;

@@ -1,7 +1,7 @@
 const colorCode = {
     'Bulk Upload': 'rgb(110, 236, 236)', 
     'Single Upload': 'rgb(110, 190, 236)',
-    // 'Move Asset': 'rgb(110, 164, 236)',
+    'Move Asset': 'rgb(66, 90, 229)',
     'Edit Asset': 'rgb(205, 214, 126)',
     'Create Job Site': 'rgb(253, 221, 99)',
     'Deactivate Job Site': 'rgb(176,196,222)',
