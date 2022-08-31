@@ -46,25 +46,27 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
         if (site && site.category === "storage") return "Storage";
     };
 
-    // console.log(selectedSite)
-
+    console.log(currentLoc)
     useEffect(() => { //find job site from selected job site drop down
         const abortController = new AbortController();
         if (jobSites) setSite(jobSites.find(site => site.physical_site_name === selectedSite))
         return () => abortController.abort();
     }, [jobSites, setJobSites, selectedSite, setSelectedSite]);
-    console.log(singleAsset)
+// console.log(((site && site.category === "production") && singleAsset && site.physical_site_name === singleAsset.location.site))
     useEffect(() => { //update current location to match jobsite
         const abortController = new AbortController();
         //if the site is production and matches the site the singleAsset belongs to, fill the form fields with existing location data
-        if (site) setCat(site.category);
-        if (((site && site.category === "production") && singleAsset && site.physical_site_name === singleAsset.location.site)) {
+        if (((site && site.category === "production") && singleAsset && site.physical_site_name !== singleAsset.location.site)){
+            setCurrentLoc({ site: site.physical_site_name, site_loc: { first_octet: site.first_octet } });
+        }
+        else if (((site && site.category === "production") && singleAsset && site.physical_site_name === singleAsset.location.site)) {
+            console.log('hello')
             setCurrentLoc({ site: site.physical_site_name, site_loc: { first_octet: site.first_octet, mdc: singleAsset.location.site_loc.mdc, shelf: singleAsset.location.site_loc.shelf, unit: singleAsset.location.site_loc.unit } });
         }
         else setCurrentLoc({ ...defaultIP, site: selectedSite }); //otherwise clear the current working IP
         return abortController.abort();
-    }, [site, setSite, selectedSite, setSelectedSite]);
-
+    }, [jobSites, setJobSites, site, setSite, selectedSite, setSelectedSite]);
+    
     const changeIPHandler = (e) => {
         e.preventDefault();
         const { id, value } = e.currentTarget;
@@ -89,7 +91,7 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
             postNewLocData();
         }
     };
-
+    // console.log(currentLoc)
     useEffect(() => {
         if (locUpdatedSuccess && !locUpdatedSuccess.error) {
             setToggleBtn(true); //toggle loading spinner
