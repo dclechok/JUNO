@@ -3,7 +3,7 @@ import createHistory from "./createHistory";
 
 const BASE_URL = "http://localhost:5000/";
 
-export async function handleLoginPassCheck(pass, user){
+export async function handleLoginPassCheck(pass, user) {
   try {
     const response = await fetch(BASE_URL + "login", {
       method: "POST",
@@ -28,11 +28,10 @@ export async function getAllAssets() {
       },
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
-    if (jsonResponse) 
-    {
+    if (jsonResponse) {
       return jsonResponse;
     }
-    } catch (e) {
+  } catch (e) {
     console.log(e, "Failed to fetch all assets.");
   }
 }
@@ -60,7 +59,7 @@ export async function createAsset(assets) {
   }
 }
 // ASSETS - READ ONE //
-export async function getSingleAsset(asset_id){
+export async function getSingleAsset(asset_id) {
   try {
     const response = await fetch(BASE_URL + `assets/${asset_id}`, {
       method: "GET",
@@ -76,28 +75,28 @@ export async function getSingleAsset(asset_id){
 }
 
 // ASSETS - UPDATE //
-export async function updateAsset(asset_id, data){
-  try{
+export async function updateAsset(asset_id, data) {
+  try {
     const response = await fetch(BASE_URL + `assets/${asset_id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ data: data })
     });
     const jsonResponse = await response.json();
-    if(jsonResponse && !jsonResponse.error){ //if update request is successful, make a request to create new history log
-    //eventually add comments, and "approved_by";
-    const awaitCreateHistory = await createHistory(jsonResponse);
-    if (!awaitCreateHistory)
-      throw new Error("Making request for history log failed!");
+    if (jsonResponse && !jsonResponse.error) { //if update request is successful, make a request to create new history log
+      //eventually add comments, and "approved_by";
+      const awaitCreateHistory = await createHistory(jsonResponse);
+      if (!awaitCreateHistory)
+        throw new Error("Making request for history log failed!");
     }
     return jsonResponse;
-  }catch(e){
+  } catch (e) {
     console.log(e, 'Failed to update asset.');
   }
 }
 
 // ASSETS - DELETE ONE //
-export async function deleteAsset(asset_id){
+export async function deleteAsset(asset_id) {
   try {
     const response = await fetch(BASE_URL + `assets/${asset_id}`, {
       method: "DELETE",
@@ -127,7 +126,7 @@ export async function getJobSites() {
   }
 }
 
-export async function getJobSite(jobSiteID){
+export async function getJobSite(jobSiteID) {
   try {
     const response = await fetch(BASE_URL + `physical_sites/${jobSiteID}`, {
       method: "GET",
@@ -167,8 +166,8 @@ export async function createJobSite(jobSite) {
   }
 }
 
-export async function updateJobSite(newSiteData, accountLogged){
-  try{
+export async function updateJobSite(newSiteData, accountLogged) {
+  try {
     const response = await fetch(BASE_URL + `physical_sites/${newSiteData.physical_site_id}`, {
       method: "PUT",
       headers: {
@@ -179,56 +178,33 @@ export async function updateJobSite(newSiteData, accountLogged){
       }),
     });
     const jsonResponse = await response.json();
-    if(jsonResponse && !jsonResponse.error){ //if updating job site was successful, move to create historical entry
+    if (jsonResponse && !jsonResponse.error) { //if updating job site was successful, move to create historical entry
       const awaitCreateHistory = await createHistory(jsonResponse);
       if (!awaitCreateHistory)
         throw new Error("Making request for history log failed!");
       return jsonResponse;
     }
-  }catch(e){
+  } catch (e) {
     console.log(e, "Failed to update job site.");
   }
 }
 
 // JOB SITES - DEACTIVATE/UPDATE ONE //
-export async function deactivateJobSite(id, accountLogged, oldJobSiteHistory) {
+export async function deactivateJobSite(id, oldJobSite) {
   //DO NOT ACTUALLY PERMANENTLY DELETE FROM DB
-  const newDate = new Date();
-  const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
-  oldJobSiteHistory.push({
-    //push new entry onto the old job site history list
-    action_taken: "Deactivate Job Site",
-    action_by: accountLogged.account[0].name,
-    action_by_id: accountLogged.account[0].user_id,
-    action_key: newHistoryKey,
-    action_date: newDate,
-    action_comment: "Deactivated Job Site",
-  });
   try {
     const response = await fetch(BASE_URL + `physical_sites/deactivate/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        data: {
-          status: "Non-Active",
-          history: oldJobSiteHistory,
-        },
-      }),
+      body: JSON.stringify({ data: oldJobSite }),
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
-    if (jsonResponse) {
+    if (jsonResponse && !jsonResponse.error) {
       //if POST request was successful, create a log in
       //eventually add comments, and "approved_by";
-      const { name, user_id } = accountLogged.account[0];
-      const awaitCreateHistory = await createHistory({
-        logged_action: "Deactivate Job Site",
-        logged_date: newDate,
-        logged_by: name,
-        logged_by_id: user_id,
-        history_key: newHistoryKey,
-      });
+      const awaitCreateHistory = await createHistory(jsonResponse);
       if (!awaitCreateHistory)
         throw new Error("Making request for history log failed!");
       return jsonResponse;
@@ -258,7 +234,7 @@ export async function getHistory() {
 }
 
 //get history by userID
-export async function listHistoryByUserID(userID){
+export async function listHistoryByUserID(userID) {
   try {
     const response = await fetch(BASE_URL + `history_log/by-user/${userID}`, {
       method: "GET",
@@ -291,8 +267,8 @@ export async function getUsers() {
   }
 }
 
-export async function getUser(user_id){
-  try{
+export async function getUser(user_id) {
+  try {
     const response = await fetch(BASE_URL + `users/${user_id}`, {
       method: "GET",
       headers: {
@@ -301,24 +277,12 @@ export async function getUser(user_id){
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
     if (jsonResponse) return jsonResponse.data;
-  }catch(e){
+  } catch (e) {
     console.log(e, "Failed to fetch user.");
   }
 }
 
-export async function updateUser(newUserData, accountLogged, userID){
-  const newDate = new Date();
-  const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
-    //push new entry onto the old job site history list
-  newUserData.history.push(
-    { 
-      action_taken: "Edit User",
-      action_by: accountLogged.account[0].name,
-      action_by_id: accountLogged.account[0].user_id,
-      action_key: newHistoryKey,
-      action_date: newDate,
-      // action_comment: "Edited User Details"
-  });
+export async function updateUser(newUserData, userID) {
   try {
     const response = await fetch(BASE_URL + `users/${userID}`, {
       method: "PUT",
@@ -328,44 +292,22 @@ export async function updateUser(newUserData, accountLogged, userID){
       body: JSON.stringify({ data: newUserData }),
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
-    if (jsonResponse) {
+    if (jsonResponse && !jsonResponse.error) {
       //if POST request was successful, create a log in
       //eventually add comments, and "approved_by";
-      const { updated_at } = jsonResponse.data;
-      const { action_by, action_by_id, history_key } = (jsonResponse.data.history[jsonResponse.data.history.length - 1]);
-      const awaitCreateHistory = await createHistory({
-        logged_action: "Edit User",
-        logged_date: updated_at,
-        logged_by: action_by,
-        logged_by_id: action_by_id,
-        history_key: history_key
-      });
+      const awaitCreateHistory = await createHistory(jsonResponse);
       if (!awaitCreateHistory)
-        throw new Error("Making request create user failed!");
+        throw new Error("Making request to update user failed!");
       return jsonResponse;
     }
-  }catch(e){
+  } catch (e) {
     console.log(e, "Failed to update user.");
   }
 }
 
-export async function updatePass(userDetails, newUserDetails, accountLogged){
-  const newDate = new Date();
-  const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
-  const user_id = accountLogged.account[0].user_id;
-    //push new entry onto the old job site history list
-  console.log(accountLogged.account)
-  userDetails.history.push(
-    { 
-      action_taken: "Edit User",
-      action_by: accountLogged.account[0].name,
-      action_by_id: user_id,
-      action_key: newHistoryKey,
-      action_date: newDate,
-      // action_comment: "Edited User Details"
-  });
+export async function updatePass(userDetails, newUserDetails) {
   try {
-    const response = await fetch(BASE_URL + `users/updatepw/${user_id}`, {
+    const response = await fetch(BASE_URL + `users/updatepw/${userDetails.user_id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -373,24 +315,15 @@ export async function updatePass(userDetails, newUserDetails, accountLogged){
       body: JSON.stringify({ data: [newUserDetails, userDetails] }),
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
-    console.log(jsonResponse);
     if (jsonResponse && !jsonResponse.error) {
-      //if POST request was successful, create a log in
+      //if PUT request was successful, create a log in history
       //eventually add comments, and "approved_by";
-      const { updated_at } = jsonResponse.data;
-      const { action_by, action_by_id, history_key } = (jsonResponse.data.history[jsonResponse.data.history.length - 1]);
-      const awaitCreateHistory = await createHistory({
-        logged_action: "Edit User",
-        logged_date: updated_at,
-        logged_by: action_by,
-        logged_by_id: action_by_id,
-        history_key: history_key
-      });
+      const awaitCreateHistory = await createHistory(jsonResponse);
       if (!awaitCreateHistory)
         throw new Error("Making request create user failed!");
     }
     return jsonResponse;
-  }catch(e){
+  } catch (e) {
     console.log(e, "Failed to update user.");
   }
 }

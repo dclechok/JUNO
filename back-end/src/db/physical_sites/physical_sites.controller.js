@@ -69,14 +69,15 @@ async function update(req, res) {
 async function deactivate(req, res) { //update, do not delete
   //remove asset from db
   const { physical_site_id } = req.params;
-  const { status } = req.body.data;
+  const { status, updated_at } = req.body.data;
   let { history } = req.body.data;
   history = JSON.stringify(history); //restringify
   const data = await knex("physical_sites")
   .where("physical_site_id", Number(physical_site_id))
   .update({
     status, status,
-    history, history
+    history, history,
+    updated_at, updated_at
   })
   .returning('*')
   .then((results) => results[0]);

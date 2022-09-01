@@ -8,6 +8,7 @@ import dateFormatter from "../../utils/dateFormatter";
 import { getUser, listHistoryByUserID, updatePass } from "../../utils/api";
 import colorCode from '../../utils/colorCodes';
 import validatePass from "../../utils/validation/validatePass";
+import generateHistoryKey from "../../utils/generateHistoryKey";
 
 function UserPanel({ accountLogged, setSearchHistoryType }) {
   const [toggleButton, setToggleButton] = useState(true); //toggle button off and on after submit form
@@ -62,14 +63,29 @@ function UserPanel({ accountLogged, setSearchHistoryType }) {
   };
   const changePasswordHandler = (e) => { //submit password change
     e.preventDefault();
-
     const { id } = e.currentTarget;
     if(id === "submit-pw-change"){
         if(newUserPasswordDetails.new_password1 === newUserPasswordDetails.new_password2){
             if(validatePass(newUserPasswordDetails.new_password1)){
                 setToggleButton(false);
             async function updatePassword(){
-               setUpdateSuccess(await updatePass(userDetails, newUserPasswordDetails, accountLogged));
+              const newDate = new Date();
+               setUpdateSuccess(await updatePass(
+              {
+                ...userDetails,
+                history: [
+                  ...userDetails.history,
+                  {
+                    action_taken: "Update User",
+                    action_date: JSON.stringify(newDate),
+                    action_by: accountLogged.account[0].name,
+                    action_by_id: accountLogged.account[0].user_id,
+                    action_key: generateHistoryKey(),
+                    action_comment: "Updated User Password"
+                   }
+                ], 
+                updated_at: JSON.stringify(newDate)
+              }, newUserPasswordDetails));
             }
             updatePassword();
         }
@@ -123,12 +139,12 @@ function UserPanel({ accountLogged, setSearchHistoryType }) {
             </td>
             <td>{!changePassword ? <span style={{color: "black"}}> [<button className="button-link" onClick={handleChangePassword} id="change-pass">Change Password</button>]</span> : 
             <form className="form-container" onSubmit={changePasswordHandler} >
-                <label htmlFor="old_password">Old Password</label>
-                <input id="old_password" type="password" onChange={handleFormChange} value={newUserPasswordDetails.old_password} />
-                <label htmlFor="new_password1">New Password</label>
-                <input id="new_password1" type="password" onChange={handleFormChange} value={newUserPasswordDetails.new_password1} />
-                <label htmlFor="new_password2">New Password</label>
-                <input id="new_password2" type="password" onChange={handleFormChange} value={newUserPasswordDetails.new_password2} />
+                <label htmlFor="old_password">Old Password</label><br />
+                <input id="old_password" type="password" onChange={handleFormChange} value={newUserPasswordDetails.old_password} /><br />
+                <label htmlFor="new_password1">New Password</label><br />
+                <input id="new_password1" type="password" onChange={handleFormChange} value={newUserPasswordDetails.new_password1} /><br />
+                <label htmlFor="new_password2">New Password</label><br />
+                <input id="new_password2" type="password" onChange={handleFormChange} value={newUserPasswordDetails.new_password2} /><br />
                 <div className="change-pass-btn-container fix-button">
                 <span style={{color: "black"}}>[<button type="submit" id="submit-pw-change" className="button-link password-change-btn" onClick={changePasswordHandler}>Submit</button>]&nbsp;[<button className="button-link" id="cancel-change-password" onClick={cancelChangePasswordHandler} >Cancel</button>]</span>
                 </div>

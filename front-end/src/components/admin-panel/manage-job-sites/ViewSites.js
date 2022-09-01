@@ -9,6 +9,7 @@ import colorCode from "../../../utils/colorCodes";
 import { getJobSites } from "../../../utils/api";
 import { deactivateJobSite } from "../../../utils/api";
 import LoaderSpinner from "../../LoaderSpinner";
+import generateHistoryKey from "../../../utils/generateHistoryKey";
 
 function ViewSites({ setViewOrCreate, accountLogged, setJobSiteID }) {
   const [jobSites, setJobSites] = useState(null);
@@ -29,7 +30,7 @@ function ViewSites({ setViewOrCreate, accountLogged, setJobSiteID }) {
     if (id === "editSite") {
       setJobSiteID(Number(value));
       jobSites.find((js) => js.physical_site_id === Number(value)).status ===
-      "Active"
+        "Active"
         ? setViewOrCreate("edit")
         : window.alert("You currently cannot edit a deactivated site!");
     }
@@ -37,10 +38,10 @@ function ViewSites({ setViewOrCreate, accountLogged, setJobSiteID }) {
 
   const onClickHandler = (e) => {
     const { id } = e.currentTarget;
-    const oldJobSiteHistory = jobSites.filter(
+    const oldJobSite = jobSites.find(
       (js) => js.physical_site_id === Number(id)
     );
-    if (oldJobSiteHistory[0].status !== "Active")
+    if (oldJobSite.status !== "Active")
       window.alert("This job site is already deactivated!");
     else {
       if (accountLogged.account[0].access_level === "admin") {
@@ -50,12 +51,28 @@ function ViewSites({ setViewOrCreate, accountLogged, setJobSiteID }) {
           )
         ) {
           async function removeJobSite() {
+            const newDate = new Date();
             setLoadJobSites(
               setDeactivateSuccess(await deactivateJobSite(
-                  id,
-                  accountLogged,
-                  oldJobSiteHistory[0].history
-                )
+                id,
+                {
+                  ...oldJobSite,
+                  history: [
+                    ...oldJobSite.history,
+                    {
+                      action_taken: "Deactivate Job Site",
+                      action_date: JSON.stringify(newDate),
+                      action_by: accountLogged.account[0].name,
+                      action_by_id: accountLogged.account[0].user_id,
+                      action_key: generateHistoryKey(),
+                      action_comment: "Deactivated Job Site"
+                    }
+                  ],
+                  status: "Non-Active",
+                  updated_at: newDate,
+
+                }
+              )
               )
             );
           }
@@ -67,7 +84,7 @@ function ViewSites({ setViewOrCreate, accountLogged, setJobSiteID }) {
   };
 
   useEffect(() => {
-    if(deactivateSuccess)
+    if (deactivateSuccess)
       //change status of all devices belonging to job site to "Pending Transfer"
       //strip location data from device except "site" ie. "Midland, PA"
       console.log('Pending Transfer')

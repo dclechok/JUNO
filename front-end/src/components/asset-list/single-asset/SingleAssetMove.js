@@ -100,6 +100,7 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
                             location: validated, 
                             status: setStatus(),
                             history: [
+                                ...singleAsset.history, 
                                 {
                                   action_date: JSON.stringify(action_date),
                                   action_taken: "Move Asset",
@@ -108,7 +109,6 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
                                   action_key: newHistoryKey,
                                   action_comment: "Move Asset Details"
                                 }, 
-                                ...singleAsset.history, 
                               ],
                         }));
                 }

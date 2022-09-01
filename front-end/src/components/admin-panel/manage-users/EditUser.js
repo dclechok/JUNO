@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 
-import { getUser } from "../../../utils/api";
-import { updateUser } from "../../../utils/api";
+//utils
+import { getUser, updateUser } from "../../../utils/api";
 import LoaderSpinner from "../../LoaderSpinner";
+import generateHistoryKey from "../../../utils/generateHistoryKey";
 
 function EditUser({ accountLogged, userID, setViewOrCreate }) {
   const [user, setUser] = useState(null);
@@ -48,7 +49,25 @@ function EditUser({ accountLogged, userID, setViewOrCreate }) {
   const submitHandler = (e) => {
     e.preventDefault();
     async function editUser() {
-      setEditUserSuccess(await updateUser(newUserData, accountLogged, userID));
+      const newDate = new Date();
+      setEditUserSuccess(await updateUser(
+        {
+          ...newUserData, 
+          history: [
+            ...newUserData.history,
+            {
+              action_taken: "Edit User",
+              action_date: JSON.stringify(newDate),
+              action_by: accountLogged.account[0].name,
+              action_by_id: accountLogged.account[0].user_id,
+              action_key: generateHistoryKey(),
+              action_comment: "Edited User Details"
+            },
+          ], 
+          updated_at: JSON.stringify(newDate)
+        },
+        userID
+        ));
     }
     editUser();
   };
