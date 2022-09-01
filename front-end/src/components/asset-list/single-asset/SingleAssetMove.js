@@ -133,7 +133,7 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
                     <div className='move-input-container'>
                         <select onChange={changeHandler} defaultValue={selectedSite}>
                             {jobSites.map((js, key) => {
-                                return <option key={key} value={js.physical_site_name}>{js.physical_site_name}</option>
+                                return js.status === "Active" && <option key={key} value={js.physical_site_name}>{js.physical_site_name}</option>
                             })}
                         </select>
                         {site && site.category === "production" && currentLoc &&

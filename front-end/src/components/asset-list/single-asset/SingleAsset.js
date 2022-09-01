@@ -52,7 +52,7 @@ function SingleAsset({ loadSingleAsset, accountLogged }) {
     setButtonState({ ...defaultButtonState, [id]: "active-button-link" });
     setSingleAssetNav(e.currentTarget.id); //info, history, move, edit
   };
-  console.log(dateFormatter(singleAsset.updated_at))
+
   return (
     <div className="single-asset-render">
       {singleAsset && Object.keys(singleAsset) !== 0 ? (

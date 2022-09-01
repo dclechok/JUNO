@@ -189,6 +189,25 @@ export async function updateJobSite(newSiteData, accountLogged) {
   }
 }
 
+//when a job site is deactivated, set all of its asset's status to "pending transfer"
+async function setAssetsPendingTransfer(oldJobSite){
+  try{
+    const response = await fetch(BASE_URL + `assets`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ data: oldJobSite })
+    });
+    const jsonResponse = await response.json();
+    if(jsonResponse && !jsonResponse.error){
+      console.log('Successfully Updated Assets to Pending Transfer!');
+    }
+  }catch(e){
+    console.log('Setting assets status to "Pending Transfer" failed.')
+  }
+}
+
 // JOB SITES - DEACTIVATE/UPDATE ONE //
 export async function deactivateJobSite(id, oldJobSite) {
   //DO NOT ACTUALLY PERMANENTLY DELETE FROM DB
@@ -207,6 +226,7 @@ export async function deactivateJobSite(id, oldJobSite) {
       const awaitCreateHistory = await createHistory(jsonResponse);
       if (!awaitCreateHistory)
         throw new Error("Making request for history log failed!");
+      else setAssetsPendingTransfer(oldJobSite);
       return jsonResponse;
     }
   } catch (e) {
