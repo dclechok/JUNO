@@ -32,7 +32,6 @@ function SingleAssetEdit({ singleAsset, accountLogged }) {
     setToggleButton(false);
     const newHistoryKey = generateHistoryKey();
     const action_date = new Date();
-    console.log(action_date)
     async function editAsset() {
       setUpdateSuccess(
         await updateAsset(assetFields.asset_id, {

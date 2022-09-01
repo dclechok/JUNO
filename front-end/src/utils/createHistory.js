@@ -5,7 +5,7 @@ const BASE_HISTORY_URL = "http://localhost:5000/history_log";
 async function createHistory(successfulRequest){
     const { updated_at } = successfulRequest.data;
     const { action_by, action_by_id, action_taken, action_key, action_comment } =
-    successfulRequest.data.history[0];
+    successfulRequest.data.history[successfulRequest.data.history.length - 1];
 
     const historyLog = {
     logged_action: action_taken, //ie. "Move Asset"

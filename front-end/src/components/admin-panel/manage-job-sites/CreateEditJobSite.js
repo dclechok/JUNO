@@ -79,7 +79,39 @@ function CreateEditJobSite({
         if(oldSiteData.category === "no-selection") return window.alert("You must choose a type of job site!");
         if (validateSiteForm(oldSiteData, allJobSites)) {
           setToggleButton(false);
-          oldSiteData.category === "production" ? setSuccess(await updateJobSite(oldSiteData, accountLogged)) : setSuccess(await updateJobSite({...oldSiteData, first_octet: '' }, accountLogged ));
+          const newDate = new Date();
+          oldSiteData.category === "production" ? setSuccess(await updateJobSite(
+            {
+              ...oldSiteData, 
+              history: [
+                 ...oldSiteData.history,
+                 {
+                  action_taken: "Edit Job Site",
+                  action_date: JSON.stringify(newDate),
+                  action_by: accountLogged.account[0].name,
+                  action_by_id: accountLogged.account[0].user_id,
+                  action_key: generateHistoryKey(),
+                  action_comment: "Updated Job Site"
+                 }
+              ],
+              updated_at: newDate
+            }, accountLogged)) : setSuccess(await updateJobSite(
+                {
+                  ...oldSiteData,
+                  first_octet: '',
+                  history: [
+                    ...oldSiteData.history,
+                    {
+                     action_taken: "Edit Job Site",
+                     action_date: JSON.stringify(newDate),
+                     action_by: accountLogged.account[0].name,
+                     action_by_id: accountLogged.account[0].user_id,
+                     action_key: generateHistoryKey(),
+                     action_comment: "Updated Job Site"
+                    }
+                 ],
+                updated_at: newDate
+                }, accountLogged ));
         }
       } else if (viewOrCreate === "create") {
         if(newSiteData.category === "no-selection") return window.alert("You must choose a type of job site!");
@@ -96,10 +128,10 @@ function CreateEditJobSite({
                   //the date of creation can be found by searching history_log via key of historical item
                   {
                     action_taken: "Create Job Site",
+                    action_date: JSON.stringify(newDate),
                     action_by: accountLogged.account[0].name,
                     action_by_id: accountLogged.account[0].user_id,
                     action_key: newHistoryKey, //generate unique history key ("action_key")
-                    action_date: newDate,
                     action_comment: "Job Site Creation",
                   }
                 ]
