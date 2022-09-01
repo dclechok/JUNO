@@ -154,19 +154,10 @@ export async function createJobSite(jobSite) {
       body: JSON.stringify({ data: jobSite }),
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
-    if (jsonResponse) {
+    if (jsonResponse && !jsonResponse.error) {
       //if POST request was successful, create a log in history_log table
-      const { action_by, action_by_id, action_key, action_taken } =
-        jsonResponse.data.history[0];
-      const { updated_at } = jsonResponse.data;
       //eventually add comments, and "approved_by";
-      const awaitCreateHistory = await createHistory({
-        logged_action: action_taken,
-        logged_date: updated_at,
-        logged_by: action_by,
-        logged_by_id: action_by_id,
-        history_key: action_key,
-      });
+      const awaitCreateHistory = await createHistory(jsonResponse);
       if (!awaitCreateHistory)
         throw new Error("Making request for history log failed!");
       return jsonResponse;

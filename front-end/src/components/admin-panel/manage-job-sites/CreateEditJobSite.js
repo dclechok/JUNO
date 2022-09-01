@@ -17,8 +17,7 @@ function CreateEditJobSite({
   viewOrCreate,
   jobSiteID = "",
 }) {
-  const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
-  const newDate = new Date();
+
   const [success, setSuccess] = useState(null);
   const [toggleButton, setToggleButton] = useState(true);
   const [allJobSites, setAllJobSites] = useState(null); //when creating, store list of job sites here to validate new job site data
@@ -30,17 +29,6 @@ function CreateEditJobSite({
     status: "Active",
     first_octet: "",
     category: "no-selection",
-    history: [
-      //the date of creation can be found by searching history_log via key of historical item
-      {
-        action_taken: "Create Job Site",
-        action_by: accountLogged.account[0].name,
-        action_by_id: accountLogged.account[0].user_id,
-        action_key: newHistoryKey, //generate unique history key ("action_key")
-        action_date: newDate,
-        action_comment: "Job Site Creation",
-      },
-    ],
   };
 
   const [oldSiteData, setOldSiteData] = useState(defaultJobSite);
@@ -97,9 +85,25 @@ function CreateEditJobSite({
         if(newSiteData.category === "no-selection") return window.alert("You must choose a type of job site!");
         if (validateSiteForm(newSiteData, allJobSites)) {
           setToggleButton(false);
+          const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
+          const newDate = new Date();
           setSuccess(
             await createJobSite(
-              { ...defaultJobSite, ...newSiteData },
+              {
+                ...defaultJobSite,
+                 ...newSiteData,
+                 history: [
+                  //the date of creation can be found by searching history_log via key of historical item
+                  {
+                    action_taken: "Create Job Site",
+                    action_by: accountLogged.account[0].name,
+                    action_by_id: accountLogged.account[0].user_id,
+                    action_key: newHistoryKey, //generate unique history key ("action_key")
+                    action_date: newDate,
+                    action_comment: "Job Site Creation",
+                  }
+                ]
+              },
               accountLogged
             )
           );
