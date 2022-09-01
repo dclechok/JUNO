@@ -85,7 +85,8 @@ function UserPanel({ accountLogged, setSearchHistoryType }) {
                    }
                 ], 
                 updated_at: JSON.stringify(newDate)
-              }, newUserPasswordDetails));
+              }, 
+              newUserPasswordDetails));
             }
             updatePassword();
         }

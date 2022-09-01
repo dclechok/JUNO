@@ -340,18 +340,10 @@ export async function createUser(user) {
       body: JSON.stringify({ data: user }),
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
-    if (jsonResponse) {
+    if (jsonResponse && !jsonResponse.error) {
       //if POST request was successful, create a log in
       //eventually add comments, and "approved_by";
-      const { updated_at } = jsonResponse.data;
-      const { action_by, action_by_id, history_key } = (jsonResponse.data.history[0]);
-      const awaitCreateHistory = await createHistory({
-        logged_action: "Create User",
-        logged_date: updated_at,
-        logged_by: action_by,
-        logged_by_id: action_by_id,
-        history_key: history_key
-      });
+      const awaitCreateHistory = await createHistory(jsonResponse);
       if (!awaitCreateHistory)
         throw new Error("Making request create user failed!");
       return jsonResponse;
@@ -362,44 +354,22 @@ export async function createUser(user) {
 }
 
 // USERS - DEACTIVATE
-export async function deactivateUser(prevUserData, accountLogged) {
+export async function deactivateUser(prevUserData) {
   //DO NOT ACTUALLY PERMANENTLY DELETE FROM DB
-  const newDate = new Date();
-  console.log(prevUserData)
-  const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
-  prevUserData[0].history.push({
-    //push new entry onto the old job site history list
-    action_date: newDate,
-    action_taken: "Deactivate User",
-    action_by: accountLogged.account[0].name,
-    action_by_id: accountLogged.account[0].user_id,
-    history_key: newHistoryKey,
-  });
+
   try {
-    const response = await fetch(BASE_URL + `users/deactivate/${prevUserData[0].user_id}`, {
+    const response = await fetch(BASE_URL + `users/deactivate/${prevUserData.user_id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        data: {
-          status: "Non-Active",
-          history: prevUserData[0].history,
-        },
-      }),
+      body: JSON.stringify({ data: prevUserData }),
     });
     const jsonResponse = await response.json(); //json-ify readablestream data
-    if (jsonResponse) {
-      //if POST request was successful, create a log in
+    if (jsonResponse && !jsonResponse.error) {
+      //if PUT request was successful, create a log in
       //eventually add comments, and "approved_by";
-      const { name, user_id } = accountLogged.account[0];
-      const awaitCreateHistory = await createHistory({
-        logged_action: "Deactivate User",
-        logged_date: newDate,
-        logged_by: name,
-        logged_by_id: user_id,
-        history_key: newHistoryKey,
-      });
+      const awaitCreateHistory = await createHistory(jsonResponse);
       if (!awaitCreateHistory)
         throw new Error("Making request for history log failed!");
       return jsonResponse;
