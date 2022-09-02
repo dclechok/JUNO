@@ -230,7 +230,7 @@ export async function deactivateJobSite(id, oldJobSite) {
       return jsonResponse;
     }
   } catch (e) {
-    console.log(e, "Failed to fetch all assets.");
+    console.log(e, "Failed to deactivate all assets.");
   }
 }
 

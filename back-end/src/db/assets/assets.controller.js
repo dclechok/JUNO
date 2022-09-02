@@ -128,8 +128,7 @@ async function update(req, res) {
 async function bulkUpdate(req, res){
   const site = req.body.data;
   const data = await knex('assets')
-  // .whereRaw(`location -> 'site' = '${site.physical_site_name}'`)
-  .whereJsonSupersetOf('location', { "site": site.physical_site_name })
+  .whereRaw(`location ->> 'site' = '${site.physical_site_name}'`)
   .update("status", "Pending Transfer") //todo: update history as well
   .returning('*')
   .then((results) => results[0]);
