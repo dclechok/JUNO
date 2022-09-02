@@ -78,7 +78,7 @@ function SingleUpload({ accountLogged }) {
     const { value, id } = e.currentTarget;
     setAssetFields({ ...assetFields, [id]: value });
   };
-  console.log(assetFields, siteIP)
+
   const submitHandler = (e) => {
     e.preventDefault();
     acceptOrReject = validateSingleUpload(assetFields, assetList, siteIP);

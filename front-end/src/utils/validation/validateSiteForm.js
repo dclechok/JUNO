@@ -1,6 +1,6 @@
 function validateSiteForm(siteData, allJobSites) {
   //allJobSites when creating to check to see if there are duplicates
-  if (siteData.category === "Live" && !siteData.first_octet)
+  if (siteData.category === "production" && !siteData.first_octet)
     return window.alert("Production job sites must have a first octet property!");
   if (!siteData.category)
     return window.alert("You must select a category for the job site to belong to!");
@@ -8,7 +8,7 @@ function validateSiteForm(siteData, allJobSites) {
     return window.alert("Job site must have a name!");
   if (!siteData.site_code)
     return window.alert("Job site must have a site code!");
-  if (siteData.first_octet.length !== 2)
+  if (siteData.category === "production" && siteData.first_octet.length !== 2)
     return window.alert("Job site first octet must be two numeric digits!");
   if(siteData.first_octet.split().find(char => char.charCodeAt() < 48 || char.charCodeAt() > 57))
     return window.alert("Job site first octet can be numbers only!");
