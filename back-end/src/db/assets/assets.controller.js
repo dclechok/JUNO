@@ -129,7 +129,13 @@ async function bulkUpdate(req, res){
   const site = req.body.data;
   const data = await knex('assets')
   .whereRaw(`location ->> 'site' = '${site.physical_site_name}'`)
-  .update("status", "Pending Transfer") //todo: update history as well
+  .update({ 
+    status: "Pending Transfer",
+    location: { 
+      site: site.physical_site_name, 
+      site_loc: { first_octet: '', mdc: '', shelf: '', unit: ''} //remove IP address
+    }
+  }) //todo: update history as well
   .returning('*')
   .then((results) => results[0]);
   res.status(200).json({ data });
