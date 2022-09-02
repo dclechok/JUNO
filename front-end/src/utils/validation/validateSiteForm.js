@@ -8,6 +8,10 @@ function validateSiteForm(siteData, allJobSites) {
     return window.alert("Job site must have a name!");
   if (!siteData.site_code)
     return window.alert("Job site must have a site code!");
+  if (siteData.first_octet.length !== 2)
+    return window.alert("Job site first octet must be two numeric digits!");
+  if(siteData.first_octet.split().find(char => char.charCodeAt() < 48 || char.charCodeAt() > 57))
+    return window.alert("Job site first octet can be numbers only!");
   if (
     allJobSites &&
     allJobSites.find(

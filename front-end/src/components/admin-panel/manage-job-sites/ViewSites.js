@@ -83,13 +83,6 @@ function ViewSites({ setViewOrCreate, accountLogged, setJobSiteID }) {
     }
   };
 
-  useEffect(() => {
-    if (deactivateSuccess)
-      //change status of all devices belonging to job site to "Pending Transfer"
-      //strip location data from device except "site" ie. "Midland, PA"
-      console.log('Pending Transfer')
-  }, [deactivateSuccess]);
-
   return (
     <>
       {jobSites && jobSites.length !== 0 ? (

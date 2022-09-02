@@ -133,7 +133,7 @@ async function bulkUpdate(req, res){
     status: "Pending Transfer",
     location: { 
       site: site.physical_site_name, 
-      site_loc: { first_octet: '', mdc: '', shelf: '', unit: ''} //remove IP address
+      site_loc: { first_octet: site.first_octet, mdc: '', shelf: '', unit: ''} //remove IP address
     }
   }) //todo: update history as well
   .returning('*')

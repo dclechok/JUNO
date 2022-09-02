@@ -200,9 +200,7 @@ async function setAssetsPendingTransfer(oldJobSite){
       body: JSON.stringify({ data: oldJobSite })
     });
     const jsonResponse = await response.json();
-    if(jsonResponse && !jsonResponse.error){
-      console.log('Successfully Updated Assets to Pending Transfer!');
-    }
+    return jsonResponse;
   }catch(e){
     console.log('Setting assets status to "Pending Transfer" failed.')
   }
