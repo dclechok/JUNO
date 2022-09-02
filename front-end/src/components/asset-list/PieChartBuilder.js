@@ -41,7 +41,11 @@ function PieChartBuilder({ assetListValues }) {
               label: "Needs Verified", 
               color: "rgb(255, 87, 51)"
             },
-            
+            {
+              angle: assetListValues.numInTransfer,
+              label: "Pending Transfer",
+              color: "rgb(133, 109, 200)"
+            }
           ]}
           width={300}
           height={300}
