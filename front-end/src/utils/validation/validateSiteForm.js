@@ -6,6 +6,8 @@ function validateSiteForm(siteData, allJobSites) {
     return window.alert("You must select a category for the job site to belong to!");
   if (!siteData.physical_site_name)
     return window.alert("Job site must have a name!");
+  if (siteData.physical_site_name.length > 25)
+    return window.alert("Site name length must be less than 25 characters!");
   if (!siteData.site_code)
     return window.alert("Job site must have a site code!");
   if (siteData.category === "production" && siteData.first_octet.length !== 2)
