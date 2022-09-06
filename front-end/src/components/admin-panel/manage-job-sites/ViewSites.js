@@ -122,7 +122,7 @@ function ViewSites({ setViewOrCreate, accountLogged, setJobSiteID }) {
             </tr>
             {jobSites &&
               jobSites.length !== 0 &&
-              jobSites.map((site, key) => {
+              jobSites.sort((a, b) => { return new Date(b.updated_at) - new Date(a.updated_at)}).map((site, key) => {
                 return (
                   <tr key={key}>
                     <td>{site.physical_site_id}</td>

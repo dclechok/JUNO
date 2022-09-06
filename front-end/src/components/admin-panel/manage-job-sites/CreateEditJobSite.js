@@ -52,7 +52,6 @@ function CreateEditJobSite({
     }
     if (jobSiteID && viewOrCreate === "edit") {
       grabJobSite();
-      // setNewSiteData(oldSiteData)
     }
     else if (viewOrCreate === "create") {
       setOldSiteData(newSiteData);
