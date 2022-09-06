@@ -86,7 +86,7 @@ function SingleUpload({ accountLogged }) {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    acceptOrReject = validateSingleUpload(assetFields, assetList, siteIP);
+    acceptOrReject = validateSingleUpload(assetFields, assetList, siteIP, targetSite.category);
     // make POST request
     if (acceptOrReject !== "fields not validated") {
       setLogItem(acceptOrReject);
