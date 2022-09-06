@@ -42,6 +42,8 @@ function AssetList({
   const defaultAssetsPerPage = 500;
   const [assetsPerPage, setAssetsPerPage] = useState(defaultAssetsPerPage);
 
+  // if(assetList) window.location.reload(false);
+
   useEffect(() => {
     //get list of all assets
     const abortController = new AbortController();

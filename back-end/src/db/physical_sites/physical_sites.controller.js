@@ -48,7 +48,7 @@ async function read(req, res) {
 
 async function update(req, res) {
   const { physical_site_id } = req.params;
-  const { physical_site_name, site_code, first_octet, category } = req.body.data;
+  const { physical_site_name, site_code, first_octet, category, updated_at } = req.body.data;
   let { history } = req.body.data;
   history = JSON.stringify(history); //restringify
   const data = await knex("physical_sites")
@@ -58,7 +58,8 @@ async function update(req, res) {
     site_code, site_code,
     first_octet, first_octet,
     history, history,
-    category, category
+    category, category,
+    updated_at, updated_at
   })
   .returning('*')
   .then((results) => results[0]);

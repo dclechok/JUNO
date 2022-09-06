@@ -17,8 +17,7 @@ function CreateEditJobSite({
   viewOrCreate,
   jobSiteID = "",
 }) {
-  const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
-  const newDate = new Date();
+
   const [success, setSuccess] = useState(null);
   const [toggleButton, setToggleButton] = useState(true);
   const [allJobSites, setAllJobSites] = useState(null); //when creating, store list of job sites here to validate new job site data
@@ -29,28 +28,12 @@ function CreateEditJobSite({
     site_code: "",
     status: "Active",
     first_octet: "",
-    category: "",
-    history: [
-      //the date of creation can be found by searching history_log via key of historical item
-      {
-        action_taken: "Create Job Site",
-        action_by: accountLogged.account[0].name,
-        action_by_id: accountLogged.account[0].user_id,
-        action_key: newHistoryKey, //generate unique history key ("action_key")
-        action_date: newDate,
-        action_comment: "Job Site Creation",
-      },
-    ],
+    category: "no-selection",
   };
 
   const [oldSiteData, setOldSiteData] = useState(defaultJobSite);
   const [newSiteData, setNewSiteData] = useState(defaultJobSite);
-  const defaultButtonChecked = {
-    "Production": false,
-    "Storage": false,
-    "Repair": false,
-  };
-  const [radioBtnChecked, setRadioBtnChecked] = useState(defaultButtonChecked);
+  const [activeCategory, setActiveCategory] = useState('no-selection');
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -74,41 +57,85 @@ function CreateEditJobSite({
     else if (viewOrCreate === "create") {
       setOldSiteData(null);
       setNewSiteData(defaultJobSite);
-      setRadioBtnChecked(defaultButtonChecked);
+      setActiveCategory('no-selection')
     }
       return () => abortController.abort();
   }, [viewOrCreate, setViewOrCreate]);
 
-  const changeHandler = (e) => {
-    const { type, id, value } = e.currentTarget;
-    if (viewOrCreate === "create") {
-      if (type === "radio") {
-        setRadioBtnChecked({ ...defaultButtonChecked, [value]: true });
-        setNewSiteData({ ...newSiteData, category: value });
-      } else setNewSiteData({ ...newSiteData, [id]: value });
-    }
-    if (viewOrCreate === "edit") {
-      if (type === "radio") {
-       setOldSiteData({ ...oldSiteData, category: value });
-      } else setOldSiteData({ ...oldSiteData, [id]: value });
-    }
-  };
+  useEffect(() => {
+    if(oldSiteData) setActiveCategory(oldSiteData.category.toLowerCase());
+  }, [oldSiteData, setOldSiteData]);
 
+  const changeHandler = (e) => {
+    const { id, value } = e.currentTarget;
+    if(id === "category") setActiveCategory(value);
+    viewOrCreate === "create" ? setNewSiteData({ ...newSiteData, [id]: value }) : setOldSiteData({ ...oldSiteData, [id]: value });
+  };
   const submitHandler = (e) => {
     e.preventDefault();
     async function makeJobSite() {
       if (viewOrCreate === "edit") {
         //todo: remove first_octet if not 'live' site?
+        if(oldSiteData.category === "no-selection") return window.alert("You must choose a type of job site!");
         if (validateSiteForm(oldSiteData, allJobSites)) {
           setToggleButton(false);
-          radioBtnChecked["Production"] ? setSuccess(await updateJobSite(oldSiteData, accountLogged)) : setSuccess(await updateJobSite({...oldSiteData, first_octet: '' }, accountLogged ));
+          const newDate = new Date();
+          oldSiteData.category === "production" ? setSuccess(await updateJobSite(
+            {
+              ...oldSiteData, 
+              history: [
+                 ...oldSiteData.history,
+                 {
+                  action_taken: "Edit Job Site",
+                  action_date: JSON.stringify(newDate),
+                  action_by: accountLogged.account[0].name,
+                  action_by_id: accountLogged.account[0].user_id,
+                  action_key: generateHistoryKey(),
+                  action_comment: "Updated Job Site"
+                 }
+              ],
+              updated_at: newDate
+            }, accountLogged)) : setSuccess(await updateJobSite(
+                {
+                  ...oldSiteData,
+                  first_octet: '',
+                  history: [
+                    ...oldSiteData.history,
+                    {
+                     action_taken: "Edit Job Site",
+                     action_date: JSON.stringify(newDate),
+                     action_by: accountLogged.account[0].name,
+                     action_by_id: accountLogged.account[0].user_id,
+                     action_key: generateHistoryKey(),
+                     action_comment: "Updated Job Site"
+                    }
+                 ],
+                updated_at: newDate
+                }, accountLogged ));
         }
       } else if (viewOrCreate === "create") {
+        if(newSiteData.category === "no-selection") return window.alert("You must choose a type of job site!");
         if (validateSiteForm(newSiteData, allJobSites)) {
           setToggleButton(false);
+          const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
+          const newDate = new Date();
           setSuccess(
             await createJobSite(
-              { ...defaultJobSite, ...newSiteData },
+              {
+                ...defaultJobSite,
+                 ...newSiteData,
+                 history: [
+                  //the date of creation can be found by searching history_log via key of historical item
+                  {
+                    action_taken: "Create Job Site",
+                    action_date: JSON.stringify(newDate),
+                    action_by: accountLogged.account[0].name,
+                    action_by_id: accountLogged.account[0].user_id,
+                    action_key: newHistoryKey, //generate unique history key ("action_key")
+                    action_comment: "Job Site Creation",
+                  }
+                ]
+              },
               accountLogged
             )
           );
@@ -127,69 +154,27 @@ function CreateEditJobSite({
     return () => abortController.abort();
   }, [setSuccess, success]);
 
-  useEffect(() => {
-    if(oldSiteData){
-      setRadioBtnChecked({ ...defaultButtonChecked, [oldSiteData.category]: true });
-    }
-  }, [oldSiteData]);
-
-  useEffect(() => {
-    setNewSiteData({ ...newSiteData, first_octet: '' });
-  }, [setRadioBtnChecked]);
-
   return (
-    <section className="create-user-container upload-container-style">
+    <section className="create-user-container">
       <h4>
         {viewOrCreate.charAt(0).toUpperCase() + viewOrCreate.slice(1)} Job Site
       </h4>
       {oldSiteData || newSiteData && toggleButton ? (
         <form
-          className="form-container create-user-form"
+          className="form-container"
           onSubmit={submitHandler}
         >
-          <fieldset>
-            <legend>Job Site Category</legend>
-            <div className="radio-buttons-container">
-              <div className="flex-header">
-                <label htmlFor="production">Production</label>
-                <label htmlFor="storage">Storage</label>
-                <label htmlFor="repair">Repair</label>
-              </div>
-              <div className="flex-buttons">
-                <input
-                  type="radio"
-                  id="production"
-                  name="category"
-                  value="Production"
-                  onChange={changeHandler}
-                  checked={radioBtnChecked["Production"]}
-                />
+        <select id="category" onChange={changeHandler} value={activeCategory}>
+          <option value="no-selection">Choose Site Type</option>
+          <option value="production">Production</option>
+          <option value="storage">Storage</option>
+          <option value="repair">Repair</option>
+        </select>
 
-                <input
-                  type="radio"
-                  id="storage"
-                  name="category"
-                  value="Storage"
-                  onChange={changeHandler}
-                  checked={radioBtnChecked["Storage"]}
-                />
-
-                <input
-                  type="radio"
-                  id="repair"
-                  name="category"
-                  value="Repair"
-                  onChange={changeHandler}
-                  checked={radioBtnChecked["Repair"]}
-                />
-              </div>
-            </div>
-          </fieldset>
-
-          <div className="create-space">
+          <div>
             <label htmlFor="physical_site_name">
-              Physical Site Name (ex. "Sandersville, GA")
-            </label>
+              Site Name (ex. "Sandersville, GA")
+            </label><br />
             <input
               type="text"
               id="physical_site_name"
@@ -206,9 +191,9 @@ function CreateEditJobSite({
                   ? oldSiteData.physical_site_name
                   : defaultJobSite.physical_site_name
               }
-            />
+            /><br />
 
-            <label htmlFor="site_code">Site Code (ex. "GA01")</label>
+            <label htmlFor="site_code">Site Code (ex. "GA01")</label><br />
             <input
               type="text"
               id="site_code"
@@ -225,12 +210,12 @@ function CreateEditJobSite({
                   ? oldSiteData.site_code
                   : defaultJobSite.site_code
               }
-            />
-            {radioBtnChecked && radioBtnChecked["Production"] && (oldSiteData || newSiteData) && (
+            /><br />
+            {activeCategory === "production" && (
               <>
                 <label htmlFor="first_octet">
                   Site IP First Octet (ex. "10")
-                </label>
+                </label><br />
                 <input
                   type="text"
                   id="first_octet"
@@ -247,7 +232,7 @@ function CreateEditJobSite({
                       ? oldSiteData.first_octet
                       : defaultJobSite.first_octet
                   }
-                />
+                /><br />
               </>
             )}
           </div>

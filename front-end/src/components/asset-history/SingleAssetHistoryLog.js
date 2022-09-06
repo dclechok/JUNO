@@ -59,7 +59,7 @@ function SingleAssetHistoryLog({ loadedHistory }) {
               </p>
               <p>
                 <b>Logged Date</b>:{" "}
-                {dateFormatter(currentHistoryLog.action_date)}
+                {dateFormatter(JSON.parse(currentHistoryLog.action_date))}
               </p>
               <p>
                 <b>Total Assets Mutated</b>: {loadedHistory.length}
@@ -122,7 +122,7 @@ function SingleAssetHistoryLog({ loadedHistory }) {
                         <td>
                           {asset.location.site_loc === ""
                             ? "Needs Verified"
-                            : asset.location.site_loc}
+                            : `${asset.location.site_loc.first_octet}.${asset.location.site_loc.mdc}.${asset.location.site_loc.shelf}.${asset.location.site_loc.unit}`}
                         </td>
                         <td>{asset.serial_number}</td>
                         <td>{asset.make}</td>

@@ -1,9 +1,13 @@
 /* single uploads */
 .form-container{
+    display: inline-block;
     margin: 0;
     background-color: rgb(19, 21, 26);
     padding-right: 8%;
     padding-left: 8%;
+    padding-top: 4%;
+    min-width: auto;
+    max-width: 300px;
 }
 /* bulk uploads */
 .form-container-bulk{
@@ -19,10 +23,13 @@
     float: left;
 }
 
+.form-container select{
+    margin-bottom: 4%;
+}
+
 .form-container input{
     font-size: 14px;
     width: 300px;
-    float: right;
     background-color: rgb(67, 72, 87);
     margin-top: 2%;
     margin-bottom: 4%;
@@ -73,7 +80,8 @@
     border-radius: 4px 4px 4px 4px;
     text-align: center;
     color: rgb(228, 241, 255);
-    width: auto;
+    min-width: 400px;
+    margin-bottom: 2%;
   }
 
 .upload-container-style select{
@@ -97,7 +105,7 @@ h5{
 }
 
 .bulk-upload-button{
-    margin-top: 4%;
+    margin-top: 1%;
 }
 
 .select-container{
@@ -111,3 +119,22 @@ h5{
 h3{
     font-size: 20px;
 }
+
+.ip-inputs{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+  }
+  
+  .ip-inputs input{
+    width: 30px;
+    text-align: center;
+  }
+/* for input type 'number' - removes scrollbars */
+/* input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button
+{ 
+  -webkit-appearance: none; 
+  margin: 0; 
+} */

@@ -14,67 +14,67 @@ function SingleAssetInfo({ singleAsset }) {
             <td>
               <b>Asset Tag</b>
             </td>
-            <td>{singleAsset[0].asset_tag}</td>
+            <td>{singleAsset.asset_tag}</td>
           </tr>
           <tr>
             <td>
               <b>Site</b>
             </td>
-            <td>{singleAsset[0].location.site}</td>
+            <td>{singleAsset.location.site}</td>
           </tr>
           <tr>
             <td>
               <b>IP</b>
             </td>
-            <td>{singleAsset[0].location.site_loc === '' ? 'Needs Verified' : renderLocation(singleAsset[0])}</td>
+            <td>{singleAsset.location.site_loc === '' ? 'Needs Verified' : renderLocation(singleAsset)}</td>
           </tr>
           <tr>
             <td>
               <b>Serial Number</b>
             </td>
-            <td>{singleAsset[0].serial_number}</td>
+            <td>{singleAsset.serial_number}</td>
           </tr>
           <tr>
             <td>
               <b>Make</b>
             </td>
-            <td>{singleAsset[0].make}</td>
+            <td>{singleAsset.make}</td>
           </tr>
           <tr>
             <td>
               <b>Model</b>
             </td>
-            <td>{singleAsset[0].model}</td>
+            <td>{singleAsset.model}</td>
           </tr>
           <tr>
             <td>
               <b>Hash Rate</b>
             </td>
-            <td>{singleAsset[0].hr}</td>
+            <td>{singleAsset.hr}</td>
           </tr>
           <tr>
             <td>
               <b>Status</b>
             </td>
-            <td>{singleAsset[0].status}</td>
+            <td>{singleAsset.status}</td>
           </tr>
           <tr>
             <td>
               <b>Invoice Number</b>
             </td>
-            <td>{singleAsset[0].invoice_num ? singleAsset[0].invoice_num: '--'}</td>
+            <td>{singleAsset.invoice_num ? singleAsset.invoice_num: '--'}</td>
           </tr>
           <tr>
             <td>
               <b>Value</b>
             </td>
-            <td>{singleAsset[0].value ? singleAsset[0].value: '--'}</td>
+            <td>{singleAsset.value ? singleAsset.value: '--'}</td>
           </tr>
           <tr>
             <td>
               <b>EOL Date</b>
             </td>
-            <td>{singleAsset[0].EOL_date ? singleAsset[0].EOL_date: '--'}</td>
+            <td>{singleAsset.EOL_date ? singleAsset.EOL_date: '--'}</td>
           </tr>
         </tbody>
       </table>

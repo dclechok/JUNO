@@ -7,16 +7,18 @@ import UploadSuccess from "./UploadSuccess.js";
 import LoaderSpinner from "../LoaderSpinner.js";
 
 //utils
-import { createAsset } from "../../utils/api.js";
-import { getJobSites } from "../../utils/api.js";
+import { getJobSites, getAllAssets, createAsset } from "../../utils/api.js";
 import validateSingleUpload from "../../utils/validation/validateSingleUpload";
 
-function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
+function SingleUpload({ accountLogged }) {
   const [jobSites, setJobSites] = useState([]);
   const [locationSelect, setLocationSelect] = useState("All Locations");
   const [logItem, setLogItem] = useState();
   const [targetSite, setTargetSite] = useState();
-  const [successfulUpload, setSuccessfulUpload] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(null);
+  const defaultSiteIP = { first_octet: '', mdc: '', shelf: '', unit: '' };
+  const [siteIP, setSiteIP] = useState(defaultSiteIP);
+  const [assetList, setAssetList] = useState([]);
   const [assetFields, setAssetFields] = useState({
     asset_tag: "",
     location: "",
@@ -31,24 +33,45 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
     //create controlled input
     e.preventDefault();
     setLocationSelect(e.currentTarget.value);
-   setAssetFields({
+    setAssetFields({
       ...assetFields,
-      location: { site: e.currentTarget.value, site_loc: "" },
+      location: { site: e.currentTarget.value },
     });
   };
 
   useEffect(() => {
-    setTargetSite(jobSites.find(js => {
-      if(js.physical_site_name === locationSelect) return js.category;
-    }));
+    async function loadAllAssets(){
+      setAssetList(await getAllAssets());
+    }
+    loadAllAssets();
+  }, [uploadSuccess, setUploadSuccess]);
+
+  useEffect(() => {
+    if (locationSelect && locationSelect !== '-- select an option --') {
+      setTargetSite(jobSites.find(js => {
+        if (js.physical_site_name === locationSelect) return js.category;
+      }));
+    } else setTargetSite('');
+
   }, [locationSelect, setLocationSelect])
 
-  const setStatus = () => {
-    if(targetSite && targetSite.category === "Live") return "Needs Verified";
-    if(targetSite && targetSite.category === "Repair") return "Repair";
-    if(targetSite && targetSite.category === "Storage") return "Storage";
-  };
+  useEffect(() => {
+    if (targetSite) setSiteIP({ first_octet: targetSite.first_octet });
+    else setSiteIP(defaultSiteIP);
+  }, [targetSite, setTargetSite]);
 
+  const setStatus = () => {
+    if (targetSite && targetSite.category === "production") return "Hashing";
+    if (targetSite && targetSite.category === "repair") return "Repair";
+    if (targetSite && targetSite.category === "storage") return "Storage";
+  };
+  //handling state of IP fields
+  const changeIPHandler = (e) => {
+    e.preventDefault();
+    const { id, value } = e.currentTarget;
+    setSiteIP({ ...siteIP, [id]: value });
+  };
+  
   const changeHandler = (e) => {
     //create controlled input
     e.preventDefault();
@@ -58,22 +81,22 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    acceptOrReject = validateSingleUpload(assetFields, assetList);
-    // make post request
+    acceptOrReject = validateSingleUpload(assetFields, assetList, siteIP);
+    // make POST request
     if (acceptOrReject !== "fields not validated") {
       setLogItem(acceptOrReject);
-      if (acceptOrReject.rejected.length === 0) {
+      if (acceptOrReject.rejected.length === 0 && acceptOrReject.accepted.length > 0) {
         const action_date = new Date();
         const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
         async function postSingleAsset() {
-          setSuccessfulUpload(await createAsset(
+          setUploadSuccess(await createAsset(
             {
-              ...assetFields,
+              ...acceptOrReject.accepted[0],
               status: setStatus(),
               history: [
                 {
                   action_taken: "Single Upload",
-                  action_date: action_date,
+                  action_date: JSON.stringify(action_date),
                   action_by: accountLogged.account[0].name,
                   action_by_id: accountLogged.account[0].user_id,
                   action_key: newHistoryKey,
@@ -85,9 +108,16 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
         }
         postSingleAsset();
       }
-      setLoadAssets(!loadAssets);
     }
   };
+  //clear data once submitted 
+  useEffect(() => {
+    if(uploadSuccess){
+      setAssetFields('');
+      setSiteIP('');
+      // window.location.reload();
+    } 
+  }, [uploadSuccess]);
 
   useEffect(() => {
     //populate job sites in location field
@@ -104,7 +134,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
       <h4>Single Upload</h4>
       {jobSites && jobSites.length !== 0 ? (
         <>
-          {!successfulUpload && !logItem && (
+          {!uploadSuccess && !logItem && (
             <form className="form-container" onSubmit={submitHandler}>
               <div>
                 <label htmlFor="location">Location</label>
@@ -131,20 +161,47 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                         );
                     })}
                 </select>
-                <br />
-              </div>
+              </div>                <br />
+              <div className="ip-inputs">
+                <fieldset>
+                  <legend>IP ("xx.xx.xx.xx")</legend>
+                  <input
+                    onChange={changeIPHandler}
+                    form="ip-form"
+                    id="first_octet"
+                    type="text"
+                    value={siteIP.first_octet}
+                    maxLength="2"
+                    readOnly
+                  />&nbsp;.&nbsp;
+                  <input
+                    onChange={changeIPHandler}
+                    form="ip-form"
+                    id="mdc"
+                    type="text"
+                    value={siteIP.mdc}
+                    maxLength="2"
+                  />&nbsp;.&nbsp;
+                  <input
+                    onChange={changeIPHandler}
+                    form="ip-form"
+                    id="shelf"
+                    type="text"
+                    value={siteIP.shelf}
+                    maxLength="2"
+                  />&nbsp;.&nbsp;
+                  <input
+                    onChange={changeIPHandler}
+                    form="ip-form"
+                    id="unit"
+                    type="text"
+                    value={siteIP.unit}
+                    maxLength="2"
+                  />
+                </fieldset>
+              </div><br />
               <div>
-              <label htmlFor="asset_tag">IP ("xx.xx.xx.xx")</label>
-                <input
-                  id="ip"
-                  type="text"
-                  value={assetFields.location.site_loc}
-                  onChange={changeHandler}
-                />
-                <br />
-                </div>
-              <div>
-                <label htmlFor="asset_tag">Asset Tag</label>
+                <label htmlFor="asset_tag">Asset Tag</label><br />
                 <input
                   id="asset_tag"
                   type="text"
@@ -154,7 +211,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                 <br />
               </div>
               <div>
-                <label htmlFor="serial-number">Serial #</label>
+                <label htmlFor="serial-number">Serial #</label><br />
                 <input
                   id="serial_number"
                   type="text"
@@ -163,8 +220,9 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                 />
                 <br />
               </div>
+
               <div>
-                <label htmlFor="make">Make</label>
+                <label htmlFor="make">Make</label><br />
                 <input
                   id="make"
                   type="text"
@@ -174,7 +232,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                 <br />
               </div>
               <div>
-                <label htmlFor="model">Model</label>
+                <label htmlFor="model">Model</label><br />
                 <input
                   id="model"
                   type="text"
@@ -184,7 +242,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                 <br />
               </div>
               <div>
-                <label htmlFor="hr">Hashrate</label>
+                <label htmlFor="hr">Hashrate</label><br />
                 <input
                   id="hr"
                   type="text"
@@ -194,7 +252,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
                 <br />
               </div>
               <div className="fix-button">
-                <button className="submit-single-asset" type="submit">
+                <button className="submit-move-btn" type="submit">
                   Upload Single Asset
                 </button>
               </div>
@@ -208,7 +266,7 @@ function SingleUpload({ assetList, setLoadAssets, loadAssets, accountLogged }) {
         <UploadSuccess
           rejectedLog={logItem.rejected}
           newAssets={logItem.accepted}
-          locChoice={locationSelect}
+          uploadSuccess={uploadSuccess}
         />
       }
     </section>

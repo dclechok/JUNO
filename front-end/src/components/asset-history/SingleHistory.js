@@ -15,6 +15,7 @@ import SingleUserHistoryLog from "./SingleUserHistoryLog";
 function SingleHistory({ assetList, searchHistoryType }) {
   const { history_key } = useParams();
   const [loadedHistory, setLoadedHistory] = useState(null);
+
   useEffect(() => {
     //load data via history_key
     //check assets for key(s) (assets are already loaded)
@@ -22,12 +23,13 @@ function SingleHistory({ assetList, searchHistoryType }) {
     if (
       searchHistoryType &&
       (searchHistoryType === "Single Upload" ||
-        searchHistoryType === "Bulk Upload" || searchHistoryType === "Edit Asset") 
+        searchHistoryType === "Bulk Upload" || searchHistoryType === "Edit Asset" || searchHistoryType === 
+        "Move Asset") 
     ) {
       if (assetList && assetList.length !== 0) {
         if (
           assetList.find((asset) =>
-            asset.history.find(
+            asset.history.filter(
               (assetHist) => assetHist.action_key === history_key ))
         )
         setLoadedHistory(
@@ -72,7 +74,7 @@ function SingleHistory({ assetList, searchHistoryType }) {
   }, [searchHistoryType]);
 
   const renderSwitch = () => {
-    if (searchHistoryType.includes("Upload") || searchHistoryType.includes("Edit Asset"))
+    if (searchHistoryType.includes("Upload") || searchHistoryType.includes("Edit Asset") || searchHistoryType.includes("Move Asset"))
       return <SingleAssetHistoryLog loadedHistory={loadedHistory} />; //assets bulk upload or single upload
     if (searchHistoryType.includes("Job Site"))
       return <SingleJobSiteHistoryLog loadedHistory={loadedHistory} />; //single page history for job site

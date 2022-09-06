@@ -12,7 +12,7 @@ function dropdownFormatter(assetList, navPos, site, navKey) {
           dropdownAssetList.forEach(asset => asset.location.site_loc.mdc === navKey.mdc && setOfDropdownVals.add(asset.location.site_loc.shelf));
         }
         if (navPos === "unit") {
-          dropdownAssetList.forEach(asset => asset.location.site_loc.shelf === navKey.shelf && setOfDropdownVals.add(asset.location.site_loc.unit));
+          dropdownAssetList.forEach(asset => (asset.location.site_loc.mdc === navKey.mdc && asset.location.site_loc.shelf) === navKey.shelf && setOfDropdownVals.add(asset.location.site_loc.unit));
         }
       return Array.from(setOfDropdownVals);
     }

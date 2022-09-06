@@ -1,6 +1,7 @@
+import LoaderSpinner from "../LoaderSpinner";
 import "./UploadSuccess.css";
 
-function UploadSuccess({ rejectedLog, newAssets }) {
+function UploadSuccess({ uploadSuccess, rejectedLog, newAssets }) {
   let percentOfSuccess = 0,
     percentOfFails = 0;
   let totalAmtOfUploads = rejectedLog ? newAssets.length + rejectedLog.length : newAssets.length;
@@ -17,7 +18,10 @@ function UploadSuccess({ rejectedLog, newAssets }) {
 
   return (
     <div className="upload-success-log">
+      {/* {!Object.keys(uploadSuccess).includes("error") ? */}
+      <>
       <h5 className="log-header">[ Upload Log ]</h5>
+
       <hr />
       <h3>Total Uploads : {totalAmtOfUploads}</h3>
       <h6>
@@ -44,7 +48,7 @@ function UploadSuccess({ rejectedLog, newAssets }) {
                 <span key={`linespan ${key}`} className="line-span">
                   [Line {asset.location.csv_index}]
                 </span>)}
-                {locationData.first_octet}{locationData.mdc}{locationData.shelf}{locationData.unit}&nbsp;·&nbsp;
+                {locationData.first_octet}.{locationData.mdc}.{locationData.shelf}.{locationData.unit}&nbsp;·&nbsp;
                 {asset.serial_number}&nbsp;·&nbsp;
                 {asset.asset_tag}&nbsp;·&nbsp;
                 {asset.make}&nbsp;·&nbsp;
@@ -77,7 +81,8 @@ function UploadSuccess({ rejectedLog, newAssets }) {
               <hr />
             </div>
           );
-        })}
+        })}</>
+        {/* </> : <LoaderSpinner width={45} height={45} message={"Update Log"} />} */}
     </div>
   );
 }

@@ -23,7 +23,7 @@ function CreateUser({ accountLogged, setViewOrCreate }) {
   }, [setViewOrCreate]);
 
   const [newUser, setNewUser] = useState({
-    access_level: "",
+    access_level: "no-selection",
     name: "",
     username: "",
     hash: "",
@@ -41,13 +41,14 @@ function CreateUser({ accountLogged, setViewOrCreate }) {
   });
 
   const changeHandler = (e) => {
-    const { id, value, type } = e.currentTarget;
-    if (type === "radio") setNewUser({ ...newUser, access_level: value });
+    const { id, value } = e.currentTarget;
+    if(id === "role-selector") setNewUser({ ...newUser, access_level: value });
     else setNewUser({ ...newUser, [id]: value });
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
+    if(newUser.access_level === "no-selection") return window.alert("You must select a role for this new user!");
     //frontend validate new user data
     if (validateUserForm(newUser, users)) {
       setCreateButtonDisabled(true);
@@ -56,77 +57,48 @@ function CreateUser({ accountLogged, setViewOrCreate }) {
           setViewOrCreate('view');
           await createUser(newUser)
         }
+
         createThisUser();
       }
     }
   };
-
+  console.log(newUser)
   return (
-    <section className="create-user-container upload-container-style">
+    <section className="create-user-container">
       <h4>Create User</h4>
       {!createButtonDisabled ? 
       <form
-        className="form-container create-user-form"
+        className="create-user-form" 
         onSubmit={submitHandler}
       >
-        <fieldset>
-          <legend>User Access Level</legend>
-          <div className="radio-buttons-container">
-            <div className="flex-header">
-              <label htmlFor="admin">Admin</label>
-              <label htmlFor="engineer">Engineer</label>
-              <label htmlFor="analyst">Analyst</label>
-            </div>
-            <div className="flex-buttons">
-              <input
-                type="radio"
-                id="admin"
-                name="access_level"
-                value="admin"
-                onChange={changeHandler}
-              />
-
-              <input
-                type="radio"
-                id="engineer"
-                name="access_level"
-                value="engineer"
-                onChange={changeHandler}
-              />
-
-              <input
-                type="radio"
-                id="analyst"
-                name="access_level"
-                value="analyst"
-                onChange={changeHandler}
-              />
-            </div>
-          </div>
-        </fieldset>
-
-        <div className="create-space">
-          <label htmlFor="name">Name ("John Doe")</label>
+        <div className="form-container">
+        <select name="role-selector" id="role-selector" onChange={changeHandler}>
+          <option value="no-selection" defaultValue>Choose Role</option>
+          <option value="admin">Admin</option>
+          <option value="analyst">Analyst</option>
+          <option value="engineer">Engineer</option>
+        </select><br/>
+          <label htmlFor="name">Name ("John Doe")</label><br />
           <input type="text" id="name" name="name" onChange={changeHandler} />
-
-          <label htmlFor="username">Username</label>
+          <br/>
+          <label htmlFor="username">Username</label><br />
           <input
             type="username"
             id="username"
             name="username"
             onChange={changeHandler}
-          />
+          />          <br/>
 
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">Password</label><br />
           <input
             type="password"
             id="hash"
             name="hash"
             onChange={changeHandler}
           />
-
-          <label htmlFor="email">Email Address</label>
-          <input type="text" id="email" name="email" onChange={changeHandler} />
+          <br/>
+          <label htmlFor="email">Email Address</label><br />
+          <input type="text" id="email" name="email" onChange={changeHandler} />          <br/><br/>
         </div>
         <div className="fix-button">
           <button className="submit-single-asset">Create User</button>

@@ -6,7 +6,7 @@ import LoaderSpinner from "../../LoaderSpinner";
 import generateHistoryKey from "../../../utils/generateHistoryKey";
 
 function SingleAssetEdit({ singleAsset, accountLogged }) {
-  const [assetFields, setAssetFields] = useState(...singleAsset);
+  const [assetFields, setAssetFields] = useState({...singleAsset});
   const [updateSuccess, setUpdateSuccess] = useState(null);
   const [toggleButton, setToggleButton] = useState(true);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -32,7 +32,6 @@ function SingleAssetEdit({ singleAsset, accountLogged }) {
     setToggleButton(false);
     const newHistoryKey = generateHistoryKey();
     const action_date = new Date();
-    console.log(action_date)
     async function editAsset() {
       setUpdateSuccess(
         await updateAsset(assetFields.asset_id, {
@@ -61,57 +60,57 @@ function SingleAssetEdit({ singleAsset, accountLogged }) {
       {toggleButton ? (
         <form className="form-container" onSubmit={submitHandler}>
           <div>
-            <label htmlFor="asset_tag">Asset Tag</label>
+            <label htmlFor="asset_tag">Asset Tag</label><br />
             <input
               id="asset_tag"
               type="text"
               value={assetFields.asset_tag}
               onChange={changeHandler}
-              placeholder={singleAsset[0].asset_tag}
+              placeholder={singleAsset.asset_tag}
             />
             <br />
           </div>
           <div>
-            <label htmlFor="serial-number">Serial #</label>
+            <label htmlFor="serial-number">Serial #</label><br />
             <input
               id="serial_number"
               type="text"
               value={assetFields.serial_number}
               onChange={changeHandler}
-              placeholder={singleAsset[0].serial_number}
+              placeholder={singleAsset.serial_number}
             />
             <br />
           </div>
           <div>
-            <label htmlFor="make">Make</label>
+            <label htmlFor="make">Make</label><br />
             <input
               id="make"
               type="text"
               value={assetFields.make}
               onChange={changeHandler}
-              placeholder={singleAsset[0].make}
+              placeholder={singleAsset.make}
             />
             <br />
           </div>
           <div>
-            <label htmlFor="model">Model</label>
+            <label htmlFor="model">Model</label><br />
             <input
               id="model"
               type="text"
               value={assetFields.model}
               onChange={changeHandler}
-              placeholder={singleAsset[0].model}
+              placeholder={singleAsset.model}
             />
             <br />
           </div>
           <div>
-            <label htmlFor="hr">Hashrate</label>
+            <label htmlFor="hr">Hashrate</label><br />
             <input
               id="hr"
               type="text"
               value={assetFields.hr}
               onChange={changeHandler}
-              placeholder={singleAsset[0].hr}
+              placeholder={singleAsset.hr}
             />
             <br />
           </div>
