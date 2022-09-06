@@ -4,6 +4,7 @@
 .single-asset-render {
   display: inline-block;
   margin-top: 5%;
+  margin-bottom: 1%;
   min-width: 800px;
   font-family: "Montserrat", sans-serif;
   white-space: nowrap;

@@ -17,12 +17,12 @@ import UploadAssets from "./components/upload-assets/UploadAssets";
 import AdminPanel from "./components/admin-panel/manage-job-sites/AdminPanel";
 import HistoryList from "./components/asset-history/HistoryList";
 import SingleHistory from "./components/asset-history/SingleHistory.js";
-import Footer from "./Footer.js";
+// import Footer from "./Footer.js";
 
 //utils
 import calculateValues from "./utils/calculateValues";
 import { getAllAssets } from "./utils/api";
-import LoaderSpinner from "./components/LoaderSpinner";
+// import LoaderSpinner from "./components/LoaderSpinner";
 import UserPanel from "./components/login-page/UserPanel";
 
 function App({ msalInstance }) {

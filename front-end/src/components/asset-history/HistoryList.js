@@ -15,6 +15,7 @@ import listPages from "../../utils/listPages";
 //images
 import scrollLeft from "../../images/scroll-left-icon.png";
 import scrollRight from "../../images/scroll-right-icon.png";
+import LoaderSpinner from "../LoaderSpinner";
 
 //renders a lot of all historical data in order from oldest to newest history
 function HistoryList({
@@ -142,7 +143,7 @@ function HistoryList({
             setResetDatePicker={setResetDatePicker}
             resetDatePicker={resetDatePicker}
           />
-          {dateFilteredList && dateFilteredList.length !== 0 ? (
+          {historyList && dateFilteredList && dateFilteredList.length !== 0 ? (
             <>
               <div className="history-pages">
                 <div>
@@ -261,7 +262,7 @@ function HistoryList({
               </table>{" "}
             </>
           ) : (
-            <div className="no-entries"><h3>No entries on this date!</h3></div>
+            <div className="no-entries"><LoaderSpinner width={45} height={45} message={"History Log"} /></div>
           )}
         </div>
       </>

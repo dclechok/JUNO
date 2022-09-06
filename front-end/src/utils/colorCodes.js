@@ -3,7 +3,7 @@ const colorCode = {
     'Single Upload': 'rgb(110, 190, 236)',
     'Move Asset': 'rgb(66, 90, 229)',
     'Edit Asset': 'rgb(205, 214, 126)',
-    'Create Job Site': 'rgb(253, 221, 99)',
+    'Create Job Site': 'rgb(205, 129, 224)',
     'Deactivate Job Site': 'rgb(176,196,222)',
     'Edit Job Site': 'rgb(76,250,77)',
     'Create User': 'rgb(166,103,217)',

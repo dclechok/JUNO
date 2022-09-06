@@ -19,7 +19,7 @@ function BulkUpload({ setLoadAssets, loadAssets, accountLogged }) {
   const [jobSites, setJobSites] = useState([]);
   const [uploadSuccess, setUploadSuccess] = useState(null);
   const [assetList, setAssetList] = useState(null);
-  const [toggleLoader, setToggleLoader] = useState(null);
+  const [toggleLoader, setToggleLoader] = useState(false);
 
   let parsedAssets = [];
   let formattedAssets = [];
@@ -88,9 +88,7 @@ function BulkUpload({ setLoadAssets, loadAssets, accountLogged }) {
       setLoadSuccessLog(true);
       setLoadAssets(!loadAssets);
     }
-  }, [uploadSuccess, setUploadSuccess])
-
-  console.log(uploadSuccess)
+  }, [uploadSuccess])
 
   return (
     <div>
@@ -100,7 +98,7 @@ function BulkUpload({ setLoadAssets, loadAssets, accountLogged }) {
 
             <h4>Bulk Upload</h4>
             <form className="form-container-bulk">
-            {!loadSuccessLog && !toggleLoader &&
+            {!loadSuccessLog && !toggleLoader && 
                 <>
                   <h5>
                     (.csv file -{" "}

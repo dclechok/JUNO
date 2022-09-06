@@ -23,7 +23,6 @@ function CreateEditJobSite({
   const [allJobSites, setAllJobSites] = useState(null); //when creating, store list of job sites here to validate new job site data
   const defaultJobSite = {
     physical_site_name: "",
-    physical_site_loc: "",
     created_by: accountLogged.account[0].name,
     site_code: "",
     status: "Active",
@@ -43,7 +42,7 @@ function CreateEditJobSite({
     getAllJobSites();
     return () => abortController.abort();
   }, []);
-  console.log(toggleButton, !!oldSiteData, !!newSiteData)
+
   useEffect(() => {
     //get old site data if we are editing
     const abortController = new AbortController();
@@ -151,7 +150,7 @@ function CreateEditJobSite({
     }
     return () => abortController.abort();
   }, [success]);
-  console.log(newSiteData)
+
   return (
     <section className="create-user-container">
       <h4>
