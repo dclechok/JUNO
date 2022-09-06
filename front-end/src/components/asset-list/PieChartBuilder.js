@@ -49,6 +49,7 @@ function PieChartBuilder({ assetListValues }) {
           ]}
           width={300}
           height={300}
+          // showLabels={true}
         />
       </div>
     </div>

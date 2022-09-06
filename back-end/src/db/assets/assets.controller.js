@@ -49,25 +49,18 @@ function validateBody(req, res, next) {
   })
   next(); //validated - onto next middleware
 }
-//validate location data
-// function validateLoc(req, res, next){
-//   const { first_octet, mdc, shelf, unit } = req.body.data;
-//   //these ranges can be changed via req.body.data
-//   if(Array.isArray(req.body.data)){
-//     req.body.data.forEach(asset => {
-//       const {first_octet, mdc, shelf, unit} = asset.location.site_loc;
-//       if(Number(first_octet) <= 0 || Number(first_octet) > 99)
-//       return next({ status: 400, message: `First octet is out of range! (Must be between 01-99)`});
-//     if(Number(mdc) <= 0 || Number(mdc) > 99)
-//       return next({ status: 400, message: `MDC is out of range! (Must be between 01-99)`});
-//     if(Number(shelf) <= 0 || Number(shelf) > 14)
-//       return next({ status: 400, message: `Shelf is out of range! (Must be between 01-14`});
-//     if(Number(unit) <= 0 || Number(unit) > 588)
-//       return next({ status: 400, message: `Unit is out of range! (Must be between 01-42`});
-//     })
-//   }
-//   next();
-// }
+
+function validateLoc(req, res, next){
+  //always must have have location.site
+  const { site, site_loc } = req.body.data[0].location;
+  if(!site) return next({ status: 400, message: "Site name cannot be empty."})
+  if(site.length > 25) return next({ status: 400, message: "Site name length cannot be longer than 25 characters."});
+  for(let key in site_loc){ //if any key/value pair has a length longer than two, return 400
+    if(site_loc[key].length > 2) return next({ status: 400, message: `${site_loc[key]} length must not be longer than 2 characters.`});
+    if(site_loc[key].split().find((char) => char.charCodeAt() < 48 || char.charCodeAt() > 57)) return next({ status: 400, message: `${site_loc[key]} must only contain numerical characters (0-99).`});
+  }
+  next();
+}
 
 /// END VALIDATION MIDDLEWARE ///
 async function list(req, res) {
@@ -156,6 +149,6 @@ module.exports = {
   create: [bodyHasResultProperty, validateBody, asyncErrorBoundary(create)], // TODO: verify each data field format
   read: asyncErrorBoundary(read), //read individual asset
   bulkUpdate: asyncErrorBoundary(bulkUpdate), //for when a site is deactivated, set all assets belonging to that site to Pending Transfer
-  update: [bodyHasResultProperty, validateBody, asyncErrorBoundary(update)],
+  update: [bodyHasResultProperty, validateBody, validateLoc, asyncErrorBoundary(update)],
   delete: asyncErrorBoundary(remove)
 };
