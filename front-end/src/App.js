@@ -5,6 +5,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import { MsalProvider } from '@azure/msal-react';
 
 //components
 import Login from "./components/login-page/Login";
@@ -24,7 +25,7 @@ import { getAllAssets } from "./utils/api";
 import LoaderSpinner from "./components/LoaderSpinner";
 import UserPanel from "./components/login-page/UserPanel";
 
-function App() {
+function App({ msalInstance }) {
   const [accountLogged, setAccountLogged] = useState({
     logged: false,
     account: {},
@@ -72,6 +73,7 @@ function App() {
   }, []);
 
   return (
+    <MsalProvider instance={msalInstance}>
     <div className="App">
       {idlePrompt && accountLogged && <div className="idle-prompt"><p>You will be logged out due to inactivity in 30 seconds...</p></div>}
       {accountLogged && accountLogged.logged ? (
@@ -171,6 +173,7 @@ function App() {
       )}
       <Footer />
     </div>
+    </MsalProvider>
   );
 }
 

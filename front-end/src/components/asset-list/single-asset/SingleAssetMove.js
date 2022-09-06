@@ -91,7 +91,7 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
             if(locUpdatedSuccess.data.location.site && locUpdatedSuccess.data.location.site_loc.first_octet !== "") return `${locUpdatedSuccess.data.location.site} - ${locUpdatedSuccess.data.location.site_loc.first_octet}.${locUpdatedSuccess.data.location.site_loc.mdc}.${locUpdatedSuccess.data.location.site_loc.shelf}.${locUpdatedSuccess.data.location.site_loc.unit}`;
             else return `${locUpdatedSuccess.data.location.site}`;
         }
-            //if single asset has location but no first_octet (aka non-production site like DRAP)
+        //if single asset has location but no first_octet (aka non-production site like DRAP)
         //if a single asset has a location and a first octet (aka production)
         //if a successful move occurs, the location label should change to updated label
     };
@@ -137,7 +137,7 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
             }
         } else window.alert("You must select a valid job site to move to!");
     };
-    // console.log(currentLoc)
+
     useEffect(() => {
         if (locUpdatedSuccess && !locUpdatedSuccess.error) {
             setToggleBtn(true); //toggle loading spinner
