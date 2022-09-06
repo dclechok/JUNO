@@ -171,7 +171,7 @@ function App({ msalInstance }) {
           setAccountLogged={setAccountLogged}
         />
       )}
-      <Footer />
+      {/* <Footer /> */}
     </div>
     </MsalProvider>
   );

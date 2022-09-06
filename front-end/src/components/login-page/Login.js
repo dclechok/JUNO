@@ -1,18 +1,25 @@
 import "./Login.css";
 import { useEffect, useState } from "react";
 
+//active directory
+import { useMsal } from '@azure/msal-react';
+
 //components
 import CreateAdmin from "./CreateAdmin";
 
 //utils
 import { getUsers, handleLoginPassCheck } from "../../utils/api";
 import LoaderSpinner from "../LoaderSpinner";
+import { _ } from "keygenerator/lib/keygen";
 
 function Login({ accountLogged, setAccountLogged }) {
   const [users, setUsers] = useState(null);
   const [createAdmin, setCreateAdmin] = useState(false);
   const [loggingIn, setLoggingIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [username, setUsername] = useState('');
+
+  const { instance } = useMsal();
 
   const defaultUser = {
     username: "",
@@ -43,6 +50,16 @@ function Login({ accountLogged, setAccountLogged }) {
     }
   }, [users, setUsers]);
 
+  useEffect(() => {
+    const currentAcct = instance.getActiveAccount();
+    if(currentAcct){
+      console.log(currentAcct);
+      setUsername(currentAcct.name);
+    }
+  }, []);
+
+  console.log(username);
+
   const handleChange = (e) => {
     const { id, value } = e.currentTarget;
     setUser({ ...user, [id]: value });
@@ -52,6 +69,7 @@ function Login({ accountLogged, setAccountLogged }) {
     e.preventDefault();
     setLoggingIn(true);
     setErrorMessage(null);
+    // instance.loginPopup({ scopes: ['user.read']});
     async function login() {
       const foundAcct = users.filter((acct) => acct.username === user.username);
       if (foundAcct && foundAcct.length !== 0) {

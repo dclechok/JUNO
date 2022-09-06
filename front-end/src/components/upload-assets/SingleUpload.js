@@ -16,6 +16,7 @@ function SingleUpload({ accountLogged }) {
   const [logItem, setLogItem] = useState();
   const [targetSite, setTargetSite] = useState();
   const [uploadSuccess, setUploadSuccess] = useState(null);
+  const [toggleIp, setToggleIp] = useState(false); //used for toggling IP fields when target site category is "production"
   const defaultSiteIP = { first_octet: '', mdc: '', shelf: '', unit: '' };
   const [siteIP, setSiteIP] = useState(defaultSiteIP);
   const [assetList, setAssetList] = useState([]);
@@ -56,7 +57,11 @@ function SingleUpload({ accountLogged }) {
   }, [locationSelect, setLocationSelect])
 
   useEffect(() => {
-    if (targetSite) setSiteIP({ first_octet: targetSite.first_octet });
+    if (targetSite){
+      setSiteIP({ first_octet: targetSite.first_octet });
+      if(targetSite.category === "production") setToggleIp(true);
+      else setToggleIp(false);
+    }
     else setSiteIP(defaultSiteIP);
   }, [targetSite, setTargetSite]);
 
@@ -163,6 +168,7 @@ function SingleUpload({ accountLogged }) {
                 </select>
               </div>                <br />
               <div className="ip-inputs">
+                {toggleIp &&
                 <fieldset>
                   <legend>IP ("xx.xx.xx.xx")</legend>
                   <input
@@ -198,7 +204,7 @@ function SingleUpload({ accountLogged }) {
                     value={siteIP.unit}
                     maxLength="2"
                   />
-                </fieldset>
+                </fieldset>}
               </div><br />
               <div>
                 <label htmlFor="asset_tag">Asset Tag</label><br />
