@@ -9,6 +9,7 @@ import dateFormatter from "../../../utils/dateFormatter";
 import { deactivateUser, getUsers } from "../../../utils/api";
 import LoaderSpinner from "../../LoaderSpinner";
 import colorCode from "../../../utils/colorCodes";
+import generateHistoryKey from "../../../utils/generateHistoryKey";
 
 function ViewUsers({ setViewOrCreate, setUserID, accountLogged }) {
   const [usersList, setUsersList] = useState(null);
@@ -37,14 +38,32 @@ function ViewUsers({ setViewOrCreate, setUserID, accountLogged }) {
           "Are you sure you wish to deactivate this user? (Currently, there is no way to reverse this!)"
         )
       ) {
-        const prevData = usersList.filter((u) => u.user_id === Number(value));
-        if (prevData && prevData[0].status === "Non-Active")
+        const prevData = usersList.find((u) => u.user_id === Number(value));
+        if (prevData && prevData.status === "Non-Active")
           window.alert("This user is already deactivated!");
         else {
           async function deactivateU() {
               setToggleReload(true);
+              const newDate = new Date();
               setDeactivatedUser(
-                await deactivateUser(prevData, accountLogged)
+                await deactivateUser(
+                  {
+                    ...prevData,
+                    history: [
+                      ...prevData.history,
+                      {
+                        action_taken: "Deactivate User",
+                        action_date: JSON.stringify(newDate),
+                        action_by: accountLogged.account[0].name,
+                        action_by_id: accountLogged.account[0].user_id,
+                        action_key: generateHistoryKey(),
+                        action_comment: "Deactivated User"
+                      }
+                    ],
+                    updated_at: JSON.stringify(newDate),
+                    status: "Non-Active"
+                  }
+                  )
               );
           }
           deactivateU();

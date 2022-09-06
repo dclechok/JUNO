@@ -115,8 +115,9 @@ function NavGuide({
         <option value="All Production">All Production</option>
         <option value="All Repairs">All Repairs</option>
         <option value="All Storage">All Storage</option>
+        <option value="All Transfer">All Transfer</option>
         {jobSites && jobSites.map((site, key) => {
-          if(site.status === "Active")
+          // if(site.status === "Active")
           return <option value={JSON.stringify({physical_site_name: site.physical_site_name, first_octet: site.first_octet})} key={key + 1}>{site.physical_site_name}{site.first_octet && ` - ${site.first_octet}`}</option>
         })}
       </select>

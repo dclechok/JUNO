@@ -8,8 +8,6 @@ import generateHistoryKey from "../../../utils/generateHistoryKey";
 import LoaderSpinner from "../../LoaderSpinner";
 
 function CreateUser({ accountLogged, setViewOrCreate }) {
-  const newHistoryKey = generateHistoryKey();
-  const newDate = new Date();
   const [createButtonDisabled, setCreateButtonDisabled] = useState(false);
   const [users, setUsers] = useState(null);
 
@@ -28,15 +26,6 @@ function CreateUser({ accountLogged, setViewOrCreate }) {
     username: "",
     hash: "",
     email: "",
-    history: [
-      {
-        action_date: newDate,
-        action_taken: "Create User",
-        action_by: accountLogged.account[0].name,
-        action_by_id: accountLogged.account[0].user_id,
-        history_key: newHistoryKey
-      }
-    ],
     status: "Active"
   });
 
@@ -55,14 +44,29 @@ function CreateUser({ accountLogged, setViewOrCreate }) {
       if (window.confirm( `Do you confirm the creation of user: ${newUser.username}?` )) {
         async function createThisUser(){
           setViewOrCreate('view');
-          await createUser(newUser)
+          const newDate = new Date();
+          await createUser(
+            {
+              ...newUser,
+              history: [
+                {
+                  action_taken: "Create User",
+                  action_date: JSON.stringify(newDate),
+                  action_by: accountLogged.account[0].name,
+                  action_by_id: accountLogged.account[0].user_id,
+                  action_key: generateHistoryKey(),
+                  action_comment: "Created New User Details"
+                }
+              ],
+            }
+        )
         }
 
         createThisUser();
       }
     }
   };
-  console.log(newUser)
+
   return (
     <section className="create-user-container">
       <h4>Create User</h4>

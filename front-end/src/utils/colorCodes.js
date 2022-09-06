@@ -7,6 +7,7 @@ const colorCode = {
     'Deactivate Job Site': 'rgb(176,196,222)',
     'Edit Job Site': 'rgb(76,250,77)',
     'Create User': 'rgb(166,103,217)',
+    'Update User': 'rgb(140, 20, 220)',
     'Deactivate User': 'rgb(234, 80, 23)',
     'Edit User': 'rgb(218,238,156)',
     "Active": "rgb(107, 155, 228)",

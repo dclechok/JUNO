@@ -13,11 +13,9 @@ function bodyHasResultProperty(req, res, next) {
 function validateBody(req, res, next) {
   //post request must have the required body data
   if(!Array.isArray(req.body.data)) req.body.data = [req.body.data];
-  console.log(req.body.data)
   req.body.data.forEach(entry => {
     const { asset_tag, location, serial_number, make, model, hr } = entry;
   //validate each separate piece of the requests body data
-  console.log(entry, 'test')
   if (!asset_tag)
     return next({
       status: 400,
@@ -127,6 +125,22 @@ async function update(req, res) {
   res.status(200).json({ data });
 }
 
+async function bulkUpdate(req, res){
+  const site = req.body.data;
+  const data = await knex('assets')
+  .whereRaw(`location ->> 'site' = '${site.physical_site_name}'`)
+  .update({ 
+    status: "Pending Transfer",
+    location: { 
+      site: site.physical_site_name, 
+      site_loc: { first_octet: site.first_octet, mdc: '', shelf: '', unit: ''} //remove IP address
+    }
+  }) //todo: update history as well
+  .returning('*')
+  .then((results) => results[0]);
+  res.status(200).json({ data });
+}
+
 //we no longer want to permanently delete assets
 //TODO: DEACTIVATE assets
 async function remove(req, res) {
@@ -141,6 +155,7 @@ module.exports = {
   list: asyncErrorBoundary(list),
   create: [bodyHasResultProperty, validateBody, asyncErrorBoundary(create)], // TODO: verify each data field format
   read: asyncErrorBoundary(read), //read individual asset
+  bulkUpdate: asyncErrorBoundary(bulkUpdate), //for when a site is deactivated, set all assets belonging to that site to Pending Transfer
   update: [bodyHasResultProperty, validateBody, asyncErrorBoundary(update)],
   delete: asyncErrorBoundary(remove)
 };

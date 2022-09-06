@@ -81,6 +81,7 @@ function AssetList({
                   if(navKey.site === "All Production") return !!correctSite.location.site_loc;
                   if(navKey.site === "All Repairs") return correctSite.status === "Repair";
                   if(navKey.site === "All Storage") return correctSite.status === "Storage";
+                  if(navKey.site === "All Transfer") return correctSite.status === "Pending Transfer";
                   return navKey.site === correctSite.location.site;
                 }
               )

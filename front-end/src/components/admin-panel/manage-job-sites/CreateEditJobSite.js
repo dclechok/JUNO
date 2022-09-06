@@ -232,6 +232,7 @@ function CreateEditJobSite({
                       ? oldSiteData.first_octet
                       : defaultJobSite.first_octet
                   }
+                  maxLength="2"
                 /><br />
               </>
             )}

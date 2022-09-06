@@ -102,7 +102,7 @@ async function read(req, res) {
 
 async function update(req, res) {
   const { user_id } = req.params;
-  const { username, name, hash: newHash, email, access_level } = req.body.data;
+  const { username, name, hash: newHash, email, access_level, updated_at } = req.body.data;
   const history = JSON.stringify(req.body.data.history); //restringify
   if(newHash){ //if we're updating password, hash it and store it
     const hash = bcrypt.hashSync(newHash, 15);
@@ -114,7 +114,8 @@ async function update(req, res) {
       hash, hash,
       email, email,
       access_level, access_level,
-      history, history
+      history, history, 
+      updated_at, updated_at
     })
     .returning('*')
     .then((results) => results[0]);
@@ -127,7 +128,8 @@ async function update(req, res) {
       name, name,
       email, email,
       access_level, access_level,
-      history, history
+      history, history,
+      updated_at, updated_at
     })
     .returning('*')
     .then((results) => results[0]);
@@ -138,13 +140,15 @@ async function update(req, res) {
 async function updatePass(req, res){
   const { user_id } = req.params;
   const { new_password1 } = req.body.data[0];
+  const { updated_at } =  req.body.data[1];
   const history = JSON.stringify(req.body.data[1].history);
   const hash = bcrypt.hashSync(new_password1, 15);
   const data = await knex("users")
   .where("user_id", Number(user_id))
   .update({
     hash, hash,
-    history, history
+    history, history,
+    updated_at, updated_at
   })
   .returning('*')
   .then((results) => results[0]);
@@ -154,13 +158,14 @@ async function updatePass(req, res){
 
 async function deactivate(req, res){
   const { user_id } = req.params;
-  const { status } = req.body.data;
+  const { status, updated_at } = req.body.data;
   const history = JSON.stringify(req.body.data.history);
   const data = await knex("users")
   .where("user_id", Number(user_id))
   .update({
     status, status,
-    history, history
+    history, history,
+    updated_at, updated_at
   })
   .returning('*')
   .then((results) => results[0]);

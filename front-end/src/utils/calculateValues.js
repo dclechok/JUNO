@@ -7,33 +7,22 @@ function calculateValues(assetList) {
     numInStorage: 0,
     numInRepair: 0,
     numRetired: 0,
-    numNeedVerified: 0
+    numNeedVerified: 0,
+    numInTransfer: 0
   };
   if (assetList && assetList.length !== 0) {
     assetValues.totalNumOfAssets = assetList.length;
 
     assetList.forEach((asset) => {
-      if (
-        asset.status !== "Storage" &&
-        asset.status !== "Repair" && //possibly make includes('repair') since we will be showing multiple repair sites eventually
-        asset.status !== "Retired" &&
-        asset.status !== "Needs Verified"
-      ) {
-        assetValues.numOfHashing++;
-      } else if (asset.status === "Storage") {
-        assetValues.numInStorage++;
-      } else if (asset.status === "Repair") { //possibly includes(repair)
-        assetValues.numInRepair++;
-      } else if(asset.status === "Needs Verified"){
-        assetValues.numNeedVerified++; 
-      }else {
-        assetValues.numRetired++;
-      } //if not in storage, repair, deployment, or etc. must be retired?
+      if (asset.status === "Hashing") assetValues.numOfHashing++;
+      if (asset.status === "Storage") assetValues.numInStorage++;
+      if (asset.status === "Repair") assetValues.numInRepair++;
+      if(asset.status === "Needs Verified") assetValues.numNeedVerified++; 
+      if(asset.status === "Pending Transfer") assetValues.numInTransfer++;
     });
 
     return assetValues;
   }
-
   return assetValues;
 }
 
