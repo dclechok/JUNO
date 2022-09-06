@@ -13,6 +13,19 @@
     max-height: 800px;
     overflow-y: auto;
     overflow-x: hidden;
+    /* padding-right: 1%;
+    padding-left: 1%; */
+}
+
+.upload-success-log::-webkit-scrollbar{
+    background-color: rgb(51, 51, 51);
+    width: 10px;
+}
+
+.upload-success-log::-webkit-scrollbar-thumb{
+    background-color: rgb(70, 86, 106);
+    width: 8px;
+    border-radius: 4px 4px 4px 4px;
 }
 
 .upload-success-log h3{

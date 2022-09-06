@@ -13,7 +13,7 @@
 .form-container-bulk{
     display: block;
     margin: 2% auto 0 auto;
-    width: auto;
+    width: 100%;
     background-color: rgb(19, 21, 26);
 }
 
