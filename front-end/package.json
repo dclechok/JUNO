@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@amir04lm26/react-modern-calendar-date-picker": "^1.0.1",
+    "@azure/msal-browser": "^2.28.1",
+    "@azure/msal-react": "^1.4.5",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",
