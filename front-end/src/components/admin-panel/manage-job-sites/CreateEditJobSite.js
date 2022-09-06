@@ -31,7 +31,7 @@ function CreateEditJobSite({
     category: "no-selection",
   };
 
-  const [oldSiteData, setOldSiteData] = useState(defaultJobSite);
+  const [oldSiteData, setOldSiteData] = useState();
   const [newSiteData, setNewSiteData] = useState(defaultJobSite);
   const [activeCategory, setActiveCategory] = useState('no-selection');
 
@@ -43,7 +43,7 @@ function CreateEditJobSite({
     getAllJobSites();
     return () => abortController.abort();
   }, []);
-
+  console.log(toggleButton, !!oldSiteData, !!newSiteData)
   useEffect(() => {
     //get old site data if we are editing
     const abortController = new AbortController();
@@ -52,10 +52,10 @@ function CreateEditJobSite({
     }
     if (jobSiteID && viewOrCreate === "edit") {
       grabJobSite();
-      setNewSiteData(oldSiteData)
+      // setNewSiteData(oldSiteData)
     }
     else if (viewOrCreate === "create") {
-      setOldSiteData(null);
+      setOldSiteData(newSiteData);
       setNewSiteData(defaultJobSite);
       setActiveCategory('no-selection')
     }
@@ -152,13 +152,13 @@ function CreateEditJobSite({
     }
     return () => abortController.abort();
   }, [success]);
-
+  console.log(newSiteData)
   return (
     <section className="create-user-container">
       <h4>
         {viewOrCreate.charAt(0).toUpperCase() + viewOrCreate.slice(1)} Job Site
       </h4>
-      {(oldSiteData && toggleButton) || (newSiteData && toggleButton) ? (
+      {(oldSiteData && toggleButton) && (newSiteData && toggleButton) ? (
         <form
           className="form-container"
           onSubmit={submitHandler}
@@ -244,7 +244,7 @@ function CreateEditJobSite({
           </div>
         </form>
       ) : (
-        <LoaderSpinner height={45} width={45} message={"User Data"} />
+        <LoaderSpinner height={45} width={45} message={"Job Site Data"} />
       )}
     </section>
   );
