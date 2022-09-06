@@ -73,12 +73,12 @@ function CreateEditJobSite({
   };
   const submitHandler = (e) => {
     e.preventDefault();
+    setToggleButton(false); //toggle UI onSubmit
     async function makeJobSite() {
       if (viewOrCreate === "edit") {
         //todo: remove first_octet if not 'live' site?
         if(oldSiteData.category === "no-selection") return window.alert("You must choose a type of job site!");
         if (validateSiteForm(oldSiteData, allJobSites)) {
-          setToggleButton(false);
           const newDate = new Date();
           oldSiteData.category === "production" ? setSuccess(await updateJobSite(
             {
@@ -116,7 +116,6 @@ function CreateEditJobSite({
       } else if (viewOrCreate === "create") {
         if(newSiteData.category === "no-selection") return window.alert("You must choose a type of job site!");
         if (validateSiteForm(newSiteData, allJobSites)) {
-          setToggleButton(false);
           const newHistoryKey = generateHistoryKey(); //generate unique history key ("action_key")
           const newDate = new Date();
           setSuccess(
@@ -152,14 +151,14 @@ function CreateEditJobSite({
       setViewOrCreate("view");
     }
     return () => abortController.abort();
-  }, [setSuccess, success]);
+  }, [success]);
 
   return (
     <section className="create-user-container">
       <h4>
         {viewOrCreate.charAt(0).toUpperCase() + viewOrCreate.slice(1)} Job Site
       </h4>
-      {oldSiteData || newSiteData && toggleButton ? (
+      {(oldSiteData && toggleButton) || (newSiteData && toggleButton) ? (
         <form
           className="form-container"
           onSubmit={submitHandler}
