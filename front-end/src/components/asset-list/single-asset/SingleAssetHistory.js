@@ -42,7 +42,7 @@ function SingleAssetHistory({ singleAsset }) {
               .map((singleHist, key) => {
                 return (
                   <tr key={key}>
-                    <td>{dateFormatter(singleHist.action_date)}</td>
+                    <td>{dateFormatter(JSON.parse(singleHist.action_date))}</td>
                     <td>{singleHist.action_taken}</td>
                     <td>{singleHist.action_by}</td>
                     <td>{singleHist.action_comment}</td>

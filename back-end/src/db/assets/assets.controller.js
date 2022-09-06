@@ -124,7 +124,7 @@ async function update(req, res) {
   .then((results) => results[0]);
   res.status(200).json({ data });
 }
-
+//update history log...
 async function bulkUpdate(req, res){
   const site = req.body.data;
   const data = await knex('assets')
