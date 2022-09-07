@@ -121,12 +121,6 @@ async function update(req, res) {
 //update history log...
 async function bulkUpdate(req, res){
   const site = req.body.data;
-  console.log(site);
-  const newDate = new Date();
-  const oldHistory = await knex('assets')
-  // .whereRaw(`location ->> 'site' = '${site.physical_site_name}'`)
-  // .jsonExtract('history');
-  // console.log(oldHistory, 'test');
   const data = await knex('assets')
   .whereRaw(`location ->> 'site' = '${site.physical_site_name}'`)
   .update({ 

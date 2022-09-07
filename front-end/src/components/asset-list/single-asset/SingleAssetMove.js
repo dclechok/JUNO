@@ -20,6 +20,7 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
     const [toggleBtn, setToggleBtn] = useState(true);
     const [moveSuccessful, setMoveSuccessful] = useState(false);
     const [cat, setCat] = useState(null); //storing the current category of job site
+    const [activeJobsiteCount, setActiveJobsiteCount] = useState();
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -52,7 +53,8 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
 
     useEffect(() => { //find job site from selected job site drop down
         const abortController = new AbortController();
-        if (jobSites && selectedSite !== "-- Select Site --") setSite(jobSites.find(site => site.physical_site_name === selectedSite))
+        if(jobSites) setActiveJobsiteCount(jobSites.filter(site => site.status === 'Active').length)
+        if(jobSites && selectedSite !== "-- Select Site --") setSite(jobSites.find(site => site.physical_site_name === selectedSite))
         else setSite({ physical_site_name: selectedSite, category: '' });
         return () => abortController.abort();
     }, [jobSites, setJobSites, selectedSite, setSelectedSite]);
@@ -151,7 +153,10 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
             {jobSites && assetList && toggleBtn ?
                 <form id="move-asset-form" className="upload-container" onSubmit={submitHandler}>
                     <h3>Current Device Location: <span>{formatLocLabel()}</span></h3>
+                    {activeJobsiteCount >= 1 ? 
+                        <>
                     <div className='move-input-container'>
+
                         <select onChange={changeHandler} defaultValue={selectedSite}>
                             <option>-- Select Site --</option>
                             {jobSites.map((js, key) => {
@@ -173,6 +178,7 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
                     <button className="submit-move-btn">
                         Cancel
                     </button>
+                    </> : <p>There are no currently active job sites!</p>}
                 </form> : <LoaderSpinner height={45} width={45} message={"Data"} />}
         </div>
     );
