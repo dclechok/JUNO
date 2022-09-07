@@ -29,25 +29,12 @@ main {
 }
 
 .login-container h3 {
-    font-size: 18px;
+  font-size: 18px;
 }
 
 .login-container h4 {
   font-weight: 300;
   font-size: 12px;
-}
-
-.login-form-container {
-  display: block;
-  min-height: 300px;
-  min-width: 350px;
-  text-align: left;
-  background-color: rgb(132, 140, 162);
-  padding: 4%;
-  border-radius: 4px;
-  box-shadow: 3px 3px 10px #1a1818, -3px -3px 10px #1a1818,
-    -3px 3px 10px #1a1818, 3px -3px 10px #1a1818;
-  margin-top: 10%;
 }
 
 .login-container form {
@@ -59,63 +46,41 @@ main {
   width: 100%;
 }
 
-.login-container label {
-  padding: 4%;
-  width: 100%;
+.signin-button {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin-top: 25px;
+}
+
+.signin-button button {
+  font-family: "Montserrat", sans-serif;
   font-size: 20px;
-  color: black;
-  font-weight: 400;
+  background-color: #484f6c;
+  border: none;
+  padding: 3% 8%;
+  color: white;
+  border-radius: 5%;
 }
 
-.login-container input {
-  padding: 4px;
-  margin: auto;
-  width: 95%;
-  background-color: rgb(255, 255, 255);
-  color: black;
-  border-radius: 6px;
-}
-
-.signin-button{
-     display: flex;
-     justify-content: center;
-     align-content: center;
-     margin-top: 25px;
-}
-
-.signin-button button{
-    font-family: 'Montserrat', sans-serif;
-    font-size: 20px;
-    background-color: #30364e;
-    border: none;
-    padding: 4%;
-    color: white;
-}
-
-.signin-button button:hover{
+.signin-button button:hover {
   background-color: #4d577a;
 }
-.signin-button button:active{
+.signin-button button:active {
   background-color: #26282f;
 }
 
-.title-header{
+.title-header {
   width: 400px;
 }
 
-.login-header{
+.login-header {
   width: auto;
   text-align: center;
   margin-bottom: 5%;
 }
 
-.center-spinner{
+.center-spinner {
   display: flex;
   text-align: center;
-}
-
-.error-message{
-  text-align: center;
-  margin-top: 2%;
-  width: 100%;
 }

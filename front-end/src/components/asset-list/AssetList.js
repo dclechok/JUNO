@@ -164,7 +164,7 @@ function AssetList({
   
   return (
     <section>
-      {JSON.parse(localStorage.getItem('acctLogged')).logged && assetList && assetList.length !== 0 && filteredAssetList ? (
+      {assetList && assetList.length !== 0 && filteredAssetList ? (
         <>
           <div className="inline-tracker-notifications">
             <NotificationCenter assetList={assetList} />

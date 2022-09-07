@@ -3,6 +3,7 @@ import logoTwo from "../../images/logo2.png";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useIdleTimer } from "react-idle-timer";
+
 function Nav({ setLoadAssets, loadAssets, accountLogged, setAccountLogged, setIdlePrompt, idlePrompt }) {
   const navigate = new useNavigate();
   const defaultButtonState = {

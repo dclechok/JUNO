@@ -4,8 +4,13 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
+  useSearchParams,
 } from "react-router-dom";
+
+//Active Directory
 import { MsalProvider } from '@azure/msal-react';
+import { useIsAuthenticated } from "@azure/msal-react";
+import { useMsal } from "@azure/msal-react";
 
 //components
 import Login from "./components/login-page/Login";
@@ -26,10 +31,10 @@ import { getAllAssets } from "./utils/api";
 import UserPanel from "./components/login-page/UserPanel";
 
 function App({ msalInstance }) {
-  const [accountLogged, setAccountLogged] = useState({
-    logged: false,
-    account: {},
-  });
+  const { instance } = useMsal();
+  const [currentAcct, setCurrentAcct] = useState(null);
+  const isAuthenticated = useIsAuthenticated();
+  const [accountLogged, setAccountLogged] = useState({});
   const [idlePrompt, setIdlePrompt] = useState(false);
   const [loadAssets, setLoadAssets] = useState(false);
   const [loadSingleAsset, setLoadSingleAsset] = useState(""); //toggle to load single page, or load main list (read/list)
@@ -45,7 +50,6 @@ function App({ msalInstance }) {
   const [formattedKey, setFormattedKey] = useState(""); //for formatting for 'viewing' the navKey
   const [resetDatePicker, setResetDatePicker] = useState(false); //to reset History Search via History List
   const [searchHistoryType, setSearchHistoryType] = useState(null); //search individual history by this
-
   useEffect(() => {
     //analyze assetList data and build anaylitics object
     const abortController = new AbortController();
@@ -72,17 +76,16 @@ function App({ msalInstance }) {
     return () => abortController.abort();
   }, []);
 
+  console.log(currentAcct)
+
   return (
     <MsalProvider instance={msalInstance}>
     <div className="App">
-      {idlePrompt && accountLogged && <div className="idle-prompt"><p>You will be logged out due to inactivity in 30 seconds...</p></div>}
-      {accountLogged && accountLogged.logged ? (
+      {idlePrompt && currentAcct && <div className="idle-prompt"><p>You will be logged out due to inactivity in 30 seconds...</p></div>}
+      {currentAcct && !currentAcct[0] ? (
         <Router>
           <Nav setLoadAssets={setLoadAssets} loadAssets={loadAssets} accountLogged={accountLogged} setAccountLogged={setAccountLogged} idlePrompt={idlePrompt} setIdlePrompt={setIdlePrompt} />
-          <LoginBar
-              accountLogged={accountLogged}
-              setAccountLogged={setAccountLogged}
-            />
+          <LoginBar currentAcct={currentAcct} setCurrentAcct={setCurrentAcct} />
           <Routes>
 
             <Route
@@ -166,10 +169,7 @@ function App({ msalInstance }) {
           </Routes>
         </Router>
       ) : (
-        <Login
-          accountLogged={accountLogged}
-          setAccountLogged={setAccountLogged}
-        />
+        <Login currentAcct={currentAcct} setCurrentAcct={setCurrentAcct} />
       )}
       {/* <Footer /> */}
     </div>

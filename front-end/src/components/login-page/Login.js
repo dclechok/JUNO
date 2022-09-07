@@ -2,111 +2,35 @@ import "./Login.css";
 import { useEffect, useState } from "react";
 
 //active directory
-import { useMsal } from '@azure/msal-react';
+import { useMsal } from "@azure/msal-react";
 
 //components
 import CreateAdmin from "./CreateAdmin";
 
 //utils
-import { getUsers, handleLoginPassCheck } from "../../utils/api";
+import { getUsers } from "../../utils/api";
 import LoaderSpinner from "../LoaderSpinner";
 import { _ } from "keygenerator/lib/keygen";
 
-function Login({ accountLogged, setAccountLogged }) {
-  const [users, setUsers] = useState(null);
-  const [createAdmin, setCreateAdmin] = useState(false);
+function Login({ currentAcct, setCurrentAcct }) {
   const [loggingIn, setLoggingIn] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [username, setUsername] = useState('');
 
   const { instance } = useMsal();
-
-  const defaultUser = {
-    username: "",
-    hash: "",
-  };
-  const [user, setUser] = useState(defaultUser);
-
-  useEffect(() => {
-    const abortController = new AbortController();
-    async function loadUsers() {
-      setUsers(await getUsers());
-    }
-    loadUsers();
-    return abortController.abort();
-  }, [setCreateAdmin, createAdmin]);
-
-  useEffect(() => {
-    if (users) {
-      if (
-        users.length === 0 ||
-        !users.find((user) => user.access_level === "admin")
-      ) {
-        //no users or administrators exist in the system
-        setAccountLogged(null);
-        localStorage.clear();
-        setCreateAdmin(true);
-      }
-    }
-  }, [users, setUsers]);
-
-  useEffect(() => {
-    const currentAcct = instance.getActiveAccount();
-    if(currentAcct){
-      console.log(currentAcct);
-      setUsername(currentAcct.name);
-    }
-  }, []);
-
-  console.log(username);
-
-  const handleChange = (e) => {
-    const { id, value } = e.currentTarget;
-    setUser({ ...user, [id]: value });
-  };
-
+  const thisAcct = instance.getActiveAccount();
   const handleClick = (e) => {
     e.preventDefault();
     setLoggingIn(true);
-    setErrorMessage(null);
-    // instance.loginPopup({ scopes: ['user.read']});
-    async function login() {
-      const foundAcct = users.filter((acct) => acct.username === user.username);
-      if (foundAcct && foundAcct.length !== 0) {
-        if (!Object.keys(await handleLoginPassCheck(user.hash, foundAcct[0])).includes("error")) {
-          //passwords hash compare is good
-          localStorage.setItem(
-            "acctLogged",
-            JSON.stringify({ logged: true, account: foundAcct })
-          );
-          if (
-            await setAccountLogged(
-              JSON.parse(localStorage.getItem("acctLogged"))
-            )
-          )
-            setErrorMessage("Successful Login!");
-        } else {
-          setErrorMessage("Incorrect Username/Password!");
-          // setLoggingIn(false);
-        }
-      } else {
-        setErrorMessage("Account not found!");
-        // setLoggingIn(false);
-      }
-    }
-    login();
+    instance.loginPopup({ scopes: ["user.read"] });
   };
-
-  useEffect(() => {
-    const abortController = new AbortController();
-    if (errorMessage) setLoggingIn(false);
-    return () => abortController.abort();
-  }, [setErrorMessage, errorMessage, loggingIn, setLoggingIn, setAccountLogged, accountLogged]);
-
+  console.log(thisAcct)
   //login with 'enter' key press on form
   const handleKeyPress = (e) => {
     if (e.keyCode === 13) handleClick();
   };
+
+  useEffect(() => {
+    if(thisAcct) setCurrentAcct(thisAcct);
+  }, [thisAcct]);
 
   return (
     <main>
@@ -118,57 +42,20 @@ function Login({ accountLogged, setAccountLogged }) {
           <h3>Asset Management System</h3>
           <h4>Powered by Mawson Infrastructure Group</h4>
         </div>
-        <>
-          {users ? (
-            <div className="login-form-container">
-              {createAdmin ? (
-                <CreateAdmin setCreateAdmin={setCreateAdmin} />
+
+          <form onKeyPress={handleKeyPress}>
+            <div className="signin-button">
+              {!loggingIn ? (
+                <button type="submit" onClick={handleClick}>
+                  Login
+                </button>
               ) : (
-                <>
-                  <h2>Sign In</h2>
-                  <form onKeyPress={handleKeyPress}>
-                    <label htmlFor="username">Username</label>
-                    <br />
-                    <br />
-                    <input
-                      id="username"
-                      type="text"
-                      onChange={handleChange}
-                      value={user.username}
-                    />
-                    <br />
-                    <br />
-                    <label htmlFor="pass">Password</label>
-                    <br />
-                    <br />
-                    <input
-                      id="hash"
-                      type="password"
-                      onChange={handleChange}
-                      value={user.hash}
-                    />
-                    <div className="signin-button">
-                      {!loggingIn ? (
-                        <button type="submit" onClick={handleClick}>
-                          Login
-                        </button>
-                      ) : (
-                        <div className="center-spinner">
-                          <LoaderSpinner width={45} height={45} message={"Login..."} />
-                        </div>
-                      )}
-                    </div>
-                    {!loggingIn && (
-                      <p className="error-message">{errorMessage}</p>
-                    )}
-                  </form>
-                </>
+                <div className="center-spinner">
+                  <LoaderSpinner width={45} height={45} message={"Login..."} />
+                </div>
               )}
             </div>
-          ) : (
-            <LoaderSpinner width={45} height={45} message="Login Menu" />
-          )}
-        </>
+          </form>
       </div>
     </main>
   );

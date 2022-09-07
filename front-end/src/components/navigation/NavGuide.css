@@ -58,3 +58,9 @@ select{
     justify-content: center;
     align-items: center;
 }
+
+.nav-guide-container h5{
+    margin: 0;
+    color: white;
+    padding: 4px;
+}
