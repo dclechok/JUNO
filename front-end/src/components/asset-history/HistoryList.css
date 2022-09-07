@@ -36,8 +36,6 @@ td{
   display: inline-flex;
   justify-content: center;
   width: 500px;
-  font-size: 12px;
-  margin-bottom: 3px;
 }
 
 .history-page-selector button{
