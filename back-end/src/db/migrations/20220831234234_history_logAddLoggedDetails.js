@@ -6,6 +6,6 @@ exports.up = function (knex) {
   
   exports.down = function (knex) {
     return knex.schema.table("history_log", (table) => {
-      table.dropColumn("logged_details");
+      table.json("logged_details");
     });
   };

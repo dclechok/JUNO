@@ -1,3 +1,4 @@
+const { json } = require("express");
 const knex = require("../connection");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
@@ -120,6 +121,12 @@ async function update(req, res) {
 //update history log...
 async function bulkUpdate(req, res){
   const site = req.body.data;
+  console.log(site);
+  const newDate = new Date();
+  const oldHistory = await knex('assets')
+  // .whereRaw(`location ->> 'site' = '${site.physical_site_name}'`)
+  // .jsonExtract('history');
+  // console.log(oldHistory, 'test');
   const data = await knex('assets')
   .whereRaw(`location ->> 'site' = '${site.physical_site_name}'`)
   .update({ 
@@ -127,7 +134,15 @@ async function bulkUpdate(req, res){
     location: { 
       site: site.physical_site_name, 
       site_loc: { first_octet: site.first_octet, mdc: '', shelf: '', unit: ''} //remove IP address
-    }
+    },
+    history: knex.raw(`history || ?::jsonb`, JSON.stringify({
+      action_date: site.history[site.history.length - 1].action_date,
+      action_taken: "Site Deactivation",
+      action_by: site.history[site.history.length - 1].action_by,
+      action_by_id: site.history[site.history.length - 1].action_by_id,
+      action_comment: "Site Deactivated",
+      action_key: site.history[site.history.length - 1].action_key
+    }))
   }) //todo: update history as well
   .returning('*')
   .then((results) => results[0]);
