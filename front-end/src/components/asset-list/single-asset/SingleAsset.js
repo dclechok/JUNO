@@ -37,17 +37,10 @@ function SingleAsset({ loadSingleAsset, accountLogged }) {
     return () => abortController.abort;
   }, [loadSingleAsset]);
 
-  function deleteSingleAsset() {
-    const abortController = new AbortController();
-    deleteAsset(asset_id);
-    return () => abortController.abort;
-  }
-
   const handleSubmit = (e) => {
     //sets toggle to render which of the 3 "pages" or edit/delete
     const { id } = e.currentTarget;
     e.preventDefault();
-    if (id === "delete") window.confirm(`This will permenantly deactivate asset ${singleAsset && singleAsset.asset_tag}) and all its history. Do you wish to proceed?`) ? deleteSingleAsset() : window.location.reload();
     if (id === "edit" && accountLogged.account[0].access_level === 'analyst') window.alert("You must be an Administrator or Engineer to edit this component.");
     setButtonState({ ...defaultButtonState, [id]: "active-button-link" });
     setSingleAssetNav(e.currentTarget.id); //info, history, move, edit
@@ -83,9 +76,6 @@ function SingleAsset({ loadSingleAsset, accountLogged }) {
                 </button>]
                 [<button className={buttonState.edit} id="edit" onClick={handleSubmit}>
                   Edit
-                </button>]
-                [<button className={buttonState.delete} id="delete" onClick={handleSubmit}>
-                  Delete
                 </button>]
               </span>
             </div>

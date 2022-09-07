@@ -95,19 +95,6 @@ export async function updateAsset(asset_id, data) {
   }
 }
 
-// ASSETS - DELETE ONE //
-export async function deleteAsset(asset_id) {
-  try {
-    const response = await fetch(BASE_URL + `assets/${asset_id}`, {
-      method: "DELETE",
-    });
-    const jsonResponse = await response.json(); //json-ify readablestream data
-    if (jsonResponse) return jsonResponse;
-  } catch (e) {
-    console.log(e, "Failed to fetch all assets.");
-  }
-}
-
 /*----------------------*/
 
 // JOB SITES - GET ALL //
