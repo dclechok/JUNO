@@ -76,8 +76,6 @@ function App({ msalInstance }) {
     return () => abortController.abort();
   }, []);
 
-  console.log(currentAcct)
-
   return (
     <MsalProvider instance={msalInstance}>
     <div className="App">

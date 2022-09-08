@@ -117,7 +117,7 @@ function AssetList({
           );
       }
       filterAssetList();
-    } else if (assetList.length !== 0)
+    } else if (assetList && assetList.length !== 0)
       setFilteredAssetList(assetList.sort((a, b) => sortList(a, b, sortBy))); //set list back to default full list
     setSortBy("asset_id");
     return () => abortController.abort();

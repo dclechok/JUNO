@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 //utils
 import dropdownFormatter from "../../utils/dropdownFormatter";
+import exportCsv from "../../utils/exportCsv";
 
 function NavGuide({
   navKey,
@@ -96,6 +97,7 @@ function NavGuide({
   
   //format 'viewing' nav key
   useEffect(() => {
+    const abortController = new AbortController();
     let key = "";
     if (JSON.stringify(navKey.site).includes("All")) setFormattedKey(`${navKey.site}`);
     else {
@@ -105,7 +107,14 @@ function NavGuide({
       key += navKey.unit === "00" ? ".xx" : `.${navKey.unit}`;
       setFormattedKey(key);
     }
+    return () => abortController.abort();
   }, [setNavKey, filteredAssetList]);
+
+  const handleExport = (e) => {
+    e.preventDefault(); //prevent page reload on click
+    if(window.confirm(`Do you wish to export assets from: ${formattedKey}`)) exportCsv(filteredAssetList);
+  };
+
   return (
     <form className="nav-guide-container" id="filter-form" >
       <select name="site" id="site" onChange={selectSiteHandler} >
@@ -165,7 +174,7 @@ function NavGuide({
       <p className="viewing">
         Viewing:&#160;&#160;<span className="ip-color">{formattedKey} - Total: {filteredAssetList.length} Asset{filteredAssetList.length > 1 && 's'}</span>
       </p>
-      <h5><span style={{color: 'black'}}>[<button className="button-link">Export CSV</button>]</span></h5>
+      <h5><span style={{color: 'black'}}>[<button className="button-link" onClick={handleExport} id="export" >Export CSV</button>]</span></h5>
     </form>
   );
 }
