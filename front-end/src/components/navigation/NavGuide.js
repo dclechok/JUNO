@@ -112,7 +112,7 @@ function NavGuide({
 
   const handleExport = (e) => {
     e.preventDefault(); //prevent page reload on click
-    if(window.confirm(`Do you wish to export assets from: ${formattedKey}`)) exportCsv(filteredAssetList);
+    if(window.confirm(`Do you wish to export assets from: ${formattedKey}`)) exportCsv(filteredAssetList, formattedKey);
   };
 
   return (

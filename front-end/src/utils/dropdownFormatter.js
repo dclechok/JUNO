@@ -4,7 +4,6 @@ function dropdownFormatter(assetList, navPos, site, navKey) {
     if (assetList.length !== 0 && site) { //make sure assetList is loaded, and site is loaded
         // FILTER ALL RESULTS BASED ON JOB SITES //
       const dropdownAssetList = assetList.filter((asset) => asset.location.site === site.physical_site_name); //all assets for jobsite
-      console.log(dropdownAssetList)
       if (navPos === "mdc"){
         dropdownAssetList.forEach(asset => setOfDropdownVals.add(asset.location.site_loc.mdc));
       }
