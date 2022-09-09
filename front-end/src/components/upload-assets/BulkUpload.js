@@ -13,13 +13,14 @@ import validateBulkUpload from "../../utils/validation/validateBulkUpload";
 import { getAllAssets } from '../../utils/api';
 
 function BulkUpload({ setLoadAssets, loadAssets, accountLogged }) {
-  const [selectedFile, setSelectedFile] = useState();
+  const [selectedFile, setSelectedFile] = useState(); // csv file to parse
   const [loadSuccessLog, setLoadSuccessLog] = useState(false);
-  const [stateAssets, setStateAssets] = useState([]);
+  const [toggleUi, setToggleUi] = useState(false); //toggle UI for bulk upload off
+  const [toggleLoader, setToggleLoader] = useState(false) //toggle loading spinner when loading uploads
   const [jobSites, setJobSites] = useState([]);
   const [uploadSuccess, setUploadSuccess] = useState(null);
   const [assetList, setAssetList] = useState(null);
-  const [toggleLoader, setToggleLoader] = useState(false);
+  const [stateAssets, setStateAssets] = useState();
 
   let parsedAssets = [];
   let formattedAssets = [];
@@ -51,13 +52,15 @@ function BulkUpload({ setLoadAssets, loadAssets, accountLogged }) {
           `"${selectedFile[0].type}" is not a proper file type. .CSV required!`
         );
       else if (selectedFile) {
+        setToggleUi(true); //go to loading screen
+        setToggleLoader(true);
         Papa.parse(selectedFile[0], {
           complete: function (results) {
             parsedAssets = results.data.splice(0, results.data.length - 1);
             // setParsedAssets(results.data.splice(0, results.data.length - 1)); //last entry is blank/invalid
             if (parsedAssets && parsedAssets.length !== 0)
               formattedAssets = validateBulkUpload(assetList, parsedAssets, accountLogged, jobSites); //HANDLE ALL FORMATTING AND VALIDATION!
-            setStateAssets(formattedAssets);
+              setStateAssets(formattedAssets);
             async function createNewAsset(newAssetList) {
               if (newAssetList.length !== 0) {
                 try {
@@ -73,22 +76,23 @@ function BulkUpload({ setLoadAssets, loadAssets, accountLogged }) {
             ) {
               createNewAsset(formattedAssets.accepted);
               setLoadAssets(!loadAssets);
-            }
+            }else setUploadSuccess('No assets accepted!');
           },
         });
       }
-      setToggleLoader(true);
       setLoadAssets(!loadAssets);
     }
   };
 
   useEffect(() => {
-    if (uploadSuccess && !Object.keys(uploadSuccess).includes("error")) {
-      setToggleLoader(false);
+    if (uploadSuccess) {
       setLoadSuccessLog(true);
       setLoadAssets(!loadAssets);
+      setToggleLoader(false);
     }
-  }, [uploadSuccess])
+  }, [uploadSuccess, setUploadSuccess]);
+
+  console.log(formattedAssets)
 
   return (
     <div>
@@ -98,7 +102,7 @@ function BulkUpload({ setLoadAssets, loadAssets, accountLogged }) {
 
             <h4>Bulk Upload</h4>
             <form className="form-container-bulk">
-            {!loadSuccessLog && !toggleLoader && 
+            {!toggleUi && 
                 <>
                   <h5>
                     (.csv file -{" "}
@@ -122,16 +126,16 @@ function BulkUpload({ setLoadAssets, loadAssets, accountLogged }) {
                     </div>
                   </div>
                   </>}
-                  {stateAssets.rejected && stateAssets.accepted && (
+                {toggleLoader && <LoaderSpinner width={45} height={45} message={"New Assets"}/>}
                     <div>
-                      {!toggleLoader ?
+                      {loadSuccessLog &&
                         <UploadSuccess
                           rejectedLog={stateAssets.rejected}
                           newAssets={stateAssets.accepted}
-                        /> : <LoaderSpinner height={45} width={45} message={"New Asset Data..."}/>
+                        /> 
                       }
                     </div>
-                  )}
+                  
 
             </form>
           </section>

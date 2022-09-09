@@ -137,7 +137,7 @@ function SingleUpload({ accountLogged }) {
   return (
     <section className="upload-container-style">
       <h4>Single Upload</h4>
-      {jobSites && jobSites.length !== 0 ? (
+      {jobSites && jobSites.length !== 0 && jobSites.find(js => js.status === "Active") ? (
         <>
           {!uploadSuccess && !logItem && (
             <form className="form-container" onSubmit={submitHandler}>

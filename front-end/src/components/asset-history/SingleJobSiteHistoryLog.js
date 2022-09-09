@@ -36,7 +36,7 @@ function SingleJobSiteHistoryLog({ loadedHistory }) {
     loadHistoryLog();
     return () => abortController.abort();
   }, [loadedHistory]);
-  console.log(loadedHistory)
+
   return (
     <>
       {currentHistoryLog ? (
