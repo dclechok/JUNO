@@ -4,12 +4,10 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  useSearchParams,
 } from "react-router-dom";
 
 //Active Directory
 import { MsalProvider } from '@azure/msal-react';
-import { useIsAuthenticated } from "@azure/msal-react";
 import { useMsal } from "@azure/msal-react";
 
 //components
@@ -31,10 +29,8 @@ import { getAllAssets } from "./utils/api";
 import UserPanel from "./components/login-page/UserPanel";
 
 function App({ msalInstance }) {
-  const { instance } = useMsal();
-  const [currentAcct, setCurrentAcct] = useState(null);
-  const isAuthenticated = useIsAuthenticated();
-  const [accountLogged, setAccountLogged] = useState({});
+  const [currentAcct, setCurrentAcct] = useState(null); // store current Active Acount with msal instance
+  const [accountLogged, setAccountLogged] = useState(); // just user roles we need for threading
   const [idlePrompt, setIdlePrompt] = useState(false);
   const [loadAssets, setLoadAssets] = useState(false);
   const [loadSingleAsset, setLoadSingleAsset] = useState(""); //toggle to load single page, or load main list (read/list)
@@ -59,6 +55,7 @@ function App({ msalInstance }) {
     return () => abortController.abort();
   }, [assetList, filteredAssetList, setFilteredAssetList]);
 
+
   useEffect(() => {
     //get list of all assets
     const abortController = new AbortController();
@@ -69,18 +66,25 @@ function App({ msalInstance }) {
     getAssets();
     return abortController.abort();
   }, []);
-  
+
   useEffect(() => {
     const abortController = new AbortController();
-    setAccountLogged(JSON.parse(localStorage.getItem("acctLogged")));
+    if(currentAcct) setAccountLogged({
+      access_level: currentAcct.idTokenClaims.roles[0], // "Juno.Admin", "Juno.Analyst", "Juno.Engineer"
+      name: currentAcct.name,
+      username: currentAcct.username,
+      user_id: currentAcct.idTokenClaims.oid, //unique user id
+    });
     return () => abortController.abort();
-  }, []);
+  }, [currentAcct, setCurrentAcct]);
 
+  console.log(accountLogged);
+  
   return (
     <MsalProvider instance={msalInstance}>
     <div className="App">
       {idlePrompt && currentAcct && <div className="idle-prompt"><p>You will be logged out due to inactivity in 30 seconds...</p></div>}
-      {currentAcct && !currentAcct[0] ? (
+      {accountLogged ? (
         <Router>
           <Nav setLoadAssets={setLoadAssets} loadAssets={loadAssets} accountLogged={accountLogged} setAccountLogged={setAccountLogged} idlePrompt={idlePrompt} setIdlePrompt={setIdlePrompt} />
           <LoginBar currentAcct={currentAcct} setCurrentAcct={setCurrentAcct} />

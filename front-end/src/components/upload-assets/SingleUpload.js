@@ -86,7 +86,7 @@ function SingleUpload({ accountLogged }) {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    acceptOrReject = validateSingleUpload(assetFields, assetList, siteIP, targetSite.category);
+    acceptOrReject = validateSingleUpload(assetFields, assetList, siteIP, targetSite.category, accountLogged);
     // make POST request
     if (acceptOrReject !== "fields not validated") {
       setLogItem(acceptOrReject);
@@ -102,8 +102,8 @@ function SingleUpload({ accountLogged }) {
                 {
                   action_taken: "Single Upload",
                   action_date: JSON.stringify(action_date),
-                  action_by: accountLogged.account[0].name,
-                  action_by_id: accountLogged.account[0].user_id,
+                  action_by: accountLogged.name,
+                  action_by_id: accountLogged.user_id,
                   action_key: newHistoryKey,
                   action_comment: "Initial Upload"
                 },

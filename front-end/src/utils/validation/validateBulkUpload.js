@@ -24,9 +24,9 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged, jobSites) {
   };
   //setStatus of asset via locChoice
   const setStatus = () => {
-    // if(targetSite && targetSite.category === "production") return "Hashing";
-    // if(targetSite && targetSite.category === "repair") return "Repair";
-    // if(targetSite && targetSite.category === "storage") return "Storage";
+      // if (targetSite && targetSite.category === "production") return "Hashing";
+      // if (targetSite && targetSite.category === "repair") return "Repair";
+      // if (targetSite && targetSite.category === "storage") return "Storage";
     return "Hashing";
   };
 
@@ -34,6 +34,7 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged, jobSites) {
     //parse location column format -> "PA01-MDC01-01-01"
     //asset.location.site = find location matching site code (ie. PA01)
     //asset.location.site_loc = build IP
+    //also set Status
     if (jobSites) {
       try {
         const splitLoc = loc.split("-"); //break location into 4 index array
@@ -58,6 +59,7 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged, jobSites) {
             shelf: shelf,
             unit: unit
           };
+          //set asset status here based on location
           return { site: siteData.physical_site_name, site_loc: ip };
         }else return { error: `Site code ("${splitLoc[0]}") does not match any active job site.` };
         //add more contraints to mdc, shelf, unit ranges and special cases

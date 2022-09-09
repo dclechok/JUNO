@@ -1,11 +1,12 @@
-function validateSingleUpload(asset, assetList, siteIP, category) {
+import { reject } from "lodash";
+
+function validateSingleUpload(asset, assetList, siteIP, category, accountLogged) {
   const blankFields = []; //log of all errors to be returned from function
   const rejectionLog = [];
   const newAsset = [];
   let newIP = {};
   let reject_err = "";
   //block upload if there are empty form fields
-  console.log(asset);
   // FORM VALIDATION //
   for (let key in asset) {
     if (asset[key] === "") {
@@ -22,6 +23,13 @@ function validateSingleUpload(asset, assetList, siteIP, category) {
     );
     return "fields not validated";
   } //if fields are not blank, check duplicates in existing inventory
+
+  const validateAccountLogged = () =>{
+    if(!accountLogged) reject_err = "There is no account logged!";
+    for(let userKey in accountLogged){
+      if(accountLogged[userKey] === null || accountLogged[userKey] === '' || accountLogged[userKey] === undefined) return reject_err = `Account is missing required key/value pair: ${userKey}`;
+    }
+  };
 
   const validateAssetsByDatabase = () => {
     //add more form/frontend validation here
@@ -63,7 +71,6 @@ function validateSingleUpload(asset, assetList, siteIP, category) {
         else newIP[locData] = siteIP[locData];
       }
       //check if slot is unavailable in our assetList (database)
-
       try {
         if (
           assetList &&
@@ -87,6 +94,7 @@ function validateSingleUpload(asset, assetList, siteIP, category) {
   };
 
   if (blankFields && blankFields.length === 0) {
+    validateAccountLogged();
     validateAssetsByDatabase();
     validateSetIP();
     if (reject_err) {

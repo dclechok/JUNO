@@ -4,25 +4,21 @@ import { useEffect, useState } from "react";
 //active directory
 import { useMsal } from "@azure/msal-react";
 
-//components
-import CreateAdmin from "./CreateAdmin";
-
 //utils
-import { getUsers } from "../../utils/api";
 import LoaderSpinner from "../LoaderSpinner";
 import { _ } from "keygenerator/lib/keygen";
 
-function Login({ currentAcct, setCurrentAcct }) {
+function Login({ setCurrentAcct }) {
   const [loggingIn, setLoggingIn] = useState(false);
 
   const { instance } = useMsal();
   const thisAcct = instance.getActiveAccount();
+
   const handleClick = (e) => {
     e.preventDefault();
     setLoggingIn(true);
     instance.loginPopup({ scopes: ["user.read"] });
   };
-  console.log(thisAcct)
   //login with 'enter' key press on form
   const handleKeyPress = (e) => {
     if (e.keyCode === 13) handleClick();
