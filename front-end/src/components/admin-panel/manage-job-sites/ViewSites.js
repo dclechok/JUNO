@@ -44,7 +44,7 @@ function ViewSites({ setViewOrCreate, accountLogged, setJobSiteID }) {
     if (oldJobSite.status !== "Active")
       window.alert("This job site is already deactivated!");
     else {
-      if (accountLogged.account[0].access_level === "admin") {
+      if (accountLogged.access_level === "Juno.Admin") {
         if (
           window.confirm(
             "Would you like to deactivate this job site? (This currently cannot be undone.)"
@@ -62,8 +62,8 @@ function ViewSites({ setViewOrCreate, accountLogged, setJobSiteID }) {
                     {
                       action_taken: "Deactivate Job Site",
                       action_date: JSON.stringify(newDate),
-                      action_by: accountLogged.account[0].name,
-                      action_by_id: accountLogged.account[0].user_id,
+                      action_by: accountLogged.name,
+                      action_by_id: accountLogged.user_id,
                       action_key: generateHistoryKey(),
                       action_comment: "Deactivated Job Site"
                     }
@@ -130,7 +130,7 @@ function ViewSites({ setViewOrCreate, accountLogged, setJobSiteID }) {
                     <td>{site.site_code}</td>
                     <td>{site.category.toUpperCase()}</td>
                     <td>{site.first_octet}</td>
-                    <td>{accountLogged.account[0].name}</td>
+                    <td>{accountLogged.name}</td>
                     <td>{dateFormatter(site.updated_at)}</td>
                     <td>
                       <span style={{ color: colorCode[site.status] }}>

@@ -6,14 +6,7 @@ import { getHistory } from "../../utils/api";
 import colorCode from "../../utils/colorCodes";
 import LoaderSpinner from "../LoaderSpinner";
 
-function NotificationCenter({ assetList }) {
-  /*
-  Sort asset list by latest history, and grab the top 5 for notification center.
-                action_date: action_date,
-                action_taken: "Bulk Uploaded",
-                action_by: "dclechok",
-                action_comment: "",
-  */
+function NotificationCenter() {
 
  //types of moves: "bulk uploaded", "single upload", "delete asset", "move asset", "edit asset", etc
 

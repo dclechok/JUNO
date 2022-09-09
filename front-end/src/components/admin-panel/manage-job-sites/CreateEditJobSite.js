@@ -23,7 +23,7 @@ function CreateEditJobSite({
   const [allJobSites, setAllJobSites] = useState(null); //when creating, store list of job sites here to validate new job site data
   const defaultJobSite = {
     physical_site_name: "",
-    created_by: accountLogged.account[0].name,
+    created_by: accountLogged.name,
     site_code: "",
     status: "Active",
     first_octet: "",
@@ -86,8 +86,8 @@ function CreateEditJobSite({
                  {
                   action_taken: "Edit Job Site",
                   action_date: JSON.stringify(newDate),
-                  action_by: accountLogged.account[0].name,
-                  action_by_id: accountLogged.account[0].user_id,
+                  action_by: accountLogged.name,
+                  action_by_id: accountLogged.user_id,
                   action_key: generateHistoryKey(),
                   action_comment: "Updated Job Site"
                  }
@@ -102,14 +102,14 @@ function CreateEditJobSite({
                     {
                      action_taken: "Edit Job Site",
                      action_date: JSON.stringify(newDate),
-                     action_by: accountLogged.account[0].name,
-                     action_by_id: accountLogged.account[0].user_id,
+                     action_by: accountLogged.name,
+                     action_by_id: accountLogged.user_id,
                      action_key: generateHistoryKey(),
                      action_comment: "Updated Job Site"
                     }
                  ],
                 updated_at: newDate
-                }, accountLogged ));
+                }));
         }
       } else if (viewOrCreate === "create") {
         if(newSiteData.category === "no-selection") return window.alert("You must choose a type of job site!");
@@ -126,14 +126,13 @@ function CreateEditJobSite({
                   {
                     action_taken: "Create Job Site",
                     action_date: JSON.stringify(newDate),
-                    action_by: accountLogged.account[0].name,
-                    action_by_id: accountLogged.account[0].user_id,
+                    action_by: accountLogged.name,
+                    action_by_id: accountLogged.user_id,
                     action_key: newHistoryKey, //generate unique history key ("action_key")
                     action_comment: "Job Site Creation",
                   }
                 ]
               },
-              accountLogged
             )
           );
         }

@@ -153,7 +153,7 @@ export async function createJobSite(jobSite) {
   }
 }
 
-export async function updateJobSite(newSiteData, accountLogged) {
+export async function updateJobSite(newSiteData) {
   try {
     const response = await fetch(BASE_URL + `physical_sites/${newSiteData.physical_site_id}`, {
       method: "PUT",

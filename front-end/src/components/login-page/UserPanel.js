@@ -26,7 +26,7 @@ function UserPanel({ accountLogged, setSearchHistoryType }) {
   useEffect(() => { //get this users specific details
     const abortController = new AbortController();
     async function getUserDetails() {
-      setUserDetails(await getUser(accountLogged.account[0].user_id));
+      setUserDetails(await getUser(accountLogged.user_id));
     }
     getUserDetails();
     return () => abortController.abort();
@@ -35,7 +35,7 @@ function UserPanel({ accountLogged, setSearchHistoryType }) {
   useEffect(() => {
     const abortController = new AbortController();
     async function gatherHistory(){ //get all users related to our user
-        setUserHistory(await listHistoryByUserID(accountLogged.account[0].user_id));
+        setUserHistory(await listHistoryByUserID(accountLogged.user_id));
     }
     gatherHistory();
     return () => abortController.abort();
@@ -78,8 +78,8 @@ function UserPanel({ accountLogged, setSearchHistoryType }) {
                   {
                     action_taken: "Update User",
                     action_date: JSON.stringify(newDate),
-                    action_by: accountLogged.account[0].name,
-                    action_by_id: accountLogged.account[0].user_id,
+                    action_by: accountLogged.name,
+                    action_by_id: accountLogged.user_id,
                     action_key: generateHistoryKey(),
                     action_comment: "Updated User Password"
                    }

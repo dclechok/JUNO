@@ -126,8 +126,8 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
                                     {
                                         action_date: JSON.stringify(action_date),
                                         action_taken: "Move Asset",
-                                        action_by: accountLogged.account[0].name,
-                                        action_by_id: accountLogged.account[0].user_id,
+                                        action_by: accountLogged.name,
+                                        action_by_id: accountLogged.user_id,
                                         action_key: newHistoryKey,
                                         action_comment: "Move Asset Details"
                                     },

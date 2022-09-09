@@ -41,7 +41,7 @@ function SingleAsset({ loadSingleAsset, accountLogged }) {
     //sets toggle to render which of the 3 "pages" or edit/delete
     const { id } = e.currentTarget;
     e.preventDefault();
-    if (id === "edit" && accountLogged.account[0].access_level === 'analyst') window.alert("You must be an Administrator or Engineer to edit this component.");
+    if (id === "edit" && accountLogged.access_level === 'Juno.Analyst') window.alert("You must be an Administrator or Engineer to edit this component.");
     setButtonState({ ...defaultButtonState, [id]: "active-button-link" });
     setSingleAssetNav(e.currentTarget.id); //info, history, move, edit
   };

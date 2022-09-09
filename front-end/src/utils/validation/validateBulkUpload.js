@@ -120,8 +120,8 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged, jobSites) {
                 {
                   action_date: JSON.stringify(action_date),
                   action_taken: "Bulk Upload",
-                  action_by: accountLogged.account[0].name,
-                  action_by_id: accountLogged.account[0].user_id,
+                  action_by: accountLogged.name,
+                  action_by_id: accountLogged.user_id,
                   action_comment: "Initial Upload",
                   action_key: newHistoryKey,
                 },
@@ -133,6 +133,7 @@ function validateBulkUpload(assetList, parsedAssets, accountLogged, jobSites) {
             });
           }
         });
+        console.log({ accepted: newAssetList, rejected: rejectionList })
       return { accepted: newAssetList, rejected: rejectionList };
     } catch (e) {
       console.log(e, "Parsing and validating .csv failed!");

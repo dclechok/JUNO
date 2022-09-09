@@ -126,7 +126,6 @@ function BulkUpload({ setLoadAssets, loadAssets, accountLogged }) {
                     <div>
                       {!toggleLoader ?
                         <UploadSuccess
-                          uploadSuccess={uploadSuccess}
                           rejectedLog={stateAssets.rejected}
                           newAssets={stateAssets.accepted}
                         /> : <LoaderSpinner height={45} width={45} message={"New Asset Data..."}/>

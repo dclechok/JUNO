@@ -167,7 +167,7 @@ function AssetList({
       {assetList && assetList.length !== 0 && filteredAssetList ? (
         <>
           <div className="inline-tracker-notifications">
-            <NotificationCenter assetList={assetList} />
+            <NotificationCenter />
             <AssetTracker
               assetListValues={assetListValues}
               formattedKey={formattedKey}

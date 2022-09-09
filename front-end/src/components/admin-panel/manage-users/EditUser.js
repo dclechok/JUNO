@@ -58,8 +58,8 @@ function EditUser({ accountLogged, userID, setViewOrCreate }) {
             {
               action_taken: "Edit User",
               action_date: JSON.stringify(newDate),
-              action_by: accountLogged.account[0].name,
-              action_by_id: accountLogged.account[0].user_id,
+              action_by: accountLogged.name,
+              action_by_id: accountLogged.user_id,
               action_key: generateHistoryKey(),
               action_comment: "Edited User Details"
             },

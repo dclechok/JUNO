@@ -9,7 +9,7 @@ function validateLoc(currentLoc, singleAsset, assetList){
     
     //make sure all values in currentLoc are two digits (and numbers only)
     let newIP = {}; //build and validate newIP (if we need to concat an 0 on a single digit entry)
-    console.log(currentLoc, 'test');
+
     if(currentLoc.site === '' || currentLoc.site === undefined || currentLoc.site === '-- Select Site --') return "A destination job site must be selected!";
 
     for(let locData in currentLoc.site_loc){

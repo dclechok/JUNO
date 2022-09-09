@@ -6,6 +6,7 @@ import LoaderSpinner from "../LoaderSpinner";
 import dateFormatter from "../../utils/dateFormatter";
 import colorCode from "../../utils/colorCodes";
 import { useEffect, useState } from "react";
+import renderLocation from "../../utils/renderLocation";
 
 function SingleJobSiteHistoryLog({ loadedHistory }) {
   const navigate = new useNavigate();
@@ -35,7 +36,7 @@ function SingleJobSiteHistoryLog({ loadedHistory }) {
     loadHistoryLog();
     return () => abortController.abort();
   }, [loadedHistory]);
-
+  console.log(loadedHistory)
   return (
     <>
       {currentHistoryLog ? (
@@ -77,13 +78,13 @@ function SingleJobSiteHistoryLog({ loadedHistory }) {
                     </button>
                   </th>
                   <th>
-                    <button id="physical_site_id" onClick={sortButtonSubmit}>
-                      Physical Site ID
+                    <button id="site_code" onClick={sortButtonSubmit}>
+                      Site Code
                     </button>
                   </th>
                   <th>
-                    <button id="site_code" onClick={sortButtonSubmit}>
-                      Site Code
+                    <button id="site_cat" onClick={sortButtonSubmit}>
+                      Category
                     </button>
                   </th>
                   <th>
@@ -101,8 +102,8 @@ function SingleJobSiteHistoryLog({ loadedHistory }) {
                 {loadedHistory[0] && currentHistoryLog && (
                   <tr>
                     <td>{loadedHistory[0].physical_site_name}</td>
-                    <td>{loadedHistory[0].physical_site_loc}</td>
                     <td>{loadedHistory[0].site_code}</td>
+                    <td>{loadedHistory[0].category.charAt(0).toUpperCase() + loadedHistory[0].category.slice(1)}</td>
                     <td>{dateFormatter(JSON.parse(currentHistoryLog.action_date))}</td>
                     <td>{currentHistoryLog.action_comment}</td>
                     <td>

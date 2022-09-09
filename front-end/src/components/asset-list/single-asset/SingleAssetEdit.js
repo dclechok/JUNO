@@ -41,8 +41,8 @@ function SingleAssetEdit({ singleAsset, accountLogged }) {
             {
               action_taken: "Edit Asset",
               action_date: action_date,
-              action_by: accountLogged.account[0].name,
-              action_by_id: accountLogged.account[0].user_id,
+              action_by: accountLogged.name,
+              action_by_id: accountLogged.user_id,
               action_key: newHistoryKey,
               action_comment: "Updated Miner Details",
             },

@@ -272,7 +272,6 @@ function SingleUpload({ accountLogged }) {
         <UploadSuccess
           rejectedLog={logItem.rejected}
           newAssets={logItem.accepted}
-          uploadSuccess={uploadSuccess}
         />
       }
     </section>

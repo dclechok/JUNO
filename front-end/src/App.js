@@ -78,8 +78,7 @@ function App({ msalInstance }) {
     return () => abortController.abort();
   }, [currentAcct, setCurrentAcct]);
 
-  console.log(accountLogged);
-  
+
   return (
     <MsalProvider instance={msalInstance}>
     <div className="App">

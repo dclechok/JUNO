@@ -1,7 +1,7 @@
 import LoaderSpinner from "../LoaderSpinner";
 import "./UploadSuccess.css";
 
-function UploadSuccess({ uploadSuccess, rejectedLog, newAssets }) {
+function UploadSuccess({ rejectedLog, newAssets }) {
   let percentOfSuccess = 0,
     percentOfFails = 0;
   let totalAmtOfUploads = rejectedLog ? newAssets.length + rejectedLog.length : newAssets.length;

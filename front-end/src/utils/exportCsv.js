@@ -6,7 +6,6 @@ import dateFormatter from './dateFormatter';
 const fileDownload = require('js-file-download');
 
 function exportCsv(filteredAssetList, formattedKey){
-    console.log(formattedKey)
     const csv = Papa.unparse({
         fields: [ //headers
             "Site (Location)",
@@ -39,11 +38,9 @@ function exportCsv(filteredAssetList, formattedKey){
                 ];
             })
         });
-        console.log(csv);
         const blob = new Blob([csv], {type: "text/csv;charset=utf-8;"});
         const newDate = new Date();
         fileDownload(blob, `${formattedKey} - ${dateFormatter(newDate)}.csv`)
-
 }
 
 export default exportCsv;
