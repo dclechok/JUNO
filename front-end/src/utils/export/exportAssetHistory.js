@@ -1,11 +1,12 @@
 //this function will handle all the exporting to CSV for assetList
 import Papa from "papaparse";
-import renderLocation from "./renderLocation";
-import dateFormatter from './dateFormatter';
+import renderLocation from "../renderLocation";
+import dateFormatter from '../dateFormatter';
 
 const fileDownload = require('js-file-download');
 
-function exportCsv(filteredAssetList, formattedKey){
+function exportAssetHistory(assets, loggedDate, loggedBy){
+
     const csv = Papa.unparse({
         fields: [ //headers
             "Site (Location)",
@@ -15,13 +16,9 @@ function exportCsv(filteredAssetList, formattedKey){
             "Make (Vendor)",
             "Model",
             "Hash Rate",
-            "Invoice Number",
-            "Received Date", // mm/dd/yyyy
             "Verified Date (Turn on Date)", // mm/dd/yyyy
-            "Current Value",
-            "Deactivation Date"
             ], 
-            data: filteredAssetList.map(asset => {
+            data: assets.map(asset => {
                 return [
                     asset.location.site || '', // ex. "Midland, PA"
                     renderLocation(asset) || '', // IP if applicable
@@ -30,17 +27,12 @@ function exportCsv(filteredAssetList, formattedKey){
                     asset.make || '', //make
                     asset.model || '', //model
                     asset.hr || '', // hash rate
-                    asset.invoice_num || '', //invoice num if applicable
-                    "Received Date", //mm/dd/yyyy
-                    dateFormatter(asset.created_at), //verified date - turned on/created on JUNO
-                    "Current Value",
-                    asset.EOL_date || ''
+                    dateFormatter(loggedDate), //verified date - turned on/created on JUNO
                 ];
             })
         });
         const blob = new Blob([csv], {type: "text/csv;charset=utf-8;"});
-        const newDate = new Date();
-        fileDownload(blob, `${formattedKey} - ${dateFormatter(newDate)}.csv`)
+        fileDownload(blob, `Asset Upload-${dateFormatter(loggedDate)}-by ${loggedBy}.csv`)
 }
 
-export default exportCsv;
+export default exportAssetHistory;

@@ -210,7 +210,7 @@ function AssetList({
                 </div>
               </div>
               <div className="table-height-fixed">
-              <table>
+              <table className="table-dark">
                 <tbody>
                   <tr>
                     <th>

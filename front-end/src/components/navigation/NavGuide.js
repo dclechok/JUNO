@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 //utils
 import dropdownFormatter from "../../utils/dropdownFormatter";
-import exportCsv from "../../utils/exportCsv";
+import exportCsvAssetList from "../../utils/export/exportCsvAssetList";
 
 function NavGuide({
   navKey,
@@ -112,7 +112,7 @@ function NavGuide({
 
   const handleExport = (e) => {
     e.preventDefault(); //prevent page reload on click
-    if(window.confirm(`Do you wish to export assets from: ${formattedKey}`)) exportCsv(filteredAssetList, formattedKey);
+    if(window.confirm(`Do you wish to export assets from: ${formattedKey}`)) exportCsvAssetList(filteredAssetList, formattedKey);
   };
 
   return (

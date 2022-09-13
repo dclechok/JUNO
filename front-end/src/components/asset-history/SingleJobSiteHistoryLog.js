@@ -54,7 +54,7 @@ function SingleJobSiteHistoryLog({ loadedHistory }) {
                 </span>
               </p>
               <p>
-                <b>Logged By</b>: {currentHistoryLog.action_by}
+                <b>Action By</b>: {currentHistoryLog.action_by}
               </p>
               <p>
                 <b>Approved By</b>: --

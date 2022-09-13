@@ -71,7 +71,7 @@ async function list(req, res) {
 
 async function create(req, res) {
   //create new asset in the system
-  const chunkSize = 12000;
+  const chunkSize = 25000;
   const date = new Date();
   const result = !Array.isArray(req.body.data) ? { //stringify single asset history into json array
     ...req.body.data, history: JSON.stringify(req.body.data.history)

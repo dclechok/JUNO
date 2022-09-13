@@ -5,8 +5,9 @@ import dateFormatter from "../../utils/dateFormatter";
 import colorCode from "../../utils/colorCodes";
 import { useEffect, useState } from "react";
 import LoaderSpinner from "../LoaderSpinner";
+import exportAssetHistory from "../../utils/export/exportAssetHistory";
 
-function SingleAssetHistoryLog({ loadedHistory }) {
+function SingleAssetHistoryLog({ loadedHistory, searchHistoryType }) {
   const { history_key } = useParams();
   const navigate = new useNavigate();
   const [currentHistoryLog, setCurrentHistoryLog] = useState(null); //current historical action we're looking at
@@ -19,6 +20,8 @@ function SingleAssetHistoryLog({ loadedHistory }) {
   const sortButtonSubmit = (e) => {
     e.preventDefault();
   };
+
+  console.log(searchHistoryType)
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -35,6 +38,11 @@ function SingleAssetHistoryLog({ loadedHistory }) {
     return () => abortController.abort();
   }, [loadedHistory, history_key]);
 
+  const handleExport = (e) => {
+    e.preventDefault(); //prevent page reload on click
+    if(window.confirm(`Do you wish to export details from this history log?`)) exportAssetHistory(loadedHistory, JSON.parse(currentHistoryLog.action_date), currentHistoryLog.action_by);
+  };
+
   return (
     <>
       {currentHistoryLog ? (
@@ -42,7 +50,7 @@ function SingleAssetHistoryLog({ loadedHistory }) {
           <header className="single-history-header container-style">
             <div>
               <p>
-                <b>Action Logged</b>:{" "}
+                <b>Logged Action</b>:{" "}
                 <span
                   style={{
                     color: colorCode[currentHistoryLog.action_taken],
@@ -55,19 +63,14 @@ function SingleAssetHistoryLog({ loadedHistory }) {
                 <b>Logged By</b>: {currentHistoryLog.action_by}
               </p>
               <p>
-                <b>Approved By</b>: --
-              </p>
-              <p>
                 <b>Logged Date</b>:{" "}
                 {dateFormatter(JSON.parse(currentHistoryLog.action_date))}
               </p>
               <p>
                 <b>Total Assets Mutated</b>: {loadedHistory.length}
               </p>
-              <p>
-                <b>History Key</b>: {history_key}
-              </p>
             </div>
+            <div><span style={{color: "black"}}><h5>[<button className="button-link" id="export" onClick={handleExport} >Export CSV</button>]</h5></span></div>
           </header>
           <div className="container-style">
             <table className="history-table">
@@ -107,7 +110,7 @@ function SingleAssetHistoryLog({ loadedHistory }) {
                   </th>
                   <th>
                     <button id="updated_at" onClick={sortButtonSubmit}>
-                      Last Updated
+                      Date Created
                     </button>
                   </th>
                   <th>Details</th>
@@ -129,7 +132,7 @@ function SingleAssetHistoryLog({ loadedHistory }) {
                         <td>{asset.model}</td>
                         <td>{asset.hr}</td>
                         <td>{asset.status}</td>
-                        <td>{dateFormatter(asset.updated_at)}</td>
+                        <td>{dateFormatter(asset.created_at)}</td>
                         <td>
                           <span style={{ color: "black" }}>
                             [
