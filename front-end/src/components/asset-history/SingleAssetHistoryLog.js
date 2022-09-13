@@ -21,8 +21,6 @@ function SingleAssetHistoryLog({ loadedHistory, searchHistoryType }) {
     e.preventDefault();
   };
 
-  console.log(searchHistoryType)
-
   useEffect(() => {
     const abortController = new AbortController();
     async function loadHistoryLog() {
@@ -40,7 +38,7 @@ function SingleAssetHistoryLog({ loadedHistory, searchHistoryType }) {
 
   const handleExport = (e) => {
     e.preventDefault(); //prevent page reload on click
-    if(window.confirm(`Do you wish to export details from this history log?`)) exportAssetHistory(loadedHistory, JSON.parse(currentHistoryLog.action_date), currentHistoryLog.action_by);
+    if(window.confirm(`Do you wish to export details from this history log?`)) exportAssetHistory(loadedHistory, currentHistoryLog);
   };
 
   return (

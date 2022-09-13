@@ -5,8 +5,8 @@ import dateFormatter from '../dateFormatter';
 
 const fileDownload = require('js-file-download');
 
-function exportAssetHistory(assets, loggedDate, loggedBy){
-
+function exportAssetHistory(assets, currentHistoryLog){
+    console.log(currentHistoryLog)
     const csv = Papa.unparse({
         fields: [ //headers
             "Site (Location)",
@@ -17,6 +17,7 @@ function exportAssetHistory(assets, loggedDate, loggedBy){
             "Model",
             "Hash Rate",
             "Verified Date (Turn on Date)", // mm/dd/yyyy
+            "Logged By"
             ], 
             data: assets.map(asset => {
                 return [
@@ -27,12 +28,13 @@ function exportAssetHistory(assets, loggedDate, loggedBy){
                     asset.make || '', //make
                     asset.model || '', //model
                     asset.hr || '', // hash rate
-                    dateFormatter(loggedDate), //verified date - turned on/created on JUNO
+                    dateFormatter(JSON.parse(currentHistoryLog.action_date)), //verified date - turned on/created on JUNO
+                    currentHistoryLog.action_by
                 ];
             })
         });
         const blob = new Blob([csv], {type: "text/csv;charset=utf-8;"});
-        fileDownload(blob, `Asset Upload-${dateFormatter(loggedDate)}-by ${loggedBy}.csv`)
+        fileDownload(blob, `Asset Upload-${dateFormatter(JSON.parse(currentHistoryLog.action_date))}-by ${currentHistoryLog.action_by}.csv`)
 }
 
 export default exportAssetHistory;
