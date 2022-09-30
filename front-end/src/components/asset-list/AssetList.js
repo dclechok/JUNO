@@ -166,13 +166,9 @@ function AssetList({
     <section>
       {assetList && assetList.length !== 0 && filteredAssetList ? (
         <>
-          <div className="inline-tracker-notifications">
-            <NotificationCenter />
-            <AssetTracker
-              assetListValues={assetListValues}
-              formattedKey={formattedKey}
-            />
-          </div>
+          {/* <div className="inline-tracker-notifications">
+           <NotificationCenter />
+          </div> */}
           <div className="search-guide-list">
             <div className="center-search-guide">
               <Search

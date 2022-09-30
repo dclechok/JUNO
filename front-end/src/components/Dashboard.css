@@ -8,6 +8,7 @@ h1 {
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
     letter-spacing: 3px;
+    text-shadow: 2px 2px rgb(255, 255, 255)3;
 }
 
 .pie-chart-legend{
@@ -18,8 +19,8 @@ h1 {
     border-color:rgb(57, 61, 70);
     font-size: 12px;
     font-weight: 100;
-    top: 75px;
-    right: 100px;
+    top: 150px;
+    left: 150px;
     width: auto;
     background-color: rgb(19, 21, 26);;
     text-align: left;

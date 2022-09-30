@@ -11,21 +11,15 @@ function NavLinks() {
       };
       const [buttonState, setButtonState] = useState(defaultButtonState);
 
-      useEffect(() => {
-        const abortController = new AbortController();
-        setButtonState({
-          ...defaultButtonState,
-          dashboard: "middleNavButtonActive",
-        });
-        return () => abortController.abort();
-      }, []);
-    
     const handleSubmit = (e) => {
         const { id = "" } = e.currentTarget;
         console.log(id)
-        // if (id === "dashboard") {
-        //     setLoadAssets(!loadAssets);
-        //     navigate(`/`);
+        if (id === "dashboard") {
+            // setLoadAssets(!loadAssets);
+            navigate(`/`);
+        }else if(id === "asset-list"){
+            navigate(`/asset_list`);
+        }
         // } else if (id === "settings") {
         //     if (accountLogged.access_level === "Juno.Admin")
         //         navigate(`/admin-panel`);
@@ -58,7 +52,7 @@ function NavLinks() {
                 <li>
                 <button
                     className={buttonState.viewAssets}
-                    id="view-assets"
+                    id="asset-list"
                     onClick={handleSubmit}
                 >
                     View Assets
