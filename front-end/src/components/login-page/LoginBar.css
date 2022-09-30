@@ -14,3 +14,8 @@
 .power-btn{
     width: 20px;
 }
+
+.power-btn:hover{
+    background-color: rgb(54, 61, 107);
+    border-radius: 50%;
+}
