@@ -1,13 +1,10 @@
 .logged-in{
-    display: block;
-    color: rgb(0, 0, 0);
-    top: 50px;
-    position: fixed;
-    margin: auto;
-    text-align: right;
-    width: 98%;
-}
-
-.logged-in-container{
-    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    color: rgb(255, 255, 255);
+    position: absolute;
+    bottom: 5px;
+    width: 100%;
+    font-size: 14px;
 }

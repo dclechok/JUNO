@@ -27,9 +27,7 @@ function LoginBar({ currentAcct, setCurrentAcct }){
       };
 
     return (
-        <div className='logged-in-container'>
-        <p className="logged-in">[<button className="button-link" id="user-panel" onClick={handleClick}>{currentAcct && currentAcct.name}</button> | <button className="button-link" id="logout" onClick={handleLogout}>logout</button>]</p>
-      </div>
+        <p className="logged-in">Welcome, {currentAcct.name} - <button className="button-link" id="logout" onClick={handleLogout}>logout</button></p>
     );
 }
 

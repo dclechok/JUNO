@@ -13,9 +13,9 @@ img {
 }
 
 nav {
-  padding: 0;
+  padding: 0 130px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   color: rgb(255, 255, 255);
   background-color: rgb(19, 21, 26);
@@ -44,92 +44,4 @@ h1 {
   display: flex;
   justify-content: center;
   align-self: center;
-}
-
-.middleNav{
-  display: flex;
-  justify-content: space-between;
-  align-self: center;
-  margin-left: 20%;
-  margin-right: 20%;
-  width: 365px;
-}
-
-.middleNavButton, .middleNavButtonActive{
-  background: none;
-  border: none; 
-  color: white;
-  font-family: 'Poppins', sans-serif;
-  font-size: 22px;
-  margin: 0;  
-}
-
-.middleNavButtonActive{
-  color:rgb(159, 191, 240);
-  background-color: rgb(30, 30, 37);
-  border-radius: 9px;
-}
-
-.middleNavButton:hover{
-  color:rgb(159, 191, 240);
-}
-
-.middleNavButton:active, button:target{
-  background-color: rgb(30, 30, 37);
-  border: none; 
-  border-radius: 9px;
-  color: rgb(7, 93, 223);
-  font-family: 'Poppins', sans-serif;
-  font-size: 22px;
-  margin: 0;
-}
-
-.middleNav .dropdown:hover .dropdown-content{ display: block;}
-
-.dropdown {
-  position: relative;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: rgb(19, 21, 26);
-  color: white;
-  min-width: 180px;
-  width: auto;
-  text-overflow: none;
-  top:35px;
-  box-shadow: 0px 8px 16px 0px rgba(55, 177, 224, 0.555);
-  z-index: 3;
-  border-style: double;
-  border-color: rgb(48, 49, 56);
-  border-width: 3px;
-  border-radius: 4%;
-}
-
-.dropdown-content button {
-  padding: 08px 15px;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  border: none;
-  background: none;
-  color: white;
-  font-family: 'Poppins', sans-serif;
-}
-
-.dropdown-content button:hover{
-  color: rgb(104, 131, 211);
-}
-
-.dropdown-content button:active{
-  font-size: 16px;
-  color: rgb(7, 93, 223);
-  background-color: rgb(30, 30, 37);
-  border: none; 
-  border-radius: 9px;
-  color: rgb(7, 93, 223);
-  font-family: 'Poppins', sans-serif;
-  font-size: 16px;
-  margin: 0;
 }

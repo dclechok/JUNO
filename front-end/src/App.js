@@ -14,6 +14,8 @@ import { useMsal } from "@azure/msal-react";
 import Login from "./components/login-page/Login";
 import LoginBar from "./components/login-page/LoginBar";
 import Nav from "./components/navigation/Nav.js";
+import NavLinks from "./components/navigation/NavLinks";
+import Dashboard from "./components/Dashboard";
 import AssetList from "./components/asset-list/AssetList.js";
 import SingleAsset from "./components/asset-list/single-asset/SingleAsset.js";
 import UploadAssets from "./components/upload-assets/UploadAssets";
@@ -69,7 +71,7 @@ function App({ msalInstance }) {
 
   useEffect(() => {
     const abortController = new AbortController();
-    if(currentAcct) setAccountLogged({
+    if (currentAcct) setAccountLogged({
       access_level: currentAcct.idTokenClaims.roles[0], // "Juno.Admin", "Juno.Analyst", "Juno.Engineer"
       name: currentAcct.name,
       username: currentAcct.username,
@@ -81,99 +83,107 @@ function App({ msalInstance }) {
 
   return (
     <MsalProvider instance={msalInstance}>
-    <div className="App">
-      {idlePrompt && currentAcct && <div className="idle-prompt"><p>You will be logged out due to inactivity in 30 seconds...</p></div>}
-      {accountLogged ? (
-        <Router>
-          <Nav setLoadAssets={setLoadAssets} loadAssets={loadAssets} accountLogged={accountLogged} setAccountLogged={setAccountLogged} idlePrompt={idlePrompt} setIdlePrompt={setIdlePrompt} />
-          <LoginBar currentAcct={currentAcct} setCurrentAcct={setCurrentAcct} />
-          <Routes>
+      <div className="App">
+        {idlePrompt && currentAcct && <div className="idle-prompt"><p>You will be logged out due to inactivity in 30 seconds...</p></div>}
+        {accountLogged ? (
+          <Router>
+            <Nav setLoadAssets={setLoadAssets} loadAssets={loadAssets} accountLogged={accountLogged} setAccountLogged={setAccountLogged} idlePrompt={idlePrompt} setIdlePrompt={setIdlePrompt} />
+            <div className='dashboard-main'>
+              <div className='dashboard-menu'>
+                <NavLinks />
+                <LoginBar currentAcct={currentAcct} setCurrentAcct={setCurrentAcct} />
+              </div>
+            </div>
+            <div className="main-display-container">
+              <Routes>
+                <Route exact path="/" element={<Dashboard currentAcct={currentAcct} setCurrentAcct={setCurrentAcct} />}></Route>
+                <Route
+                  exact
+                  path="/asset_list"
+                  element={
+                    <AssetList
+                      accountLogged={accountLogged}
+                      setAccountLogged={setAccountLogged}
+                      assetList={assetList}
+                      setAssetList={setAssetList}
+                      filteredAssetList={filteredAssetList}
+                      setFilteredAssetList={setFilteredAssetList}
+                      navKey={navKey}
+                      setNavKey={setNavKey}
+                      formattedKey={formattedKey}
+                      setFormattedKey={setFormattedKey}
+                      setLoadAssets={setLoadAssets} //for toggling loading/filtering of assets
+                      loadAssets={loadAssets}
+                      assetListValues={assetListValues}
+                      loadSingleAsset={loadSingleAsset} //for rendering single asset component
+                      setLoadSingleAsset={setLoadSingleAsset}
+                    />
+                  }
+                ></Route>
+                <Route
+                  exact
+                  path="/:asset_id"
+                  element={
+                    <SingleAsset
+                      loadSingleAsset={loadSingleAsset}
+                      accountLogged={accountLogged}
+                    />
+                  }
+                ></Route>
+                <Route
+                  exact
+                  path="/import-assets"
+                  element={
+                    <UploadAssets
+                      assetList={assetList}
+                      setLoadAssets={setLoadAssets}
+                      loadAssets={loadAssets}
+                      accountLogged={accountLogged}
+                    />
+                  }
+                ></Route>
+                <Route
+                  exact
+                  path="/admin-panel"
+                  element={<AdminPanel accountLogged={accountLogged} />}
+                ></Route>
+                <Route
+                  exact
+                  path="/history"
+                  element={
+                    <HistoryList
+                      resetDatePicker={resetDatePicker}
+                      setResetDatePicker={setResetDatePicker}
+                      setSearchHistoryType={setSearchHistoryType}
+                    />
+                  }
+                ></Route>
+                <Route
+                  exact
+                  path="/history/:history_key"
+                  element={
+                    <SingleHistory
+                      assetList={assetList}
+                      searchHistoryType={searchHistoryType}
+                    />
+                  }
+                ></Route>
+                <Route
+                  exact
+                  path="/user-panel"
+                  element={
+                    <UserPanel accountLogged={accountLogged} setSearchHistoryType={setSearchHistoryType} />
+                  }
+                ></Route>
 
-            <Route
-              exact
-              path="/"
-              element={
-                <AssetList
-                  accountLogged={accountLogged}
-                  setAccountLogged={setAccountLogged}
-                  assetList={assetList}
-                  setAssetList={setAssetList}
-                  filteredAssetList={filteredAssetList}
-                  setFilteredAssetList={setFilteredAssetList}
-                  navKey={navKey}
-                  setNavKey={setNavKey}
-                  formattedKey={formattedKey}
-                  setFormattedKey={setFormattedKey}
-                  setLoadAssets={setLoadAssets} //for toggling loading/filtering of assets
-                  loadAssets={loadAssets}
-                  assetListValues={assetListValues}
-                  loadSingleAsset={loadSingleAsset} //for rendering single asset component
-                  setLoadSingleAsset={setLoadSingleAsset}
-                />
-              }
-            ></Route>
-            <Route
-              exact
-              path="/:asset_id"
-              element={
-                <SingleAsset
-                  loadSingleAsset={loadSingleAsset}
-                  accountLogged={accountLogged}
-                />
-              }
-            ></Route>
-            <Route
-              exact
-              path="/import-assets"
-              element={
-                <UploadAssets
-                  assetList={assetList}
-                  setLoadAssets={setLoadAssets}
-                  loadAssets={loadAssets}
-                  accountLogged={accountLogged}
-                />
-              }
-            ></Route>
-            <Route
-              exact
-              path="/admin-panel"
-              element={<AdminPanel accountLogged={accountLogged} />}
-            ></Route>
-            <Route
-              exact
-              path="/history"
-              element={
-                <HistoryList
-                  resetDatePicker={resetDatePicker}
-                  setResetDatePicker={setResetDatePicker}
-                  setSearchHistoryType={setSearchHistoryType}
-                />
-              }
-            ></Route>
-            <Route
-              exact
-              path="/history/:history_key"
-              element={
-                <SingleHistory
-                  assetList={assetList}
-                  searchHistoryType={searchHistoryType}
-                />
-              }
-            ></Route>
-             <Route
-              exact
-              path="/user-panel"
-              element={
-                <UserPanel accountLogged={accountLogged} setSearchHistoryType={setSearchHistoryType} />
-              }
-            ></Route>
-          </Routes>
-        </Router>
-      ) : (
-        <Login currentAcct={currentAcct} setCurrentAcct={setCurrentAcct} />
-      )}
-      {/* <Footer /> */}
-    </div>
+              </Routes>
+            </div>
+          </Router>
+        ) : (
+          <Login currentAcct={currentAcct} setCurrentAcct={setCurrentAcct} />
+        )}
+        {/* <Footer /> */}
+      </div>
     </MsalProvider>
   );
 }

@@ -1,5 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 .App {
   text-align: center;
+  position: block;
+  width: 100%;
+  height: 100vh;
+}
+
+.dashboard-main{
+  background-color: rgb(19, 21, 26);
+  position: absolute;
+  float: left;
+  clear: both;
+  left: 0;
+  min-width: 18%;
+  height: 100vh;
+  color: white;
+  overflow: hidden;
+
+}
+
+.dashboard-menu{
+  margin-top: 50px;
+}
+
+.main-display-container{
+  position: relative;
+  margin-top: 50px;
+  min-width: 82%;
+  float: right;
+  height: 100%;
+  overflow: hidden;
 }
 
 html::-webkit-scrollbar{
