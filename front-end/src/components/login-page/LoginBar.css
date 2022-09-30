@@ -1,9 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
 .logged-in{
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
+    display: block;
     color: rgb(255, 255, 255);
     position: absolute;
     bottom: 5px;
@@ -11,4 +9,8 @@
     font-size: 14px;
     font-family: 'Montserrat', sans-serif;
     text-align: center;
+}
+
+.power-btn{
+    width: 20px;
 }

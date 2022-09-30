@@ -20,42 +20,6 @@ const colorCode = {
     'Repair': "rgb(255, 123, 0)",
     "Retired": "rgb(32, 120, 99)",
     "Pending Transfer": "rgb(133, 109, 200)"
-
   };
   
   export default colorCode;
-
-  /*
-  \
-  
-                angle: assetListValues.numOfHashing,
-              label: "Hashing",
-              color: "rgb(57, 255, 20)"
-            },
-            { 
-              angle: assetListValues.numInStorage, 
-              label: "Storage", 
-              color: "rgb(107, 155, 228)"
-            },
-            { 
-              angle: assetListValues.numInRepair, 
-              label: "Repair", 
-              color: "rgb(255, 123, 0)"
-            },
-            { 
-              angle: assetListValues.numRetired, 
-              label: "Retired", 
-              color: "rgb(0, 0, 0)"
-            },
-            { 
-              angle: assetListValues.numNeedVerified, 
-              label: "Needs Verified", 
-              color: "rgb(255, 87, 51)"
-            },
-            {
-              angle: assetListValues.numInTransfer,
-              label: "Pending Transfer",
-              color: "rgb(133, 109, 200)"
-  
-  
-  */

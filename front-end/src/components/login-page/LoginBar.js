@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import './LoginBar.css';
+import signout from '../../images/signout.png';
 
 //Active Directory
 import { useMsal } from "@azure/msal-react";
@@ -28,8 +29,8 @@ function LoginBar({ currentAcct, setCurrentAcct }){
 
     return (
     <div className='logged-in'>
-      <p>{currentAcct.name}</p><br />
-        <button className="button-link" id="logout" onClick={handleLogout}>Logout</button>
+      <p>{currentAcct.name}</p>
+        <button className="button-link" id="logout" onClick={handleLogout}><img className="power-btn" src={signout} alt="sign out" /></button>
         </div>
     );
 }
