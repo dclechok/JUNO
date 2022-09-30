@@ -17,6 +17,9 @@
   height: 100vh;
   color: white;
   overflow: hidden;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: rgb(50, 50, 67);
 }
 
 .dashboard-menu{

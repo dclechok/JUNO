@@ -206,42 +206,42 @@ function AssetList({
                 </div>
               </div>
               <div className="table-height-fixed">
-              <table className="table-dark">
+              <table className="table table-striped table-dark">
                 <tbody>
                   <tr>
-                    <th>
+                    <th scope="col">
                       <button id="asset_tag" onClick={sortButtonSubmit}>
                         Asset Tag
                       </button>
                     </th>
-                    <th>
+                    <th scope="col">
                       <button id="site" onClick={sortButtonSubmit}>
                         Site
                       </button>
                     </th>
-                    <th>IP</th>
-                    <th>Serial #</th>
-                    <th>
+                    <th scope="col">IP</th>
+                    <th scope="col">Serial #</th>
+                    <th scope="col">
                       <button id="make" onClick={sortButtonSubmit}>
                         Make
                       </button>
                     </th>
-                    <th>
+                    <th scope="col">
                       <button id="model" onClick={sortButtonSubmit}>
                         Model
                       </button>
                     </th>
-                    <th>
+                    <th scope="col">
                       <button id="hr" onClick={sortButtonSubmit}>
                         Hash Rate
                       </button>
                     </th>
-                    <th>
+                    <th scope="col">
                       <button id="status" onClick={sortButtonSubmit}>
                         Status
                       </button>
                     </th>
-                    <th>
+                    <th scope="col">
                       <button id="updated_at" onClick={sortButtonSubmit}>
                         Last Updated
                       </button>

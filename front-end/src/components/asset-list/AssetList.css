@@ -5,7 +5,6 @@ section{
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    margin-top: 1%;
     position: static;
 }
 
@@ -22,7 +21,6 @@ section{
 .search-guide-list{
     display: block;
     width: auto;
-    margin: 3%;
 }
 
 .search-guide-list table{
@@ -33,14 +31,10 @@ section{
     -webkit-columns: 9;
     -moz-columns: 9;
     font-family: 'Nunito', sans-serif;
-    font-size: 12px;
     position: relative;
-    width: auto;
-    border-radius: 3px;
-    min-width: 1100px;
-    table-layout: fixed;
-    margin-bottom: 6%;
+    margin-bottom: 3%;
     font-size: 12px;
+    width: 100%;
 }
 
 tr{
@@ -55,9 +49,8 @@ tr:nth-child(odd) {
 }
 
 th, td{
-    padding-right: 8px;
-    padding-left: 8px;
-    word-wrap: break-word;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .asset-tag-button{ 
