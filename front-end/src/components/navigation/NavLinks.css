@@ -20,8 +20,10 @@
     font-family: 'Montserrat', sans-serif;
     font-size: 18px;
     margin: 4px 0;
+    width: 100%;
 }
 
 .nav-list button:hover{
     color: rgb(163, 149, 255);
+    background-color: rgb(55, 57, 63);
 }

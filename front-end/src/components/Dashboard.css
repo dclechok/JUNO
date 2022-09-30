@@ -1,3 +1,33 @@
-.thisp{
+
+.thisp {
     font-size: 60px;
+}
+
+h1 {
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    letter-spacing: 3px;
+}
+
+.pie-chart-legend{
+    display: inline-block;
+    position: absolute;
+    border-style: solid;
+    border-width: 1px;
+    border-color:rgb(57, 61, 70);
+    font-size: 12px;
+    font-weight: 100;
+    top: 75px;
+    right: 100px;
+    width: auto;
+    background-color: rgb(19, 21, 26);;
+    text-align: left;
+    color: white;
+    padding: 5px;
+}
+
+.pie-chart-legend p{
+    margin: 0;
+    padding: 0;
 }

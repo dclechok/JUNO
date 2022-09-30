@@ -96,7 +96,7 @@ function App({ msalInstance }) {
             </div>
             <div className="main-display-container">
               <Routes>
-                <Route exact path="/" element={<Dashboard currentAcct={currentAcct} setCurrentAcct={setCurrentAcct} />}></Route>
+                <Route exact path="/" element={<Dashboard assetListValues={assetListValues} />}></Route>
                 <Route
                   exact
                   path="/asset_list"

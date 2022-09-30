@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 .logged-in{
     display: flex;
     justify-content: center;
@@ -7,4 +9,6 @@
     bottom: 5px;
     width: 100%;
     font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
 }

@@ -56,6 +56,15 @@ function NavLinks() {
                 </button>
                 </li>
                 <li>
+                <button
+                    className={buttonState.viewAssets}
+                    id="view-assets"
+                    onClick={handleSubmit}
+                >
+                    View Assets
+                </button>
+                </li>
+                <li>
                     <button
                         className="dropdown-button"
                         id="import-assets"

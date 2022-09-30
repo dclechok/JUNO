@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import './ViewSites.css';
 //icons
 import deletePng from "../../../images/delete.png";
 import editPng from "../../../images/pencil-blue-icon.png";

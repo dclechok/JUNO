@@ -27,7 +27,10 @@ function LoginBar({ currentAcct, setCurrentAcct }){
       };
 
     return (
-        <p className="logged-in">Welcome, {currentAcct.name} - <button className="button-link" id="logout" onClick={handleLogout}>logout</button></p>
+    <div className='logged-in'>
+      <p>{currentAcct.name}</p><br />
+        <button className="button-link" id="logout" onClick={handleLogout}>Logout</button>
+        </div>
     );
 }
 
