@@ -117,7 +117,8 @@ input{
 }
 
 .button-link:hover{
-  color:rgb(159, 191, 240);
+  color: rgb(163, 149, 255);
+  background-color:rgb(30, 30, 30);
 }
 
 .button-link:active, button:target{

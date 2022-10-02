@@ -4,21 +4,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap');
 
 .nav-guide-container{
+    margin-top: 2%;
     font-family: 'Montserrat', sans-serif;
     font-size: 15px;
     display: block;
-    width: auto;
     background-color: rgb(19, 21, 26);
-    margin-bottom: 55px;
-    color: rgb(176, 172, 177);
+    margin-bottom: 1%;
+    color: rgb(255, 255, 255);
     position: relative;
-    top: 50px;
     border-style: solid;
     border-width: 1px;
     border-color: rgb(0, 0, 0);
-    border-radius: 6px;
     z-index: 0;
-    background-color: blue;
+    width: 60%;
 }
 
 select{
@@ -44,14 +42,6 @@ select{
 
 .ip-color{
     color:rgb(62, 243, 107);
-}
-
-.go-btn{
-    background-color: rgb(57, 134, 206);
-    font-family: 'Work Sans', sans-serif;
-    color:rgb(241, 241, 241);
-    margin-left: 5px;
-    
 }
 
 .viewing{

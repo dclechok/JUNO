@@ -8,21 +8,23 @@
     color: white;
     padding: 0;
     position: relative;
+    width: auto;
+    margin-top: 2%;
 }
 
 .search-btn{
-    background-color:rgb(146, 160, 180);
+    background-color:rgb(52, 59, 67);
     font-family: 'Work Sans', sans-serif;
-    color:rgb(0, 0, 0);
+    color:rgb(255, 255, 255);
     border-radius: 4px;
     padding-left: 5%;
     padding-right: 5%;
     margin: 1%;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .search-btn:hover{
-    background-color: rgb(186, 192, 207);
+    background-color: rgb(59, 62, 70);
 }
 .search-btn:active, button:target{
     background-color:rgb(96, 110, 126);
