@@ -1,22 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap');
 
-section{
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    position: static;
-}
 
-.inline-tracker-notifications{
-    margin-right: 2%;
-    padding: 0;
-    position: sticky;
-    width: 100%;
-    background-color: rgb(41, 44, 54);
-    top: 100px;
-    max-width: 332px;
-}
 
 .search-guide-list{
     display: block;
@@ -26,31 +11,20 @@ section{
 .search-guide-list table{
     background-color: rgb(19, 22, 30);
     list-style-type: none;
-    padding: 0;
-    columns: 9;
-    -webkit-columns: 9;
-    -moz-columns: 9;
     font-family: 'Nunito', sans-serif;
-    position: relative;
-    margin-bottom: 3%;
-    font-size: 12px;
-    width: 100%;
-}
+    font-size: 14px;
+    overflow: hidden;
+    white-space: nowrap;
+}   
+/* override bootstrap's default table font size of 16px */
+td{ font-size: 13px !important; }
 
 tr{
     background-color: rgb(19, 21, 26);
-    color: rgb(255, 255, 255);
-    text-align: center;
-    height: 20px;
 }
 
 tr:nth-child(odd) { 
     background-color: rgb(47, 53, 67);
-}
-
-th, td{
-    overflow: hidden;
-    white-space: nowrap;
 }
 
 .asset-tag-button{ 
@@ -143,10 +117,4 @@ th button:hover{
     width: 40px;
     text-align: center;
     margin-bottom: 5px;
-}
-
-.table-height-fixed{
-    display: block;
-    position: absolute;
-    height: auto;
 }

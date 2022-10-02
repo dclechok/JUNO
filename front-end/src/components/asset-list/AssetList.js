@@ -187,7 +187,7 @@ function AssetList({
                 assetList={assetList}
               />
             </div>
-            <div>
+
             <div className="page-nav-inline">
               
             <div><input type="text" id="results-per-page" value={assetsPerPage} onChange={changeResultsPerPage} /><label htmlFor="results-per-page"> Results Per Page</label>&nbsp;<span style={{color: "black"}}>[<button className="button-link" onClick={changeResultsPerPage} id="reset-results-per">Reset</button>]</span></div>
@@ -205,8 +205,8 @@ function AssetList({
                 <button className="image-button" id="scroll-right" onClick={handleScroll}><img src={scrollRight} /></button>
                 </div>
               </div>
-              <div className="table-height-fixed">
-              <table className="table table-striped table-dark">
+
+              <table className="table table-striped table-dark table-condensed">
                 <tbody>
                   <tr>
                     <th scope="col">
@@ -281,8 +281,6 @@ function AssetList({
                 </tbody>
               </table>
               </div>
-            </div>
-          </div>
         </>
       ) : (
         <div className="loading">
