@@ -1,11 +1,14 @@
 import './Dashboard.css';
 
 import PieChartBuilder from './asset-list/PieChartBuilder';
-
+import { useEffect, useState } from 'react';
 //utils
 import colorCode from '../utils/colorCodes';
+import calculateValues from '../utils/calculateValues';
+import LoaderSpinner from './LoaderSpinner';
 
-function Dashboard({ assetListValues }) {
+function Dashboard({ assetList }) {
+    const [calcListVal, setCalcListVal] = useState();
     /*
     numInRepair: 0
 numInStorage: 0
@@ -15,24 +18,28 @@ numOfHashing: 132
 numRetired: 0
 totalNumOfAssets: 132
     */
-   console.log(assetListValues.totalNumOfAssets)
-    return (
+    useEffect(() => {
+        if(assetList.length !== 0) setCalcListVal(calculateValues(assetList));
+    }, []);
+
+    return (<>
+        {calcListVal ? 
         <div>
-            <PieChartBuilder assetListValues={assetListValues} />
+            <PieChartBuilder assetListValues={calcListVal} />
             <div className='pie-chart-legend'>
-                <p><span style={{color: colorCode['Hashing']}}>Hashing</span>: {assetListValues.numOfHashing} ({((assetListValues.numOfHashing / assetListValues.totalNumOfAssets) * 100).toFixed(2)}%)</p>
-                <p><span style={{color: colorCode['Storage']}}>Storage</span>: {assetListValues.numInStorage} ({((assetListValues.numInStorage / assetListValues.totalNumOfAssets) * 100).toFixed(2)}%)</p>
-                <p><span style={{color: colorCode['Pending Transfer']}}>Pending Transfer</span>: {assetListValues.numInTrasfer} ({((assetListValues.numInTransfer / assetListValues.totalNumOfAssets) * 100).toFixed(2)}%)</p>
-                <p><span style={{color: colorCode['Repair']}}>Repair</span>: {assetListValues.numInRepair} ({((assetListValues.numInRepair / assetListValues.totalNumOfAssets) * 100).toFixed(2)}%)</p>
-                <p><span style={{color: colorCode['Retired']}}>Retired</span>: {assetListValues.numRetired} ({((assetListValues.numRetired / assetListValues.totalNumOfAssets) * 100).toFixed(2)}%)</p>
+                <p><span style={{color: colorCode['Hashing']}}>Hashing</span>: {calcListVal.numOfHashing} ({((calcListVal.numOfHashing / calcListVal.totalNumOfAssets) * 100).toFixed(2)}%)</p>
+                <p><span style={{color: colorCode['Storage']}}>Storage</span>: {calcListVal.numInStorage} ({((calcListVal.numInStorage / calcListVal.totalNumOfAssets) * 100).toFixed(2)}%)</p>
+                <p><span style={{color: colorCode['Pending Transfer']}}>Pending Transfer</span>: {calcListVal.numInTrasfer} ({((calcListVal.numInTransfer / calcListVal.totalNumOfAssets) * 100).toFixed(2)}%)</p>
+                <p><span style={{color: colorCode['Repair']}}>Repair</span>: {calcListVal.numInRepair} ({((calcListVal.numInRepair / calcListVal.totalNumOfAssets) * 100).toFixed(2)}%)</p>
+                <p><span style={{color: colorCode['Retired']}}>Retired</span>: {calcListVal.numRetired} ({((calcListVal.numRetired / calcListVal.totalNumOfAssets) * 100).toFixed(2)}%)</p>
 
             </div>
             <div>
-            <h1>Total Global Assets: {assetListValues.totalNumOfAssets}</h1>
-            <h1>Total Assets Hashing: {assetListValues.numOfHashing}</h1>
-            <h1>Total Assets Down: {assetListValues.totalNumOfAssets - assetListValues.numOfHashing}</h1>
+            <h1>Total Global Assets: {calcListVal.totalNumOfAssets}</h1>
+            <h1>Total Assets Hashing: {calcListVal.numOfHashing}</h1>
+            <h1>Total Assets Down: {calcListVal.totalNumOfAssets - calcListVal.numOfHashing}</h1>
             </div>
-        </div>
+        </div> : <LoaderSpinner />}</>
     )
 }
 

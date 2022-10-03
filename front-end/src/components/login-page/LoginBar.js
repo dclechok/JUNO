@@ -11,11 +11,13 @@ function LoginBar({ currentAcct, setCurrentAcct }) {
   const handleLogout = (e) => {
     const { id } = e.currentTarget;
     if (id === "logout") { //clear local storage, redirect to entrypoint
-      instance.logoutRedirect({
-        account: instance.getActiveAccount(),
-        postLogoutRedirectUri: "/"
-      });
-      if (!instance.getActiveAccount()) setCurrentAcct(null);
+      if(window.confirm('Do you wish to logout?')){
+        instance.logoutRedirect({
+          account: instance.getActiveAccount(),
+          postLogoutRedirectUri: "/"
+        });
+        if (!instance.getActiveAccount()) setCurrentAcct(null);
+      }
     }
   };
 

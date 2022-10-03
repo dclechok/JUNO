@@ -25,9 +25,10 @@
 
 .nav-list button:hover{
     color: rgb(163, 149, 255);
-    background-color: rgb(28, 29, 32);
+    background-color: rgb(37, 42, 54);
 }
 
 .nav-list button:focus{
     background-color: rgb(49, 50, 60);
+    color: rgb(163, 149, 255);
 }
