@@ -35,9 +35,9 @@ totalNumOfAssets: 132
 
             </div>
             <div className='stat-text'>
-            <h1>Total Global Assets: {calcListVal.totalNumOfAssets}</h1>
-            <h1>Total Assets Hashing: {calcListVal.numOfHashing}</h1>
-            <h1>Total Assets Down: {calcListVal.totalNumOfAssets - calcListVal.numOfHashing}</h1>
+            <h1>Total Global Assets: <b>{calcListVal.totalNumOfAssets}</b></h1>
+            <h1>Total Assets Hashing: <b>{calcListVal.numOfHashing}</b></h1>
+            <h1>Total Assets Down: <b>{calcListVal.totalNumOfAssets - calcListVal.numOfHashing}</b></h1>
             </div>
         </div> : <LoaderSpinner />}</>
     )
