@@ -37,7 +37,7 @@ totalNumOfAssets: 132
                     <h1>Total Assets Hashing: <b>{calcListVal.numOfHashing}</b></h1>
                     <h1>Total Assets Down: <b>{calcListVal.totalNumOfAssets - calcListVal.numOfHashing}</b></h1>
                 </div>
-                <div className='bump-piechart'><PieChartBuilder assetListValues={calcListVal} /></div>
+                <PieChartBuilder assetListValues={calcListVal} />
 
 
             </div> : <LoaderSpinner />}</>

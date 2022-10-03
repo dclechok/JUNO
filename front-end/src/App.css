@@ -27,12 +27,12 @@
 }
 
 .main-display-container{
-  position: relative;
+  position: absolute;
   margin-top: 50px;
   min-width: 82%;
   float: right;
   height: 100%;
-  overflow: hidden;
+  margin-left: 18%;
 }
 
 html::-webkit-scrollbar{

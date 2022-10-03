@@ -5,7 +5,7 @@
     background-color: rgb(19, 22, 30);
     font-family: 'Nunito', sans-serif;
     font-size: 14px;
-    overflow: hidden;
+    table-layout:auto;
     white-space: nowrap;
 }   
 /* override bootstrap's default table font size of 16px */
