@@ -12,15 +12,18 @@
     padding: 0;
     margin: 0;
 }
-
 .nav-list button{
+    background: none;
+    border: none;
+    width: 100%;
+    font-size: 18px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.nav-list-inactive{
     border: none;
     background: none;
-    color:aliceblue;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 18px;
-    margin: 4px 0;
-    width: 100%;
+    color: white;
 }
 
 .nav-list button:hover{
@@ -28,7 +31,9 @@
     background-color: rgb(23, 26, 33);
 }
 
-.nav-list button:focus{
-    background-color: rgb(31, 33, 48);
+.nav-list-active{
+    background-color: rgb(28, 29, 41) !important;
     color: rgb(163, 149, 255);
+
+
 }

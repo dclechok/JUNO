@@ -90,7 +90,7 @@ function App({ msalInstance }) {
             <Nav setLoadAssets={setLoadAssets} loadAssets={loadAssets} accountLogged={accountLogged} setAccountLogged={setAccountLogged} idlePrompt={idlePrompt} setIdlePrompt={setIdlePrompt} />
             <div className='dashboard-main'>
               <div className='dashboard-menu'>
-                <NavLinks />
+                <NavLinks loadAssets={loadAssets} setLoadAssets={setLoadAssets} />
                 <LoginBar currentAcct={currentAcct} setCurrentAcct={setCurrentAcct} />
               </div>
             </div>

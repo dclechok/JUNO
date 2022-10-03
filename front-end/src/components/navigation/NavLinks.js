@@ -3,21 +3,22 @@ import './NavLinks.css';
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-function NavLinks() {
+function NavLinks({ setLoadAssets, loadAssets }) {
     const navigate = new useNavigate();
     const defaultButtonState = {
-        dashboard: "middleNavButton",
-        settings: "middleNavButton",
-      };
-      const [buttonState, setButtonState] = useState(defaultButtonState);
+        dashboard: 'nav-list-inactive',
+        assetList: 'nav-list-inactive',
+        importAssets: 'nav-list-inactive'
 
+      };
+      const [buttonState, setButtonState] = useState({...defaultButtonState, dashboard: 'nav-list-active'});
     const handleSubmit = (e) => {
-        const { id = "" } = e.currentTarget;
-        console.log(id)
+        const { id } = e.currentTarget;
+        setButtonState({...defaultButtonState, [id]: 'nav-list-active'});
         if (id === "dashboard") {
-            // setLoadAssets(!loadAssets);
+            setLoadAssets(!loadAssets);
             navigate(`/`);
-        }else if(id === "asset-list"){
+        }else if(id === "assetList"){
             navigate(`/asset_list`);
         }
         // } else if (id === "settings") {
@@ -36,7 +37,7 @@ function NavLinks() {
         //         );
         // } else navigate(`/${id}`);    setButtonState({ ...defaultButtonState, [id]: "middleNavButtonActive" });
     };
-
+    console.log(buttonState)
     return (
         <div className="menu-options">
             <ul className='nav-list'>
@@ -51,8 +52,8 @@ function NavLinks() {
                 </li>
                 <li>
                 <button
-                    className={buttonState.viewAssets}
-                    id="asset-list"
+                    className={buttonState.assetList}
+                    id="assetList"
                     onClick={handleSubmit}
                 >
                     View Assets
@@ -60,8 +61,8 @@ function NavLinks() {
                 </li>
                 <li>
                     <button
-                        className="dropdown-button"
-                        id="import-assets"
+                        className={buttonState.importAssets}
+                        id="importAssets"
                         onClick={handleSubmit}
                     >
                         Import Assets
