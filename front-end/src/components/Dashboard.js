@@ -34,7 +34,7 @@ totalNumOfAssets: 132
                 <p><span style={{color: colorCode['Retired']}}>Retired</span>: {calcListVal.numRetired} ({((calcListVal.numRetired / calcListVal.totalNumOfAssets) * 100).toFixed(2)}%)</p>
 
             </div>
-            <div>
+            <div className='stat-text'>
             <h1>Total Global Assets: {calcListVal.totalNumOfAssets}</h1>
             <h1>Total Assets Hashing: {calcListVal.numOfHashing}</h1>
             <h1>Total Assets Down: {calcListVal.totalNumOfAssets - calcListVal.numOfHashing}</h1>
