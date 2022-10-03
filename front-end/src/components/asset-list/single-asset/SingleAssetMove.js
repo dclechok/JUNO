@@ -134,6 +134,7 @@ function SingleAssetMove({ singleAsset, accountLogged }) {
                                 ],
                             }));
                     }
+                    if(setLocUpdatedSuccess) window.location.reload();
                     postNewLocData();
                 }
             }
