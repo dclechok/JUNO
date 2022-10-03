@@ -1,20 +1,26 @@
-
-.thisp {
-    font-size: 60px;
+.stat-flex{
+    display: block;
 }
 
-
+.stat-container{
+    display: block;
+    justify-content: center;
+    position: relative;
+    margin-top: -5%;
+}
 .pie-chart-legend{
-    display: inline-block;
-    position: absolute;
+    display: block;
+    position: relative;
     border-style: solid;
     border-width: 1px;
     border-color:rgb(57, 61, 70);
     font-size: 16px;
     font-weight: 100;
-    top: 150px;
-    left: 150px;
-    width: auto;
+    margin-left: 10%;
+    top: 200px;
+
+    min-width: 20%;
+    max-width: 20%;
     background-color: rgb(19, 21, 26);;
     text-align: left;
     color: white;
