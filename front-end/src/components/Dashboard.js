@@ -7,7 +7,7 @@ import colorCode from '../utils/colorCodes';
 import calculateValues from '../utils/calculateValues';
 import LoaderSpinner from './LoaderSpinner';
 
-function Dashboard({ assetList }) {
+function Dashboard({ assetList, loadAssets, setLoadAssets }) {
     const [calcListVal, setCalcListVal] = useState();
     /*
     numInRepair: 0
@@ -20,7 +20,7 @@ totalNumOfAssets: 132
     */
     useEffect(() => {
         if (assetList.length !== 0) setCalcListVal(calculateValues(assetList));
-    }, []);
+    }, [loadAssets]);
 
     return (<>
         {calcListVal ?

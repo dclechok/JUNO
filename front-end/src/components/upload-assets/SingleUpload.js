@@ -10,7 +10,7 @@ import LoaderSpinner from "../LoaderSpinner.js";
 import { getJobSites, getAllAssets, createAsset } from "../../utils/api.js";
 import validateSingleUpload from "../../utils/validation/validateSingleUpload";
 
-function SingleUpload({ accountLogged }) {
+function SingleUpload({ setLoadAssets, loadAssets, accountLogged }) {
   const [jobSites, setJobSites] = useState([]);
   const [locationSelect, setLocationSelect] = useState("All Locations");
   const [logItem, setLogItem] = useState();
@@ -120,6 +120,7 @@ function SingleUpload({ accountLogged }) {
     if(uploadSuccess){
       setAssetFields('');
       setSiteIP('');
+      setLoadAssets(!loadAssets);
       // window.location.reload();
     } 
   }, [uploadSuccess]);

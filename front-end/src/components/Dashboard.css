@@ -22,15 +22,6 @@
     color: white;
     padding: 5px;
 }
-/* @media screen and (max-width: 1000){
-    .pie-chart-legend{
-        display: flex;
-        position: absolute;
-        top: 15px;
-        left: 15px;
-        margin-right: 2%;
-    }
-  } */
 
 .pie-chart-legend p{
     margin: 0;

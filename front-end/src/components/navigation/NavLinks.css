@@ -4,9 +4,8 @@
     font-family: 'Montserrat', sans-serif;
     display: block;
     position: absolute;
-    width: 100%;
     padding-top: 20px;
-    z-index: 3;
+    width: 100%;
 }
 
 .nav-list{

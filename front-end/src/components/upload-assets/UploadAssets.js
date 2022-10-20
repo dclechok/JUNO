@@ -37,7 +37,7 @@ function UploadAssets({ assetList, setLoadAssets, loadAssets, accountLogged }){
         </header>
 
         {toggleUpload === 'bulkUpload' && <BulkUpload setLoadAssets={setLoadAssets} loadAssets={loadAssets} accountLogged={accountLogged} />}
-        {toggleUpload === 'singleUpload' && <SingleUpload accountLogged={accountLogged} />}
+        {toggleUpload === 'singleUpload' && <SingleUpload setLoadAssets={setLoadAssets} loadAssets={loadAssets} accountLogged={accountLogged} />}
         </div>
       )
 }

@@ -10,6 +10,8 @@
 .dashboard-main{
   background-color: rgb(19, 21, 26);
   position: fixed;
+  z-index: 2;
+  display: block;
   float: left;
   clear: both;
   left: 0;
@@ -28,11 +30,13 @@
 
 .main-display-container{
   position: absolute;
+  display: block;
   margin-top: 50px;
   min-width: 82%;
   float: right;
   height: 100%;
   margin-left: 18%;
+  clear: both;
 }
 
 html::-webkit-scrollbar{
