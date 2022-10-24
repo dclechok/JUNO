@@ -95,11 +95,7 @@ function BulkUpload({ setLoadAssets, loadAssets, accountLogged }) {
   return (
     <div>
       {jobSites && assetList ?
-        <>
-          <section className="upload-container-style" >
-
-            <h4>Bulk Upload</h4>
-            <form className="form-container-bulk">
+            <form className="form-container">
             {!toggleUi && 
                 <>
                   <h5>
@@ -135,9 +131,7 @@ function BulkUpload({ setLoadAssets, loadAssets, accountLogged }) {
                     </div>
                   
 
-            </form>
-          </section>
-        </> : <LoaderSpinner height={45} width={45} message={"Data..."} />}
+            </form> : <LoaderSpinner height={45} width={45} message={"Data..."} />}
     </div>
   );
 }

@@ -20,6 +20,7 @@ import listPages from "../../utils/listPages";
 //images
 import scrollLeft from "../../images/scroll-left-icon.png";
 import scrollRight from "../../images/scroll-right-icon.png";
+import colorCode from "../../utils/colorCodes";
 
 function AssetList({
   assetList,
@@ -273,7 +274,7 @@ function AssetList({
                             <td>{asset.make}</td>
                             <td>{asset.model}</td>
                             <td>{asset.hr}</td>
-                            <td>{asset.status}</td>
+                            <td><span style={{ color: colorCode[asset.status]}}>{asset.status}</span></td>
                             <td>{dateFormatter(asset.updated_at)}</td>
                           </tr>
                         ) //load asset component here

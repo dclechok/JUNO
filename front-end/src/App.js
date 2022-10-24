@@ -8,7 +8,6 @@ import {
 
 //Active Directory
 import { MsalProvider } from '@azure/msal-react';
-import { useMsal } from "@azure/msal-react";
 
 //components
 import Login from "./components/login-page/Login";
@@ -79,7 +78,6 @@ function App({ msalInstance }) {
     });
     return () => abortController.abort();
   }, [currentAcct, setCurrentAcct]);
-
 
   return (
     <MsalProvider instance={msalInstance}>

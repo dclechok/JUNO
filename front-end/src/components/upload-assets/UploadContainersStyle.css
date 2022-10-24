@@ -1,20 +1,10 @@
-/* single uploads */
-.form-container{
-    display: inline-block;
-    margin: 0;
-    background-color: rgb(19, 21, 26);
-    padding-right: 8%;
-    padding-left: 8%;
-    padding-top: 4%;
-    min-width: auto;
-    max-width: 300px;
-}
 /* bulk uploads */
 .form-container-bulk{
     display: block;
     margin: 2% auto 0 auto;
     width: 100%;
     background-color: rgb(19, 21, 26);
+    color: white;
 }
 
 .form-container label{

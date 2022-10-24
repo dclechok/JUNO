@@ -39,6 +39,11 @@
   clear: both;
 }
 
+.upload-container{
+  margin-top: 2%;
+  height: auto;
+}
+
 html::-webkit-scrollbar{
     background-color: rgb(51, 51, 51);
     width: 10px;

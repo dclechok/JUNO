@@ -11,10 +11,10 @@ function UploadAssets({ assetList, setLoadAssets, loadAssets, accountLogged }){
     };
     const [buttonState, setButtonState] = useState(defaultButtonState);
 
-    const onClickHandler = (e) => {
-        const { id = '' } = e.currentTarget;
-        setButtonState({...defaultButtonState, [id]: "active-button-link"});
-        setToggleUpload(id);
+    const handleSelect = (e) => {
+        const { value } = e.currentTarget;
+        console.log(value);
+        setToggleUpload(value);
     };
 
     useEffect(() => {
@@ -25,16 +25,12 @@ function UploadAssets({ assetList, setLoadAssets, loadAssets, accountLogged }){
     }, []);
 
     return(
-    <div className="single-asset-render admin-panel-container">
+    <div className="upload-container">
       <h1>Upload Assets</h1>
-      <header className="single-asset-header container-style center-header">
-          <div>
-            <span style={{color: "black"}}>[<button className={buttonState.bulkUpload} id="bulkUpload" onClick={onClickHandler}>Bulk Asset Upload</button>]</span>&nbsp;
-          </div>
-          <div>
-          <span style={{color: "black"}}>[<button className={buttonState.singleUpload} id="singleUpload" onClick={onClickHandler}>Single Asset Upload</button>]</span>
-          </div>
-        </header>
+      <select onChange={handleSelect}>
+        <option value="bulkUpload">Bulk Upload</option>
+        <option value="singleUpload">Single Upload</option>
+      </select>
 
         {toggleUpload === 'bulkUpload' && <BulkUpload setLoadAssets={setLoadAssets} loadAssets={loadAssets} accountLogged={accountLogged} />}
         {toggleUpload === 'singleUpload' && <SingleUpload setLoadAssets={setLoadAssets} loadAssets={loadAssets} accountLogged={accountLogged} />}
