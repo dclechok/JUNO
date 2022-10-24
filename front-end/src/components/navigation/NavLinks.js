@@ -15,7 +15,6 @@ function NavLinks({ accountLogged, setLoadAssets, loadAssets }) {
     };
     const [buttonState, setButtonState] = useState({ ...defaultButtonState, dashboard: 'nav-list-active' });
 
-    console.log(accountLogged)
     const handleSubmit = (e) => {
         const { id } = e.currentTarget;
         setButtonState({ ...defaultButtonState, [id]: 'nav-list-active' });

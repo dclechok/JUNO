@@ -67,19 +67,20 @@ a{
 }
 
 a:link{
-  color: rgb(180, 201, 244);
+  color: rgb(163, 149, 255);
 }
 
 a:visited{
-  color:rgb(102, 143, 199);
+  color:rgb(102, 107, 199);
 }
 
 a:hover{
-  color:rgb(130, 166, 200);
+  color:rgb(255, 239, 138);
+  text-decoration: none;
 }
 
 a:active{
-  color: rgb(138, 181, 202);
+  color: rgb(138, 157, 202);
 }
 
 form{
@@ -114,34 +115,6 @@ input{
 
 .container-style h4{
   font-size: 20px;
-}
-.button-link, .active-button-link{
-  background: none;
-  border: none; 
-  color: rgb(255, 255, 255);
-  font-family: 'Montserrat', sans-serif;
-  font-size: inherit;
-  margin: 0;
-  padding: 0;
-}
-
-.button-link:hover{
-  color: rgb(163, 149, 255);
-  background-color:rgb(30, 30, 30);
-}
-
-.button-link:active, button:target{
-  background-color: rgb(30, 30, 37);
-  border: none; 
-  border-radius: 9px;
-  color: rgb(194, 199, 232);
-  font-family: 'Montserrat', sans-serif;
-  font-size: inherit;
-  margin: 0;
-}
-
-.active-button-link{
-  color:rgb(159, 191, 240);
 }
 
 .image-button{
@@ -181,15 +154,24 @@ input{
   font-family: 'Montserrat', sans-serif;
 }
 
-.fix-button{
-  margin-right: auto;
-  margin-left: auto;
-  margin-top: 1%;
-}
-
 h1 {
   color: rgb(255, 255, 255);
   font-family: 'Montserrat', sans-serif;
   font-weight: 300;
   letter-spacing: 3px;
+}
+
+select{
+  background-color: rgb(67, 72, 87);
+  width: auto;
+  color: white;
+  margin-bottom: 1%;
+}
+
+button{
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  background-color: rgb(45, 43, 55);
+  color: rgb(163, 149, 255);
+  border-color: rgb(63, 61, 89);
 }

@@ -114,7 +114,7 @@ function BulkUpload({ setLoadAssets, loadAssets, accountLogged }) {
                     />
 
                     <div>
-                      <button className="submit-single-asset bulk-upload-button" onClick={handleSubmit}>
+                      <button onClick={handleSubmit}>
                         Upload
                       </button>
                     </div>
