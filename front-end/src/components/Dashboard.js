@@ -6,9 +6,12 @@ import { useEffect, useState } from 'react';
 import colorCode from '../utils/colorCodes';
 import calculateValues from '../utils/calculateValues';
 import LoaderSpinner from './LoaderSpinner';
+//components
+import { getAllAssets } from '../utils/api';
 
-function Dashboard({ assetList, loadAssets, setLoadAssets }) {
+function Dashboard() {
     const [calcListVal, setCalcListVal] = useState();
+    const [assetList, setAssetList] = useState();
     /*
     numInRepair: 0
 numInStorage: 0
@@ -17,10 +20,25 @@ numNeedVerified: 0
 numOfHashing: 132
 numRetired: 0
 totalNumOfAssets: 132
+numSold ???
     */
+
     useEffect(() => {
-        if (assetList.length !== 0) setCalcListVal(calculateValues(assetList));
-    }, [loadAssets]);
+        const abortController = new AbortController();
+        if (!assetList) {
+            async function getAssets() {
+                setAssetList(await getAllAssets());
+            }
+            getAssets();
+        }
+        return () => abortController.abort();
+    }, []);
+
+    useEffect(() => {
+        const abortController = new AbortController();
+        if (assetList && assetList.length !== 0) setCalcListVal(calculateValues(assetList));
+        return () => abortController.abort();
+    }, [assetList, setAssetList]);
 
     return (<>
         {calcListVal ?
@@ -31,6 +49,7 @@ totalNumOfAssets: 132
                     <p><span style={{ color: colorCode['Pending Transfer'] }}>Pending Transfer</span>: {calcListVal.numInTransfer} ({((calcListVal.numInTransfer / calcListVal.totalNumOfAssets) * 100).toFixed(2)}%)</p>
                     <p><span style={{ color: colorCode['Repair'] }}>Repair</span>: {calcListVal.numInRepair} ({((calcListVal.numInRepair / calcListVal.totalNumOfAssets) * 100).toFixed(2)}%)</p>
                     <p><span style={{ color: colorCode['Retired'] }}>Retired</span>: {calcListVal.numRetired} ({((calcListVal.numRetired / calcListVal.totalNumOfAssets) * 100).toFixed(2)}%)</p>
+                    <p><span style={{ color: colorCode['Sold'] }}>Sold</span>:</p>
                 </div>
                 <div className='stat-text'>
                     <h1>Total Global Assets: <b>{calcListVal.totalNumOfAssets}</b></h1>

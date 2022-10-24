@@ -131,10 +131,3 @@ h3{
     width: 30px;
     text-align: center;
   }
-/* for input type 'number' - removes scrollbars */
-/* input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button
-{ 
-  -webkit-appearance: none; 
-  margin: 0; 
-} */

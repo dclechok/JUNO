@@ -19,7 +19,8 @@ const colorCode = {
     'Storage': "rgb(107, 155, 228)",
     'Repair': "rgb(255, 123, 0)",
     "Retired": "rgb(32, 120, 99)",
-    "Pending Transfer": "rgb(133, 109, 200)"
+    "Pending Transfer": "rgb(133, 109, 200)",
+    "Sold": "rgb(119,136,153)"
   };
   
   export default colorCode;
