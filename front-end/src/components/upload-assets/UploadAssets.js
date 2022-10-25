@@ -2,39 +2,26 @@ import { useEffect, useState } from 'react';
 import BulkUpload from './BulkUpload.js';
 import SingleUpload from './SingleUpload.js';
 
-function UploadAssets({ assetList, setLoadAssets, loadAssets, accountLogged }){
+function UploadAssets({ accountLogged }) {
 
-    const [toggleUpload, setToggleUpload] = useState('');
-    const defaultButtonState = { 
-      singleUpload: "button-link",
-      bulkUpload: "button-link"
-    };
-    const [buttonState, setButtonState] = useState(defaultButtonState);
+  const [toggleUpload, setToggleUpload] = useState('');
 
-    const handleSelect = (e) => {
-        const { value } = e.currentTarget;
-        setToggleUpload(value);
-    };
+  const handleSelect = (e) => {
+    const { value } = e.currentTarget;
+    setToggleUpload(value);
+  };
 
-    useEffect(() => {
-      const abortController = new AbortController();
-      setButtonState({...defaultButtonState, bulkUpload: "active-button-link"})
-      setToggleUpload("bulkUpload");
-      return () => abortController.abort();
-    }, []);
-
-    return(
+  return (
     <div className="upload-container">
       <h1>Upload Assets</h1>
       <select onChange={handleSelect}>
         <option value="bulkUpload">Bulk Upload</option>
         <option value="singleUpload">Single Upload</option>
       </select>
-
-        {toggleUpload === 'bulkUpload' && <BulkUpload setLoadAssets={setLoadAssets} loadAssets={loadAssets} accountLogged={accountLogged} />}
-        {toggleUpload === 'singleUpload' && <SingleUpload setLoadAssets={setLoadAssets} loadAssets={loadAssets} accountLogged={accountLogged} />}
-        </div>
-      )
+      {toggleUpload === 'bulkUpload' && <BulkUpload accountLogged={accountLogged} />}
+      {toggleUpload === 'singleUpload' && <SingleUpload accountLogged={accountLogged} />}
+    </div>
+  )
 }
 
 export default UploadAssets;

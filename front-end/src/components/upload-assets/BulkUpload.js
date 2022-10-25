@@ -12,7 +12,7 @@ import LoaderSpinner from "../LoaderSpinner";
 import validateBulkUpload from "../../utils/validation/validateBulkUpload";
 import { getAllAssets } from '../../utils/api';
 
-function BulkUpload({ setLoadAssets, loadAssets, accountLogged }) {
+function BulkUpload({ accountLogged }) {
   const [selectedFile, setSelectedFile] = useState(); // csv file to parse
   const [loadSuccessLog, setLoadSuccessLog] = useState(false);
   const [toggleUi, setToggleUi] = useState(false); //toggle UI for bulk upload off
@@ -75,19 +75,16 @@ function BulkUpload({ setLoadAssets, loadAssets, accountLogged }) {
               formattedAssets.accepted.length > 0
             ) {
               createNewAsset(formattedAssets.accepted);
-              setLoadAssets(!loadAssets);
             }else setUploadSuccess('No assets accepted!');
           },
         });
       }
-      setLoadAssets(!loadAssets);
     }
   };
 
   useEffect(() => {
     if (uploadSuccess) {
       setLoadSuccessLog(true);
-      setLoadAssets(!loadAssets);
       setToggleLoader(false);
     }
   }, [uploadSuccess, setUploadSuccess]);

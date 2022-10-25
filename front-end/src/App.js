@@ -133,9 +133,6 @@ function App({ msalInstance }) {
                   path="/import-assets"
                   element={
                     <UploadAssets
-                      assetList={assetList}
-                      setLoadAssets={setLoadAssets}
-                      loadAssets={loadAssets}
                       accountLogged={accountLogged}
                     />
                   }
