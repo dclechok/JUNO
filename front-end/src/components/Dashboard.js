@@ -44,12 +44,12 @@ numSold ???
         {calcListVal ?
             <div className='stat-container'>
                 <div className='pie-chart-legend'>
-                    <p><span style={{ color: colorCode['Hashing'] }}>Hashing</span>: {calcListVal.numOfHashing} ({((calcListVal.numOfHashing / calcListVal.totalNumOfAssets) * 100).toFixed(2)}%)</p>
-                    <p><span style={{ color: colorCode['Storage'] }}>Storage</span>: {calcListVal.numInStorage} ({((calcListVal.numInStorage / calcListVal.totalNumOfAssets) * 100).toFixed(2)}%)</p>
-                    <p><span style={{ color: colorCode['Pending Transfer'] }}>Pending Transfer</span>: {calcListVal.numInTransfer} ({((calcListVal.numInTransfer / calcListVal.totalNumOfAssets) * 100).toFixed(2)}%)</p>
-                    <p><span style={{ color: colorCode['Repair'] }}>Repair</span>: {calcListVal.numInRepair} ({((calcListVal.numInRepair / calcListVal.totalNumOfAssets) * 100).toFixed(2)}%)</p>
-                    <p><span style={{ color: colorCode['Retired'] }}>Retired</span>: {calcListVal.numRetired} ({((calcListVal.numRetired / calcListVal.totalNumOfAssets) * 100).toFixed(2)}%)</p>
-                    <p><span style={{ color: colorCode['Sold'] }}>Sold</span>:</p>
+                    <p><span style={{ color: colorCode['Hashing']}}>Hashing</span>: {calcListVal.numOfHashing} ({((calcListVal.numOfHashing / calcListVal.totalNumOfAssets) * 100).toFixed(2)}%)</p>
+                    <p><span style={{ color: colorCode['Storage']}}>Storage</span>: {calcListVal.numInStorage} ({((calcListVal.numInStorage / calcListVal.totalNumOfAssets) * 100).toFixed(2)}%)</p>
+                    <p><span style={{ color: colorCode['Pending Transfer']}}>Pending Transfer</span>: {calcListVal.numInTransfer} ({((calcListVal.numInTransfer / calcListVal.totalNumOfAssets) * 100).toFixed(2)}%)</p>
+                    <p><span style={{ color: colorCode['Repair']}}>Repair</span>: {calcListVal.numInRepair} ({((calcListVal.numInRepair / calcListVal.totalNumOfAssets) * 100).toFixed(2)}%)</p>
+                    <p><span style={{ color: colorCode['Retired']}}>Retired</span>: {calcListVal.numRetired} ({((calcListVal.numRetired / calcListVal.totalNumOfAssets) * 100).toFixed(2)}%)</p>
+                    <p><span style={{ color: colorCode['Sold']}}>Sold</span>:</p>
                 </div>
                 <div className='stat-text'>
                     <h1>Total Global Assets: <b>{calcListVal.totalNumOfAssets}</b></h1>

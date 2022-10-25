@@ -1,24 +1,27 @@
+import { useEffect, useState } from "react";
 import LoaderSpinner from "../LoaderSpinner";
 import "./UploadSuccess.css";
 
 function UploadSuccess({ rejectedLog, newAssets }) {
   let percentOfSuccess = 0,
     percentOfFails = 0;
-  let totalAmtOfUploads = rejectedLog ? newAssets.length + rejectedLog.length : newAssets.length;
-  /*
-    TODO:
-    -dynamically render valid header detail
-    -make list scrollable
-  */
-  const calcSuccessFailure = () => {
-    percentOfSuccess = newAssets.length / totalAmtOfUploads;
-    percentOfFails = rejectedLog ? rejectedLog.length / totalAmtOfUploads : 0 / totalAmtOfUploads;
-  };
-  calcSuccessFailure();
+  const [totalAmtOfUploads, setTotalAmtOfUploads] = useState();
+  console.log(rejectedLog, newAssets)
+  useEffect(() => {
+    if(rejectedLog && newAssets){
+      setTotalAmtOfUploads(newAssets.length + rejectedLog.length);
+      const calcSuccessFailure = () => {
+        percentOfSuccess = newAssets.length / totalAmtOfUploads;
+        percentOfFails = rejectedLog ? rejectedLog.length / totalAmtOfUploads : 0 / totalAmtOfUploads;
+      };
+      calcSuccessFailure();
+    }
+  }, [rejectedLog, newAssets]);
+  console.log(totalAmtOfUploads)
 
   return (
     <div className="upload-success-log">
-      {/* {!Object.keys(uploadSuccess).includes("error") ? */}
+      {totalAmtOfUploads &&
       <>
       <h5 className="log-header">[ Upload Log ]</h5>
 
@@ -38,7 +41,7 @@ function UploadSuccess({ rejectedLog, newAssets }) {
         [Line 1] Headers: <span className="success-green">Valid</span>
       </p>
       <hr />
-      {newAssets.length !== 0 &&
+      {newAssets && newAssets.length !== 0 &&
         newAssets.map((asset, key) => {
           const locationData = asset.location.site_loc;
           return (
@@ -81,8 +84,7 @@ function UploadSuccess({ rejectedLog, newAssets }) {
               <hr />
             </div>
           );
-        })}</>
-        {/* </> : <LoaderSpinner width={45} height={45} message={"Update Log"} />} */}
+        })}</>}
     </div>
   );
 }

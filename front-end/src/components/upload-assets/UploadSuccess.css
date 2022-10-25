@@ -2,19 +2,9 @@
     display: block;
     font-size: 14px;
     width: 100%;
-    text-overflow: none;
     word-wrap: none;
     background-color: rgb(19, 21, 26);
     color: white;
-    min-width: 400px;
-    border-style: solid;
-    border-color: black;
-    border-width: 1px;
-    max-height: 800px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    /* padding-right: 1%;
-    padding-left: 1%; */
 }
 
 .upload-success-log::-webkit-scrollbar{

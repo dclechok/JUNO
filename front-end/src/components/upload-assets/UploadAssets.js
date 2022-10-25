@@ -13,7 +13,6 @@ function UploadAssets({ assetList, setLoadAssets, loadAssets, accountLogged }){
 
     const handleSelect = (e) => {
         const { value } = e.currentTarget;
-        console.log(value);
         setToggleUpload(value);
     };
 

@@ -44,7 +44,7 @@ function BulkUpload({ setLoadAssets, loadAssets, accountLogged }) {
   const handleChange = (e) => {
     setSelectedFile(e.target.files); //set file to parse from
   };
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (selectedFile) {
       if (selectedFile[0].type !== "text/csv")

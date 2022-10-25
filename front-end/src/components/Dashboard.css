@@ -4,16 +4,18 @@
 
 .stat-container{
     display: block;
-    justify-content: center;
     position: relative;
     margin-top: -5%;
+
 }
 .pie-chart-legend{
     display: block;
     position: relative;
-    font-size: 16px;
-    font-weight: 100;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 200;
     margin-left: 10%;
+    margin-right: 1%;
     top: 200px;
     min-width: 200px;
     max-width: 20%;
@@ -21,6 +23,9 @@
     text-align: left;
     color: white;
     padding: 5px;
+    border-width: 1px;
+    border-color: rgb(44, 39, 72);
+    border-style: solid;
 }
 
 .pie-chart-legend p{
