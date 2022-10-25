@@ -248,7 +248,7 @@ function AssetList({
                       </button>
                     </th>
                   </tr>
-                  {filteredAssetList && listPages(filteredAssetList, pageNum, assetsPerPage) &&
+                  {assetList && filteredAssetList && listPages(filteredAssetList, pageNum, assetsPerPage) &&
                     listPages(filteredAssetList, pageNum, assetsPerPage).map(
                       (asset, index) =>
                         filteredAssetList.length !== 0 &&
