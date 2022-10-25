@@ -174,7 +174,7 @@ function NavGuide({
       <p className="viewing">
         Viewing:&#160;&#160;<span className="ip-color">{formattedKey} - Total: {filteredAssetList.length} Asset{filteredAssetList.length > 1 && 's'}</span>
       </p>
-      <h5><span style={{color: 'black'}}>[<button className="button-link" onClick={handleExport} id="export" >Export CSV</button>]</span></h5>
+      <button className="button-link" onClick={handleExport} id="export" >Export CSV</button>
     </form>
   );
 }

@@ -91,7 +91,6 @@ function Search({ assetList, setFilteredAssetList }) {
         <div>
         <button
           type="submit"
-          className="search-btn"
           value="Submit"
           form="search-form"
         >
@@ -99,7 +98,6 @@ function Search({ assetList, setFilteredAssetList }) {
         </button>
         <button
           type="submit"
-          className="search-btn"
           id="reset"
           form="search-form"
           onClick={handleClearSearch}

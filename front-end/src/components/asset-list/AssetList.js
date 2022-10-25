@@ -191,7 +191,7 @@ function AssetList({
 
             <div className="page-nav-inline">
               
-            <div><input type="text" id="results-per-page" value={assetsPerPage} onChange={changeResultsPerPage} /><label htmlFor="results-per-page"> Results Per Page</label>&nbsp;<span style={{color: "black"}}>[<button className="button-link" onClick={changeResultsPerPage} id="reset-results-per">Reset</button>]</span></div>
+            <div><input type="text" id="results-per-page" value={assetsPerPage} onChange={changeResultsPerPage} /><label htmlFor="results-per-page"> Results Per Page</label>&nbsp;<button onClick={changeResultsPerPage} id="reset-results-per">Reset</button></div>
               <div className="pages">
                 <button className="image-button" id="scroll-left" onClick={handleScroll}><img src={scrollLeft} /></button>
                 {filteredAssetList &&

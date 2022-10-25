@@ -4,7 +4,7 @@ import SingleUpload from './SingleUpload.js';
 
 function UploadAssets({ accountLogged }) {
 
-  const [toggleUpload, setToggleUpload] = useState('');
+  const [toggleUpload, setToggleUpload] = useState('bulkUpload');
 
   const handleSelect = (e) => {
     const { value } = e.currentTarget;
@@ -15,7 +15,7 @@ function UploadAssets({ accountLogged }) {
     <div className="upload-container">
       <h1>Upload Assets</h1>
       <select onChange={handleSelect}>
-        <option value="bulkUpload">Bulk Upload</option>
+        <option value="bulkUpload" selected>Bulk Upload</option>
         <option value="singleUpload">Single Upload</option>
       </select>
       {toggleUpload === 'bulkUpload' && <BulkUpload accountLogged={accountLogged} />}

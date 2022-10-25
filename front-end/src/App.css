@@ -96,9 +96,9 @@ input{
   height: auto;
   background-color: rgb(37, 38, 44);
   color: rgb(255, 255, 255);
-  font-family: "Work Sans", sans-serif;
-  font-size: 18px;
-  font-style: bold;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 300;
 }
 
 .container-style{
@@ -161,17 +161,36 @@ h1 {
   letter-spacing: 3px;
 }
 
-select{
-  background-color: rgb(67, 72, 87);
-  width: auto;
-  color: white;
-  margin-bottom: 1%;
-}
-
 button{
   font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   background-color: rgb(45, 43, 55);
-  color: rgb(163, 149, 255);
+  color: rgb(255, 255, 255);
   border-color: rgb(63, 61, 89);
+}
+
+button:hover{
+  background-color: rgb(63, 60, 80);
+}
+
+button:active, button:target{
+  background-color:rgb(0, 0, 0);
+}
+
+button:focus{
+  outline: none;
+}
+
+select{
+  position: relative;
+  background-color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
+  font-size: 16px;
+  z-index: 0;
+  font-family: 'Montserrat', sans-serif;
+  margin-top: 2%;
+}
+
+select:focus{
+  outline: none;
 }

@@ -22,7 +22,7 @@
     background: none;
 }
 
-.power-btn img:hover{
-    background-color: rgba(255, 239, 138, 0.148);
-    border-radius: 50%;
+.power-btn:hover{
+    background-color: rgba(158, 128, 207, 0.78);
+    border-radius: 100%;
 }
