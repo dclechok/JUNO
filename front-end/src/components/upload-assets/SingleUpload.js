@@ -139,10 +139,9 @@ function SingleUpload({ accountLogged }) {
       {jobSites && jobSites.length !== 0 && jobSites.find(js => js.status === "Active") ? (
         <>
           {!uploadSuccess && !logItem && (
-            <form className="form-container" onSubmit={submitHandler}>
-              <div>
+            <form className="form-container stack-inputs" onSubmit={submitHandler}>
+              <div className="select-margin">
                 <label htmlFor="location">Location</label>
-                <br />
                 <select
                   id="location"
                   type="text"
@@ -165,7 +164,7 @@ function SingleUpload({ accountLogged }) {
                         );
                     })}
                 </select>
-              </div>                <br />
+              </div>
               <div className="ip-inputs">
                 {toggleIp &&
                 <fieldset>
@@ -204,60 +203,59 @@ function SingleUpload({ accountLogged }) {
                     maxLength="2"
                   />
                 </fieldset>}
-              </div><br />
-              <div>
-                <label htmlFor="asset_tag">Asset Tag</label><br />
+              </div>
+              <div className="label-input-flex">
+                <label htmlFor="asset_tag">Asset Tag</label>
                 <input
+                  className="float-input-right"
                   id="asset_tag"
                   type="text"
                   value={assetFields.asset_tag}
                   onChange={changeHandler}
                 />
-                <br />
               </div>
-              <div>
-                <label htmlFor="serial-number">Serial #</label><br />
+              <div className="label-input-flex">
+                <label htmlFor="serial-number">Serial #</label>
                 <input
+                  className="float-input-right"
                   id="serial_number"
                   type="text"
                   value={assetFields.serial_number}
                   onChange={changeHandler}
                 />
-                <br />
               </div>
-
-              <div>
-                <label htmlFor="make">Make</label><br />
+              <div className="label-input-flex">
+                <label htmlFor="make">Make</label>
                 <input
+                  className="float-input-right"
                   id="make"
                   type="text"
                   value={assetFields.make}
                   onChange={changeHandler}
                 />
-                <br />
               </div>
-              <div>
-                <label htmlFor="model">Model</label><br />
+              <div className="label-input-flex">
+                <label htmlFor="model">Model</label>
                 <input
+                  className="float-input-right"
                   id="model"
                   type="text"
                   value={assetFields.model}
                   onChange={changeHandler}
                 />
-                <br />
               </div>
-              <div>
+              <div className="label-input-flex">
                 <label htmlFor="hr">Hashrate</label><br />
                 <input
+                className="float-input-right"
                   id="hr"
                   type="text"
                   value={assetFields.hr}
                   onChange={changeHandler}
                 />
-                <br />
               </div>
               <div className="fix-button">
-                <button className="submit-move-btn" type="submit">
+                <button type="submit">
                   Upload Single Asset
                 </button>
               </div>

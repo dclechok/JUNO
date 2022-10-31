@@ -2,21 +2,21 @@ import { useEffect, useState } from "react";
 import LoaderSpinner from "../LoaderSpinner";
 import "./UploadSuccess.css";
 
-function UploadSuccess({ rejectedLog, newAssets }) {
+function UploadSuccess({ acceptedLog, rejectedLog }) {
   let percentOfSuccess = 0,
     percentOfFails = 0;
   const [totalAmtOfUploads, setTotalAmtOfUploads] = useState();
-  console.log(rejectedLog, newAssets)
+  console.log(rejectedLog, acceptedLog)
   useEffect(() => {
-    if(rejectedLog && newAssets){
-      setTotalAmtOfUploads(newAssets.length + rejectedLog.length);
+    if(rejectedLog && acceptedLog){
+      setTotalAmtOfUploads(acceptedLog.length + rejectedLog.length);
       const calcSuccessFailure = () => {
-        percentOfSuccess = newAssets.length / totalAmtOfUploads;
+        percentOfSuccess = acceptedLog.length / totalAmtOfUploads;
         percentOfFails = rejectedLog ? rejectedLog.length / totalAmtOfUploads : 0 / totalAmtOfUploads;
       };
       calcSuccessFailure();
     }
-  }, [rejectedLog, newAssets]);
+  }, [rejectedLog, acceptedLog]);
   console.log(totalAmtOfUploads)
 
   return (
@@ -28,7 +28,7 @@ function UploadSuccess({ rejectedLog, newAssets }) {
       <hr />
       <h3>Total Uploads : {totalAmtOfUploads}</h3>
       <h6>
-        Successes: {newAssets && newAssets.length}
+        Successes: {acceptedLog && acceptedLog.length}
         <span className="success-green">
           ({(percentOfSuccess * 100.0).toFixed(2)}%)
         </span>
@@ -41,8 +41,8 @@ function UploadSuccess({ rejectedLog, newAssets }) {
         [Line 1] Headers: <span className="success-green">Valid</span>
       </p>
       <hr />
-      {newAssets && newAssets.length !== 0 &&
-        newAssets.map((asset, key) => {
+      {acceptedLog && acceptedLog.length !== 0 &&
+        acceptedLog.map((asset, key) => {
           const locationData = asset.location.site_loc;
           return (
             <div key={`div1 ${key}`}>
